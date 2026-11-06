@@ -24,6 +24,7 @@ from .hud import HudRead
 from .live import KillTracker
 from .llm import Claude
 from .models import PRE_ROUND, GameState, Screen, ScreenRead
+from .screens import LocalScreen
 
 log = logging.getLogger(__name__)
 
@@ -57,7 +58,10 @@ class ReadGate:
         self.prev_thumb: Optional[np.ndarray] = None
         self.stable_since = 0.0
 
-    def should_read(self, now: float, thumb: np.ndarray, screen: Screen) -> bool:
+    def should_read(self, now: float, thumb: np.ndarray, screen: Screen, refresh: bool = True,
+                    type_changed: bool = False) -> bool:
+        """refresh=False: only read on a change (used once the screen type is known locally);
+        type_changed: the local classifier saw a new screen type, which counts as a change."""
         moving = diff(thumb, self.prev_thumb) > STABLE_THRESHOLD
         self.prev_thumb = thumb
         if moving:
@@ -66,20 +70,59 @@ class ReadGate:
         since = now - self.last_read_ts
         if since < min_iv:
             return False
-        changed = diff(thumb, self.last_read_thumb) > CHANGE_THRESHOLD
+        changed = type_changed or diff(thumb, self.last_read_thumb) > CHANGE_THRESHOLD
         # Live rounds never sit still, so they don't need to settle first.
         settled = screen in (Screen.action_phase, Screen.spectating) or now - self.stable_since >= 0.6
         if changed and settled:
             return True
-        return since >= min_iv * REFRESH_FACTOR
+        return refresh and since >= min_iv * REFRESH_FACTOR
 
     def mark_read(self, now: float, thumb: np.ndarray) -> None:
         self.last_read_ts = now
         self.last_read_thumb = thumb
 
 
+# ---------------------------------------------------------------- local screen gating
+# Screens where a cloud read adds nothing once the type is known locally: menus, loading, the
+# pause menu, live rounds (the HUD reader covers timer, score, banners, killfeed, room).
+LOCAL_SKIP = {Screen.main_menu, Screen.matchmaking, Screen.loading, Screen.other, Screen.round_end,
+              Screen.match_end, Screen.action_phase, Screen.spectating}
+# Screens whose details (bans, picks, teammates, sites, score) only the cloud read can give.
+LOCAL_DETAIL = {Screen.map_ban, Screen.operator_ban, Screen.operator_select, Screen.loadout, Screen.scoreboard}
+LOCAL_DETAIL_GRACE = 5.0    # s: with no working cloud reads, a detail screen is applied locally after this
+ROUND_KEYS = frozenset({"prep", "scoreboard"})   # once-per-round reads made during or after a live round
+LOCAL_MIN_PERIOD = 1.0      # s between classifications of a frame that hasn't changed much
+
+
+def local_cloud_policy(local, state_screen: Screen, done: frozenset | set = frozenset()) -> tuple[str, str]:
+    """What to do with the cloud for one frame, given the local classifier's answer.
+
+    Returns (decision, key). "skip": no cloud read. "once": one read of sub-screen `key` per round
+    (`done` holds the keys already read this round). "detail": read on a screen type change or a
+    changed screen (no timed refresh). "gate": not sure locally, use the plain thumbnail gate.
+    """
+    if local is None or not local.confident:
+        return "gate", ""
+    if local.card or local.screen == Screen.spectating:
+        return "skip", ""
+    if local.in_round:
+        # The HUD tells prep from action; only the first prep read of a round goes to the cloud
+        # (teammates' operators, early enemy reveals, the site for defenders).
+        prep = state_screen == Screen.prep_phase or (
+            state_screen not in (Screen.action_phase, Screen.spectating) and local.screen == Screen.prep_phase)
+        return ("once", "prep") if prep and "prep" not in done else ("skip", "")
+    if local.screen in LOCAL_DETAIL:
+        if local.key:
+            return ("once", local.key) if local.key not in done else ("skip", "")
+        return "detail", ""
+    if local.screen in LOCAL_SKIP:
+        return "skip", ""
+    return "gate", ""
+
+
 class Watcher:
-    def __init__(self, cfg: Config, bus: Bus, source: FrameSource, claude: Claude, frames: FrameStore) -> None:
+    def __init__(self, cfg: Config, bus: Bus, source: FrameSource, claude: Claude, frames: FrameStore,
+                 screens=None) -> None:
         self.cfg = cfg
         self.bus = bus
         self.source = source
@@ -96,6 +139,19 @@ class Watcher:
         self._lock = threading.RLock()   # cloud reads and HUD reads merge from different threads
         self._last_timer: Optional[int] = None
         self._hud_in_round_ts = 0.0      # last time the HUD saw a round in progress
+        # Local screen classifier (screens.ScreenClassifier); built on the watcher thread if None.
+        self.screens = screens
+        self._screens_failed = False
+        self.local: Optional[LocalScreen] = None     # latest local classification
+        self._local_thumb: Optional[np.ndarray] = None
+        self._local_ts = 0.0
+        self._local_prev: Optional[Screen] = None    # previous local answer (two in a row = stable)
+        self._local_since = 0.0                      # when the current local screen type first appeared
+        self._last_cloud_screen: Optional[Screen] = None
+        self._match_over = False         # a menu / match end was seen since the last match started
+        self._once_done: set[str] = set()   # sub-screens already read this round (see ROUND_KEYS)
+        self._cloud_ok_ts = 0.0          # last successful cloud read
+        self.cloud_skipped = 0           # cloud reads the local classifier made unnecessary
 
     def start(self) -> None:
         self._thread = threading.Thread(target=self._run, name="watcher", daemon=True)
@@ -137,13 +193,47 @@ class Watcher:
         self._last_frame_ts = ts
         now = time.time()
         thumb = thumbnail(img)
+        local = self._classify(img, thumb, now) if self.cfg.vision.local_screens else None
+        if local is not None:
+            with self._lock:
+                self._apply_local(local, now)
         screen = self.state.screen
         # Between rounds the last known screen can still be "spectating" or "action_phase", whose
         # long intervals would miss the short ban and pick screens. Once the HUD no longer shows a
         # round in progress, read at the default (quick) rate.
         if screen in IN_ROUND_SCREENS and now - self._hud_in_round_ts > 4:
             screen = Screen.other
-        if not self.gate.should_read(now, thumb, screen):
+        if local is not None and local.confident:
+            # One-read-per-round keys: ban/pick sub-screens reset once a live round is seen, the
+            # prep and scoreboard reads reset once the next ban/pick phase is seen.
+            if local.in_round:
+                self._once_done &= ROUND_KEYS
+            elif local.screen in (Screen.map_ban, Screen.operator_ban, Screen.operator_select):
+                self._once_done -= ROUND_KEYS
+        policy, key = local_cloud_policy(local, self.state.screen, self._once_done)
+        if policy == "skip":
+            # Keep the gate's motion tracking current so the next detail screen settles normally.
+            if self.gate.should_read(now, thumb, screen):
+                self.cloud_skipped += 1   # ticks where the plain gate would have read
+            return
+        if policy == "once" and local.in_round:
+            # First prep read of the round: the drone view never sits still, so don't wait to settle.
+            self.gate.should_read(now, thumb, Screen.prep_phase, refresh=False)
+            if now - self.gate.last_read_ts < self.cfg.vision.interval_for(Screen.prep_phase.value):
+                return
+            self._once_done.add(key)
+            self._last_cloud_screen = Screen.prep_phase
+        elif policy == "once":
+            if not self.gate.should_read(now, thumb, local.screen, refresh=False, type_changed=True):
+                return
+            self._once_done.add(key)
+            self._last_cloud_screen = local.screen
+        elif policy == "detail":
+            if not self.gate.should_read(now, thumb, local.screen, refresh=False,
+                                         type_changed=local.screen != self._last_cloud_screen):
+                return
+            self._last_cloud_screen = local.screen
+        elif not self.gate.should_read(now, thumb, screen):
             return
         self.gate.mark_read(now, thumb)
         jpeg = encode_jpeg(downscale(img, self.cfg.capture.upload_width))
@@ -154,8 +244,120 @@ class Watcher:
         )
         if read is None:
             return
+        self._cloud_ok_ts = now
+        if policy == "gate" and read.confidence >= 0.35:
+            self._last_cloud_screen = read.screen
         self.frames.maybe_save(read, jpeg, self.state)
         self.apply(read)
+
+    # ------------------------------------------------------------------ local screen classifier
+    def _classify(self, img: np.ndarray, thumb: np.ndarray, now: float) -> Optional[LocalScreen]:
+        """Classify the frame locally; reuses the last answer while the frame barely changes."""
+        if self.screens is None:
+            if self._screens_failed:
+                return None
+            try:
+                from .screens import ScreenClassifier
+                self.screens = ScreenClassifier()
+            except Exception:
+                log.exception("local screen classifier unavailable (rapidocr_onnxruntime missing?)")
+                self._screens_failed = True
+                return None
+        if (self.local is not None and now - self._local_ts < LOCAL_MIN_PERIOD
+                and diff(thumb, self._local_thumb) <= CHANGE_THRESHOLD):
+            return self.local
+        try:
+            local = self.screens.read(img)
+        except Exception:
+            log.exception("local screen classification failed")
+            return None
+        self._local_thumb, self._local_ts = thumb, now
+        if self.local is None or local.screen != self.local.screen:
+            self._local_since = now
+        self._local_prev = self.local.screen if self.local is not None else None
+        self.local = local
+        return local
+
+    def _apply_local(self, local: LocalScreen, now: float) -> None:
+        """Merge a confident local classification: screen type (where safe) and map name."""
+        s = self.state
+        if not local.confident:
+            return
+        # One frame alone only counts when very sure; otherwise it must repeat.
+        stable = local.confidence >= 0.9 or self._local_prev == local.screen
+        prev = s.screen
+        target: Optional[Screen] = None
+        if local.screen == Screen.spectating:
+            if prev in (Screen.action_phase, Screen.prep_phase) and stable:
+                target = local.screen
+        elif local.in_round:
+            # The HUD owns prep/action/round end; only step in when coming from a non-round screen.
+            if prev not in IN_ROUND_SCREENS and prev != Screen.round_end and stable:
+                target = Screen.prep_phase if prev in PRE_ROUND else local.screen
+        elif local.screen in LOCAL_DETAIL:
+            # The cloud read for this screen brings the details and the screen change together, so
+            # the coach never sees e.g. operator_select with last round's side or bans without the
+            # site list. Without working cloud reads (offline, no key) the local type still lands
+            # after a grace period.
+            if (stable and now - self._local_since >= LOCAL_DETAIL_GRACE and now - self._cloud_ok_ts > 60
+                    and local.screen != Screen.scoreboard):
+                target = local.screen
+        elif local.screen in (Screen.other, Screen.loading, Screen.round_end):
+            # Pause menu, unknown screens and loading transitions: keep the match state as it is
+            # (a "loading" between op select and prep would otherwise look like a new round to the
+            # HUD). Round end belongs to the HUD reader, which also publishes round.ended.
+            target = None
+        elif stable:
+            target = local.screen
+        if target is not None and target != prev:
+            s = self._enter_screen(prev, target)
+            s.screen = target
+            self.bus.publish("screen.changed", previous=prev.value, screen=target.value,
+                             state=s.model_dump(mode="json"), source="local")
+            if target == Screen.match_end:
+                self.bus.publish("match.ended", state=s.model_dump(mode="json"))
+        if local.map and s.map != local.map and s.screen not in MATCH_RESET_SCREENS:
+            s.map = local.map
+            self.bus.publish("state.updated", state=s.model_dump(mode="json"))
+        elif target is not None and target != prev:
+            self.bus.publish("state.updated", state=s.model_dump(mode="json"))
+
+    def _enter_screen(self, prev: Screen, screen: Screen) -> GameState:
+        """Match and round boundaries for a screen change (cloud or local). Returns the state."""
+        s = self.state
+        if screen in MATCH_RESET_SCREENS:
+            self._match_over = True
+        # New match: ban/select screens after a menu or a finished match, or a different map.
+        new_match = screen in (Screen.map_ban, Screen.operator_ban, Screen.operator_select) and (
+            s.match_id is None or prev in MATCH_RESET_SCREENS or self._match_over
+        )
+        if new_match:
+            self._match_over = False
+            self.state = s = GameState(match_id=uuid.uuid4().hex[:10])
+            self.bus.publish("match.started", match_id=s.match_id)
+            if self.kills:
+                self.kills.reset_match()
+
+        # Round boundary: the first pre-round screen (ban phase or op select) after anything else
+        # starts a new round and clears round-scoped info. Bans happen every round, so they reset too.
+        if screen in ROUND_START and prev not in PRE_ROUND:
+            s.my_operator = None
+            s.teammate_operators = []
+            s.enemy_operators = []
+            s.banned_operators = []
+            s.site = None
+            s.site_options = []
+            s.spawn = None
+            s.my_location = None
+            s.team_reinforcements = None
+            s.health = None
+            s.player_alive = True
+            s.defuser_planted = False
+            self.bus.publish("live.event", kind="round_reset")
+            if self.kills:
+                self.kills.reset_round()
+            s.pinged_enemies = []
+        return s
 
     # ------------------------------------------------------------------ state merge
     def apply(self, read: ScreenRead) -> None:
@@ -265,36 +467,7 @@ class Watcher:
             return
         prev_screen = s.screen
         screen = read.screen
-
-        # New match: ban/select screens after a menu or a finished match, or a different map.
-        new_match = screen in (Screen.map_ban, Screen.operator_ban, Screen.operator_select) and (
-            s.match_id is None or prev_screen in MATCH_RESET_SCREENS
-        )
-        if new_match:
-            self.state = s = GameState(match_id=uuid.uuid4().hex[:10])
-            self.bus.publish("match.started", match_id=s.match_id)
-            if self.kills:
-                self.kills.reset_match()
-
-        # Round boundary: the first pre-round screen (ban phase or op select) after anything else
-        # starts a new round and clears round-scoped info. Bans happen every round, so they reset too.
-        if screen in ROUND_START and prev_screen not in PRE_ROUND:
-            s.my_operator = None
-            s.teammate_operators = []
-            s.enemy_operators = []
-            s.banned_operators = []
-            s.site = None
-            s.site_options = []
-            s.spawn = None
-            s.my_location = None
-            s.team_reinforcements = None
-            s.health = None
-            s.player_alive = True
-            s.defuser_planted = False
-            self.bus.publish("live.event", kind="round_reset")
-            if self.kills:
-                self.kills.reset_round()
-            s.pinged_enemies = []
+        s = self._enter_screen(prev_screen, screen)
 
         for field in ("map", "side", "site", "spawn", "my_operator", "my_location", "round_number",
                       "timer_seconds", "alive_us", "alive_them", "team_reinforcements"):

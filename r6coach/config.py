@@ -21,6 +21,9 @@ class CaptureCfg(BaseModel):
 class VisionCfg(BaseModel):
     model: str = "claude-opus-5-5"
     effort: str = "low"
+    # Recognise the screen type locally (r6coach/screens.py) and only send detail screens (bans,
+    # picks, first prep read, scoreboard) to the cloud. False = the old thumbnail-only gate.
+    local_screens: bool = True
     # With the local HUD reader on, live rounds rarely need cloud reads.
     min_interval: dict[str, float] = Field(
         default_factory=lambda: {

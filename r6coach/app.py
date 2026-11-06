@@ -114,6 +114,9 @@ class App:
             "state": self.watcher.state.model_dump(mode="json"),
             "maps_loaded": len(self.knowledge.maps),
             "hud_ms": round(self.hud.last_ms) if self.hud else None,
+            # Local screen classifier (vision.local_screens): latest type and its cost in ms.
+            "local_screen": self.watcher.local.screen.value if self.watcher.local else None,
+            "screens_ms": round(self.watcher.local.ms) if self.watcher.local else None,
         }
 
     def start(self, dashboard: bool = True) -> None:
