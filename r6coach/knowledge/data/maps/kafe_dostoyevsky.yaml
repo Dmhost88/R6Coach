@@ -2,106 +2,363 @@ id: kafe_dostoyevsky
 name: Kafe Dostoyevsky
 aliases: ["Kafe Dostoyevsky", "Kafe", "KAFE DOSTOYEVSKY", "Cafe"]
 floors: [1F, 2F, 3F, roof]
+# Layout: reworked Kafe (post-2023), checked against Y11S3.2 guides (siegestrats.com, creator stratbooks).
 attacker_spawns:
   - name: "River Docks"
-    notes: "River side. Good for Kitchen and 1F pushes."
+    notes: "River side. Common for Kitchen and the Bakery approach; long walk to 3F."
   - name: "Christmas Market"
-    notes: "Market square. Central approach to main entrances."
+    notes: "Market square facing the front. Cigar Balcony and 3F windows spawn-peek this square; drone windows before crossing."
   - name: "Park"
-    notes: "Park side. Good for roof and upper floor attacks."
+    notes: "Park side. Common for roof, Skylight and Cigar Balcony takes onto 3F and 2F verticals."
 sites:
   - id: cocktail_lounge_bar
     name: "3F Cocktail Lounge / 3F Bar"
-    aliases: ["3F Bar / 3F Cocktail Lounge", "Bar", "Cocktail", "Cocktail Lounge"]
+    aliases: ["3F Bar / 3F Cocktail Lounge", "Cocktail Lounge / Bar", "Bar", "Cocktail", "Cocktail Lounge"]
     floor: 3F
     defender:
-      reinforce: ["Bar and Cocktail outer walls", "Walls toward Cigar Lounge side"]
-      rotates: ["Bar to Cocktail connection"]
-      anchor_spots: ["Behind the bar counter", "Cocktail corners"]
-      roam_areas: ["2F below", "Roof approaches"]
-      key_utility: ["Window and roof denial", "Anti-breach on main wall"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Valkyrie", "Melusi"]
-      plan_summary: "Hold Bar and Cocktail with reinforced walls and a crossfire. Delay roof and 2F stair pushes."
+      reinforce:
+        - "Both halves of the Piano wall facing Top Red."
+        - "Both Freezer / Bar Storage walls; they are the main hard-breach lane into Bar."
+        - "Cocktail wall facing Top White, left half."
+        - "Cocktail wall on the Trash side."
+        - "Piano floor hatch only if a player anchors Piano."
+        - "Optional: Freezer to New Hatch corridor wall."
+      rotates:
+        - "Keep the Cocktail hatch line open as an escape when Piano is held."
+        - "Bar to Cocktail doorway is the main rotate; don't open extra holes toward Cigar."
+      anchor_spots:
+        - "Piano behind Azami barriers, watching Top Red and hatches."
+        - "Bar Freezer (Smoke), gassing the Bar plant."
+        - "Cocktail corner by Trash side (Thorn)."
+      roam_areas:
+        - "Pixel area by the drone hole (Mute)."
+        - "Top Red and Top White early; fall back before the stairs are pushed."
+        - "Cigar Lounge early to stall the Skylight/Balcony take."
+      key_utility:
+        - "Azami barriers to close Piano lines."
+        - "Mute jammers on the drone hole and hatch."
+        - "Thorn Razorblooms on hatches and the Cocktail door."
+        - "Valkyrie cams in Cocktail and Bar, plus C4 from 2F below."
+      recommended_ops: ["Azami", "Mute", "Smoke", "Valkyrie", "Thorn", "Clash", "Kaid", "Warden"]
+      plan_summary: "Lock Piano and the Freezer walls, anchor Bar and Cocktail with traps on the hatches, and deny plants from 2F with C4."
+      setups:
+        - name: "Piano lockdown"
+          ops: ["Azami", "Mute", "Smoke", "Valkyrie", "Thorn"]
+          how: "Azami barriers Piano and holds Top Red; Smoke holds Freezer and gases plants; Thorn traps hatches; Valkyrie drops C4 from 2F."
+        - name: "Clash in Freezer"
+          ops: ["Clash", "Kaid", "Melusi", "Solis", "Valkyrie"]
+          how: "Clash waits in Freezer to stall the Bar entry while Kaid claws the Freezer walls; C4 comes from below."
+      counters_to_watch:
+        - "Skylight and Cigar Balcony take from the roof: hold with Thorn traps and cams."
+        - "Hard breach on the Freezer / Bar Storage walls: claw or battery both panels."
+        - "Late rappel window swaps (Siege X): don't cross window lines from Piano late."
+      retake_tips:
+        - "Plants usually in Bar behind the counter or Cocktail by Trash; deny from 2F with C4 or Valkyrie."
+        - "Retake from Piano and Freezer together; Smoke gas on the defuser first."
     attacker:
-      recommended_spawns: ["Park"]
-      drone_paths: ["Drone from roof", "Drone up stairs from 2F"]
-      entry_points: ["Roof and windows", "Stairs"]
-      hard_breach_targets: ["Reinforced Bar or Cocktail wall"]
-      plant_spots: ["Bar after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
-      utility_priorities: ["Roof control", "Open the wall", "Smoke plant"]
-      plan_summary: "Take roof and 3F hallway, open the main wall and plant under smoke."
-    common_mistakes: ["Ignoring stairs flank from 2F"]
-    uncertain: []
+      recommended_spawns: ["Park", "Christmas Market"]
+      drone_paths:
+        - "Drone Cigar Lounge and the Skylight from the roof."
+        - "Drone Top Red and Top White for early roams."
+        - "Look for the Piano player and Freezer anchor before committing."
+      entry_points:
+        - "Roof Skylight."
+        - "Cigar Balcony under the Café Rooftop hatch."
+        - "Top Red and Top White stairs."
+        - "Window rappels into Piano or Cocktail."
+      hard_breach_targets:
+        - "Freezer / Bar Storage walls."
+        - "Piano wall facing Top Red."
+      plant_spots:
+        - "Bar behind the counter, near Freezer."
+        - "Cocktail Lounge by Trash side."
+      recommended_ops: ["Hibana", "Thermite", "Thatcher", "Ash", "Buck", "Iana", "Nomad"]
+      utility_priorities:
+        - "Clear Thorn blooms on hatches and Cocktail door."
+        - "Kill Mute jammers on the drone hole."
+        - "Use flanks from Top Red to stop Piano."
+      plan_summary: "Take Cigar and the roof, clear Piano, then hit Bar and Cocktail from Top White, Top Red and the roof together."
+      executes:
+        - name: "Cigar to Bar"
+          ops: ["Hibana", "Thatcher", "Ash", "Buck", "Iana"]
+          how: "Take Cigar Lounge, Thatcher on Freezer walls, Hibana opens Bar Storage; Buck opens holes into Cocktail from roof."
+        - name: "Red and White pinch"
+          ops: ["Thermite", "Kali", "Zofia", "Nomad", "Gridlock"]
+          how: "Clear Piano from Top Red, Zofia and Kali push Top White, Thermite on the Piano wall."
+      key_kills:
+        - "Piano anchor (Azami) before entering Cocktail."
+        - "Freezer player."
+        - "Top Red/White early roamers."
+      post_plant:
+        - "Plant Bar near Freezer, hold from Cigar and Bar Storage."
+        - "Watch 2F below for C4 drops and Piano flanks."
+    common_mistakes:
+      - "Defenders crossing Piano window lines late."
+      - "Attackers ignoring Piano before Cocktail."
+    uncertain:
+      - "Older guides used Warden in Freezer; current guide uses Azami/Clash."
   - id: fireplace_hall_mining_room
     name: "2F Fireplace Hall / 2F Mining Room"
-    aliases: ["2F Mining Room / 2F Fireplace Hall", "Mining", "Fireplace", "Fireplace Hall"]
+    aliases: ["2F Mining Room / 2F Fireplace Hall", "Fireplace Hall / Mining Room", "Mining", "Mining Room"]
     floor: 2F
     defender:
-      reinforce: ["Mining Room outer walls", "Floor above where relevant"]
-      rotates: ["Mining to Fireplace connection"]
-      anchor_spots: ["Mining Room corners", "Fireplace pillars"]
-      roam_areas: ["3F above", "1F below"]
-      key_utility: ["Shields at doors", "Traps on stairs"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Echo", "Mira"]
-      plan_summary: "Hold Mining and Fireplace with a crossfire, players above to deny vertical."
+      reinforce:
+        - "Both Mining back walls."
+        - "Wall left of the rotate toward bottom Red."
+        - "Big window wall."
+        - "Both White double wall panels."
+        - "3F both Top Red walls and the Cocktail wall by the hatches, if Piano is held."
+      rotates:
+        - "Vault rotate left of the window."
+        - "Feet holes toward Train Museum."
+        - "Rotate toward Reading and Laundry."
+        - "Head holes toward the Pillar / dining side."
+      anchor_spots:
+        - "Tight window rotate in Mining (Mute)."
+        - "Mining corner behind the double door (Melusi)."
+        - "Fireplace Hall back corner."
+      roam_areas:
+        - "3F Piano with hatches open as an escape."
+        - "Reading flank toward Pillar."
+        - "Red Stairs and Train Museum."
+      key_utility:
+        - "Mute jammers on the double door."
+        - "Melusi Banshees on the double door and Red."
+        - "Valkyrie cams and C4 from 1F below."
+        - "Azami Kiba in Piano."
+      recommended_ops: ["Mute", "Melusi", "Valkyrie", "Azami", "Caveira", "Kaid", "Mira"]
+      plan_summary: "Hold Piano above with an escape, anchor Mining by the window rotate, and use C4 from 1F below on plants."
+      setups:
+        - name: "Three-floor Piano lid"
+          ops: ["Azami", "Caveira", "Mute", "Melusi", "Valkyrie"]
+          how: "Two hold 3F Piano, Mute and Melusi anchor Mining, Valkyrie drops C4 from 1F; Caveira flanks Pillar via Reading at 1:30."
+        - name: "Kaid rings Mining"
+          ops: ["Kaid", "Melusi", "Thorn", "Azami", "Mira"]
+          how: "Kaid claws Mining walls with holes, Thorn and Azami hold the lines, Mira watches the plant."
+      counters_to_watch:
+        - "Vertical from 3F Cocktail onto Mining: hold Piano or deny with a Valkyrie cam."
+        - "Train Museum push: Melusi on the double door."
+        - "White double wall breach: claws or batteries."
+      retake_tips:
+        - "Retake through Reading and Piano; C4 from 1F below."
+        - "Default plants are by the window rotate and double door."
     attacker:
-      recommended_spawns: ["Christmas Market", "Park"]
-      drone_paths: ["Drone through windows", "Drone from 3F"]
-      entry_points: ["Windows", "Stairs", "Vertical from 3F"]
-      hard_breach_targets: ["Mining Room reinforced wall"]
-      plant_spots: ["Mining after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Ace"]
-      utility_priorities: ["Vertical from above", "Open wall", "Smoke plant"]
-      plan_summary: "Take 3F for vertical, breach Mining and plant under cover."
-    common_mistakes: ["Fighting without vertical control"]
-    uncertain: []
+      recommended_spawns: ["Park", "Christmas Market"]
+      drone_paths:
+        - "Drone Train Museum and Red Stairs."
+        - "Drone 3F Piano for roamers above."
+        - "Drone Reading for flanks."
+      entry_points:
+        - "Train Museum."
+        - "Red Stairs."
+        - "Big window rappel."
+        - "3F above for vertical."
+      hard_breach_targets:
+        - "White double wall."
+        - "Mining back walls."
+      plant_spots:
+        - "Mining by the window rotate."
+        - "Fireplace Hall by the double door."
+      recommended_ops: ["Hibana", "Thermite", "Thatcher", "Buck", "Sledge", "Ash", "Iana"]
+      utility_priorities:
+        - "Clear Piano first."
+        - "Kill Melusi Banshees on the double door."
+        - "Smoke the plant from Train Museum."
+      plan_summary: "Take 3F Piano and Cocktail, open verticals onto Mining, then breach and plant from Train Museum."
+      executes:
+        - name: "3F vertical"
+          ops: ["Buck", "Sledge", "Thatcher", "Hibana", "Ash"]
+          how: "Take Piano and Cocktail, Buck and Sledge open the floor over Mining; Hibana opens the White double wall."
+        - name: "Train Museum push"
+          ops: ["Thermite", "Kali", "Zofia", "Iana", "Gridlock"]
+          how: "Clear Train Museum, Kali clears denial, Thermite opens Mining back wall."
+      key_kills:
+        - "Piano player above."
+        - "Caveira flanking via Reading."
+        - "Window rotate anchor."
+      post_plant:
+        - "Plant by the window rotate, hold from Train Museum and 3F above."
+        - "Watch Reading for flanks."
+    common_mistakes:
+      - "Ignoring Piano above the site."
+      - "Defenders losing Piano without an escape."
+    uncertain:
+      - "Some guides reinforce the Piano hatch; this setup leaves it open."
   - id: reading_room_fireplace_hall
     name: "2F Reading Room / 2F Fireplace Hall"
-    aliases: ["2F Fireplace Hall / 2F Reading Room", "Reading Room", "Reading", "Fireplace"]
+    aliases: ["2F Fireplace Hall / 2F Reading Room", "Reading Room / Fireplace Hall", "Reading Room", "Reading"]
     floor: 2F
     defender:
-      reinforce: ["Reading Room outer walls"]
-      rotates: ["Reading to Fireplace connection"]
-      anchor_spots: ["Reading Room shelves", "Fireplace pillars"]
-      roam_areas: ["3F above", "1F below"]
-      key_utility: ["Traps on stairs", "Anti-breach on Reading walls"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Castle", "Lesion"]
-      plan_summary: "Hold Reading and Fireplace with reinforced walls and vertical denial above."
+      reinforce:
+        - "Both halves of the Reading to Pillar wall."
+        - "Reading / Laundry wall, half away from the cabinet."
+        - "3F Freezer / Bar Storage walls (both)."
+        - "3F Cocktail wall facing Top White."
+        - "3F Cocktail wall on the Heaven side."
+        - "Optional: Top Red to Piano if Piano is held."
+      rotates:
+        - "Foot holes in Fireplace Hall."
+        - "Laundry rotate."
+        - "Cocktail vert from 3F above."
+      anchor_spots:
+        - "Reading Room (Castle)."
+        - "Laundry (Kaid)."
+        - "Corner by White Stairs (Melusi)."
+      roam_areas:
+        - "3F Cocktail above, holding the vert."
+        - "Mining and Red Stairs (Vigil)."
+      key_utility:
+        - "Castle barricades on Reading, Cocktail and Pixel doors."
+        - "Tachanka foot holes and Cocktail vert."
+        - "Kaid claws on Reading and Pillar walls."
+        - "Melusi Banshees on White Stairs and Pillar."
+      recommended_ops: ["Castle", "Tachanka", "Kaid", "Melusi", "Vigil", "Mira", "Jäger"]
+      plan_summary: "Own the Cocktail vert above, seal doors with Castle, and fight Fireplace through foot holes."
+      setups:
+        - name: "Castle lid on Cocktail"
+          ops: ["Castle", "Tachanka", "Kaid", "Melusi", "Vigil"]
+          how: "Castle seals doors, Tachanka holds the Cocktail vert, Kaid claws Reading, Melusi traps White and Pillar; Vigil back by 1:15."
+        - name: "Mira and Jäger wall-off"
+          ops: ["Kaid", "Jäger", "Mira", "Wamai", "Castle"]
+          how: "Get a first pick, then wall off with Mira and Jäger watching Reading."
+      counters_to_watch:
+        - "Vertical from 3F Cocktail: keep the Cocktail player."
+        - "Pillar wall breach: claws."
+        - "White Stairs push: Melusi Banshees."
+      retake_tips:
+        - "Retake through Laundry and the Cocktail vert."
+        - "Use foot holes to deny the plant."
     attacker:
-      recommended_spawns: ["Christmas Market"]
-      drone_paths: ["Drone through windows", "Drone up stairs"]
-      entry_points: ["Windows", "Stairs", "Vertical from 3F"]
-      hard_breach_targets: ["Reading Room reinforced wall"]
-      plant_spots: ["Reading Room after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ash", "Zofia"]
-      utility_priorities: ["Vertical from 3F", "Open wall", "Smoke plant"]
-      plan_summary: "Play vertical from 3F, breach Reading and plant with flank watch."
-    common_mistakes: ["Over-committing to one stairway"]
+      recommended_spawns: ["Park", "Christmas Market"]
+      drone_paths:
+        - "Drone 3F Cocktail for the vert player."
+        - "Drone White Stairs and Pillar."
+      entry_points:
+        - "3F Cocktail."
+        - "White Stairs."
+        - "Red Stairs via Mining."
+        - "Pillar wall breach."
+      hard_breach_targets:
+        - "Reading to Pillar wall."
+        - "3F floor over Reading."
+      plant_spots:
+        - "Reading by Pillar."
+        - "Fireplace Hall corner."
+      recommended_ops: ["Hibana", "Thermite", "Thatcher", "Buck", "Sledge", "Ash", "Zofia"]
+      utility_priorities:
+        - "Kill Tachanka in Cocktail."
+        - "Break Castle barricades."
+        - "Clear Banshees."
+      plan_summary: "Take 3F Cocktail, open verticals, then breach Pillar wall and plant."
+      executes:
+        - name: "Cocktail take"
+          ops: ["Buck", "Sledge", "Thatcher", "Hibana", "Ash"]
+          how: "Take Cocktail, open floor over Reading, Hibana opens Pillar wall."
+        - name: "White and Red pinch"
+          ops: ["Thermite", "Kali", "Zofia", "Iana", "Nomad"]
+          how: "Push White and Red, Kali clears claws, Thermite on Pillar wall."
+      key_kills:
+        - "Tachanka in Cocktail."
+        - "Vigil roaming Mining."
+      post_plant:
+        - "Plant by Pillar, hold from White and Cocktail."
+    common_mistakes:
+      - "Ignoring Cocktail vertical."
     uncertain: []
   - id: kitchen_service_kitchen_cooking
     name: "1F Kitchen Service / 1F Kitchen Cooking"
-    aliases: ["1F Kitchen Cooking / 1F Kitchen Service", "Kitchen", "Kitchen Service", "Kitchen Cooking"]
+    aliases: ["1F Kitchen Cooking / 1F Kitchen Service", "Kitchen Service / Kitchen Cooking", "Kitchen", "Kitchen Service", "Kitchen Cooking"]
     floor: 1F
     defender:
-      reinforce: ["Kitchen outer walls", "Floor above where reinforceable"]
-      rotates: ["Service to Cooking connection"]
-      anchor_spots: ["Kitchen counters", "Service corners"]
-      roam_areas: ["2F above", "Bakery and main entrances"]
-      key_utility: ["Traps at doors", "Shields at entries"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Echo", "Goyo"]
-      plan_summary: "Hold Kitchen with reinforced outer walls and players above site for vertical denial."
+      reinforce:
+        - "Prep wall facing Bakery."
+        - "Small Bake single wall."
+        - "Kitchen wall facing Bakery."
+        - "Dark walls 1 and 2."
+        - "Hatch above site."
+        - "Freezer hatch."
+        - "Freezer wall behind VIP."
+        - "Outer Garage wall only."
+      rotates:
+        - "All Red Hall walls and holes kept open."
+        - "Inside Freezer walls kept open."
+        - "VIP feet holes into Freezer."
+        - "Trash rotate, pocket-reinforced on rotate call."
+      anchor_spots:
+        - "Bakery counter (Smoke)."
+        - "Bottom Red and Coat Check (Aruni)."
+        - "VIP feet holes (Tubarão)."
+      roam_areas:
+        - "2F above to slow the top clear (Goyo)."
+        - "Bakery early."
+      key_utility:
+        - "Kaid claws on Prep and Small Bake, then swap to the dark walls and Freezer hatch."
+        - "Smoke gas on Bakery pushes."
+        - "Tubarão freeze on the Freezer drop."
+      recommended_ops: ["Kaid", "Smoke", "Aruni", "Tubarão", "Goyo", "Mute", "Bandit", "Warden"]
+      plan_summary: "Stop the Bakery early with claws, then swap denial to the dark walls and Freezer hatch."
+      setups:
+        - name: "Kaid claw swap"
+          ops: ["Kaid", "Smoke", "Aruni", "Tubarão", "Goyo"]
+          how: "Kaid claws Prep and Small Bake; if no Bakery pressure by 45 s, swap to dark walls and Freezer hatch."
+        - name: "Bakery delay, Coat Check rule"
+          ops: ["Mute", "Valkyrie", "Aruni", "Warden", "Caveira"]
+          how: "Delay Bakery, hold Coat Check, roam above."
+      counters_to_watch:
+        - "Bakery breach on Prep and Kitchen walls: claws first."
+        - "Vertical through the hatch above site: reinforce it."
+        - "Freezer drop: Tubarão freeze."
+      retake_tips:
+        - "Retake via Red Hall and Coat Check."
+        - "Use VIP feet holes."
     attacker:
-      recommended_spawns: ["River Docks"]
-      drone_paths: ["Drone through Kitchen windows", "Drone from 2F"]
-      entry_points: ["Exterior doors", "Vertical from 2F"]
-      hard_breach_targets: ["Kitchen reinforced outer wall"]
-      plant_spots: ["Kitchen after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Ace"]
-      utility_priorities: ["Vertical from above", "Open wall", "Smoke plant"]
-      plan_summary: "Take 2F control, open Kitchen and plant under smoke."
-    common_mistakes: ["Ignoring 2F defenders"]
-    uncertain: []
+      recommended_spawns: ["River Docks", "Christmas Market"]
+      drone_paths:
+        - "Drone Bakery and Prep; Smoke usually holds the Bakery counter."
+        - "Drone Coat Check and bottom Red for Aruni."
+        - "Drone VIP above Freezer for the Tubarão feet-hole player."
+      entry_points:
+        - "Bakery, then Prep and Small Bake."
+        - "Red Hall and Coat Check."
+        - "Freezer hatch / VIP from 2F."
+        - "Hatch above site from 2F."
+      hard_breach_targets:
+        - "Prep wall facing Bakery."
+        - "Kitchen wall facing Bakery."
+        - "Dark walls once Kaid has swapped claws away from Bakery."
+      plant_spots:
+        - "Kitchen Service by the Prep wall."
+        - "Kitchen Cooking near Freezer, away from VIP feet holes."
+      recommended_ops: ["Thermite", "Hibana", "Thatcher", "Buck", "Sledge", "Ace", "Kali"]
+      utility_priorities:
+        - "Pressure Bakery early: Kaid swaps claws to dark walls if Bakery is quiet for ~45 s."
+        - "Thatcher or Kali on Prep claws; Thermite now does 220 damage (Y11S3.1)."
+        - "Clear Goyo upstairs before vertical play."
+      plan_summary: "Show Bakery pressure early to pin the claws, clear 2F and VIP, then breach Prep or Kitchen wall and plant."
+      executes:
+        - name: "Bakery breach"
+          ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
+          how: "Take Bakery and Small Bake, Thatcher on Prep claws, Thermite opens; Buck opens VIP floor to stop the Freezer drop."
+        - name: "Red Hall split"
+          ops: ["Ace", "Kali", "Zofia", "Sledge", "Gridlock"]
+          how: "Push Red Hall and Coat Check, Kali clears the dark-wall claws, Ace opens; Gridlock covers Bakery flank."
+      key_kills:
+        - "Smoke at the Bakery counter."
+        - "Goyo poking upstairs."
+        - "Tubarão at VIP feet holes."
+      post_plant:
+        - "Plant Kitchen Service by Prep, hold from Bakery."
+        - "One player on 2F/VIP to stop the Freezer drop retake."
+    common_mistakes:
+      - "Rushing Bakery into Smoke gas."
+    uncertain:
+      - "Full default wall list compiled from creators; verify dark walls and trash rotate."
 general:
-  attack: ["Three floors: control the floor above the site", "Roof is strong for 3F"]
-  defense: ["Window spawn peeks are well known", "Do not run out early into Christmas Market lines"]
+  attack:
+    - "Three floors: control the floor above the site."
+    - "Roof Skylight and Cigar Balcony are the standard 3F entries."
+    - "Bakery is the Kitchen foothold; take it before breaching."
+  defense:
+    - "Cigar Balcony and 3F windows are the classic spawn peeks onto Christmas Market."
+    - "Piano is a strong roam for 3F and 2F sites, but plan an escape through the hatches."
+    - "Do not run out early into Christmas Market lines."

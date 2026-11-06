@@ -4,104 +4,161 @@ aliases: ["Border", "BORDER"]
 floors: [1F, 2F, roof]
 attacker_spawns:
   - name: "East Vehicle Entrance"
-    notes: "East side. Quick to East Balcony and the Customs side."
+    notes: "East side. Fast to East Balcony (exterior staircase since the rework), East Stairs and the Customs/Passport side."
   - name: "Valley"
-    notes: "Central approach toward the main building and Fountain side."
+    notes: "Central approach toward Main Lobby, Fountain and the Tellers/Bathroom side."
   - name: "West Vehicle Exit"
-    notes: "West side. Fast to West Balcony and the Armory side."
+    notes: "West side. Fast to West Balcony and the Armory/Workshop side; watch for defender spawn peeks here."
 sites:
   - id: armory_lockers_archives
     name: "2F Armory Lockers / 2F Archives"
     aliases: ["2F Archives / 2F Armory Lockers", "Armory", "Archives", "Armory Lockers"]
     floor: 2F
     defender:
-      reinforce: ["Armory and Archives walls facing the balconies", "Walls attackers use to isolate from 1F stairs"]
-      rotates: ["Rotation between Armory and Archives for crossfires"]
-      anchor_spots: ["Deep Armory lockers", "Archives behind shelves"]
-      roam_areas: ["East and West Balcony early round", "1F below site to deny vertical"]
-      key_utility: ["Anti-breach on balcony-facing walls", "Cameras covering both balconies"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Valkyrie", "Azami"]
-      plan_summary: "Reinforce balcony walls and hold Armory and Archives with a crossfire. Contest the balconies early with utility, then play site."
+      reinforce: ["Both Armory Lockers walls to West Balcony (Mute jams them)", "Archives to Fountain, both panels", "Armory to Security Room corridor", "Fountain west walls", "Up to three flex walls into Archives and Offices placed after droning"]
+      rotates: ["Armory Lockers to Archives stays open", "Break Room to Archives via the East Stairs side", "Holes from Armory Desk onto West Balcony door"]
+      anchor_spots: ["Armory Desk crossfire onto the balcony walls", "Back Archives behind shelves", "Break Room interior balcony stopping the East Stairs rotate"]
+      roam_areas: ["Break Room and East Balcony", "Fountain and Security Room (CC)", "Offices and Main Lobby below"]
+      key_utility: ["Mute jammers on both West Balcony walls and the Fountain door", "Maestro Evil Eye on the balcony walls", "Smoke gas on the East Balcony doors", "Valkyrie cams on balconies"]
+      recommended_ops: ["Mute", "Maestro", "Smoke", "Jager", "Valkyrie", "Bandit", "Kaid"]
+      plan_summary: "Deny the West Balcony walls with Mute, crossfire from Armory Desk with Maestro and hold back Archives with Smoke. Valkyrie plays Break Room to stop the East Stairs rotate."
+      setups:
+        - name: "West Balcony deny"
+          ops: ["Mute", "Maestro", "Smoke", "Jager", "Valkyrie"]
+          how: "Mute jams both Armory-West Balcony walls and the Fountain door, Maestro anchors Armory Desk, Smoke holds back Archives and gasses East Balcony, Valkyrie plays Break Room."
+        - name: "Bed Wars"
+          ops: ["Sentry", "Denari", "Warden", "Melusi", "Aruni"]
+          how: "Sentry carries most reinforcements, Denari lasers the east side, Melusi Banshees four entries and Aruni gates the south and west doors."
+      counters_to_watch: ["Two-balcony split with Thatcher EMPing both walls", "Buck shooting up from under Archives and Fountain", "Capitao bolts from East Balcony into Archives"]
+      retake_tips: ["Retake an Armory plant from Archives and Armory Desk together", "Keep one player off site on Fountain to pinch the West Balcony holder"]
     attacker:
-      recommended_spawns: ["East Vehicle Entrance", "West Vehicle Exit"]
-      drone_paths: ["Drone through balcony windows", "Drone up the stairs from 1F"]
-      entry_points: ["East Balcony", "West Balcony", "Interior stairs"]
-      hard_breach_targets: ["Reinforced walls from the balconies into site"]
-      plant_spots: ["Inside the room opened by the breach, out of balcony sightlines"]
-      recommended_ops: ["Thermite", "Thatcher", "Ash", "Buck", "Ace"]
-      utility_priorities: ["Take both balconies", "Clear anti-breach and open the key wall", "Smoke the plant"]
-      plan_summary: "Take a balcony, clear anti-breach and open the site wall while teammates hold the interior stairs. Plant behind cover after the breach."
-    common_mistakes: ["Peeking balcony doors without utility", "Defenders not watching both balconies"]
-    uncertain: ["Exact current hard-breach wall callouts not verified"]
+      recommended_spawns: ["West Vehicle Exit", "East Vehicle Entrance"]
+      drone_paths: ["West Balcony window into Armory Lockers", "East Balcony into Break Room and Archives", "Drone Fountain from Main Lobby stairs"]
+      entry_points: ["West Balcony", "East Balcony (exterior staircase)", "Central and East Stairs", "Fountain"]
+      hard_breach_targets: ["Armory Lockers wall from West Balcony", "Archives to Fountain wall"]
+      plant_spots: ["Armory Lockers covered by the West Balcony breach", "Archives behind the shelves after a Fountain breach"]
+      recommended_ops: ["Ace", "Thatcher", "Buck", "Capitao", "Nomad", "Thermite", "Iana"]
+      utility_priorities: ["EMP both balcony walls for Mute jammers", "Buck vertical from 1F under Archives and Fountain", "Nomad clears Break Room and Airjabs both stairs"]
+      plan_summary: "Split the balconies: Ace breaches Armory from West Balcony while Capitao takes East Balcony and Buck plays below. Plant Armory and hold from the breach."
+      executes:
+        - name: "Two-balcony split"
+          ops: ["Ace", "Thatcher", "Buck", "Capitao", "Nomad"]
+          how: "West Vehicle Exit. Thatcher EMPs both balconies, Ace opens Armory from West Balcony, Capitao bolts Archives and Fountain from East, Buck shoots up, Nomad clears Break Room."
+      key_kills: ["Break Room interior balcony player", "Fountain and CC roamers before committing West", "Armory Desk anchor through the breach"]
+      post_plant: ["Plant Armory Lockers, Ace covers from West Balcony", "Hold East Stairs and Fountain for the rotate"]
+    common_mistakes: ["Attackers taking only one balcony and getting crossed", "Defenders leaving Break Room empty so East Balcony is free"]
+    uncertain: ["Exact breach panels on the Armory balcony walls not confirmed"]
   - id: workshop_ventilation
     name: "1F Workshop / 1F Ventilation Room"
-    aliases: ["1F Ventilation Room / 1F Workshop", "Workshop", "Vent Room", "Ventilation"]
+    aliases: ["1F Ventilation Room / 1F Workshop", "Workshop", "Vent Room", "Ventilation", "Vents"]
     floor: 1F
     defender:
-      reinforce: ["Outer Workshop walls", "Hatches or floors above site where reinforceable"]
-      rotates: ["Rotation from Ventilation Room toward Supply and Customs side"]
-      anchor_spots: ["Workshop behind workbenches", "Ventilation corners"]
-      roam_areas: ["2F above site", "Fountain and Main Lobby"]
-      key_utility: ["Shields at doorways", "Traps on main entries"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Lesion", "Maestro"]
-      plan_summary: "Reinforce Workshop outer walls and hold site with a 2F player to stop vertical. Delay main entries with traps."
+      reinforce: ["Main Workshop exterior panel (clawed) and the second panel", "Workshop hatch (claw it)", "Detention wall, both panels", "Site wall facing the Tellers door and the Customs wall on the site side", "2F Armory-side wall; flex Bathroom hatch"]
+      rotates: ["Workshop / Vents vault rotate", "Head holes above the Workshop wall for C4", "Feet holes in the soft exterior panels", "Small Bathroom hole for a window hop"]
+      anchor_spots: ["Vents behind the machinery", "Workshop deep corner off the exterior wall", "2F over the plant (Noor holes)"]
+      roam_areas: ["Customs extension (Aruni)", "2F Armory and Fountain vertical", "Main Lobby and West stairs"]
+      key_utility: ["Kaid claws on the Workshop wall and hatch", "Castle panel on the Metal Stairs door", "Aruni gates on door and window", "Noor lance holes over the plant from 2F"]
+      recommended_ops: ["Kaid", "Noor", "Castle", "Valkyrie", "Aruni", "Melusi", "Smoke", "Warden"]
+      plan_summary: "Claw the Workshop exterior and hatch, keep the vault rotate open and play vertical over the plant from 2F. Aruni contests Customs to slow the east push."
+      setups:
+        - name: "2F Workshop vertical"
+          ops: ["Kaid", "Noor", "Castle", "Valkyrie", "Aruni"]
+          how: "Kaid claws Workshop wall and hatch, Noor opens 2F holes over the plant, Castle panels Metal Stairs, Aruni holds the Customs extension, Valkyrie cams 2F."
+        - name: "Propaganda"
+          ops: ["Smoke", "Warden", "Solis", "Melusi", "Aruni"]
+          how: "Warden opens holes over Vents, Melusi Banshees the middle, Aruni gates the Vents doors, Smoke wires east; Solis scans from Vents then moves to 2F."
+      counters_to_watch: ["Attackers taking 2F first and opening the floor over Workshop and Vents (Sledge, Buck)", "Thatcher plus Hibana on the Workshop exterior", "Nomad Airjabs on Central and East Stairs cutting your 2F rotate"]
+      retake_tips: ["Retake from the 2F holes and the vault rotate at once", "Head holes above the Workshop wall let you C4 the plant"]
     attacker:
-      recommended_spawns: ["Valley", "West Vehicle Exit"]
-      drone_paths: ["Drone through Main Lobby", "Drone from 2F above site"]
-      entry_points: ["Main Lobby", "Exterior doors near Workshop"]
-      hard_breach_targets: ["Reinforced outer Workshop wall"]
-      plant_spots: ["Workshop default after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Iana"]
-      utility_priorities: ["Vertical from 2F", "Clear anti-breach", "Smoke the plant"]
-      plan_summary: "Take 2F above site for vertical pressure, breach Workshop and plant under smoke while flanks are held."
-    common_mistakes: ["Forgetting to clear 2F before planting"]
-    uncertain: ["Site name order on the selection screen not verified"]
+      recommended_spawns: ["West Vehicle Exit", "Valley"]
+      drone_paths: ["West side window drone into Workshop", "Drone 2F Armory and Fountain for vertical denial", "Drone Detention and Customs for the extension"]
+      entry_points: ["Workshop exterior wall", "2F floor over Workshop and Vents", "Detention and Customs side", "Main Lobby"]
+      hard_breach_targets: ["Workshop exterior wall", "Workshop hatch from 2F"]
+      plant_spots: ["Inside Workshop behind the breach, covered from the floor holes", "Vents after vertical clears"]
+      recommended_ops: ["Sledge", "Buck", "Hibana", "Thatcher", "Nomad"]
+      utility_priorities: ["Take 2F first", "Sledge opens the floor over Workshop, Buck over Vents", "EMP and Hibana the Workshop exterior"]
+      plan_summary: "Win 2F, open the floors over Workshop and Vents, then breach the Workshop exterior and plant behind it with teammates holding from the floor holes."
+      executes:
+        - name: "Top-floor vertical Workshop hit"
+          ops: ["Sledge", "Buck", "Hibana", "Thatcher", "Nomad"]
+          how: "Take 2F, Nomad jabs Central and East Stairs, Sledge and Buck open the floors, Thatcher EMPs and Hibana opens the Workshop exterior; plant behind the breach."
+      key_kills: ["2F vertical holders over Workshop", "Customs extension player (Aruni)", "Metal Stairs door and Vents anchor"]
+      post_plant: ["Plant behind the Workshop breach, hold from 2F holes", "One player outside on the breach, one on Metal Stairs"]
+    common_mistakes: ["Breaching Workshop with defenders still on 2F", "Defenders not punishing the 2F take"]
+    uncertain: ["Selection-screen order (Workshop first or Ventilation Room first) not verified"]
   - id: customs_supply
     name: "1F Customs Inspection / 1F Supply Room"
-    aliases: ["1F Supply Room / 1F Customs Inspection", "Customs", "Supply"]
+    aliases: ["1F Supply Room / 1F Customs Inspection", "Customs", "Supply", "Passport"]
     floor: 1F
     defender:
-      reinforce: ["Customs exterior walls", "Supply Room walls toward hallways"]
-      rotates: ["Rotation toward Ventilation Room side"]
-      anchor_spots: ["Customs desks", "Supply Room shelves"]
-      roam_areas: ["2F above site", "East side hallways"]
-      key_utility: ["Anti-breach on Customs wall", "Cameras on the exterior doors"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Echo", "Castle"]
-      plan_summary: "Reinforce Customs outer walls and hold Supply with a crossfire. Keep a player above site to fight vertical."
+      reinforce: ["Passport wall, both Customs panels, Bandit tricks them", "Detention wall, both panels", "Security Room (CC) wall, both panels", "Closet wall in site and the wall next to the site rotate", "Back Archives wall"]
+      rotates: ["One big rotate into site", "Bottom of Metal Stairs rotate", "Head holes into Detention and feet holes under the window", "2F holes over Detention and the bin"]
+      anchor_spots: ["Supply Room behind shelves", "Customs desk off the Passport wall", "CC above site holding the hatches"]
+      roam_areas: ["Security Room (CC) on 2F", "Small Office and Waiting Room", "East Balcony"]
+      key_utility: ["Bandit batteries on the Passport wall", "Castle panels on the windows and the double door", "Valkyrie cams with CC hatches open"]
+      recommended_ops: ["Bandit", "Castle", "Smoke", "Valkyrie", "Vigil", "Kaid"]
+      plan_summary: "Weakest site on Border: trick the Passport wall, panel the windows and double door, and hold CC above with both hatches open."
+      setups:
+        - name: "Tricked Passport, CC hold"
+          ops: ["Bandit", "Castle", "Smoke", "Valkyrie", "Vigil"]
+          how: "Bandit tricks the Passport wall, Castle panels windows and the double door, Valkyrie holds CC over open hatches, Vigil roams Small Office and Waiting."
+      counters_to_watch: ["Buck taking CC and shooting the anchors from above", "Thatcher plus Thermite on the Passport wall", "Iana clearing the Tellers side and bottom Metal Stairs"]
+      retake_tips: ["Retake a Passport plant from the big rotate and CC hatches together", "Watch Small Office: attackers hold it post-plant"]
     attacker:
       recommended_spawns: ["East Vehicle Entrance"]
-      drone_paths: ["Drone through the Customs exterior doors", "Drone from 2F"]
-      entry_points: ["Exterior doors near Customs", "East Balcony to 2F then vertical"]
-      hard_breach_targets: ["Customs reinforced wall"]
-      plant_spots: ["Customs after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ash", "Zofia"]
-      utility_priorities: ["Open Customs wall", "Vertical from 2F", "Smoke and flash entries"]
-      plan_summary: "Take East side and 2F control, breach Customs and plant under cover from vertical teammates."
-    common_mistakes: ["Over-committing to one entry"]
-    uncertain: []
+      drone_paths: ["East Stairs and balcony into CC", "Drone Passport and Small Office", "Drone Tellers and Metal Stairs"]
+      entry_points: ["Passport wall", "CC (Security Room) for vertical", "Tellers side and Exit Hall"]
+      hard_breach_targets: ["Passport wall into Customs"]
+      plant_spots: ["Tight against the Passport breach inside Customs"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Nomad", "Iana"]
+      utility_priorities: ["Buck takes CC first", "EMP the Bandit batteries before Thermite", "Nomad Airjabs East Stairs and the balcony"]
+      plan_summary: "Take CC for vertical, clear Tellers and Small Office, then burn the Passport wall and plant tight to the breach."
+      executes:
+        - name: "CC vertical, Passport plant"
+          ops: ["Thermite", "Thatcher", "Buck", "Nomad", "Iana"]
+          how: "East. Buck takes CC and shoots down, Thatcher EMPs and Thermite burns Passport, Iana clears Tellers and Metal Stairs, Nomad jabs East Stairs; plant on the breach."
+      key_kills: ["CC holder over site", "Small Office and Waiting roamers", "Tellers side and the double-door rotate"]
+      post_plant: ["Plant against the Passport breach, watch Small Office and the double door", "Keep Buck above in CC"]
+    common_mistakes: ["Defenders conceding CC", "Attackers ignoring the double-door rotate"]
+    uncertain: ["Sources disagree on CC hatches: open for vertical vs every hatch reinforced in solo queue"]
   - id: tellers_bathroom
     name: "1F Tellers / 1F Bathroom"
     aliases: ["1F Bathroom / 1F Tellers", "Tellers", "Bathroom"]
     floor: 1F
     defender:
-      reinforce: ["Tellers walls toward Main Lobby", "Bathroom outer walls"]
-      rotates: ["Rotation toward Workshop side"]
-      anchor_spots: ["Tellers behind counters", "Bathroom stalls corner"]
-      roam_areas: ["Main Lobby", "2F above site"]
-      key_utility: ["Shields at Tellers entries", "Traps in Main Lobby"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Mira", "Melusi"]
-      plan_summary: "Hold Tellers and Bathroom with reinforced walls toward Main Lobby. Use traps and a 2F player to slow the execute."
+      reinforce: ["Tellers wall facing Detention and the long-angle Tellers quad wall", "Bathroom wall, both panels", "Luggage-side wall and left Tellers wall", "2F Archives hatch (Kaid claw)", "2F Fountain wall and 2F Armory wall"]
+      rotates: ["Tellers / Bathroom vault rotate", "2F Bathroom hatch left open on purpose for retake (some reinforce it in ranked)", "Head holes toward Customs"]
+      anchor_spots: ["Tellers behind the counter on a shield at the rotate", "Bathroom stalls", "2F over Bathroom (Kaid vertical)"]
+      roam_areas: ["Fountain bunker until 1:30 (Castle)", "2F Armory, Archives and Offices", "Customs if attackers go horizontal"]
+      key_utility: ["Smoke shield on the rotate and late gas", "Kaid claw on the Archives hatch", "Castle panels on Metal Stairs and Fountain", "Kapkan EDDs on stair doorways"]
+      recommended_ops: ["Smoke", "Melusi", "Kaid", "Castle", "Kapkan", "Goyo"]
+      plan_summary: "Hold Tellers and Bathroom with a Smoke shield on the rotate, Kaid vertical over Bathroom through the open hatch, and Castle bunkering Fountain until 1:30."
+      setups:
+        - name: "Bathroom hatch vert"
+          ops: ["Smoke", "Melusi", "Kaid", "Castle", "Kapkan"]
+          how: "Smoke sits on the rotate shield, Kaid plays 2F over the open Bathroom hatch, Castle bunkers Fountain, Kapkan traps stair doors, Melusi holds Bathroom."
+        - name: "Da Baby"
+          ops: ["Goyo", "Denari", "Castle", "Mozzie", "Ela"]
+          how: "Goyo anchors Tellers alone behind four reinforced walls; the other four fight West from 2F with Ela Grzmots and Denari lasers on east and 1F stairs."
+      counters_to_watch: ["Attackers cutting 2F (Armory, Archives, Offices) and dropping the Bathroom hatch", "Fuze cluster under the hatch to kill the claw", "Buck opening the triple wall and floor lines"]
+      retake_tips: ["Smoke gas through the drone hole on the shower plant forces a re-plant", "Retake from 2F and the vault rotate together"]
     attacker:
       recommended_spawns: ["Valley", "West Vehicle Exit"]
-      drone_paths: ["Drone through Main Lobby", "Drone from 2F above Tellers"]
-      entry_points: ["Main Lobby", "West side doors"]
-      hard_breach_targets: ["Tellers reinforced wall"]
-      plant_spots: ["Tellers after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Dokkaebi"]
-      utility_priorities: ["Clear Main Lobby", "Vertical from 2F", "Smoke the plant"]
-      plan_summary: "Clear Main Lobby, play vertical from 2F and breach Tellers. Plant under smoke with flank watch."
-    common_mistakes: ["Swinging Main Lobby without droning"]
-    uncertain: []
+      drone_paths: ["Drone stair doorways first (Kapkan)", "Drone 2F Offices and Archives", "Drone Tellers from Main Lobby"]
+      entry_points: ["2F Bathroom hatch", "Tellers single wall from bottom Square", "Main Lobby"]
+      hard_breach_targets: ["2F Bathroom hatch if reinforced", "Tellers triple wall"]
+      plant_spots: ["Shower stall under the hatch by the soft wall"]
+      recommended_ops: ["Fuze", "Grim", "Ying", "Buck", "Nomad"]
+      utility_priorities: ["Take Armory, Archives and Offices; skip CC, Break Room and balcony", "Fuze under the hatch for claws", "Nomad drone on 90 covering both stair tops"]
+      plan_summary: "Cut 2F in half, take the Bathroom hatch, Fuze the claws, then Ying drops and plants in the shower while three hold from above."
+      executes:
+        - name: "Bathroom hatch drop"
+          ops: ["Fuze", "Grim", "Ying", "Buck", "Nomad"]
+          how: "Take Armory, Archives and Offices; Fuze clusters under the hatch, Buck opens the triple wall, Ying Candelas Offices, drops and plants, Grim covers Small Office."
+      key_kills: ["Fountain bunker (Castle)", "2F Archives hatch claw and the Kaid vertical", "Stair-door Kapkan players"]
+      post_plant: ["Hold three angles from above plus one on the site window", "Fallback: bottom Square through the Tellers single wall"]
+    common_mistakes: ["Walking stair doorways without droning Kapkan", "Defenders reinforcing the Bathroom hatch and losing the retake line"]
+    uncertain: ["Fett reinforces the Bathroom hatch in ranked; other guides leave it open"]
 general:
-  attack: ["Balcony control is key for 2F", "Drone for runouts early; many open exterior paths"]
-  defense: ["Spawn peeks from windows are risky and well known", "Avoid running out at round start without a plan"]
+  attack: ["Since the rework East Balcony has an exterior staircase; use it to take Break Room", "Take 2F first on most sites; vertical wins every 1F site", "Drone stair doorways for Kapkan and watch West Vehicle Exit for spawn peeks"]
+  defense: ["Spawn peeks onto West Road from the desk are well known; one attempt only", "Common roams: Valkyrie 2F with cams until 1:30, Castle bunker in Fountain, Kapkan on stairs then Customs", "Break Room interior balcony stops the East Stairs rotate"]

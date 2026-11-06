@@ -4,106 +4,175 @@ aliases: ["Consulate", "CONSULATE"]
 floors: [basement, 1F, 2F, roof]
 attacker_spawns:
   - name: "Riot Barricade"
-    notes: "Front of consulate behind barricades."
+    notes: "Front of the consulate behind barricades. Watch the Lobby door and Chiraq window spawn peeks."
   - name: "Police Line"
-    notes: "Front-side street. Approach toward Main Entrance."
+    notes: "Front-side street toward Main Entrance and the Yellow truck; spawn-peeked from the Lobby door."
   - name: "Gas Station"
-    notes: "Side spawn. Good for garage and basement approaches."
+    notes: "Side spawn for Garage, bottom Yellow and Construction; default for basement takes."
   - name: "Side Entrance"
-    notes: "Side of the building. Fast to side doors and stairs."
+    notes: "Side of the building toward the side doors and stairs. Listed in older data only; siegestrats shows three spawns."
 sites:
   - id: meeting_room_consul_office
     name: "2F Meeting Room / 2F Consul Office"
-    aliases: ["2F Consul Office / 2F Meeting Room", "Meeting Room", "Consul Office", "Consulate Office"]
+    aliases: ["2F Consul Office / 2F Meeting Room", "Meeting Room", "Consul Office", "Consulate Office", "CO", "Meeting"]
     floor: 2F
     defender:
-      reinforce: ["Outer walls of Meeting Room and Consul Office", "Walls attackers use from the 2F hallway"]
-      rotates: ["Meeting to Consul Office connection"]
-      anchor_spots: ["Consul Office behind desk", "Meeting Room corners"]
-      roam_areas: ["1F below", "Roof and 2F hallway"]
-      key_utility: ["Window denial", "Anti-breach on main walls"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Valkyrie", "Azami"]
-      plan_summary: "Hold Meeting and Consul Office with reinforced walls and a crossfire. Delay roof and stair pushes."
+      reinforce: ["Meeting outside breach wall", "Admin walls 1-3", "Break Room wall protecting Coffin and the hatch under Coffin", "Consul Office window wall and Top Yellow / Connector wall", "Flex: Projector or Whiteboard wall"]
+      rotates: ["Secret wall left soft", "Catering wall optional", "Top of the Bathroom outside wall", "Admin to balcony rotate to shoot Files and Coffin rappels"]
+      anchor_spots: ["Coffin corner (Warden) shotgunning the Admin swing", "Meeting power spot (Goyo)", "Behind the Vending machine on a shield", "CO corner off the window"]
+      roam_areas: ["Admin and the balcony (pro extension)", "Break Room and Manager's Office", "Connector and Top Yellow (Smoke)", "1F under site with prone holes (Solis)"]
+      key_utility: ["Castle barricade on Coffin pre-hit to 8 of 10 hits for an escape", "Bandit batteries on the Meeting breach wall", "Goyo Volcan on the CO window", "Jager ADS on Vending"]
+      recommended_ops: ["Castle", "Warden", "Kaid", "Goyo", "Smoke", "Bandit", "Jager", "Azami"]
+      plan_summary: "Most-played site, about 55 percent defender. Extend into Admin and the balcony early, then crossfire from Coffin, Meeting and Vending with the Meeting breach wall electrified."
+      setups:
+        - name: "Microwave Coffin crossfire"
+          ops: ["Castle", "Warden", "Kaid", "Goyo", "Smoke"]
+          how: "Warden in Coffin, Castle pre-hits the Coffin barricade and holds Break, Kaid reinforces off Admin, Goyo roams then nades the Secret wall, Smoke holds Connector and Yellow."
+        - name: "Meeting power spot"
+          ops: ["Goyo", "Bandit", "Warden", "Jager", "Thorn"]
+          how: "Goyo Volcan on the CO window and holds Meeting, Bandit batteries the Meeting breach, Warden shields at Vending, Jager ADS and contests Break, Thorn traps Spiral and Admin."
+        - name: "Lockdown"
+          ops: ["Azami", "Denari", "Smoke", "Goyo", "Solis"]
+          how: "Ban Ying and Blitz. Azami seals Break-Admin and Connector-CO, Denari lasers the Meeting doors, Smoke holds CO and Yellow, Solis scans from 1F under site."
+      counters_to_watch: ["Admin over: Ace on the Break wall and Buck vertical from Visa", "Amaru hooking the CO window after a Ying fake on Admin", "Four-way split from Spiral, balcony, Yellow and Admin windows"]
+      retake_tips: ["Retake from Coffin and Vending together; Castle's barricade escape keeps Warden alive", "Goyo nade on the Secret wall burns a Break rappel"]
     attacker:
-      recommended_spawns: ["Police Line", "Side Entrance"]
-      drone_paths: ["Drone through 2F windows", "Drone up stairs"]
-      entry_points: ["Windows and roof", "Stairs"]
-      hard_breach_targets: ["Reinforced walls into Meeting or Consul Office"]
-      plant_spots: ["Meeting Room after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
-      utility_priorities: ["Take 2F hallway", "Open the wall", "Smoke plant"]
-      plan_summary: "Take 2F hallway and roof, open the key wall and plant under smoke."
-    common_mistakes: ["Ignoring flank via stairs"]
-    uncertain: ["Consulate was reworked in 2023 and modernized in Y10S3; callouts may differ"]
+      recommended_spawns: ["Riot Barricade", "Police Line"]
+      drone_paths: ["Drone Admin and Long Desk from the balcony", "Drone Vending and Whiteboard", "Drone Top Yellow and Spiral"]
+      entry_points: ["Admin and the balcony", "CO west window (rappel)", "Top Yellow and Spiral", "Files and Coffin rappels"]
+      hard_breach_targets: ["Meeting outside breach wall", "Break Room wall from Admin", "Floor under Break from Visa"]
+      plant_spots: ["Default Meeting plant", "Behind smokes in CO after the window hook"]
+      recommended_ops: ["Ace", "Buck", "Flores", "Grim", "Nomad", "Amaru", "Ying", "Glaz"]
+      utility_priorities: ["Flores clears the Vending shield then Whiteboard", "Grim bees Whiteboard and Long Desk", "Nomad Airjabs Yellow and Spiral"]
+      plan_summary: "Go Admin over: pressure the Meeting wall, open Break, Buck verticals from Visa and Flores and Grim clear Vending and Whiteboard before planting default."
+      executes:
+        - name: "Admin over"
+          ops: ["Ace", "Buck", "Flores", "Grim", "Nomad"]
+          how: "Ace pressures Meeting and opens Break, Buck verticals the Break doorway from Visa, Flores clears Vending shield, Grim bees Whiteboard and Long Desk, Nomad holds Yellow skylight."
+        - name: "Sell Admin, hook CO"
+          ops: ["Ying", "Glaz", "Thatcher", "Amaru", "Deimos"]
+          how: "Ying fakes Admin with Candelas, Glaz smokes CO from the west and thermals, Thatcher disrupts the window, Amaru hooks in and plants behind smokes, Deimos tracks the roamer."
+      key_kills: ["Vending shield and Whiteboard corner", "Coffin corner Warden", "Break and Long Desk", "Top Yellow and Bathroom holes"]
+      post_plant: ["Hold Meeting from Admin and the breach", "Watch Top Yellow and Spiral for the Smoke and roamer"]
+    common_mistakes: ["Attackers walking Admin without clearing Long Desk", "Defenders forgetting 1F prone holes under site"]
+    uncertain: ["Room names Coffin, Microwave, Whiteboard are stratbook callouts; CO is sometimes called CEO", "Y11S3.1 added Manager's Office and Break Room callouts"]
   - id: piano_room_exposition_room
     name: "1F Piano Room / 1F Exposition Room"
     aliases: ["1F Exposition Room / 1F Piano Room", "Piano", "Exposition", "Expo"]
     floor: 1F
     defender:
-      reinforce: ["Piano and Exposition outer walls", "Floor above where reinforceable"]
-      rotates: ["Piano to Exposition connection"]
-      anchor_spots: ["Piano corners", "Exposition behind displays"]
-      roam_areas: ["2F above", "Lobby"]
-      key_utility: ["Traps at doors", "Shields at main entries"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Echo", "Mira"]
-      plan_summary: "Hold Piano and Exposition with reinforced outer walls and vertical denial from 2F."
+      reinforce: ["Piano wall up to Top Yellow and the right closet wall outside Piano", "Expo to Lounge double wall (Kaid claw)", "Lounge to Visa double wall", "Expo left wall up to the Benches window", "2F CO wall and 2F balcony single wall"]
+      rotates: ["Left Piano vault rotate", "Closet-wall foot holes", "Lounge head holes down to bottom Spiral", "Piano hatch soft and closed (some reinforce it)"]
+      anchor_spots: ["Expo corner (Kaid)", "Piano behind the Mira windows", "2F CO and Meeting above for vertical"]
+      roam_areas: ["Lobby desk falling back through the rotate (Wamai)", "2F above Piano for vertical holes", "Basement under Piano (Pulse)"]
+      key_utility: ["Kaid claws on both double walls", "Mira windows on the Lounge and Piano walls", "Castle panels on the 2F doors", "Valkyrie cams and C4 through holes"]
+      recommended_ops: ["Kaid", "Mira", "Wamai", "Castle", "Valkyrie", "Warden", "Solis"]
+      plan_summary: "Two up, three down: claw both double walls, Mira the Lounge wall, and play 2F above Piano to cut the vertical. Keep the Piano hatch soft and closed."
+      setups:
+        - name: "Two up, three down"
+          ops: ["Kaid", "Mira", "Wamai", "Castle", "Valkyrie"]
+          how: "Kaid claws both double walls and holds Expo, Mira plays Piano, Wamai holds Lobby desk then rotates, Castle holds CO and Meeting above, Valkyrie C4s through holes."
+        - name: "Stalactite"
+          ops: ["Warden", "Solis", "Smoke", "Goyo", "Kaid"]
+          how: "Warden and Solis shoot down from 2F over Piano through vertical holes while Smoke and Goyo play below."
+      counters_to_watch: ["Admin-over 2F take then Buck vertical into the closet and Piano", "Ace with S.E.L.M.A. on the Expo-Lounge wall", "Kali lancing the Lounge wall claws"]
+      retake_tips: ["Retake a breach-corner plant from the 2F holes and the Piano vault rotate", "Valkyrie C4 through floor holes on the planter"]
     attacker:
-      recommended_spawns: ["Riot Barricade", "Police Line"]
-      drone_paths: ["Drone through Lobby", "Drone from 2F"]
-      entry_points: ["Lobby", "Exterior windows", "Vertical from 2F"]
-      hard_breach_targets: ["Reinforced outer walls"]
-      plant_spots: ["Piano Room after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Ace"]
-      utility_priorities: ["Vertical from above", "Open wall", "Smoke plant"]
-      plan_summary: "Take 2F above site, open the outer wall and plant under smoke."
-    common_mistakes: ["Rushing Lobby without drones"]
-    uncertain: []
+      recommended_spawns: ["Riot Barricade", "Gas Station"]
+      drone_paths: ["Drone Lounge and Lobby", "Drone 2F Admin and Long Desk", "Drone basement under Piano"]
+      entry_points: ["Expo-Lounge wall", "Piano hatch from 2F", "Lobby and Visa", "Benches window"]
+      hard_breach_targets: ["Expo to Lounge double wall", "Lounge wall", "Piano hatch"]
+      plant_spots: ["Breach corner in Expo", "Behind the piano"]
+      recommended_ops: ["Iana", "Buck", "Ace", "Kali", "Gridlock", "Hibana"]
+      utility_priorities: ["Clear 2F Admin and Long Desk first", "Buck verticals the closet and Piano", "Gridlock Traxes Spiral and Benches"]
+      plan_summary: "Take 2F over Admin, pinch Meeting, Buck opens the vertical and the Piano hatch, then Ace and Kali open the Lounge walls and plant in the breach corner."
+      executes:
+        - name: "Admin-over vertical, Lounge wall plant"
+          ops: ["Iana", "Buck", "Ace", "Kali", "Gridlock"]
+          how: "Iana opens the balcony wall and Geminis Admin, Buck verticals Piano and opens the hatch, Ace opens Expo-Lounge, Kali lances and plants, Gridlock holds Visa cross."
+        - name: "Faze Blitz"
+          ops: ["Hibana", "Buck", "Dokkaebi", "Capitao", "Brava"]
+          how: "Clear basement and Lounge, make 2F vertical, then Hibana burns Expo from Lounge, Dokkaebi breaches north and plants, Brava hacks gadgets and holds Top Yellow."
+      key_kills: ["2F players over Piano", "Lobby desk Wamai", "Basement Pulse under Piano"]
+      post_plant: ["Hold the Expo breach plant from Lounge and the 2F holes", "Watch bottom Spiral and Visa"]
+    common_mistakes: ["Attackers breaching Lounge with 2F still held", "Defenders reinforcing the Piano hatch and losing vertical"]
+    uncertain: ["Sources disagree on the Piano hatch: open, soft-closed or reinforced"]
   - id: tellers_servers
     name: "1F Tellers / B Servers"
-    aliases: ["B Servers / 1F Tellers", "Tellers", "Servers"]
+    aliases: ["B Servers / 1F Tellers", "B Archives / 1F Tellers", "Tellers", "Servers"]
     floor: 1F
     defender:
-      reinforce: ["Hatch and floor between Tellers and Servers if not used", "Tellers outer walls"]
-      rotates: ["Vertical connection between Tellers and Servers"]
-      anchor_spots: ["Servers racks", "Tellers behind counters"]
-      roam_areas: ["Lobby", "Basement hallways"]
-      key_utility: ["Deny hatches", "Traps on stairs"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Bandit", "Goyo"]
-      plan_summary: "Split-floor site. Hold Servers deep and Tellers above with careful hatch control."
+      reinforce: ["Secret single wall (top priority)", "Both Construction to Cafe end walls", "Storage to Cafe hallway wall", "Top of Server stairs wall", "Both back-of-Tellers walls to Lounge; one Visa hatch"]
+      rotates: ["Two Visa/Tellers hatches left open", "Bottom-of-stairs, Servers to Storage and Secret rotates", "Holes under the Tellers door, window and desk"]
+      anchor_spots: ["Servers bunker under the desk holes (Pulse)", "Tellers behind the counter", "Break Room above for vertical (Valkyrie)"]
+      roam_areas: ["Visa and Lobby then drop through the soft Visa hatch (Warden)", "Spiral and Construction", "Front spawn peeks then fall back"]
+      key_utility: ["Mute jammers on Secret and Server stairs", "Lesion mines on Spiral, Server stairs and Construction", "Pulse C4 through the desk holes"]
+      recommended_ops: ["Pulse", "Valkyrie", "Mute", "Lesion", "Warden", "Kaid", "Oryx"]
+      plan_summary: "Rare split-floor pick. Bunker Servers under the Tellers holes with Pulse, jam Secret and Server stairs, and let Warden soak Visa and Lobby before dropping the hatch."
+      setups:
+        - name: "Servers bunker"
+          ops: ["Pulse", "Valkyrie", "Mute", "Lesion", "Warden"]
+          how: "Pulse scans and C4s through desk holes, Valkyrie plays Break Room vertical then drops, Mute jams Secret and stairs, Lesion mines Spiral, Warden soaks Visa then drops."
+        - name: "Squilliam spawn peek"
+          ops: ["Oryx", "Valkyrie", "Pulse", "Tubarao", "Kaid"]
+          how: "Four-way spawn peek: Oryx Lobby door, Valkyrie Chiraq window, Pulse pre-fires the Yellow truck, Tubarao distracts east; then Kaid Nitros Tellers from Servers."
+      counters_to_watch: ["Basement squeeze through Construction into the Electrical wall", "Buck opening the Visa/Tellers floor", "Zero cams on Storage and Servers"]
+      retake_tips: ["Retake a Servers plant under the Visa hatch from the stairs and the hatch", "Nitro from Servers onto a Tellers plant"]
     attacker:
-      recommended_spawns: ["Side Entrance", "Gas Station"]
-      drone_paths: ["Drone Lobby and stairs", "Drone basement hallways"]
-      entry_points: ["Lobby", "Basement stairs"]
-      hard_breach_targets: ["Reinforced hatches and walls"]
-      plant_spots: ["Tellers or Servers depending on control"]
-      recommended_ops: ["Thermite", "Hibana", "Thatcher", "Buck", "Ace"]
-      utility_priorities: ["Clear hatch denial", "Take 1F", "Smoke plant"]
-      plan_summary: "Take 1F control and open vertical into Servers, or plant in Tellers with vertical cover."
-    common_mistakes: ["Splitting the team across floors without trades"]
-    uncertain: ["Split-floor site pairing taken from Liquipedia; verify on selection screen"]
+      recommended_spawns: ["Gas Station", "Police Line"]
+      drone_paths: ["Drone bottom Yellow and Garage", "Drone Construction and Storage", "Drone Visa and Spiral"]
+      entry_points: ["Construction to Servers", "Electrical wall", "Visa window and hatches", "Lounge double wall"]
+      hard_breach_targets: ["Electrical wall into Servers", "Visa/Tellers floor"]
+      plant_spots: ["Servers under the reinforced Visa corner hatch"]
+      recommended_ops: ["Zero", "Ace", "Thatcher", "Buck", "Nomad"]
+      utility_priorities: ["Zero opens Construction and cams Storage and Servers", "Thatcher and Ace open the Electrical wall", "Nomad Airjabs Spiral and Lobby"]
+      plan_summary: "Take bottom Yellow and Garage, fight through Construction, open the Electrical wall and plant in Servers while Buck clears Visa above."
+      executes:
+        - name: "Basement squeeze"
+          ops: ["Zero", "Ace", "Thatcher", "Buck", "Nomad"]
+          how: "Gas Station. Take Garage and bottom Yellow, Zero cams Servers, Ace and Thatcher open Electrical, Buck opens the Visa floor, Nomad jabs Spiral; plant under the Visa hatch."
+      key_kills: ["Front spawn peekers before leaving spawn", "Server stairs and Secret holders", "Break Room vertical player"]
+      post_plant: ["Watch the stairs and the Break and Visa hatches", "Hold Construction for the flank"]
+    common_mistakes: ["Attackers walking into the front spawn peeks", "Defenders forgetting the Secret wall"]
+    uncertain: ["Site may be labelled B Archives / 1F Tellers in game; verify on the selection screen", "Pairing taken from siegestrats and Liquipedia"]
   - id: cafeteria_garage
     name: "B Cafeteria / B Garage"
     aliases: ["B Garage / B Cafeteria", "Cafeteria", "Garage", "Basement"]
     floor: basement
     defender:
-      reinforce: ["Garage walls toward the yard", "Hatches above basement"]
-      rotates: ["Cafeteria to Garage connection"]
-      anchor_spots: ["Cafeteria corners", "Garage behind cars"]
-      roam_areas: ["1F above", "Garage yard approach"]
-      key_utility: ["Electric on main walls", "Traps on stairs"]
-      recommended_ops: ["Mute", "Kaid", "Bandit", "Echo", "Castle"]
-      plan_summary: "Deny main walls and hatches, hold Cafeteria and Garage crossfire with a roamer on stairs."
+      reinforce: ["Garage breach panels 1 and 2 (Kaid claws)", "Site hatch, keeping foot holes against Thermite", "Security wall left half and the wall behind Pillar", "Storage-to-outside Cafeteria wall and the backside wall", "1F top Electrical wall"]
+      rotates: ["Cafeteria rotates to Garage", "Foot holes by the site hatch", "Security door"]
+      anchor_spots: ["Pillar (Azami)", "Cafeteria behind the Mira windows", "Security (Aruni)"]
+      roam_areas: ["1F Electrical and Piano for the vertical fight (Mute)", "Yellow and the backside", "1F stairs"]
+      key_utility: ["Kaid claws on the Garage panels and site hatch", "Mira windows on Cafeteria walls 1 and 2", "Aruni gates on Yellow and the backside", "Mute Nitro from 1F"]
+      recommended_ops: ["Kaid", "Mira", "Mute", "Azami", "Aruni", "Denari", "Smoke"]
+      plan_summary: "Pillar anchor with a clawed Garage wall and site hatch. Mira windows Cafeteria, Aruni gates Yellow, and Mute fights the vertical from 1F above."
+      setups:
+        - name: "Pillar anchor, Piano lid"
+          ops: ["Kaid", "Mira", "Mute", "Azami", "Aruni"]
+          how: "Kaid claws Garage panels and the hatch, Mira windows Cafeteria, Mute jams Piano and fights vertical from Electrical, Azami plays Pillar, Aruni gates Yellow."
+        - name: "Fallout"
+          ops: ["Denari", "Aruni", "Smoke", "Ela", "Kaid"]
+          how: "Ban Buck and Ram. Denari lasers Garage, Aruni gates doors, Smoke holds Cafe rotates, Ela roams to the 1F stairs."
+      counters_to_watch: ["Sledge and Buck vertical from 1F", "Thatcher plus Thermite on the Garage breach wall", "Flores drones on Garage gadgets"]
+      retake_tips: ["Retake a Garage plant behind the light wall from Cafeteria and Security", "Mute Nitro from 1F through the floor"]
     attacker:
       recommended_spawns: ["Gas Station"]
-      drone_paths: ["Drone into Garage", "Drone down stairs"]
-      entry_points: ["Garage", "Stairs", "Hatches"]
-      hard_breach_targets: ["Garage reinforced wall", "Hatches"]
-      plant_spots: ["Garage after breach"]
-      recommended_ops: ["Thermite", "Hibana", "Thatcher", "Ace", "Buck"]
-      utility_priorities: ["Clear electric", "Open wall", "Smoke plant"]
-      plan_summary: "Take Garage and 1F, clear electric and open the key wall. Plant under smoke."
-    common_mistakes: ["Entering Garage without clearing the yard"]
+      drone_paths: ["Drone Garage and bottom Yellow", "Drone 1F Piano and Electrical", "Drone Cafeteria through Storage"]
+      entry_points: ["Garage breach wall", "Yellow stairs", "1F Piano and Electrical for vertical", "Construction"]
+      hard_breach_targets: ["Garage breach wall", "Site hatch from 1F"]
+      plant_spots: ["Garage behind the light wall"]
+      recommended_ops: ["Thatcher", "Thermite", "Flores", "Sens", "Dokkaebi", "Sledge", "Buck"]
+      utility_priorities: ["Take 1F above for vertical", "EMP the Garage claws", "Flores drones on Garage gadgets"]
+      plan_summary: "Take 1F for vertical, EMP and burn the Garage breach wall, Flores clears gadgets and Sens walls off sightlines for the plant behind the light wall."
+      executes:
+        - name: "Garage wall hit"
+          ops: ["Thatcher", "Thermite", "Flores", "Dokkaebi", "Sens"]
+          how: "Thatcher disrupts and Thermite burns the Garage wall, Flores drones clear gadgets, Dokkaebi smokes inside, Sens enters north and plants behind the light wall."
+      key_kills: ["1F Electrical and Piano vertical denier", "Pillar anchor", "Security Aruni"]
+      post_plant: ["Hold the Garage plant from the breach and Yellow", "Watch the 1F holes above"]
+    common_mistakes: ["Attackers breaching Garage without the vertical", "Defenders letting 1F above go uncontested"]
     uncertain: []
 general:
-  attack: ["Clear exterior roamers before committing", "Map is modernized; check new destructibles"]
-  defense: ["Front windows are classic spawn peek spots", "Avoid early runouts into Police Line"]
+  attack: ["Spawn peeks: Lobby door, Chiraq window and Yellow truck are pre-fired; drone them before leaving spawn", "Clear Admin, Long Desk and the balcony before any 2F execute", "Gas Station is the basement and Servers spawn"]
+  defense: ["One rifler only on the Lobby duel; the Chiraq window and Yellow truck are known", "Pro 2F setups extend into Admin and rotate to the balcony to shoot Files and Coffin rappels", "Modernized Y10S3: new destructibles (gas pipes, moved extinguishers); retest holes"]

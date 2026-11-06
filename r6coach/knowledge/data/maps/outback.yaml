@@ -2,106 +2,306 @@ id: outback
 name: Outback
 aliases: ["Outback", "OUTBACK"]
 floors: [1F, 2F, roof]
+# Layout: June 2026 update was visual only. Checked against Y11S3.2 guides (siegestrats.com, alyttleton/SAS5Y/Garfieldisdoc).
 attacker_spawns:
-  - name: "Fuel Pump"
-    notes: "Service station front, toward Mechanic Shop and Kitchen."
+  - name: "Fuel Pumps"
+    notes: "Service station front, toward Restaurant, Mechanic Shop and Kitchen. siegestrats lists it as 'Fuel Pumps'."
   - name: "Storage Yard"
-    notes: "Storage yard side approach."
+    notes: "Storage yard side; good for Garage and the Party/Office side."
   - name: "Camping"
-    notes: "Camping side, toward motel bedrooms."
+    notes: "Camping side, toward the motel bedrooms and Motel Stairs; name not verified."
 sites:
   - id: piano_room_laundry_room
     name: "2F Piano Room / 2F Laundry Room"
-    aliases: ["2F Laundry Room / 2F Piano Room", "Piano", "Laundry"]
+    aliases: ["2F Laundry Room / 2F Piano Room", "Piano Room / Laundry", "2F Piano Room / 2F Laundry", "Piano", "Laundry"]
     floor: 2F
     defender:
-      reinforce: ["Piano and Laundry outer walls"]
-      rotates: ["Piano to Laundry connection"]
-      anchor_spots: ["Piano corners", "Laundry behind machines"]
-      roam_areas: ["1F below", "Roof approaches"]
-      key_utility: ["Window denial", "Anti-breach on walls"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Valkyrie", "Melusi"]
-      plan_summary: "Hold Piano and Laundry with reinforced walls and contest roof entries."
+      reinforce:
+        - "Both Dorms breach walls (Tubarão freeze)."
+        - "Laundry bomb-side single wall."
+        - "Bathroom wall, right side."
+        - "Piano wall beside the bomb."
+        - "Both Picnic walls."
+        - "Games vault wall and second wall."
+        - "Bull long-angle wall."
+      rotates:
+        - "Small middle rotate between Laundry and Piano."
+        - "Piano hatch left open as a drop."
+      anchor_spots:
+        - "Laundry washer (Tubarão)."
+        - "Piano box (Fenrir)."
+      roam_areas:
+        - "Garage early, killing drones (Vigil)."
+        - "Bull fallback."
+      key_utility:
+        - "Thorn wire and Razorbloom at top of Yellow Stairs."
+        - "Tubarão freeze on the Dorms breach."
+        - "Aruni gates on Bull and Picnic doors."
+      recommended_ops: ["Tubarão", "Thorn", "Fenrir", "Aruni", "Vigil", "Kaid", "Mute"]
+      plan_summary: "Trap Yellow Stairs, freeze the Dorms breach, and rotate through the middle."
+      setups:
+        - name: "Yellow Stairs lock"
+          ops: ["Tubarão", "Thorn", "Fenrir", "Aruni", "Vigil"]
+          how: "Thorn traps top Yellow, Tubarão freezes Dorms breach, Fenrir mines Picnic and Games, Aruni gates Bull and Picnic."
+      counters_to_watch:
+        - "Ram BU-GIs on Yellow: barbed wire now catches them (Y11S3.2)."
+        - "Dorms breach: Tubarão freeze."
+      retake_tips:
+        - "Retake via the middle rotate and Piano hatch."
     attacker:
-      recommended_spawns: ["Storage Yard"]
-      drone_paths: ["Drone from roof", "Drone up stairs"]
-      entry_points: ["Roof and windows", "Stairs"]
-      hard_breach_targets: ["Reinforced site walls"]
-      plant_spots: ["Piano after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
-      utility_priorities: ["Roof control", "Open wall", "Smoke plant"]
-      plan_summary: "Take roof and 2F hallway, breach and plant under smoke."
-    common_mistakes: ["Ignoring stairs flank"]
-    uncertain: ["Room order on selection screen not verified"]
+      recommended_spawns: ["Camping", "Storage Yard"]
+      drone_paths:
+        - "Drone Yellow Stairs and Dorms."
+        - "Drone Garage."
+      entry_points:
+        - "Yellow Stairs."
+        - "Dorms."
+        - "Picnic."
+        - "Bull."
+      hard_breach_targets:
+        - "Dorms breach walls."
+      plant_spots:
+        - "Laundry."
+        - "Piano Room."
+      recommended_ops: ["Thermite", "Hibana", "Thatcher", "Ash", "Buck"]
+      utility_priorities:
+        - "Clear Thorn traps at Yellow."
+      plan_summary: "Take Dorms and Yellow, breach and plant."
+      executes:
+        - name: "Dorms breach"
+          ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
+          how: "Take Dorms, Thatcher on walls, Thermite opens."
+      key_kills:
+        - "Vigil roaming Garage."
+      post_plant:
+        - "Plant Laundry, hold from Dorms."
+    common_mistakes:
+      - "Rushing Yellow into traps."
+    uncertain:
+      - "Room order on selection screen not verified."
   - id: party_room_office
     name: "2F Party Room / 2F Office"
-    aliases: ["2F Office / 2F Party Room", "Party Room", "Office"]
+    aliases: ["2F Office / 2F Party Room", "Party Room / Office", "Party Room", "Office"]
     floor: 2F
     defender:
-      reinforce: ["Party Room and Office outer walls"]
-      rotates: ["Party Room to Office connection"]
-      anchor_spots: ["Party Room corners", "Office desk"]
-      roam_areas: ["1F below", "Roof"]
-      key_utility: ["Shields at doors", "Anti-breach on walls"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Echo", "Azami"]
-      plan_summary: "Hold Party Room and Office with a crossfire and reinforced walls."
+      reinforce:
+        - "Middle two walls of Party to Bull."
+        - "One wall on the Party/Office quad."
+        - "Both walls of the Office Supplies breach (Kaid claw)."
+        - "Right wall on Supply to Garage Lounge."
+        - "Both lower Garage walls."
+        - "Both walls on Bull to Games Room."
+      rotates:
+        - "Garage rotate."
+        - "Outer Party walls left soft for Bull peeks."
+      anchor_spots:
+        - "Party (Mute)."
+        - "Supply corner (Kaid)."
+        - "Garage Stairs (Frost)."
+      roam_areas:
+        - "Games, Showers, Laundry (Vigil)."
+      key_utility:
+        - "Kaid claws on the Supply breach."
+        - "Frost mats on Garage Stairs."
+        - "Valkyrie cams in hatch pipes."
+      recommended_ops: ["Mute", "Valkyrie", "Kaid", "Frost", "Vigil"]
+      plan_summary: "Lock Garage and Supply breaches, leave outer Party walls soft for Bull peeks."
+      setups:
+        - name: "Ten-wall Garage lock"
+          ops: ["Mute", "Valkyrie", "Kaid", "Frost", "Vigil"]
+          how: "Kaid claws Supply breach, Frost mats Garage Stairs, Mute holds Party, Vigil roams Games."
+      counters_to_watch:
+        - "Supply breach: Kaid claws."
+        - "Garage Stairs push: Frost mats."
+      retake_tips:
+        - "Retake via Bull."
     attacker:
-      recommended_spawns: ["Fuel Pump", "Storage Yard"]
-      drone_paths: ["Drone from roof", "Drone up stairs"]
-      entry_points: ["Roof and windows", "Stairs"]
-      hard_breach_targets: ["Reinforced Party Room wall"]
-      plant_spots: ["Party Room after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ace", "Dokkaebi"]
-      utility_priorities: ["Roof control", "Open wall", "Smoke plant"]
-      plan_summary: "Take 2F control, breach the site wall and plant."
-    common_mistakes: ["Swinging doors without drones"]
+      recommended_spawns: ["Storage Yard", "Fuel Pumps"]
+      drone_paths:
+        - "Drone Garage Stairs for Frost mats, then Garage Lounge."
+        - "Drone Games and Showers early; Vigil roams there for the first 30 s."
+        - "Find Valkyrie cams in the hatch pipes and Office beam."
+      entry_points:
+        - "Garage Stairs into Garage Lounge."
+        - "Office Supplies breach."
+        - "Bull, via Games."
+        - "Soft outer Party walls (defenders leave them soft to peek)."
+      hard_breach_targets:
+        - "Both Office Supplies breach walls (Kaid claws)."
+        - "Lower Garage walls."
+      plant_spots:
+        - "Office by the Supplies breach."
+        - "Party Room near the Bull wall."
+      recommended_ops: ["Thermite", "Hibana", "Thatcher", "Kali", "Ash", "Buck", "Iana"]
+      utility_priorities:
+        - "Thatcher or Kali on Supply claws before Thermite."
+        - "Clear Frost mats on Garage Stairs with Ash or a frag."
+        - "Shoot Mute jammers on the drone hole so drones can enter Party."
+      plan_summary: "Kill Vigil and take Garage Lounge, clear claws on the Supply breach, then breach Office while one player pressures Bull."
+      executes:
+        - name: "Supply breach"
+          ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
+          how: "Take Garage Lounge, Thatcher pops claws, Thermite opens the Supplies breach; Buck opens soft Party walls to punish Bull peekers."
+        - name: "Bull and Garage pinch"
+          ops: ["Hibana", "Kali", "Zofia", "Nomad", "Gridlock"]
+          how: "Two push Games to Bull while three hit Garage Stairs; Nomad covers the Garage rotate."
+      key_kills:
+        - "Vigil in Games/Showers/Laundry."
+        - "Frost on Garage Stairs."
+        - "Bull peeker through soft Party walls."
+      post_plant:
+        - "Plant in Office by the breach, hold from Supply and Garage Lounge."
+        - "Watch Bull for the late rotate."
+    common_mistakes:
+      - "Ignoring Bull peeks through the soft Party walls."
+      - "Walking Garage Stairs onto Frost mats."
     uncertain: []
   - id: green_bedroom_red_bedroom
     name: "1F Green Bedroom / 1F Red Bedroom"
-    aliases: ["1F Red Bedroom / 1F Green Bedroom", "Green Bedroom", "Red Bedroom", "Bedrooms"]
+    aliases: ["1F Red Bedroom / 1F Green Bedroom", "Green Bedroom / Red Bedroom", "Green Bedroom", "Red Bedroom", "Bedrooms"]
     floor: 1F
     defender:
-      reinforce: ["Bedroom outer walls", "Floor above where reinforceable"]
-      rotates: ["Green to Red Bedroom connection"]
-      anchor_spots: ["Bedroom corners"]
-      roam_areas: ["2F above", "Motel exterior"]
-      key_utility: ["Traps on entries", "Shields at doors"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Mira", "Lesion"]
-      plan_summary: "Hold the bedrooms with vertical denial from 2F and traps on doors."
+      reinforce:
+        - "Both Closet walls to Reptile Hallway."
+        - "Both Red Bedroom walls to Yellow Stairs."
+        - "Both Red Bedroom walls to Reptile Hallway."
+        - "Both upstairs Dorms outer walls."
+      rotates:
+        - "Site hatch kept open as upstairs escape."
+        - "Closet cabinet vault."
+      anchor_spots:
+        - "Closet (Bandit)."
+      roam_areas:
+        - "Upstairs above site (Castle, Pulse)."
+      key_utility:
+        - "Castle barricades upstairs."
+        - "Pulse vertical."
+        - "Melusi Banshee on Bathroom window."
+      recommended_ops: ["Castle", "Pulse", "Bandit", "Smoke", "Melusi"]
+      plan_summary: "Own the floor above the site with Castle and deny plants vertically."
+      setups:
+        - name: "Castle turtle"
+          ops: ["Castle", "Pulse", "Bandit", "Smoke", "Melusi"]
+          how: "Castle barricades upstairs, Pulse verts, Bandit anchors Closet."
+      counters_to_watch:
+        - "Bottom breach plus upstairs vertical."
+      retake_tips:
+        - "Deny from above."
     attacker:
       recommended_spawns: ["Camping"]
-      drone_paths: ["Drone motel doors", "Drone from 2F"]
-      entry_points: ["Exterior motel doors", "Vertical from 2F"]
-      hard_breach_targets: ["Reinforced outer walls"]
-      plant_spots: ["Green Bedroom after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Zofia"]
-      utility_priorities: ["Vertical from above", "Open wall", "Smoke plant"]
-      plan_summary: "Take 2F above, open the wall and plant."
-    common_mistakes: ["Ignoring vertical defenders"]
+      drone_paths:
+        - "Drone upstairs Dorms over the site for Pulse and Castle."
+        - "Drone Reptile Hallway and the Bathroom window (Banshee)."
+        - "Look for the site hatch: if it's open, defenders escape up it."
+      entry_points:
+        - "Reptile Hallway walls into Closet and Red Bedroom."
+        - "Yellow Stairs side of Red Bedroom."
+        - "Upstairs Dorms for vertical and the site hatch."
+        - "Bathroom window."
+      hard_breach_targets:
+        - "Closet / Red Bedroom walls to Reptile Hallway."
+        - "Red Bedroom walls to Yellow Stairs."
+      plant_spots:
+        - "Tucked plant beside the Reptile Hallway breach."
+        - "Green Bedroom corner away from the vertical holes."
+      recommended_ops: ["Thermite", "Hibana", "Thatcher", "Buck", "Sledge", "Ash", "Zofia"]
+      utility_priorities:
+        - "Break Castle barricades upstairs with Ash or Zofia."
+        - "Kill the Pulse before planting; he shoots plants through the floor."
+        - "Thatcher on Bandit batteries in Closet."
+      plan_summary: "Push the bottom breach from Reptile Hallway while one or two take upstairs to stop the Castle/Pulse vertical."
+      executes:
+        - name: "Bottom breach, top split"
+          ops: ["Thermite", "Thatcher", "Buck", "Ash", "Iana"]
+          how: "Ash and Buck break into upstairs Dorms; Thatcher disables batteries, Thermite opens Reptile Hallway wall."
+      key_kills:
+        - "Castle and Pulse upstairs."
+        - "Closet anchor (Bandit)."
+      post_plant:
+        - "Plant tucked by the breach, hold from Reptile Hallway and the upstairs holes."
+    common_mistakes:
+      - "Planting before upstairs is cleared."
     uncertain: []
   - id: mechanic_shop_kitchen
     name: "1F Mechanic Shop / 1F Kitchen"
-    aliases: ["1F Kitchen / 1F Mechanic Shop", "Mechanic Shop", "Garage", "Kitchen"]
+    aliases: ["1F Kitchen / 1F Mechanic Shop", "Mechanic Shop / Kitchen", "Mechanic Shop", "Garage", "Kitchen"]
     floor: 1F
     defender:
-      reinforce: ["Mechanic Shop outer walls and garage side"]
-      rotates: ["Mechanic Shop to Kitchen connection"]
-      anchor_spots: ["Mechanic Shop behind vehicles", "Kitchen counters"]
-      roam_areas: ["2F above", "Fuel Pump side"]
-      key_utility: ["Anti-breach on walls", "Traps on doors"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Castle", "Goyo"]
-      plan_summary: "Hold Mechanic Shop and Kitchen with reinforced walls and vertical denial."
+      reinforce:
+        - "Both Mechanic Shop to Waiting walls."
+        - "Mechanic/Kitchen wall, middle only."
+        - "Restaurant wall behind the bar."
+        - "Both lower Garage walls."
+        - "Both Office Supplies breach walls."
+        - "Party to Bull middle walls."
+      rotates:
+        - "Kitchen to Waiting crouch rotate."
+        - "Hatch above site."
+      anchor_spots:
+        - "Mechanic Shop desk (Kaid)."
+        - "Behind the bar (Jäger)."
+        - "Kitchen (Goyo)."
+      roam_areas:
+        - "Office above (Pulse)."
+        - "Garage Stairs (Noor)."
+      key_utility:
+        - "Jäger ADS behind the bar."
+        - "Goyo Volcáns on plants."
+        - "Noor bolts through the floor."
+      recommended_ops: ["Pulse", "Noor", "Kaid", "Jäger", "Goyo"]
+      plan_summary: "Two hold Office above, three anchor Kitchen, Mechanic Shop and bar."
+      setups:
+        - name: "Office lid"
+          ops: ["Pulse", "Noor", "Kaid", "Jäger", "Goyo"]
+          how: "Pulse and Noor hold Office above, Kaid desk, Jäger bar, Goyo Kitchen."
+      counters_to_watch:
+        - "Reptile Hallway and Reception take."
+      retake_tips:
+        - "Burn the plant from above."
     attacker:
-      recommended_spawns: ["Fuel Pump"]
-      drone_paths: ["Drone garage doors", "Drone from 2F"]
-      entry_points: ["Garage doors", "Vertical from 2F"]
-      hard_breach_targets: ["Mechanic Shop reinforced wall"]
-      plant_spots: ["Mechanic Shop after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ash", "Ace"]
-      utility_priorities: ["Vertical from above", "Open wall", "Smoke plant"]
-      plan_summary: "Take 2F, open the shop wall and plant with flank watch."
-    common_mistakes: ["Over-committing one door"]
+      recommended_spawns: ["Fuel Pumps"]
+      drone_paths:
+        - "Drone Reception and Reptile Hallway first."
+        - "Drone Office above for Pulse/Noor."
+        - "Look for Jäger ADS behind the Restaurant bar."
+      entry_points:
+        - "Reception, then Waiting."
+        - "Reptile Hallway onto the Kitchen side."
+        - "Restaurant behind the bar."
+        - "Office above for vertical."
+      hard_breach_targets:
+        - "Mechanic Shop to Waiting walls (Kaid claws)."
+        - "Restaurant wall behind the bar."
+      plant_spots:
+        - "Kitchen by the Waiting crouch rotate."
+        - "Mechanic Shop away from the hatch above."
+      recommended_ops: ["Thermite", "Hibana", "Thatcher", "Buck", "Sledge", "Kali", "Ash"]
+      utility_priorities:
+        - "Clear Office above first; Noor bolts and Pulse C4 come through the floor."
+        - "Thatcher on Waiting claws and Jäger ADS."
+        - "Clear Goyo Volcáns before planting."
+      plan_summary: "Take Reception and Reptile Hallway, clear the two Office players, then hit the Kitchen side and plant."
+      executes:
+        - name: "Reception to Kitchen side"
+          ops: ["Thermite", "Thatcher", "Buck", "Ash", "Iana"]
+          how: "Take Reception and Reptile Hallway, Buck clears Office from the floor, Thermite opens Waiting walls."
+      key_kills:
+        - "Pulse and Noor in Office."
+        - "Mechanic Shop desk anchor."
+      post_plant:
+        - "Plant Kitchen, hold from Reception and Waiting."
+        - "Keep one player in Office to stop vertical denial."
+    common_mistakes:
+      - "Planting under the Office players."
     uncertain: []
 general:
-  attack: ["Two-floor map: vertical play is strong", "Drone motel side for roamers"]
-  defense: ["Exterior windows invite spawn peeks", "Roam motel and roof carefully"]
+  attack:
+    - "Two floors only: whoever owns 2F over a 1F site wins it. Clear Office over Mechanic/Kitchen and Dorms over the Bedrooms first."
+    - "Three stairs link floors: Garage Stairs, Shark Stairs, Motel Stairs (plus Yellow). Watch whichever you aren't using."
+    - "Restaurant, Mezzanine and Garage Lounge are the common roamer spots; drone them before crossing open yard."
+    - "Fuel Pumps spawn crosses open forecourt; Restaurant and Convenience Store windows see it."
+  defense:
+    - "Restaurant and 2F motel windows are the usual spawn-peek spots onto Fuel Pumps and Storage Yard; peek once then reposition."
+    - "Games is a 30-second drone-kill roam for 2F sites; fall back through Bull before attackers commit."
+    - "Leave rotate holes through the middle of shared walls; reinforce the ends that face breaches."
+    - "Wire top of Yellow Stairs: since Y11S3.2 barbed wire also stops Ram BU-GIs."

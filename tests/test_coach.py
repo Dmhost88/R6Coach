@@ -60,7 +60,10 @@ def test_pick_advice_once_per_round_and_waits_for_site(bus, kb, tmp_path):
     assert wait(lambda: len(picks()) == 1)
     purpose, prompt, has_image = picks()[0]
     assert has_image
-    assert "Hold basement." in prompt          # map knowledge included
+    # Map knowledge now lives in the cached system blocks (brief, operators, map dossier).
+    blocks = coach._system("Bank")
+    assert len(blocks) == 3 and "Hold basement." in blocks[2] and "Thermite" in blocks[1]
+    assert "Hold basement." not in prompt      # not repeated in the per-call prompt
     assert wait(lambda: coach._recommended == "Mute")
     push(bus, state, teammate_operators=["Smoke"])
     # Defense knows the site, so the prep plan is prepared in advance during the pick.
@@ -127,6 +130,16 @@ def test_attack_prep_waits_for_bombs_found(bus, kb, tmp_path):
     push(bus, state, site="B Lockers / B CCTV Room")  # "BOMBS FOUND"
     assert wait(lambda: len(claude.prompts) == 2)
     assert "B Lockers / B CCTV Room" in claude.prompts[1][1]
+
+
+def test_budget_drops_extras_first(bus, kb, tmp_path):
+    coach, claude, speaker, state = setup(bus, kb, tmp_path)
+    claude.budget_level = lambda: "spent"
+    push(bus, state, screen=Screen.prep_phase, map="Bank", side="attack", site="B Lockers / B CCTV Room")
+    time.sleep(0.2)
+    assert not any(p[0] == "coach.prep_phase" for p in claude.prompts)    # prep dropped when spent
+    push(bus, state, screen=Screen.operator_ban)
+    assert wait(lambda: any(p[0] == "coach.operator_ban" for p in claude.prompts))   # bans still run
 
 
 def test_question_uses_no_image_mid_round(bus, kb, tmp_path):

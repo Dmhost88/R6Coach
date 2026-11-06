@@ -4,106 +4,175 @@ aliases: ["Chalet", "CHALET"]
 floors: [basement, 1F, 2F, roof]
 attacker_spawns:
   - name: "Front Yard"
-    notes: "Front of the chalet. Good for Main Entrance and 2F windows."
+    notes: "Front of the chalet. Main Entrance, Trophy window and the 2F Big Window side."
   - name: "Campfire"
-    notes: "Side spawn. Common for Garage and basement attacks."
+    notes: "Side spawn by the Campfire wood. Nomad pressure from here; common for Snowmobile Garage and Library-side takes."
   - name: "Cliffside"
-    notes: "Rear cliff path toward Bar and Gaming Room side."
+    notes: "Rear cliff path toward Bar, Gaming Room and Library; Glaz can thermal Bar from here."
   - name: "Lakeside"
-    notes: "Lake side. Approach toward Kitchen, Dining and Trophy side."
+    notes: "Lake side toward Kitchen, Dining and Solarium. Used by the pro Library rappel into Gaming execute."
 sites:
   - id: master_bedroom_office
     name: "2F Master Bedroom / 2F Office"
     aliases: ["2F Office / 2F Master Bedroom", "Master Bedroom", "Office", "Master"]
     floor: 2F
     defender:
-      reinforce: ["Master Bedroom and Office outer walls", "Walls facing the balcony"]
-      rotates: ["Connection between Office and Master Bedroom for swaps"]
-      anchor_spots: ["Master Bedroom far corners", "Office behind desk"]
-      roam_areas: ["Library and 1F below", "Balcony early round"]
-      key_utility: ["Deny windows and balcony doors", "Anti-breach on the main walls"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Valkyrie", "Melusi"]
-      plan_summary: "Reinforce outer walls and hold Master and Office with a crossfire. Delay from Library and the balcony, then collapse onto site."
+      reinforce: ["Office to Library wall, both panels, clawed", "Closet wall, both panels", "Ivy hallway panel beside the head holes", "Top Solarium panel and a flex on the Kanine (Office door) side", "Library single wall and the Library walls facing the rappel windows"]
+      rotates: ["Ivy hallway head holes", "Right-side rotate between Master and Office", "Head holes over the Half Wall", "Library hatch left open; Solarium holes for vertical"]
+      anchor_spots: ["Half Wall in Master (Kaid)", "Office behind the desk, lancing Library with Noor", "Piano side holding the stairs (Denari)"]
+      roam_areas: ["Library contest, out through Piano by 1:15-1:30 (Azami or Vigil)", "Top Solarium for vertical (Thorn)", "Mezzanine and Library Stairs"]
+      key_utility: ["Kaid claw on the Office-Library wall", "Denari lasers on the windows and stairs", "Thorn Razorblooms on the Solarium walk-up", "Azami Kibas to seal Library on exit"]
+      recommended_ops: ["Kaid", "Noor", "Azami", "Thorn", "Denari", "Echo", "Fenrir"]
+      plan_summary: "Double up the Library wall with Kaid, anchor the Half Wall, contest Library until 1:15-1:30 then fall through Piano. Use Solarium holes and the Big Window cut to split the floor."
+      setups:
+        - name: "Double Library wall"
+          ops: ["Kaid", "Noor", "Azami", "Thorn", "Denari"]
+          how: "Kaid plays the Half Wall with the Library wall clawed; Noor lances from Office; Azami contests Library then leaves via Piano; Thorn plays top Solarium; Denari lasers windows and stairs."
+        - name: "Cntro Special"
+          ops: ["Echo", "Solis", "Aruni", "Fenrir", "Denari"]
+          how: "Echo anchors Master with Yokai plant denial, Aruni gates and opens holes, Fenrir mines 2F routes, Denari lasers the doorways, Solis scans."
+      counters_to_watch: ["Library rappel plus hard breach on the Office-Library wall", "Big Window entry cutting the floor in half", "Buck or Sledge from 1F below the Half Wall"]
+      retake_tips: ["Retake from Ivy holes and the Half Wall side together", "Solarium vertical holes cover an Office plant"]
     attacker:
-      recommended_spawns: ["Front Yard", "Lakeside"]
-      drone_paths: ["Drone through 2F windows", "Drone up main stairs"]
-      entry_points: ["Balcony and windows", "Main stairs", "Library side"]
-      hard_breach_targets: ["Reinforced Master Bedroom walls"]
-      plant_spots: ["Master Bedroom default after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
-      utility_priorities: ["Take Library and balcony", "Clear anti-breach", "Smoke the plant"]
-      plan_summary: "Take Library and balcony control, open the main wall and plant under smoke while watching stairs."
-    common_mistakes: ["Fighting through Library without drone support"]
-    uncertain: ["Exact wall callouts for current version not verified"]
+      recommended_spawns: ["Cliffside", "Lakeside"]
+      drone_paths: ["Drone Library during prep; if empty, execute early", "Drone the Big Window and Ivy hallway", "Drone Solarium stairs for the trapper"]
+      entry_points: ["Library rappel windows", "Big Window", "Solarium stairs", "Library Stairs from Fireplace"]
+      hard_breach_targets: ["Office to Library wall", "Closet wall into Master"]
+      plant_spots: ["Office behind the desk after a Library breach", "Master by the Half Wall once it is cleared"]
+      recommended_ops: ["Hibana", "Thatcher", "Ace", "Buck", "Flores", "Nomad"]
+      utility_priorities: ["Win Library first", "Clear the Half Wall with Buck or flash", "Flank watch on Library Stairs, Solarium stairs and Trophy"]
+      plan_summary: "Win Library, open the Office-Library wall and clear Solarium, Piano and the Half Wall before planting in Office."
+      executes:
+        - name: "Library take into Office wall"
+          ops: ["Hibana", "Thatcher", "Buck", "Flores", "Nomad"]
+          how: "Rappel Library, Thatcher clears claws and Hibana opens Office-Library; Buck clears the Half Wall from below; Nomad holds Solarium stairs and Flores clears Ivy utility."
+      key_kills: ["Library contester before Piano", "Top Solarium vertical player", "Half Wall anchor"]
+      post_plant: ["Plant Office and hold from Library and the breach", "Keep flank watch on Library Stairs and Solarium"]
+    common_mistakes: ["Defenders staying in Library past 1:30", "Attackers ignoring the Big Window cut"]
+    uncertain: ["No dedicated attack strat for this site; execute built from general sources", "Kanine and Ivy are team callouts"]
   - id: bar_gaming_room
     name: "1F Bar / 1F Gaming Room"
-    aliases: ["1F Gaming Room / 1F Bar", "Bar", "Gaming Room"]
+    aliases: ["1F Gaming Room / 1F Bar", "Bar", "Gaming Room", "Gaming"]
     floor: 1F
     defender:
-      reinforce: ["Bar exterior walls", "Floor hatches above site from 2F where reinforceable"]
-      rotates: ["Bar to Gaming Room connection"]
-      anchor_spots: ["Behind the bar counter", "Gaming Room corners"]
-      roam_areas: ["2F above site", "Fireplace and Main Entrance"]
-      key_utility: ["Anti-breach on the Bar walls", "Traps in Main Entrance and connecting hall"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Echo", "Castle"]
-      plan_summary: "Hold Bar and Gaming Room with outer walls reinforced and a 2F player denying vertical. Delay with traps at main entries."
+      reinforce: ["Bar hatch to Snowmobile Garage", "Gaming Room ceiling hatch", "Both Gaming exterior panels", "Bar to Fireplace side, both panels", "Flex walls on the Gaming Hallway"]
+      rotates: ["Bar to Gaming door", "Gaming vault-up stays open", "Feet holes toward Fireplace for crossfires"]
+      anchor_spots: ["Deep Bar behind the counter", "Gaming Room corner past the vault-up", "Mezzanine above Fireplace for vertical denial"]
+      roam_areas: ["Mezzanine and Library on 2F", "Master and Kanine (two roamers)", "Basement Blue stairs with a cam or alarm"]
+      key_utility: ["Mute jammers and Goyo Volcans on both Gaming entries", "Alibi Prismas on Mezzanine", "Jager ADS on Bar entries", "Castle panels on doors"]
+      recommended_ops: ["Mute", "Smoke", "Goyo", "Jager", "Alibi", "Mira", "Warden"]
+      plan_summary: "Seal both hatches and Gaming exterior, deny vertical from Mezzanine, and keep two players high in Library and Master until about 1:00."
+      setups:
+        - name: "Mezzanine hold"
+          ops: ["Mute", "Smoke", "Goyo", "Jager", "Alibi"]
+          how: "Reinforce Bar and Gaming hatches and Gaming exterior; Goyo Volcans both Gaming entries; Alibi denies Mezzanine; Smoke anchors Bar."
+        - name: "Cover 2"
+          ops: ["Mira", "Warden", "Aruni", "Wamai", "Castle"]
+          how: "Mira in Bar playing Gaming, Warden shielded on 2F above, Aruni gates 2F doors, Wamai holds 2F middle, Castle panels doors."
+        - name: "Double Double"
+          ops: ["Warden", "Smoke", "Fenrir", "Wamai", "Melusi"]
+          how: "Warden alone in Bar, Smoke above, four push Master and hunt at the Office door; Fenrir cam and Wamai alarms on basement Blue."
+      counters_to_watch: ["Library rappel with Sens walling off Mezzanine and Thatcher discs into Dark Corner", "Blitz smoke rush on the Gaming window", "Buck vertical into Bar from Office hatch"]
+      retake_tips: ["Retake a Gaming corner plant from Bar and Mezzanine", "If Noor is up, Blitz plants are deniable; save her lance for the planter"]
     attacker:
-      recommended_spawns: ["Cliffside", "Campfire"]
-      drone_paths: ["Drone through exterior windows into Bar", "Drone from 2F above site"]
-      entry_points: ["Exterior doors", "Vertical from 2F"]
-      hard_breach_targets: ["Bar reinforced outer wall"]
-      plant_spots: ["Bar behind cover after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Zofia"]
-      utility_priorities: ["Vertical from 2F", "Clear anti-breach", "Smoke the plant"]
-      plan_summary: "Take 2F above site for vertical, breach Bar and plant under smoke and flash cover."
-    common_mistakes: ["Ignoring 2F defenders playing vertical"]
-    uncertain: []
+      recommended_spawns: ["Lakeside", "Cliffside"]
+      drone_paths: ["Drone Library and Mezzanine in prep", "Cliffside drone into Bar for Glaz", "Drone Dark Corner and Stock"]
+      entry_points: ["Library rappel", "Gaming window", "Fireplace and Mudroom from the front", "Bar hatch from 2F"]
+      hard_breach_targets: ["Gaming exterior wall", "Bar hatch from Library hall"]
+      plant_spots: ["Deep Gaming corner past the vault-up", "Gaming wall plant after the Office/Library take"]
+      recommended_ops: ["Sens", "Thatcher", "Nomad", "Glaz", "Blitz", "Hibana", "Buck", "Ash"]
+      utility_priorities: ["Win Library and Mezzanine first", "Cut-off cams at Piano and bottom Trophy", "Thatcher discs into Dark Corner"]
+      plan_summary: "Win Library and top Mezzanine, cut rotates with Sens walls and cams, then hit Gaming from the window or vertical and plant in the deep corner."
+      executes:
+        - name: "Peng Special"
+          ops: ["Sens", "Thatcher", "Nomad", "Glaz", "Blitz"]
+          how: "Lakeside. Sens rappels Library and walls off Mezzanine, Thatcher clears Dark Corner, Nomad pressures Campfire, Glaz thermals Bar from Cliffside, Blitz plants deep Gaming on smokes."
+        - name: "Library and Office first"
+          ops: ["Hibana", "Flores", "Buck", "Ash", "Gridlock"]
+          how: "Hibana opens Library and Bar-window mirrors, cams at Piano and Trophy, Buck opens the hatch and plays into Bar, Ash pushes Fireplace and Mudroom; plant on the Gaming wall."
+      key_kills: ["Library and Mezzanine players", "Dark Corner and Stock holders", "Basement Blue watcher before planting"]
+      post_plant: ["Hold the deep Gaming plant from Library holes and the Gaming window", "Flank watch on Library Stairs, Solarium stairs, Trophy and Stock"]
+    common_mistakes: ["Defenders conceding Library for free", "Attackers walking Fireplace without clearing Mezzanine"]
+    uncertain: ["Peng Fish variant drops through Library to plant Bar; not verified"]
   - id: kitchen_dining_room
     name: "1F Kitchen / 1F Dining Room"
     aliases: ["1F Dining Room / 1F Kitchen", "Kitchen", "Dining Room", "Dining"]
     floor: 1F
     defender:
-      reinforce: ["Kitchen and Dining outer walls", "Hatch or floor above site where relevant"]
-      rotates: ["Kitchen to Dining connection"]
-      anchor_spots: ["Kitchen counters", "Dining corners"]
-      roam_areas: ["Trophy and Library above", "Main Entrance"]
-      key_utility: ["Shields at doors", "Cameras covering windows"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Mira", "Lesion"]
-      plan_summary: "Reinforce outer walls and hold Kitchen and Dining with vertical denial above. Use shields and cameras to delay window entries."
+      reinforce: ["Dining to Fireplace wall, panels 1-2 plus the third wall (Bandit trick)", "West Main beside the head holes", "Second-rotate wall (Smoke shield)", "2F Office double wall and the 2F Half Wall wall", "Flex: 2F Big Window wall"]
+      rotates: ["Kitchen hatch soft, never opened early", "45 hallway feet holes", "Trophy hop-in and head holes", "West Main holes and 2F vertical"]
+      anchor_spots: ["Dining table side off the Fireplace wall", "Kitchen counters behind Aruni gates", "2F above for retakes"]
+      roam_areas: ["Library, flood back through Solarium (Vigil)", "Trophy with wire under it", "2F Office and Half Wall for vertical"]
+      key_utility: ["Bandit batteries on the Dining-Fireplace wall", "Aruni gates on Kitchen and the 45 hallway", "Smoke shield on the second rotate, late gas", "Valkyrie cams on the Half Wall"]
+      recommended_ops: ["Bandit", "Smoke", "Aruni", "Valkyrie", "Vigil", "Kaid", "Tubarao"]
+      plan_summary: "Trick the Fireplace wall, gate Kitchen and the 45 hallway, keep the Kitchen hatch soft and play 2F Office vertical. Vigil roams Library and floods back via Solarium."
+      setups:
+        - name: "Tricked Fireplace, Office vert"
+          ops: ["Bandit", "Smoke", "Aruni", "Valkyrie", "Vigil"]
+          how: "Bandit tricks Dining-Fireplace, Smoke shields the second rotate, Aruni gates Kitchen and 45 hallway, Valkyrie plays the Half Wall above, Vigil roams Library."
+        - name: "Big Chungus retake"
+          ops: ["Warden", "Ela", "Frost", "Melusi", "Smoke"]
+          how: "Give up Kitchen early, hold 2F above and short, and retake the plant from above with Warden, Ela and Frost and from short with Melusi."
+      counters_to_watch: ["Kali lancing batteries before Hibana opens the Fireplace wall", "Buck clearing the Half Wall and opening the floor over Dining", "Ying dropping the Kitchen hatch from Big Window"]
+      retake_tips: ["Retake from 2F holes and short at the same time", "Smoke gas on the dining-table plant from the rotate"]
     attacker:
       recommended_spawns: ["Lakeside", "Front Yard"]
-      drone_paths: ["Drone windows from Lakeside", "Drone from 2F above"]
-      entry_points: ["Exterior windows", "Main Entrance", "Vertical from 2F"]
-      hard_breach_targets: ["Kitchen or Dining reinforced outer wall"]
-      plant_spots: ["Kitchen or Dining after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ace", "Ash"]
-      utility_priorities: ["Vertical from above", "Open outer wall", "Smoke the plant"]
-      plan_summary: "Take 2F control and play vertical, open the outer wall and plant under cover."
-    common_mistakes: ["Peeking windows without utility"]
-    uncertain: []
+      drone_paths: ["Drone Library and Mezzanine", "Drone Trophy and the 45 hallway", "Drone 2F Office and Half Wall"]
+      entry_points: ["Fireplace wall", "Trophy window", "Kitchen hatch from 2F", "Library Stairs"]
+      hard_breach_targets: ["Dining to Fireplace wall", "Kitchen hatch", "Floor over Dining"]
+      plant_spots: ["Default by the dining table", "Kitchen after a hatch drop"]
+      recommended_ops: ["Hibana", "Kali", "Buck", "Ying", "Gridlock", "Ace"]
+      utility_priorities: ["Take Lobby, Library and top Mezzanine", "Kali lances batteries", "Gridlock Trax on Trophy and Solarium stairs"]
+      plan_summary: "Split through Library and 2F Office, Buck opens the floor over Dining, Kali clears batteries and Hibana opens the Fireplace wall. Plant at the dining table."
+      executes:
+        - name: "Library split, Fireplace wall"
+          ops: ["Hibana", "Kali", "Buck", "Ying", "Gridlock"]
+          how: "Take Library and Mezzanine, open Office and play vertical, Buck clears the Half Wall and opens Dining floor, Kali lances, Hibana opens Fireplace, plant by the table."
+        - name: "Blitzkrieg"
+          ops: ["Ying", "Blitz", "Ace", "Capitao", "Sens"]
+          how: "Clear Solarium, Ying drops the Kitchen hatch from Big Window, Blitz jumps Trophy, Ace opens the 2F wall, Capitao burns Closet, Sens plants."
+      key_kills: ["Vigil returning through Solarium", "Half Wall Valkyrie above", "Smoke on the second rotate shield"]
+      post_plant: ["Plant by the dining table, hold from the Fireplace breach and 2F holes", "Watch Solarium and Trophy for the flood back"]
+    common_mistakes: ["Attackers opening Fireplace with batteries still live", "Defenders opening the Kitchen hatch early"]
+    uncertain: ["ALVIRAN starts with Trophy and vertical instead of Library; both are played"]
   - id: wine_cellar_snowmobile_garage
     name: "B Wine Cellar / B Snowmobile Garage"
     aliases: ["B Snowmobile Garage / B Wine Cellar", "Wine Cellar", "Garage", "Snowmobile Garage", "Basement"]
     floor: basement
     defender:
-      reinforce: ["Garage exterior wall and garage door side", "Hatches above basement"]
-      rotates: ["Connection between Wine Cellar and Garage"]
-      anchor_spots: ["Wine Cellar racks", "Garage behind snowmobiles"]
-      roam_areas: ["1F above basement", "Exterior garage approach early"]
-      key_utility: ["Deny hatches with jammers or electric", "Anti-breach on Garage wall", "Traps on basement stairs"]
-      recommended_ops: ["Mute", "Kaid", "Bandit", "Echo", "Goyo"]
-      plan_summary: "Reinforce garage walls and hatches, deny them with electric or jammers, and hold a Wine Cellar to Garage crossfire."
+      reinforce: ["Snowmobile Garage exterior wall, both panels (Bandit trick)", "Bar hatch above Snowmobile", "Wine Cellar to Snowmobile, both panels plus a Mira window", "Wine Cellar to Main Stairs / Blue with a Mira window", "Basement corridor, leaving one door open"]
+      rotates: ["One basement corridor door left open", "Wine Cellar to Wine Stock path", "Snowmobile to Wine through the Mira wall"]
+      anchor_spots: ["Wine Cellar behind the Mira window", "Back of Snowmobile on a trench shield (Warden)", "Site door with Clash"]
+      roam_areas: ["Fireplace and the garage-door window (Vigil)", "Blue stairs", "1F Dining above (Aruni gates)"]
+      key_utility: ["Bandit batteries on the Snowmobile wall", "Mira windows on Wine walls", "Smoke gas on the Snowmobile plant", "Goyo Volcans on the B doors"]
+      recommended_ops: ["Bandit", "Mira", "Smoke", "Jager", "Vigil", "Warden", "Kaid"]
+      plan_summary: "Trick the Snowmobile wall, Mira windows Wine Cellar and gas the Snowmobile plant. Vigil picks from the garage-door window then holds Fireplace."
+      setups:
+        - name: "Snowmobile wall trick"
+          ops: ["Bandit", "Mira", "Smoke", "Jager", "Vigil"]
+          how: "Bandit tricks Snowmobile exterior, Mira windows Wine walls, Jager ADS on Blue and stairs, Smoke gasses the plant, Vigil picks from the garage door then Fireplace."
+        - name: "Grumpy Cat"
+          ops: ["Warden", "Smoke", "Goyo", "Aruni", "Kaid"]
+          how: "Warden in B middle, Smoke on B stairs, Goyo Volcans the basement doors, Aruni gates the 1F Dining doors, Kaid denies from above."
+      counters_to_watch: ["Fuze clusters from the Fireplace floor into Wine Cellar", "Thermite plus Thatcher on the Snowmobile wall with Osa shielding", "Vertical from 1F Bar and Dining"]
+      retake_tips: ["Retake a Snowmobile plant from Wine and the Blue stairs at once", "Mira windows let you shoot the planter from Wine"]
     attacker:
-      recommended_spawns: ["Campfire"]
-      drone_paths: ["Drone the garage door", "Drone down the stairs"]
-      entry_points: ["Garage exterior", "Basement stairs", "Hatches from 1F"]
-      hard_breach_targets: ["Garage reinforced wall", "Hatches above site"]
-      plant_spots: ["Garage after breach", "Under opened hatch"]
-      recommended_ops: ["Thermite", "Hibana", "Thatcher", "Buck", "Ace"]
-      utility_priorities: ["Clear anti-breach on Garage", "Open hatches", "Smoke the plant"]
-      plan_summary: "Breach the Garage from outside after clearing electric, while teammates take 1F and open hatches. Plant in Garage with vertical cover."
-    common_mistakes: ["Entering Garage before hatches are pressured"]
-    uncertain: ["Exact hatch callouts not verified"]
+      recommended_spawns: ["Campfire", "Front Yard"]
+      drone_paths: ["Drone the garage-door window for Vigil", "Drone Blue and Main Stairs", "Drone Fireplace from 1F"]
+      entry_points: ["Snowmobile Garage exterior wall", "Blue and Main Stairs", "Bar hatch from 1F"]
+      hard_breach_targets: ["Snowmobile exterior wall", "Bar hatch above Snowmobile"]
+      plant_spots: ["Behind the snowmobiles under an Osa shield", "Wine Cellar after a Mira clear"]
+      recommended_ops: ["Thermite", "Thatcher", "Osa", "Fuze", "Nomad"]
+      utility_priorities: ["EMP the Snowmobile batteries", "Fuze Wine Cellar from Fireplace", "Nomad Airjab Main Stairs"]
+      plan_summary: "Take 1F, Fuze Wine Cellar from Fireplace, then Thermite and Thatcher open Snowmobile while Osa shields the breach and the plant."
+      executes:
+        - name: "Fuze-Osa Snowmobile take"
+          ops: ["Thermite", "Thatcher", "Osa", "Fuze", "Nomad"]
+          how: "Thatcher EMPs and Thermite opens Snowmobile, Osa shields the breach, Fuze clusters Wine from the Fireplace floor, Nomad clears 1F and jabs Main Stairs; plant behind the sleds."
+      key_kills: ["Vigil at the garage-door window", "Wine Cellar Mira anchor", "Blue stairs holder"]
+      post_plant: ["Plant behind the snowmobiles with Osa's shield facing Wine", "Hold Main Stairs and Blue from 1F"]
+    common_mistakes: ["Rushing stairs into the Jager and wire", "Shield plants into Noor's lance"]
+    uncertain: ["Fuze from the Fireplace floor into Wine Cellar is unverified", "Noor burns shields this season; the Osa plant may be weaker"]
 general:
-  attack: ["Snowy exterior hides runouts poorly; drone windows", "Vertical play from 1F is strong for basement"]
-  defense: ["Spawn peeks out of windows are common", "Do not run out at round start into Campfire lines"]
+  attack: ["Every plan wins Library and top floor first", "Drone Library in prep; empty Library means execute earlier", "Flank watch on Library Stairs, Solarium stairs, Trophy and Stock"]
+  defense: ["Chalet is strong for spawn peeks with 1.5x scopes; pick one, then move", "Main roams: Library (out by 1:15-1:30 via Piano or Solarium), Master and Kanine, basement Blue", "On 2F the Big Window cut splits the floor; the Half Wall is the key spot"]

@@ -138,7 +138,7 @@ class Coach:
     def _on_round_ended(self, ev: Event) -> None:
         self.profile.round_ended(ev.data["state"], ev.data.get("won"))
         self.speaker.clear()
-        if self.cfg.coach.level("between_rounds") and self.memory is not None:
+        if self.cfg.coach.level("between_rounds") and self.memory is not None and self._allowed("between_rounds"):
             # Give match memory a moment to record this round before the debrief reads it.
             state = self.current_state().model_copy(deep=True)
             won = ev.data.get("won")
@@ -146,7 +146,7 @@ class Coach:
                 self._run, "between_rounds", self._advise_debrief, state, won)).start()
 
     def _on_died(self, ev: Event) -> None:
-        if not self.cfg.coach.level("action_phase"):
+        if not self.cfg.coach.level("action_phase") or not self._allowed("death"):
             return
         killer = ev.data.get("killer")
         state = self.current_state().model_copy(deep=True)
@@ -205,7 +205,7 @@ class Coach:
         # Defense knows the site at operator select: think the prep plan through while they pick,
         # so it plays the moment prep starts.
         if (s.screen in (Screen.operator_select, Screen.loadout) and s.side == "defense" and s.site
-                and lv("prep_phase")):
+                and lv("prep_phase") and self._allowed("prep_phase")):
             op = s.my_operator or self._recommended
             if op and self._once(f"preplan:{rnd}:{op}"):
                 plan_state = s.model_copy(deep=True, update={"my_operator": op})
@@ -222,7 +222,18 @@ class Coach:
             log.exception("answering failed")
 
     # ------------------------------------------------------------------ dispatch
+    # Under the per-match budget: 'tight' drops nice-to-haves, 'spent' keeps only bans and picks.
+    _BUDGET_KEEP = {"tight": {"map_ban", "operator_ban", "operator_select", "prep_phase", "question"},
+                    "spent": {"map_ban", "operator_ban", "operator_select", "question"}}
+
+    def _allowed(self, phase: str) -> bool:
+        level = self.claude.budget_level() if hasattr(self.claude, "budget_level") else "ok"
+        return level == "ok" or phase in self._BUDGET_KEEP[level]
+
     def _submit(self, phase: str, fn, state: GameState, *args) -> None:
+        if not self._allowed(phase):
+            log.info("skipping %s: per-match budget", phase)
+            return
         self.bus.publish("coach.thinking", phase=phase)
         self.pool.submit(self._run, phase, fn, state.model_copy(deep=True), *args)
 
@@ -267,15 +278,24 @@ class Coach:
             self.speak(self.last_lines, "repeat", priority=1)
 
     # ------------------------------------------------------------------ prompts
-    def _system(self) -> str:
-        return SYSTEM + "\n\n" + SKILL_HINTS.get(self.cfg.coach.skill_level, SKILL_HINTS["intermediate"])
+    def _system(self, map_name: Optional[str] = None) -> list[str]:
+        """System blocks, most stable first, each cached: the brief, the operator database, and the
+        current map's dossier."""
+        brief = SYSTEM + "\n\n" + SKILL_HINTS.get(self.cfg.coach.skill_level, SKILL_HINTS["intermediate"])
+        return [brief, self.kb.operators_dossier(), self.kb.map_dossier(map_name or self.current_state().map)]
 
-    def _ask(self, phase: str, prompt: str, image: bool = False, deep: bool = False) -> Optional[CoachLines]:
+    @staticmethod
+    def _focus(s: GameState) -> str:
+        return (f"Focus: {s.map or 'unknown map'}, {s.side or 'unknown side'}, "
+                f"site {s.site or 'not known yet'} (full map dossier in the system prompt).")
+
+    def _ask(self, phase: str, prompt: str, image: bool = False, deep: bool = False,
+             map_name: Optional[str] = None) -> Optional[CoachLines]:
         n = FIXED_LINES.get(phase) or LINES_FOR_LEVEL.get(self.cfg.coach.level(phase), "2-4")
         prompt += f"\n\nReply with {n} spoken lines."
         jpeg = self.current_jpeg() if image else None
         effort = self.cfg.coach.deep_effort if deep else self.cfg.coach.effort
-        return self.claude.coach(self.cfg.coach.model, effort, self._system(), prompt,
+        return self.claude.coach(self.cfg.coach.model, effort, self._system(map_name), prompt,
                                  purpose=f"coach.{phase}", image_jpeg=jpeg)
 
     def _pool_text(self, side: Optional[str], state: GameState) -> str:
@@ -311,13 +331,13 @@ class Coach:
             f"Possible bomb sites this round: {' | '.join(s.site_options) or 'unknown'}\n"
             f"Player's pools: attack {self.cfg.operator_pool.attack}, defense {self.cfg.operator_pool.defense}\n"
             f"{self._memory()}\n"
-            f"Map data:\n{self.kb.context_for(s.map, None, None)}\n"
+            f"{self._focus(s)}\n"
             "The screen shows which side the player's team is banning (e.g. 'BAN A DEFENDER'). Name the one "
             "ban that most hurts the enemy here. Base it on what they've actually run this match if anything, "
             "else on this map's meta. Say why in one line, in terms of the sites and the player's next round. "
             "Avoid the player's own pool. Put it in recommended_bans."
         )
-        return self._ask("operator_ban", prompt, image=True)
+        return self._ask("operator_ban", prompt, image=True, map_name=s.map)
 
     def _advise_pick(self, s: GameState, repick: bool = False) -> Optional[CoachLines]:
         head = "A teammate just took the operator you recommended. " if repick else ""
@@ -327,13 +347,13 @@ class Coach:
             f"Score {s.score_us}-{s.score_them}.\n"
             f"{self._pool_text(s.side, s)}\n"
             f"{self._memory()}\n"
-            f"Map data:\n{self.kb.context_for(s.map, s.site, s.side)}\n"
+            f"{self._focus(s)}\n"
             f"{self.profile.map_record(s.map)}\n"
             "Pick the operator from the player's pool that fills what this team composition is missing for "
             "this site and counters what the enemy has shown (set recommended_operator). Then give the one "
             "loadout or gadget choice that matters and why, and the role they should play with it."
         )
-        return self._ask("operator_select", prompt, image=True)
+        return self._ask("operator_select", prompt, image=True, map_name=s.map)
 
     def _advise_death(self, s: GameState, killer: Optional[str]) -> Optional[CoachLines]:
         prompt = (
@@ -342,7 +362,7 @@ class Coach:
             f"with {s.timer_seconds if s.timer_seconds is not None else '?'}s left, "
             f"players {s.alive_us} v {s.alive_them} just before, defuser planted: {s.defuser_planted}.\n"
             f"{self._memory()}\n"
-            f"Map data:\n{self.kb.context_for(s.map, s.site, s.side)}\n"
+            f"{self._focus(s)}\n"
             "The screenshot is the kill cam: read the killer's operator, weapon and the angle or position "
             "they shot from. Death debrief, like a coach on comms right after a death: "
             "Line 1: what was good in how the player played the round, if anything was (be honest). "
@@ -350,7 +370,7 @@ class Coach:
             "locations. Line 3: the fix next time. If they keep dying the same way, say so. "
             "No consolation, no filler."
         )
-        return self._ask("death", prompt, image=True)
+        return self._ask("death", prompt, image=True, map_name=s.map)
 
     def _advise_debrief(self, s: GameState, won: Optional[bool]) -> Optional[CoachLines]:
         result = {True: "WON", False: "LOST", None: "ended"}[won]
@@ -358,13 +378,13 @@ class Coach:
             f"ROUND JUST {result} on {s.map}, player was {s.side} as {s.my_operator or 'unknown op'}, "
             f"site {s.site or 'unknown'}. Score now {s.score_us}-{s.score_them}.\n"
             f"{self._memory()}\n"
-            f"Map data:\n{self.kb.context_for(s.map, s.site, s.side)}\n"
+            f"{self._focus(s)}\n"
             "Round debrief in the gap between rounds. Line 1: what decided the round, from the facts above "
             "(first blood, trades, the plant, where the player died). Line 2: what the player did well, "
             "if anything. Line 3: what to change next round, with an exact location. If something keeps "
             "happening across rounds, name the pattern. No praise inflation, no consolation."
         )
-        return self._ask("between_rounds", prompt, deep=True)
+        return self._ask("between_rounds", prompt, deep=True, map_name=s.map)
 
     def _advise_prep(self, s: GameState, deep: bool = False) -> Optional[CoachLines]:
         me = s.my_operator or "their operator"
@@ -386,9 +406,9 @@ class Coach:
             f"Teammates: {', '.join(s.teammate_operators) or 'unknown'}\n"
             f"Enemy operators revealed this round: {', '.join(s.enemy_operators) or 'none yet'}\n"
             f"{self._memory()}\n"
-            f"Map data:\n{self.kb.context_for(s.map, s.site, s.side)}"
+            f"{self._focus(s)}"
         )
-        return self._ask("prep_phase", prompt, deep=deep)
+        return self._ask("prep_phase", prompt, deep=deep, map_name=s.map)
 
     def _answer(self, question: str) -> None:
         s = self.current_state()
@@ -401,7 +421,7 @@ class Coach:
             f"Enemies pinged by the team: {pinged or 'none'}\n"
             f"{self._pool_text(s.side, s)}\n"
             f"{self._memory()}\n"
-            f"Map data:\n{self.kb.context_for(s.map, s.site, s.side)}\n"
+            f"{self._focus(s)}\n"
             "Answer directly for this exact moment. If it's mid-round, keep it very short."
         )
         started = time.time()

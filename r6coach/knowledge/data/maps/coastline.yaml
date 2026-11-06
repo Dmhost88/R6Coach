@@ -4,104 +4,152 @@ aliases: ["Coastline", "COASTLINE"]
 floors: [1F, 2F, roof]
 attacker_spawns:
   - name: "Main Entrance"
-    notes: "Front of the building. Fast to Main Entrance and Hookah side."
+    notes: "Front of the building. Fast to Main Lobby, Service Entrance and the Hookah side."
   - name: "Pool Side"
-    notes: "Pool area. Good for Blue Bar, Sunrise Bar and Kitchen side."
+    notes: "Pool area. Blue Bar window, Sunrise Bar and Kitchen side; most exposed to window spawn peeks."
   - name: "Ruins"
-    notes: "Ruins behind. Quick to roof and Theater side."
+    notes: "Ruins behind the hotel. Quick to roof and the Theater/Aqua side; defenders peek it from Blue Bar, Sunrise, Hookah door, Billiards window and Aqua."
 sites:
   - id: hookah_billiards
     name: "2F Hookah Lounge / 2F Billiards Room"
     aliases: ["2F Billiards Room / 2F Hookah Lounge", "Hookah", "Billiards"]
     floor: 2F
     defender:
-      reinforce: ["Hookah outer walls", "Billiards walls toward the hallway"]
-      rotates: ["Hookah to Billiards connection"]
-      anchor_spots: ["Hookah corners", "Billiards behind tables"]
-      roam_areas: ["1F below", "Roof and balconies"]
-      key_utility: ["Window denial", "Anti-breach on outer walls"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Valkyrie", "Melusi"]
-      plan_summary: "Hold Hookah and Billiards with a crossfire and reinforced outer walls. Contest roof and windows early."
+      reinforce: ["Hookah door wall, both halves", "Hookah triple wall, Billiards section", "Hookah to Billiards, the half that is not the rotate", "Pink Bar quad wall, all four panels (Kaid claws)", "Both VIP walls"]
+      rotates: ["Hookah to Billiards half-wall rotate", "Foot holes onto Aqua", "VIP head holes", "Vertical holes over the default plant"]
+      anchor_spots: ["VIP behind Mute jammers", "Billiards behind the table", "Aqua bar"]
+      roam_areas: ["Aqua and Theater shallow roam (Jager)", "Sunrise and Blue Bar below for C4 (Valkyrie)", "Penthouse"]
+      key_utility: ["Mute jammers on VIP doors and wall", "Azami Kibas on the Hookah window and Aqua", "Kaid claws on Pink Bar quad and Hookah door wall", "Jager ADS on the Hookah door and Aqua"]
+      recommended_ops: ["Mute", "Azami", "Kaid", "Valkyrie", "Jager", "Maestro"]
+      plan_summary: "Jam VIP, claw the Pink Bar quad wall, Kiba the Hookah window and Aqua. Valkyrie cams and C4s from below while Jager roams shallow on Aqua."
+      setups:
+        - name: "VIP Mute, Billiards barriers"
+          ops: ["Mute", "Azami", "Kaid", "Valkyrie", "Jager"]
+          how: "Mute jams VIP and holds it, Azami Kibas Hookah window and Aqua, Kaid claws Pink Bar quad and Hookah door wall, Valkyrie C4s from below, Jager roams shallow."
+      counters_to_watch: ["Ace opening the quad wall from the roof", "Osa shield plant through the Billiards window", "Montagne faking the Hookah door (Noor burns shields)"]
+      retake_tips: ["Retake from VIP head holes and the floor below", "Kiba barriers can now be shot; do not rely on them on retake"]
     attacker:
-      recommended_spawns: ["Main Entrance", "Ruins"]
-      drone_paths: ["Drone through 2F windows", "Drone up interior stairs"]
-      entry_points: ["Windows and roof", "Stairs"]
-      hard_breach_targets: ["Hookah reinforced wall"]
-      plant_spots: ["Hookah after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
-      utility_priorities: ["Take 2F hallway", "Open the wall", "Smoke plant"]
-      plan_summary: "Take roof and hallway control, open Hookah and plant under smoke."
-    common_mistakes: ["Swinging windows into multiple angles"]
-    uncertain: []
+      recommended_spawns: ["Ruins", "Pool Side"]
+      drone_paths: ["Drone Aqua from the roof", "Drone the Hookah door and VIP hallway", "Drone Sunrise from the pool side"]
+      entry_points: ["Billiards window rappel", "Aqua", "Hookah door", "Roof onto the quad wall"]
+      hard_breach_targets: ["Pink Bar quad wall from the roof", "Hookah triple wall"]
+      plant_spots: ["Billiards behind the Osa shield at the window", "Hookah default plant under smoke"]
+      recommended_ops: ["Ace", "Nomad", "Osa", "Lion", "Montagne", "Thatcher"]
+      utility_priorities: ["Ace opens the quad wall from the roof and clears Aqua", "Nomad Airjabs the doors, then rappels Billiards", "Grenade the Aqua bar anchor from the roof"]
+      plan_summary: "Fake the Hookah door, take Aqua and open the quad wall from the roof, then Osa shields the Billiards window and plants behind it."
+      executes:
+        - name: "Aqua take, Hookah fake"
+          ops: ["Montagne", "Ace", "Nomad", "Osa", "Lion"]
+          how: "Montagne fakes Hookah door, Ace opens quad from the roof and clears Aqua, Nomad jabs doors then rappels Billiards, Osa shields the window and plants, Lion scans from Sunrise."
+      key_kills: ["Aqua bar anchor", "VIP Mute", "Blue Bar window player below"]
+      post_plant: ["Hold the Billiards window plant from outside and Aqua", "Watch VIP and the floor below for C4"]
+    common_mistakes: ["Defenders ignoring the roof quad-wall breach", "Attackers taking Hookah door without the fake"]
+    uncertain: ["Coastline was modernized in Y11S1 with new destructibles; retest holes and floor lines"]
   - id: theater_penthouse
     name: "2F Theater / 2F Penthouse"
     aliases: ["2F Penthouse / 2F Theater", "Theater", "Penthouse"]
     floor: 2F
     defender:
-      reinforce: ["Theater and Penthouse outer walls", "Walls toward the 2F hallway"]
-      rotates: ["Theater to Penthouse connection"]
-      anchor_spots: ["Theater seats", "Penthouse bathroom side"]
-      roam_areas: ["Roof", "1F below"]
-      key_utility: ["Shields at doors", "Traps on main approaches"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Echo", "Azami"]
-      plan_summary: "Reinforce outer walls and hold Theater and Penthouse with a crossfire. Delay roof and stair pushes."
+      reinforce: ["Theater to top Main Stairs, right half", "Corridor wall, both outer panels", "Penthouse wall, panels 1 and 2", "Both VIP walls (Kaid claws)", "VIP side wall on the Billiards side"]
+      rotates: ["Back of Theater rotate to the 90", "VIP hallway head holes", "Penthouse to Theater door"]
+      anchor_spots: ["Theater DJ booth and bookshelves", "Penthouse bed corner", "The 90 crossfire (Melusi)"]
+      roam_areas: ["Hookah and VIP hallway", "1F below for C4 (Pulse)", "Main stairs"]
+      key_utility: ["Castle panels on Bathroom and top doors", "Kaid claws on VIP and Main Stairs walls", "Melusi Banshee on the corridor walk-in", "Mira into VIP"]
+      recommended_ops: ["Castle", "Kaid", "Melusi", "Mira", "Pulse"]
+      plan_summary: "Second-best site on the map. Castle doors, Kaid claws VIP, and play the 90 crossfire with Melusi. Pulse below scans and C4s the planter."
+      setups:
+        - name: "Theater 90 crossfire"
+          ops: ["Castle", "Kaid", "Melusi", "Mira", "Pulse"]
+          how: "Castle panels Bathroom and top doors then plays Penthouse, Kaid claws VIP and holds Theater, Melusi crosses the 90, Mira windows VIP, Pulse C4s from below."
+      counters_to_watch: ["Thatcher plus Thermite on the VIP wall", "Buck verticalling Theater from below onto the DJ booth and bookshelves", "Big window and bathroom hatch entries"]
+      retake_tips: ["Retake a Penthouse bed plant from the 90 and the Theater rotate", "Pulse C4 the bed plant from 1F"]
     attacker:
-      recommended_spawns: ["Ruins"]
-      drone_paths: ["Drone from roof", "Drone up stairs"]
-      entry_points: ["Roof and windows", "Stairs"]
-      hard_breach_targets: ["Theater or Penthouse reinforced wall"]
-      plant_spots: ["Theater after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ace", "Dokkaebi"]
-      utility_priorities: ["Roof control", "Open wall", "Smoke plant"]
-      plan_summary: "Take roof and hallway, breach the site wall and plant with flank watch."
-    common_mistakes: ["Leaving the 1F stairs unwatched"]
-    uncertain: []
+      recommended_spawns: ["Ruins", "Main Entrance"]
+      drone_paths: ["Drone the Hookah-side hallway", "Drone Penthouse through the big window", "Drone 1F below Theater for Pulse"]
+      entry_points: ["VIP wall from the Hookah side", "Big window", "Bathroom hatch", "Main stairs"]
+      hard_breach_targets: ["VIP wall", "Floor under Theater from 1F"]
+      plant_spots: ["Penthouse bed under Thermite smoke"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Blackbeard", "Nomad"]
+      utility_priorities: ["Win the hallway from the Hookah side", "Buck clears the DJ booth, bookshelves and rotate from below", "Nomad Airjabs the Lobby and Service doors"]
+      plan_summary: "Burn VIP from the Hookah side, Buck verticals Theater from below, clear Penthouse and VIP, and plant on the Penthouse bed."
+      executes:
+        - name: "Burn VIP, plant bed"
+          ops: ["Thermite", "Thatcher", "Buck", "Blackbeard", "Nomad"]
+          how: "Win the Hookah hallway, Thatcher EMPs and Thermite burns VIP, Buck verticals Theater, Nomad jabs Lobby and Service; clear Penthouse and plant on the bed."
+      key_kills: ["Melusi on the corridor walk-in", "Pulse below Theater", "Castle in Penthouse"]
+      post_plant: ["Hold the bed plant from the VIP breach and the 90", "One on the big window, one on the bathroom hatch"]
+    common_mistakes: ["Planting before clearing VIP", "Defenders letting Buck win the floor below"]
+    uncertain: ["Claim that the floor is soft everywhere except Hall of Fame is unverified"]
   - id: kitchen_service_entrance
     name: "1F Kitchen / 1F Service Entrance"
-    aliases: ["1F Service Entrance / 1F Kitchen", "Kitchen", "Service Entrance"]
+    aliases: ["1F Service Entrance / 1F Kitchen", "Kitchen", "Service Entrance", "Service"]
     floor: 1F
     defender:
-      reinforce: ["Kitchen outer walls", "Floor above site where reinforceable"]
-      rotates: ["Kitchen to Service Entrance connection"]
-      anchor_spots: ["Kitchen counters", "Service Entrance corners"]
-      roam_areas: ["2F above", "Pool side"]
-      key_utility: ["Traps at doors", "Cameras on windows"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Lesion", "Castle"]
-      plan_summary: "Hold Kitchen and Service Entrance with reinforced walls and vertical denial from 2F."
-    attacker:
-      recommended_spawns: ["Pool Side"]
-      drone_paths: ["Drone through Kitchen windows", "Drone from 2F"]
-      entry_points: ["Exterior doors", "Vertical from 2F"]
-      hard_breach_targets: ["Kitchen reinforced outer wall"]
-      plant_spots: ["Kitchen after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Zofia"]
-      utility_priorities: ["Vertical from above", "Open wall", "Smoke plant"]
-      plan_summary: "Play vertical from 2F, breach Kitchen and plant under smoke."
-    common_mistakes: ["Ignoring 2F defenders"]
-    uncertain: []
-  - id: blue_bar_sunrise_bar
-    name: "1F Blue Bar / 1F Sunrise Bar"
-    aliases: ["1F Sunrise Bar / 1F Blue Bar", "Blue Bar", "Sunrise Bar"]
-    floor: 1F
-    defender:
-      reinforce: ["Blue Bar outer walls", "Sunrise Bar walls toward Pool side"]
-      rotates: ["Blue Bar to Sunrise connection"]
-      anchor_spots: ["Behind the Blue Bar counter", "Sunrise corners"]
-      roam_areas: ["2F above", "Pool and Main Lobby"]
-      key_utility: ["Shields at doors", "Traps in hallways"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Mira", "Melusi"]
-      plan_summary: "Hold Blue Bar and Sunrise with reinforced walls toward Pool. Use 2F players to deny vertical."
+      reinforce: ["Kitchen to Service half wall, keeping the rotate", "Both Kitchen exterior walls", "Both back Barrels walls (Kaid claws)", "Upstairs VIP outer walls and the Penthouse-VIP middle wall", "Security-side wall or vault rotate"]
+      rotates: ["Rotate behind the bomb", "Service to Kitchen rotate", "Hatch above left open for a drop to the bathroom"]
+      anchor_spots: ["On site behind the bomb (Goyo)", "Kitchen doorways outside Aruni gates", "VIP above"]
+      roam_areas: ["Sunrise, Lobby and Security (Vigil)", "Upstairs over site (Lesion)", "VIP"]
+      key_utility: ["Goyo Volcans on both plants", "Aruni gates on both doors", "Kaid claws on the Barrels walls", "Lesion mines through holes on the Kitchen door, window and Service door"]
+      recommended_ops: ["Goyo", "Aruni", "Kaid", "Lesion", "Vigil", "Azami", "Fenrir"]
+      plan_summary: "Own the floor above, gate both doors and let Goyo burn the plants. Vigil roams Sunrise, Lobby and Security to bleed time."
+      setups:
+        - name: "Ceiling control"
+          ops: ["Goyo", "Aruni", "Kaid", "Lesion", "Vigil"]
+          how: "Goyo plays behind the bomb with Volcans on both plants, Aruni gates doors, Kaid claws Barrels and holds VIP, Lesion mines from upstairs holes, Vigil roams."
+      counters_to_watch: ["Fuze on soft walls", "Vertical from above onto each corner", "Ace or Hibana on the Barrels wall; ban Ram per one source"]
+      retake_tips: ["Retake from the floor above and the rotate behind the bomb", "Volcan the planted defuser area"]
     attacker:
       recommended_spawns: ["Pool Side", "Main Entrance"]
-      drone_paths: ["Drone from Pool side doors", "Drone from 2F"]
-      entry_points: ["Pool side", "Main Lobby", "Vertical from 2F"]
-      hard_breach_targets: ["Blue Bar reinforced wall"]
-      plant_spots: ["Blue Bar after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ash", "Iana"]
-      utility_priorities: ["Take 2F above", "Open wall", "Smoke plant"]
-      plan_summary: "Take 2F control, open Blue Bar and plant with flank watch on Main Lobby."
-    common_mistakes: ["Pushing Main Lobby without droning"]
-    uncertain: []
+      drone_paths: ["Drone Sunrise and Security", "Drone VIP above", "Drone through the Kitchen window"]
+      entry_points: ["Barrels wall", "Kitchen window and door", "Service door", "Floor above from VIP"]
+      hard_breach_targets: ["Back Barrels wall", "Floor over Kitchen"]
+      plant_spots: ["Kitchen behind the counter after a Barrels breach", "Service Entrance default"]
+      recommended_ops: ["Ace", "Hibana", "Thatcher", "Ram", "Fuze", "Buck"]
+      utility_priorities: ["Take VIP above first", "EMP the Barrels claws", "Clear Goyo Volcans before planting"]
+      plan_summary: "Take the floor above, play vertical onto the corners, open the Barrels wall and plant away from Volcans."
+      executes:
+        - name: "VIP vertical, Barrels wall"
+          ops: ["Ace", "Thatcher", "Buck", "Ram", "Nomad"]
+          how: "Take VIP and the floor over site, Buck and Ram open vertical, Thatcher EMPs and Ace opens Barrels, Nomad watches Sunrise; plant behind the counter."
+      key_kills: ["Lesion upstairs", "Vigil in Sunrise and Security", "Aruni just outside the doors"]
+      post_plant: ["Hold from above and the Barrels breach", "Watch Sunrise for the roamer"]
+    common_mistakes: ["Planting onto Volcans", "Defenders conceding the floor above"]
+    uncertain: ["No dedicated siegestrats attack strat; execute built from defense-side counters"]
+  - id: blue_bar_sunrise_bar
+    name: "1F Blue Bar / 1F Sunrise Bar"
+    aliases: ["1F Sunrise Bar / 1F Blue Bar", "Blue Bar", "Sunrise Bar", "Blue", "Sunrise"]
+    floor: 1F
+    defender:
+      reinforce: ["Blue Bar main wall (Kaid claw)", "Sunrise to Blue, the half that is not the rotate", "Couch-corner wall", "Hookah to Billiards upstairs", "One flex wall picked from drone info"]
+      rotates: ["Second Blue Bar wall with foot holes", "Hookah hatch left open", "Sunrise to Blue rotate"]
+      anchor_spots: ["Behind the Sunrise bar on a Smoke shield", "Kitchen holding Blue (Kaid)", "Hookah and Billiards above (Azami)"]
+      roam_areas: ["Office and Security (Valkyrie)", "Hookah and Billiards", "Cool Vibes"]
+      key_utility: ["Smoke gas on the plants", "Castle panels on the Blue window and Office door", "Kaid claw plus C4 for the plant", "Valkyrie cams"]
+      recommended_ops: ["Smoke", "Kaid", "Castle", "Azami", "Valkyrie"]
+      plan_summary: "Anchor Sunrise with Smoke, treat Blue as a retake, claw the Blue main wall and keep the Hookah hatch open for vertical."
+      setups:
+        - name: "Last Call"
+          ops: ["Smoke", "Kaid", "Castle", "Azami", "Valkyrie"]
+          how: "Smoke shields behind Sunrise bar and gasses plants, Kaid claws Blue main and holds Kitchen with C4, Castle panels Blue window and Office door, Azami holds Hookah."
+      counters_to_watch: ["Sledge winning Hookah and smashing the floor over the bar", "Thermite on the Blue main wall after Thatcher", "Early Blue window open from Pool Side"]
+      retake_tips: ["Two plants to cover: tucked behind the Blue counter and the sofa", "Reinforce only one Blue wall so the tucked plant can be shot or C4'd"]
+    attacker:
+      recommended_spawns: ["Pool Side", "Ruins"]
+      drone_paths: ["Drone Hookah and behind the couches", "Drone Cool Vibes and White", "Drone the Sunrise window"]
+      entry_points: ["Hookah floor above the bar", "Blue main wall", "Sunrise window", "Hallway to the double door"]
+      hard_breach_targets: ["Blue Bar main wall", "Floor over the bar from Hookah"]
+      plant_spots: ["Behind the bomb in Sunrise", "On the couches"]
+      recommended_ops: ["Sledge", "Thermite", "Thatcher", "Zero", "Montagne"]
+      utility_priorities: ["Win Hookah first", "Sledge opens the floor on call", "Zero cams Cool Vibes and White"]
+      plan_summary: "Win Hookah, open the floor over the bar, Thermite burns Blue on Sledge's call and Thatcher holds the Sunrise window. Plant behind the bomb."
+      executes:
+        - name: "Floor show"
+          ops: ["Sledge", "Thermite", "Thatcher", "Zero", "Montagne"]
+          how: "Win Hookah, Sledge opens the floor over the bar, Thermite burns Blue main on call, Thatcher holds the Sunrise window, Zero cams Cool Vibes; plant behind the bomb."
+      key_kills: ["Hookah player behind the couches", "Smoke on the Sunrise shield", "Cool Vibes roamer"]
+      post_plant: ["One player outside the Sunrise window, one at the vase on Cool Vibes", "Hold the floor holes above"]
+    common_mistakes: ["Attackers going horizontal without Hookah", "Defenders over-holding Blue"]
+    uncertain: ["Old Aruni gate plus Smoke shield setups are outdated after the Y11S1 modernization"]
 general:
-  attack: ["Many entries make full clears slow; drone early", "Modernized in Y11S1 with new destructibles"]
-  defense: ["Window spawn peeks on Pool side are risky", "Roamers have many flank routes"]
+  attack: ["Almost every room has doors or windows outside; drone before any spawn walk", "Open the Blue window early and take the floor above it", "Many entries make full clears slow; take Hookah and VIP first for 2F and 1F"]
+  defense: ["High spawn-peek map: Ruins is peeked from Blue Bar, Sunrise, Hookah door, Billiards window and Aqua", "Crouch rotates are preferred over vault rotates in the current meta", "Kiba barriers can be shot; do not rely on them for full cover"]

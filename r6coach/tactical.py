@@ -43,7 +43,7 @@ exact location. Never describe where enemies are unless they are listed as pinge
 
 class TacticalCoach:
     def __init__(self, cfg: Config, bus: Bus, claude: Claude, kb: Knowledge, say: Callable[..., None],
-                 state: Callable, memory, system: Callable[[], str]) -> None:
+                 state: Callable, memory, system: Callable[..., list[str]]) -> None:
         self.cfg = cfg
         self.bus = bus
         self.claude = claude
@@ -63,7 +63,7 @@ class TacticalCoach:
         bus.subscribe("screen.changed", self._on_screen)
 
     def enabled(self) -> bool:
-        return self.cfg.coach.level("action_phase") >= 2
+        return self.cfg.coach.level("action_phase") >= 2 and self.claude.budget_level() == "ok"
 
     def _gap(self) -> float:
         g = self.cfg.coach.live_min_gap
@@ -130,9 +130,9 @@ class TacticalCoach:
                 f"Enemy operators revealed: {', '.join(s.enemy_operators) or 'none'}. "
                 f"Pinged/spotted by the team: {pinged}.\n"
                 f"{self.memory.text() if self.memory else ''}\n"
-                f"Map data:\n{self.kb.context_for(s.map, s.site, s.side)}"
+                f"Focus: site {s.site or 'not known yet'} (full map dossier in the system prompt)."
             )
-            out = self.claude.coach(self.cfg.coach.model, self.cfg.coach.live_effort, self.system(), prompt,
+            out = self.claude.coach(self.cfg.coach.model, self.cfg.coach.live_effort, self.system(s.map), prompt,
                                     purpose="coach.live")
             if not out or not out.lines:
                 return

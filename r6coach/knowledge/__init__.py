@@ -25,9 +25,9 @@ class Knowledge:
     """Loads YAML data and the user's notes, and answers lookups with fuzzy name matching
     (screen reads are not always spelled exactly like the data)."""
 
-    def __init__(self, notes_dir: Path, data_dir: Path = DATA) -> None:
-        self.data_dir = data_dir
-        self.notes_dir = notes_dir
+    def __init__(self, notes_dir: Path | str, data_dir: Path | str = DATA) -> None:
+        self.data_dir = Path(data_dir)
+        self.notes_dir = Path(notes_dir)
         self.notes_dir.mkdir(parents=True, exist_ok=True)
         self.reload()
 
@@ -53,6 +53,17 @@ class Knowledge:
         if meta_file.exists():
             with open(meta_file, encoding="utf-8") as f:
                 self.meta = yaml.safe_load(f) or {}
+        # Room-by-room callouts with wall and hatch adjacency, used to name exact locations.
+        self.callouts: dict[str, dict[str, Any]] = {}
+        callouts_dir = self.data_dir / "callouts"
+        if callouts_dir.exists():
+            for p in sorted(callouts_dir.glob("*.yaml")):
+                try:
+                    with open(p, encoding="utf-8") as f:
+                        self.callouts[p.stem] = yaml.safe_load(f) or {}
+                except yaml.YAMLError:
+                    log.exception("bad callouts file %s", p)
+        self._ops_dossier: Optional[str] = None
 
     # ------------------------------------------------------------------ lookups
     def find_map(self, name: Optional[str]) -> Optional[dict[str, Any]]:
@@ -143,6 +154,44 @@ class Knowledge:
         if notes:
             text += f"\nPlayer's own notes for {m.get('name')} (trust these over the database):\n{notes}\n"
         return text
+
+    # ------------------------------------------------------------------ cached prompt blocks
+    # These render the same text every time for the same data, so the API can cache them.
+    def map_dossier(self, map_name: Optional[str]) -> str:
+        """Everything known about one map: every site for both sides, spawns, map-wide tips, the
+        room callouts with wall/hatch adjacency, and the player's own notes."""
+        m = self.find_map(map_name)
+        if not m:
+            return (f"MAP DOSSIER: no local data for '{map_name or 'unknown map'}'. Use your own expert "
+                    "knowledge of the current version of this map.")
+        out = [f"MAP DOSSIER: {m.get('name')}",
+               "Strategy data (sites, setups, executes; a starting point, not gospel):",
+               yaml.safe_dump({k: m.get(k) for k in ("attacker_spawns", "sites", "general") if m.get(k)},
+                              sort_keys=False, allow_unicode=True, width=140)]
+        c = self.callouts.get(m.get("id", ""))
+        if c:
+            out.append("Callouts (use these exact room names; walls by the rooms they separate, hatches by "
+                       "the room they're in and the room below):")
+            out.append(yaml.safe_dump({k: c.get(k) for k in ("rooms", "walls", "hatches", "stairs",
+                                                              "windows_and_doors") if c.get(k)},
+                                      sort_keys=False, allow_unicode=True, width=140))
+        notes = self.notes(m.get("id"))
+        if notes:
+            out.append(f"Player's own notes for {m.get('name')} (trust these over the database):\n{notes}")
+        return "\n".join(out)
+
+    def operators_dossier(self) -> str:
+        """The whole operator roster, compact. Same for every match, so it caches well."""
+        if self._ops_dossier is None:
+            keep = ("name", "side", "roles", "speed", "unique_gadget", "gadget_details", "gadget_options",
+                    "primaries", "secondaries", "pro_usage", "hard_counters", "counters", "countered_by",
+                    "synergies", "comp_notes", "ban_reason", "ban_value", "pick_rate_note")
+            rows = [{k: op[k] for k in keep if op.get(k)} for op in
+                    sorted(self.operators.values(), key=lambda o: (o.get("side", ""), o.get("name", "")))]
+            self._ops_dossier = ("OPERATOR DATABASE (current season kits; enemy operators are ones the "
+                                 "player has seen on screen or might face):\n"
+                                 + yaml.safe_dump(rows, sort_keys=False, allow_unicode=True, width=140))
+        return self._ops_dossier
 
     def operators_context(self, names: list[str]) -> str:
         rows = []

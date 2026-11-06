@@ -50,6 +50,7 @@ class CoachCfg(BaseModel):
     deep_effort: str = "high"        # defense prep plan (made during pick) and round debriefs
     live_effort: str = "low"         # in-round tactical calls (must land within seconds)
     live_min_gap: float = 15.0       # seconds between in-round tactical calls
+    budget_per_match: float = 3.0    # USD; at 80% live calls and debriefs pause, at 100% only bans/picks
     skill_level: str = "intermediate"
     chattiness: dict[str, int] = Field(
         default_factory=lambda: {
@@ -72,7 +73,14 @@ class OperatorPool(BaseModel):
 
 
 class VoiceCfg(BaseModel):
-    provider: str = "openai"
+    # kokoro (local neural voice, no key) | openai | elevenlabs | sapi (robotic Windows voice).
+    # Whatever is chosen, failures fall back to kokoro, then sapi.
+    provider: str = "kokoro"
+    local_voice: str = "am_michael"          # Kokoro voice id, see `python -m r6coach.voice.tts --voices`
+    local_model: str = "kokoro-v1.0.int8.onnx"
+    local_device: str = "cpu"                # cpu | cuda (needs onnxruntime-gpu; cpu leaves the GPU to the game)
+    local_threads: int = 4                   # CPU threads for the local voice (0 = onnxruntime default)
+    speed: float = 1.05
     openai_voice: str = "onyx"
     openai_model: str = "gpt-4o-mini-tts"
     elevenlabs_voice_id: str = ""

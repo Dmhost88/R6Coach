@@ -2,106 +2,321 @@ id: villa
 name: Villa
 aliases: ["Villa", "VILLA"]
 floors: [basement, 1F, 2F, roof]
+# Layout: Y11S3 targeted update (live Sep 1 2026): Living Room / Library site moved to basement Art Storage / Old Office; Garage is now interior.
 attacker_spawns:
   - name: "Main Road"
-    notes: "Front road approach."
+    notes: "Front road approach toward the main entrance; 2F front windows (Aviator, Classical Hall) spawn-peek this road. Spawn names not re-verified after Y11S3."
   - name: "Ruins"
-    notes: "Ruins side approach."
+    notes: "Ruins side approach; spawn name not re-verified after Y11S3."
   - name: "Fountain"
-    notes: "Fountain side approach."
+    notes: "Fountain side approach; spawn name not re-verified after Y11S3."
 sites:
   - id: aviator_room_games_room
     name: "2F Aviator Room / 2F Games Room"
-    aliases: ["2F Games Room / 2F Aviator Room", "Aviator", "Games Room"]
+    aliases: ["2F Games Room / 2F Aviator Room", "Aviator Room / Games Room", "Aviator", "Games Room"]
     floor: 2F
     defender:
-      reinforce: ["Aviator and Games Room outer walls"]
-      rotates: ["Aviator to Games Room connection"]
-      anchor_spots: ["Aviator corners", "Games Room behind tables"]
-      roam_areas: ["Study", "Top Main stairs"]
-      key_utility: ["Shield at Top Main", "Deny Study push with traps or Melusi"]
-      recommended_ops: ["Smoke", "Kaid", "Maestro", "Melusi", "Oryx"]
-      plan_summary: "Hold Top Main with a shield and deny the Study approach. Anchor Aviator and Games Room with a crossfire."
+      reinforce:
+        - "Main wall, doubled, with feet holes left open."
+        - "Bar wall, doubled."
+        - "Wall facing the 90 rappel window."
+        - "Aviator to Games wall, right side."
+        - "Optional: Astro wall plus one Master wall."
+      rotates:
+        - "Study wall left soft with head holes to deny Study."
+        - "Vault and crouch rotates between Aviator and Games."
+      anchor_spots:
+        - "Top Main behind a deployable shield (Smoke)."
+        - "Bar (Maestro)."
+        - "Games watching Study head holes."
+      roam_areas:
+        - "Master and Astro, rotating back about once a minute (Oryx)."
+        - "Red Stairs and 90 (Melusi flank watch)."
+      key_utility:
+        - "Kaid claws on Main wall."
+        - "Maestro Evil Eyes on Study and Games."
+        - "Melusi Banshee on the 90 door."
+        - "Smoke gas on Top Main stairs and door."
+      recommended_ops: ["Smoke", "Kaid", "Maestro", "Melusi", "Oryx", "Mira", "Jäger"]
+      plan_summary: "Shield Top Main, deny Study through head holes, watch Red Stairs and 90, with an optional Master/Astro roam."
+      setups:
+        - name: "Top Main shield hold"
+          ops: ["Smoke", "Kaid", "Maestro", "Melusi", "Oryx"]
+          how: "Smoke shields Top Main, Kaid claws Main wall and watches Study holes, Maestro Evil Eyes Study/Games, Melusi Banshee on 90, Oryx roams Master/Astro."
+      counters_to_watch:
+        - "Study plus Main take with flank cams at Red 90: deny Study holes, Melusi on 90."
+        - "90 rappel window: reinforced wall facing it."
+      retake_tips:
+        - "Retake via Master/Astro and Red Stairs."
+        - "Smoke gas on Main-side plants."
     attacker:
       recommended_spawns: ["Main Road", "Fountain"]
-      drone_paths: ["Drone Top Main", "Drone Study"]
-      entry_points: ["Top Main stairs", "Study", "Windows and roof"]
-      hard_breach_targets: ["Reinforced Aviator walls"]
-      plant_spots: ["Aviator after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
-      utility_priorities: ["Clear Top Main shield", "Take Study", "Smoke plant"]
-      plan_summary: "Take Study and Top Main, open the site wall and plant under smoke."
-    common_mistakes: ["Pushing Top Main into a shield crossfire"]
-    uncertain: []
+      drone_paths:
+        - "Drone Study and Top Main."
+        - "Drone Red Stairs and 90 for flanks."
+      entry_points:
+        - "Study."
+        - "Main Stairs."
+        - "90 rappel window."
+        - "Red Stairs."
+      hard_breach_targets:
+        - "Main wall."
+        - "Bar wall."
+      plant_spots:
+        - "Aviator Room by the Main wall."
+        - "Games Room by Study."
+      recommended_ops: ["Thermite", "Hibana", "Thatcher", "Kali", "Ash", "Buck", "Iana"]
+      utility_priorities:
+        - "Break the Top Main shield with Ash/Zofia."
+        - "Clear Maestro cams."
+      plan_summary: "Take Study and Main together, cam Red 90, breach and plant."
+      executes:
+        - name: "Study and Main"
+          ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
+          how: "Take Study, Thatcher then Thermite on Main wall, cam Red 90."
+      key_kills:
+        - "Oryx roaming Master/Astro."
+        - "Top Main shield player."
+      post_plant:
+        - "Plant by Main wall, hold from Study."
+    common_mistakes:
+      - "Ignoring Red 90 flanks."
+    uncertain:
+      - "2F layout may predate the Y11S3 update in some guides."
   - id: trophy_room_statuary_room
     name: "2F Trophy Room / 2F Statuary Room"
-    aliases: ["2F Statuary Room / 2F Trophy Room", "Trophy", "Statuary"]
+    aliases: ["2F Statuary Room / 2F Trophy Room", "Trophy Room / Statuary Room", "Trophy", "Statuary"]
     floor: 2F
     defender:
-      reinforce: ["Trophy and Statuary walls, often three wall shuts"]
-      rotates: ["Astro rotate toward Astronomy side"]
-      anchor_spots: ["Closet with shield", "Statuary corners"]
-      roam_areas: ["Astronomy", "1F below"]
-      key_utility: ["Kaid on walls", "Jager and Melusi on entries", "Valkyrie cameras"]
-      recommended_ops: ["Kaid", "Warden", "Jager", "Melusi", "Valkyrie"]
-      plan_summary: "Shut the key walls, hold a closet shield and keep the Astro rotate open. Two players on site, others delay."
+      reinforce:
+        - "Triple wall, right and middle panels (Kaid claw)."
+        - "Both Closet walls, doubled."
+        - "Bathroom to Master wall."
+        - "Both Deer walls and the Boar wall."
+        - "Study wall and Bar as spares."
+      rotates:
+        - "Astro rotate, opened mid-round."
+        - "Triple wall left head holes."
+        - "Bathroom hole onto the Master window."
+      anchor_spots:
+        - "Bricks (Kaid)."
+        - "Closet behind Warden shield."
+        - "Bathroom (Jäger)."
+      roam_areas:
+        - "Red and Boar, back via Astro by 2:00 (Valkyrie)."
+      key_utility:
+        - "Kaid claw on the triple wall."
+        - "Melusi Banshee on Astro stairs."
+        - "Warden shield in Closet."
+      recommended_ops: ["Kaid", "Warden", "Jäger", "Melusi", "Valkyrie", "Mira"]
+      plan_summary: "Shut the triple wall, shield Closet, and rotate through Astro."
+      setups:
+        - name: "Closet shield, Astro rotate"
+          ops: ["Kaid", "Warden", "Jäger", "Melusi", "Valkyrie"]
+          how: "Kaid claws triple wall, Warden shields Closet, Jäger Bathroom, Melusi Astro stairs, Valkyrie roams Red/Boar."
+        - name: "Mira alternative"
+          ops: ["Mira", "Kaid", "Jäger", "Melusi", "Valkyrie"]
+          how: "Mira on Master/Closet and Astro windows instead of Warden."
+      counters_to_watch:
+        - "Triple wall breach."
+        - "Master window entries."
+      retake_tips:
+        - "Retake through Astro and Bathroom."
     attacker:
       recommended_spawns: ["Ruins", "Fountain"]
-      drone_paths: ["Drone Astronomy", "Drone through windows"]
-      entry_points: ["Astronomy side", "Windows", "Stairs"]
-      hard_breach_targets: ["Reinforced Trophy walls"]
-      plant_spots: ["Trophy after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ace", "Dokkaebi"]
-      utility_priorities: ["Clear electric", "Deny the Astro rotate", "Smoke plant"]
-      plan_summary: "Cut the Astro rotate, clear electric and open a wall. Plant with flank watch."
-    common_mistakes: ["Forgetting the Astro rotate"]
-    uncertain: []
+      drone_paths:
+        - "Drone Master and Astro; Valkyrie roams Red/Boar and returns via Astro by 2:00."
+        - "Drone Closet for the Warden shield and Bathroom for Jäger."
+      entry_points:
+        - "Master window rappel."
+        - "Astro stairs (Banshee)."
+        - "Red Stairs."
+        - "Study/Bar side."
+      hard_breach_targets:
+        - "Triple wall right/middle panels (Kaid claw)."
+        - "Doubled Closet walls."
+      plant_spots:
+        - "Trophy by the triple wall."
+        - "Statuary away from the Bathroom hole."
+      recommended_ops: ["Thermite", "Hibana", "Thatcher", "Kali", "Ash", "Zofia", "Iana"]
+      utility_priorities:
+        - "Thatcher on the triple-wall claw."
+        - "Shoot Jäger ADS before throwing utility through Bathroom."
+        - "Ash or Zofia on Melusi's Astro Banshee."
+      plan_summary: "Clear Master and Astro, kill the triple-wall claw, breach and split Trophy from the triple wall and Master window."
+      executes:
+        - name: "Triple wall"
+          ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
+          how: "Thatcher pops the claw, Thermite opens the triple wall; a rappel player swings the Master window during the breach."
+      key_kills:
+        - "Valkyrie roaming Red/Boar."
+        - "Warden in Closet."
+        - "Jäger in Bathroom."
+      post_plant:
+        - "Plant by the triple wall, hold from Master and Astro."
+    common_mistakes:
+      - "Ignoring Astro rotate."
+    uncertain:
+      - "Deer and Boar are creator callouts, not in-game names."
   - id: dining_room_kitchen
     name: "1F Dining Room / 1F Kitchen"
-    aliases: ["1F Kitchen / 1F Dining Room", "Dining", "Kitchen"]
+    aliases: ["1F Kitchen / 1F Dining Room", "Dining Room / Kitchen", "Dining", "Kitchen"]
     floor: 1F
     defender:
-      reinforce: ["Kitchen and Dining outer walls", "Pantry wall with Kaid"]
-      rotates: ["Kitchen to Dining connection"]
-      anchor_spots: ["Pantry", "Dining corners"]
-      roam_areas: ["2F above, two players", "Garage now interior"]
-      key_utility: ["Kaid claws in Pantry", "Mira window on site", "Aruni gates on doors"]
+      reinforce:
+        - "Pantry to Kitchen wall (Kaid claw)."
+        - "Both Memo walls, doubled."
+        - "Laundry wall, left side."
+        - "Single wall beside Memo."
+        - "Middle China wall and the Mira wall facing China."
+        - "Both upstairs Bathroom walls and both upstairs Trophy walls."
+      rotates:
+        - "Laundry hatch never reinforced."
+        - "Far-right Memo rotate."
+        - "Low holes into China."
+        - "Bikes wall feet holes."
+        - "Ceiling holes to 2F jump-ins."
+      anchor_spots:
+        - "Kitchen behind Mira on China."
+        - "Dining (Kaid)."
+        - "Laundry side (Aruni)."
+      roam_areas:
+        - "2F Bathroom above Pantry (Pulse)."
+        - "2F windows, dropping the Laundry hatch late (Oryx)."
+      key_utility:
+        - "Kaid claws Pantry and Memo."
+        - "Aruni gates on three doors."
+        - "Trap the top of Pantry stairs (old soft wall to stairs gone in Y11S3)."
       recommended_ops: ["Mira", "Kaid", "Aruni", "Pulse", "Oryx"]
-      plan_summary: "Claw the Pantry, use a Mira window on site and keep two players upstairs to fight vertical."
+      plan_summary: "Claw Pantry and Memo, Mira on China, two upstairs for vertical denial."
+      setups:
+        - name: "Clawed Pantry, two upstairs"
+          ops: ["Mira", "Kaid", "Aruni", "Pulse", "Oryx"]
+          how: "Mira on China, Kaid claws Pantry and Memo, Aruni gates doors, Pulse and Oryx upstairs."
+      counters_to_watch:
+        - "Pantry stairs push from the new interior Garage: trap the top."
+        - "Kitchen Stairs door to Garage."
+      retake_tips:
+        - "Retake via Laundry hatch and 2F holes."
     attacker:
       recommended_spawns: ["Main Road"]
-      drone_paths: ["Drone Kitchen stairs", "Drone from 2F"]
-      entry_points: ["Exterior doors", "Garage, now interior", "Vertical from 2F"]
-      hard_breach_targets: ["Kitchen reinforced walls"]
-      plant_spots: ["Dining after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Ace"]
-      utility_priorities: ["Clear upstairs defenders", "Break Mira windows", "Smoke plant"]
-      plan_summary: "Clear 2F above, break Mira windows and open a wall. Plant with vertical cover."
-    common_mistakes: ["Ignoring the two upstairs defenders"]
-    uncertain: ["Garage became interior in Y11S3; runouts changed"]
+      drone_paths:
+        - "Drone Pantry and Memo for Kaid claws."
+        - "Drone the new interior Garage and Kitchen Stairs door."
+        - "Drone 2F Bathroom above Pantry and Trophy for Pulse/Oryx."
+      entry_points:
+        - "Garage through the Kitchen Stairs door (was a soft wall pre-Y11S3)."
+        - "Pantry stairs; expect traps at the top."
+        - "Memo."
+        - "2F above via ceiling holes and the Laundry hatch."
+      hard_breach_targets:
+        - "Pantry to Kitchen wall."
+        - "Both Memo walls."
+      plant_spots:
+        - "Kitchen by the Pantry wall."
+        - "Dining Room away from China (Mira window)."
+      recommended_ops: ["Thermite", "Hibana", "Thatcher", "Kali", "Buck", "Ash", "Iana"]
+      utility_priorities:
+        - "Kali or a frag on the Mira in China."
+        - "Thatcher on Pantry/Memo claws before Thermite."
+        - "Clear Aruni gates on doors with Thatcher or Zofia."
+      plan_summary: "Clear Garage and 2F Bathroom/Trophy, kill claws on Pantry or Memo, breach and plant while denying the Laundry-hatch drop."
+      executes:
+        - name: "Pantry breach"
+          ops: ["Thermite", "Thatcher", "Buck", "Ash", "Iana"]
+          how: "Take Garage and Kitchen Stairs, Thatcher on Pantry claws, Thermite opens; Buck clears 2F Bathroom."
+        - name: "Memo and upstairs"
+          ops: ["Hibana", "Kali", "Sledge", "Zofia", "Gridlock"]
+          how: "Two take 2F Trophy/Bathroom to stop verticals; Hibana opens Memo, Kali clears the China Mira."
+      key_kills:
+        - "Pulse in 2F Bathroom above Pantry."
+        - "Oryx on 2F windows (late Laundry hatch drop)."
+        - "Aruni on the Laundry side."
+      post_plant:
+        - "Plant by the Pantry wall, hold from Garage and Kitchen Stairs."
+        - "Keep one upstairs to deny Laundry-hatch drops."
+    common_mistakes:
+      - "Ignoring upstairs."
+    uncertain:
+      - "Garage became interior in Y11S3; runouts changed."
   - id: art_storage_old_office
     name: "B Art Storage / B Old Office"
-    aliases: ["B Old Office / B Art Storage", "Art Storage", "Old Office", "Basement"]
+    aliases: ["B Old Office / B Art Storage", "Art Storage / Old Office", "Basement Art Storage / Old Office", "Art Storage", "Old Office", "Basement"]
     floor: basement
     defender:
-      reinforce: ["Basement hatches", "Garage-side reinforceable soft wall"]
-      rotates: ["Keep the connection between Art Storage and Old Office safe"]
-      anchor_spots: ["Deep basement bunker positions"]
-      roam_areas: ["Garage", "1F above"]
-      key_utility: ["Shut hatches", "Fenrir mines on entries", "Vigil to roam"]
-      recommended_ops: ["Vigil", "Kaid", "Mira", "Fenrir", "Smoke"]
-      plan_summary: "Control Garage first, shut the hatches and build a layered bunker across Art Storage and Old Office."
+      reinforce:
+        - "Red Hall hatch."
+        - "Reading Room hatch."
+        - "Pantry hatch."
+        - "Both Garage exterior walls."
+        - "Both Old Office walls facing Garage."
+        - "Site double wall, left half."
+        - "Single wall beside the site rotate."
+      rotates:
+        - "Art Storage to Old Office connection: keep it, it is the whole site."
+      anchor_spots:
+        - "Between rooms (Smoke)."
+        - "Old Office behind the Mira facing Garage."
+      roam_areas:
+        - "Garage first layer."
+        - "1F above hatches (Vigil)."
+        - "Wine Cellar and Crypt west side."
+      key_utility:
+        - "Kaid claws on Red Hall and Pantry hatches."
+        - "Mira on Old Office wall facing Garage."
+        - "Fenrir mines on Red Stairs, barrels and Garage door."
+      recommended_ops: ["Vigil", "Kaid", "Mira", "Fenrir", "Smoke", "Melusi", "Goyo"]
+      plan_summary: "Shut the hatches, contest Garage first, and hold the compact site with layers."
+      setups:
+        - name: "Hatches shut, Garage first"
+          ops: ["Vigil", "Kaid", "Mira", "Fenrir", "Smoke"]
+          how: "Vigil reinforces hatches and roams 1F, Kaid claws hatches, Mira on Old Office, Fenrir traps, Smoke anchors."
+      counters_to_watch:
+        - "Hibana on reinforced hatches."
+        - "Garage plus Wine Cellar/Crypt split."
+      retake_tips:
+        - "Keep the Art Storage-Old Office connection for the retake."
     attacker:
-      recommended_spawns: ["Main Road", "Ruins"]
-      drone_paths: ["Drone Garage", "Drone basement stairs"]
-      entry_points: ["Garage lanes", "Stairs", "Hatches"]
-      hard_breach_targets: ["Garage soft wall if reinforced", "Hatches"]
-      plant_spots: ["Art Storage after clearing"]
-      recommended_ops: ["Thermite", "Hibana", "Thatcher", "Buck", "Ace"]
-      utility_priorities: ["Take Garage", "Open hatches", "Smoke plant"]
-      plan_summary: "Take Garage control and open hatches. Push the basement with flashes and plant under cover."
-    common_mistakes: ["Expecting vertical through the ceiling; it is mostly solid"]
-    uncertain: ["New site in Y11S3 replacing Living Room / Library", "Ceiling above site reported mostly indestructible"]
+      recommended_spawns: ["Main Road"]
+      drone_paths:
+        - "Drone Garage first."
+        - "Drone Wine Cellar and Crypt."
+      entry_points:
+        - "Garage (east)."
+        - "Wine Cellar and Crypt (west)."
+        - "Hallway hatch and Pantry hatch."
+      hard_breach_targets:
+        - "Garage soft wall."
+        - "Hatches."
+      plant_spots:
+        - "Art Storage."
+        - "Old Office."
+      recommended_ops: ["Hibana", "Thermite", "Thatcher", "Nomad", "Gridlock"]
+      utility_priorities:
+        - "Kill Mira and claws."
+        - "Protect rotations with Nomad/Gridlock."
+      plan_summary: "Pressure from two directions (Garage plus a hatch or Wine Cellar) and cut the site connection."
+      executes:
+        - name: "Garage and hatch"
+          ops: ["Hibana", "Thatcher", "Ash", "Buck", "Nomad"]
+          how: "Clear Garage, Hibana opens a hatch from 1F."
+      key_kills:
+        - "1F hatch roamer."
+      post_plant:
+        - "Hold from Garage."
+    common_mistakes:
+      - "Treating Garage as an entry, not a clear."
+    uncertain:
+      - "New site in Y11S3 replacing Living Room / Library."
+      - "Hatch count disputed: guides name Red Hall, Reading Room and Pantry hatches; callout sites name a Hallway hatch and Pantry hatch."
 general:
-  attack: ["Garage is now interior with a wide door and a soft wall", "Kitchen Stairs to Garage is a door now"]
-  defense: ["Window spawn peeks are common", "Living Room and Library are no longer a site"]
+  attack:
+    - "Garage is now interior with one reinforceable soft-wall lane and one wide doorway; drone and clear it like a room."
+    - "Kitchen Stairs to Garage is now a door, not a soft wall."
+    - "Basement ceiling is mostly masonry; only the hatches give vertical, so open them with Hibana or Buck from 1F."
+    - "Red Stairs and 90 Hall are the main flank routes on 2F; cam Red 90 during 2F executes."
+  defense:
+    - "2F front windows (Aviator, Classical Hall) are classic spawn peeks onto Main Road; peek once and leave."
+    - "Living Room and Library are no longer a site; they now act as the 1F layer above the basement."
+    - "A Garage roamer has fewer exits since the rework; leave before the doorway is pinched."
+    - "Master and Astro are the standard 2F roams for Aviator and Trophy."

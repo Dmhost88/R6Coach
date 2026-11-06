@@ -3,107 +3,173 @@ name: Clubhouse
 aliases: ["Clubhouse", "CLUBHOUSE", "Club House"]
 floors: [basement, 1F, 2F, roof]
 attacker_spawns:
-  - name: "Main Entrance"
-    notes: "Front gate. Toward Garage and Main Entrance."
+  - name: "Main Gate"
+    notes: "Front gate toward Garage and Main Entrance. Near-instant runouts from the front lobby. Some lists call it Main Entrance."
   - name: "Shipping Docks"
-    notes: "Side spawn near the docks and rear of the building."
+    notes: "Side spawn by the docks and rear of the building; Bar and Stock Room side."
   - name: "Warehouse"
-    notes: "Behind the warehouse, good for basement and Church side."
+    notes: "Behind the warehouse; basement and Church side. Defenders peek toward Warehouse top when holding CCTV or Cash."
   - name: "Construction Site"
-    notes: "Construction side. Good for roof and 2F CCTV and Cash pushes."
+    notes: "Construction side. Default for roof, Logistic Office, Jacuzzi and the 2F CCTV/Cash and Gym pushes."
 sites:
   - id: gym_bedroom
     name: "2F Gym / 2F Bedroom"
     aliases: ["2F Bedroom / 2F Gym", "Gym", "Bedroom"]
     floor: 2F
     defender:
-      reinforce: ["Gym and Bedroom outer walls", "Walls toward the 2F hallway"]
-      rotates: ["Gym to Bedroom rotate"]
-      anchor_spots: ["Bedroom corners", "Gym behind equipment"]
-      roam_areas: ["1F below and Bar", "Roof access points"]
-      key_utility: ["Anti-breach on outer walls", "Window denial"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Valkyrie", "Melusi"]
-      plan_summary: "Hold Gym and Bedroom with a rotate between them and outer walls reinforced. Delay roof and window entries with utility."
+      reinforce: ["Both Jacuzzi exterior walls, clawed", "Construction panel right of the rotate (Mira window)", "Outer Construction single and the Logistic Office single", "Gym panel by the rotate", "Two Cash walls nearest the site and two CCTV walls nearest Cash"]
+      rotates: ["Bedroom to Gym feet holes", "Mid-wall vault rotate", "Construction rotate", "Cash to top Red rotate with a shield at top Red"]
+      anchor_spots: ["Bedroom from the Construction-side rotate (Tubarao)", "Logistic Office with C4 (Kaid)", "Gym behind the weights"]
+      roam_areas: ["Cash extension until 1:30 (Thorn)", "Logistic Office and roof hatch", "Construction and Main stairs"]
+      key_utility: ["Kaid claws on the Jacuzzi walls", "Mira window on the Construction panel", "Castle shooting feet through the holes", "Thorn traps in Cash"]
+      recommended_ops: ["Kaid", "Tubarao", "Castle", "Thorn", "Mira", "Melusi", "Goyo"]
+      plan_summary: "Claw the Jacuzzi walls, Mira the Construction panel, and use the Bedroom-Gym feet holes for crossfires. Extend into Cash until 1:30 and hold Logistic Office with C4."
+      setups:
+        - name: "Gym feet-hole trap"
+          ops: ["Kaid", "Tubarao", "Castle", "Thorn", "Mira"]
+          how: "Kaid holds Logistic with C4 and claws Jacuzzi, Tubarao plays Bedroom from the Construction rotate, Castle shoots feet through holes, Thorn extends into Cash, Mira windows Construction."
+        - name: "Slim Jim"
+          ops: ["Clash", "Melusi", "Goyo", "Mira", "Smoke"]
+          how: "Clash in Bedroom on the main door, Melusi Banshees the hallways, Goyo Volcans on doors, Mira window on the Construction side."
+      counters_to_watch: ["Grim dropping through the Logistic hatch", "Ace stacking charges on the Jacuzzi wall after Thatcher", "Gridlock opening the roof hatch"]
+      retake_tips: ["Retake a Gym half-wall plant from Bedroom feet holes and top Red", "Keep C4 for the weights plant"]
     attacker:
-      recommended_spawns: ["Construction Site", "Shipping Docks"]
-      drone_paths: ["Drone through 2F windows", "Drone up the stairs"]
-      entry_points: ["Roof and windows", "Interior stairs"]
-      hard_breach_targets: ["Reinforced Gym or Bedroom outer wall"]
-      plant_spots: ["Gym default after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
-      utility_priorities: ["Take 2F hallway", "Clear anti-breach", "Smoke the plant"]
-      plan_summary: "Take 2F hallway and roof, breach the site wall and plant inside under smoke."
-    common_mistakes: ["Ignoring 1F flank via stairs"]
-    uncertain: []
+      recommended_spawns: ["Construction Site"]
+      drone_paths: ["Drone Logistic Office through the roof hatch", "Drone Jacuzzi and Bedroom from Construction", "Drone Cash for the extender"]
+      entry_points: ["Jacuzzi wall", "Logistic Office roof hatch", "Construction rotate", "Main stairs to top Red"]
+      hard_breach_targets: ["Jacuzzi exterior wall", "Bathroom wall into Bedroom"]
+      plant_spots: ["Gym half wall by the weights"]
+      recommended_ops: ["Ace", "Thatcher", "Grim", "Zofia", "Gridlock", "Capitao"]
+      utility_priorities: ["Thatcher EMPs the Jacuzzi claws", "Gridlock opens the roof hatch and Traxes Construction and Main", "Zofia impacts the window panels"]
+      plan_summary: "Drop Logistic from the roof, EMP and open the Jacuzzi wall then the Bathroom wall, and plant on the Gym half wall."
+      executes:
+        - name: "Logistics drop, Jacuzzi wall"
+          ops: ["Ace", "Thatcher", "Grim", "Zofia", "Gridlock"]
+          how: "Construction Site. Thatcher EMPs Jacuzzi, Ace opens it then Bathroom, Grim drops Logistic hatch, Zofia opens window panels, Gridlock Traxes Construction and Main; plant on the half wall."
+        - name: "Logi smoke"
+          ops: ["Capitao", "Sens", "Hibana", "Ace", "Thatcher"]
+          how: "Capitao smokes Logistic, Sens walls into Gym, Hibana and Ace open the south and west walls."
+      key_kills: ["Logistic Office anchor", "Cash extender (Thorn)", "Bedroom shield or Tubarao on the rotate"]
+      post_plant: ["Hold the half-wall plant from Jacuzzi and Logistic", "Trax on Main stairs for the top Red rotate"]
+    common_mistakes: ["Attackers breaching Jacuzzi with Cash still held", "Defenders leaving the roof hatch uncontested"]
+    uncertain: ["2F panels have no in-game names; panel references are from stratbooks"]
   - id: cctv_cash_room
     name: "2F CCTV Room / 2F Cash Room"
     aliases: ["2F Cash Room / 2F CCTV Room", "CCTV", "Cash", "Cash Room"]
     floor: 2F
     defender:
-      reinforce: ["CCTV outer walls", "Cash Room walls toward Construction side"]
-      rotates: ["CCTV to Cash connection"]
-      anchor_spots: ["Cash Room deep corners", "CCTV behind desk"]
-      roam_areas: ["Construction side and roof", "1F below"]
-      key_utility: ["Electric or jammers on the main walls", "Shields at doors"]
-      recommended_ops: ["Mute", "Kaid", "Bandit", "Smoke", "Echo"]
-      plan_summary: "A strong ranked site. Deny CCTV and Cash walls with electric and hold a tight crossfire between the rooms."
+      reinforce: ["Two CCTV exterior panels (Bandit trick)", "Cash to Construction Connector, both panels", "All four Garage door panels", "Trash to Connector", "Server panel facing Garage Rafters and the two Server roof panels"]
+      rotates: ["Two crouch rotations between CCTV and Cash", "Master/Gym extension rotate stays open"]
+      anchor_spots: ["Cash Room deep corner", "CCTV desk off the exterior wall", "Garage Rafters zombie (Jager)"]
+      roam_areas: ["Garage Rafters and Garage stairs", "Master/Gym", "Construction and roof"]
+      key_utility: ["Bandit batteries on the CCTV exterior", "Mira window on Eastern Stairs", "Lesion mines on both stairs", "Goyo canisters on Garage stairs, top of stairs and the plant"]
+      recommended_ops: ["Bandit", "Mira", "Jager", "Lesion", "Valkyrie", "Goyo", "Azami"]
+      plan_summary: "Trick the CCTV exterior, reinforce the Garage door panels, and lock Garage Rafters. Lesion and Goyo stall the stairs while Valkyrie cams roof and Construction."
+      setups:
+        - name: "Wall trick, Rafters lock"
+          ops: ["Bandit", "Mira", "Jager", "Lesion", "Valkyrie"]
+          how: "Bandit tricks CCTV exterior, Mira windows Eastern Stairs, Jager holds Garage stairs from Rafters, Lesion mines both stairs, Valkyrie cams roof, Construction and Garage."
+        - name: "Goyo chain"
+          ops: ["Goyo", "Azami", "Melusi", "Mira", "Bandit"]
+          how: "Goyo canisters on Garage stairs, top of stairs and the plant, popped in order; Azami holds Rafters, Melusi fights Master, Mira windows the CCTV exterior."
+      counters_to_watch: ["Garage floor first, then Thermite on the main Cash wall", "Montagne walking up to Rafters (weak now that Noor burns shields)", "CCTV window hop with a corner plant"]
+      retake_tips: ["Retake a breach plant from Lounge and the crouch rotations together", "Save Goyo canister for the tucked breach plant"]
     attacker:
-      recommended_spawns: ["Construction Site"]
-      drone_paths: ["Drone from the roof", "Drone through the stairs to 2F"]
-      entry_points: ["Construction side windows and roof", "Stairs"]
-      hard_breach_targets: ["CCTV or Cash reinforced walls"]
-      plant_spots: ["Cash or CCTV after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ace", "Kali"]
-      utility_priorities: ["Clear electric", "Open the wall", "Smoke and plant"]
-      plan_summary: "Take roof and Construction side, clear electric and open the main wall. Plant after clearing anchors with vertical and flashes."
-    common_mistakes: ["Wasting breach charges on denied walls"]
-    uncertain: []
+      recommended_spawns: ["Construction Site", "Main Gate"]
+      drone_paths: ["Drone the Garage floor and Rafters", "Drone CCTV from the roof", "Drone Construction Connector"]
+      entry_points: ["Garage and Garage stairs", "Main Cash wall", "CCTV window", "Construction Connector"]
+      hard_breach_targets: ["Main Cash wall", "CCTV exterior panels"]
+      plant_spots: ["Tucked beside the Cash breach", "CCTV corner after a window hop"]
+      recommended_ops: ["Thermite", "Thatcher", "Capitao", "Zofia", "Glaz", "Striker"]
+      utility_priorities: ["Clear the Garage floor first", "EMP the main Cash wall and save one EMP for Rafters", "Capitao opens the bottom of Garage"]
+      plan_summary: "Clear the Garage floor, take Rafters, EMP and burn the main Cash wall, then plant tucked beside the breach and hold Lounge."
+      executes:
+        - name: "Garage first, main wall"
+          ops: ["Thermite", "Thatcher", "Capitao", "Zofia", "Montagne"]
+          how: "Clear the Garage floor with Capitao, push Rafters, Thatcher EMPs and Thermite burns the main Cash wall; plant tucked by the breach and hold Lounge."
+        - name: "Smoked Chedda"
+          ops: ["Thermite", "Striker", "Blitz", "Glaz", "Thatcher"]
+          how: "Thermite burns the east wall, Striker breaches the top-left wall, Blitz pushes west with Glaz thermal through smokes."
+      key_kills: ["Garage Rafters zombie", "Stair Lesion and the Eastern Stairs Mira", "Warehouse-side spawn peekers"]
+      post_plant: ["Hold Lounge and the breach; keep one EMP for Rafters", "Watch the Master/Gym rotate"]
+    common_mistakes: ["Attackers burning Cash before clearing Rafters", "Defenders peeking Warehouse every round"]
+    uncertain: ["Goyo chain source contradicts itself on the bottom Garage walls"]
   - id: bar_stock_room
     name: "1F Bar / 1F Stock Room"
-    aliases: ["1F Stock Room / 1F Bar", "Bar", "Stock Room"]
+    aliases: ["1F Stock Room / 1F Bar", "Bar", "Stock Room", "Stock", "Bar / Stage"]
     floor: 1F
     defender:
-      reinforce: ["Bar exterior walls", "Floor hatches above site from 2F"]
-      rotates: ["Bar to Stock Room rotate"]
-      anchor_spots: ["Behind the bar", "Stock Room shelves"]
-      roam_areas: ["2F above", "Garage and Strip Club"]
-      key_utility: ["Traps at main doors", "Anti-breach on outer wall"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Castle", "Mira"]
-      plan_summary: "Hold Bar and Stock Room with outer walls reinforced and players above site to stop vertical."
+      reinforce: ["Two outer Strip Club walls and the wall by the back-Strip feet holes", "Two Kitchen-hallway walls", "Two Stage walls", "Main Stock exterior wall (clawed)", "2F hatch away from Gym and the Gym wall"]
+      rotates: ["Strip Club to site rotate", "Back-Strip feet holes", "Bar head holes", "Gym-side hatch over Stage left open"]
+      anchor_spots: ["Behind the bar by the bar machine", "Stock Room shelves", "Gym above for vertical (Pulse)"]
+      roam_areas: ["Strip Club extension", "Basement then flank Blue around 1:15 (Caveira)", "Gym and Construction window above"]
+      key_utility: ["Kaid claw on the Stock exterior", "Castle panels on Kitchen hallway doors", "Maestro Evil Eyes on the plant", "Pulse C4 through the Gym hatch"]
+      recommended_ops: ["Castle", "Kaid", "Maestro", "Pulse", "Caveira"]
+      plan_summary: "Extend into Strip Club, claw the Stock wall, and keep one Gym hatch open so Pulse can play vertical. Caveira roams basement and flanks Blue."
+      setups:
+        - name: "Strip extension with Gym lid"
+          ops: ["Castle", "Kaid", "Maestro", "Pulse", "Caveira"]
+          how: "Kaid claws Stock, Castle panels Kitchen hallway, Maestro cams the plant, Pulse plays Gym over the open hatch, Caveira roams basement and flanks Blue at 1:15."
+      counters_to_watch: ["Buck taking Gym and opening the floor over Bar", "Hibana on the main Stock wall", "Ash breaking the Strip panels"]
+      retake_tips: ["Retake the bar-machine plant from Strip and the Gym hatch", "Maestro shoots the defuser through the bar"]
     attacker:
-      recommended_spawns: ["Main Entrance", "Shipping Docks"]
-      drone_paths: ["Drone through the front doors", "Drone from 2F above Bar"]
-      entry_points: ["Main Entrance", "Garage side", "Vertical from 2F"]
-      hard_breach_targets: ["Bar outer wall"]
-      plant_spots: ["Bar after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Zofia"]
-      utility_priorities: ["Vertical from above", "Clear anti-breach", "Smoke plant"]
-      plan_summary: "Take 2F for vertical, open the outer wall and plant under smoke."
-    common_mistakes: ["Fighting Garage without drones"]
-    uncertain: []
+      recommended_spawns: ["Shipping Docks", "Construction Site"]
+      drone_paths: ["Pre-place drones in Garage and Lounge", "Drone Gym for the vertical player", "Drone Strip Club"]
+      entry_points: ["Gym floor above", "Main Stock wall", "Strip Club", "Blue stairs"]
+      hard_breach_targets: ["Main Stock exterior wall", "Floor over Bar from Gym"]
+      plant_spots: ["Behind the bar by the bar machine"]
+      recommended_ops: ["Hibana", "Thatcher", "Buck", "Ash", "Nomad"]
+      utility_priorities: ["Buck takes Gym and opens the floor", "Hibana opens Stock", "Nomad Airjab on Blue"]
+      plan_summary: "Take Gym above, open the floor over Bar, Hibana breaches Stock and Ash opens Strip panels. Plant behind the bar."
+      executes:
+        - name: "Gym first, Stock burn"
+          ops: ["Hibana", "Thatcher", "Buck", "Ash", "Nomad"]
+          how: "Buck takes Gym and opens the floor over Bar, Hibana opens Stock after Thatcher, Ash breaks Strip panels, Nomad jabs Blue; plant behind the bar."
+      key_kills: ["Gym vertical player", "Strip Club extender", "Caveira flanking Blue"]
+      post_plant: ["Hold the bar plant from Gym holes and the Stock breach", "If stalled, pinch from Strip"]
+    common_mistakes: ["Attackers ignoring the Construction window vertical", "Defenders reinforcing both hatches and losing vertical"]
+    uncertain: ["Ubisoft may label this site Bar / Stage", "Sources disagree on the 2F hatches: one reinforced and one open is a compromise"]
   - id: church_arsenal_room
     name: "B Church / B Arsenal Room"
     aliases: ["B Arsenal Room / B Church", "Church", "Arsenal", "Basement"]
     floor: basement
     defender:
-      reinforce: ["Church and Arsenal walls attackers hard breach", "Hatches above basement"]
-      rotates: ["Church to Arsenal connection"]
-      anchor_spots: ["Church pews", "Arsenal back corners"]
-      roam_areas: ["1F above", "Garage and outside approach"]
-      key_utility: ["Deny the main walls with electric", "Traps on stairs"]
-      recommended_ops: ["Mute", "Kaid", "Bandit", "Echo", "Goyo"]
-      plan_summary: "Deny the main walls and hatches, hold a Church to Arsenal crossfire, and keep a roamer on the stairs."
+      reinforce: ["Church to Memorial wall, three panels, clawed", "Escape Tunnel, both panels", "Kitchen, Bar and Stock Room hatches", "Arsenal hallway panel nearest Central Stairs", "Church panel behind the Blue generator"]
+      rotates: ["Moto hatch left open", "Church to Arsenal door", "Church feet holes"]
+      anchor_spots: ["Church behind the table", "Arsenal shelves", "Generator corner"]
+      roam_areas: ["Kitchen, Bar and Stock above (Vigil)", "Blue and Dirt", "Garage and Oil Pit"]
+      key_utility: ["Kaid claws on the Memorial wall", "Jager ADS on Moto, Central Stairs and Blue", "Smoke gas on the Kitchen hatch", "Mira on the Church wall"]
+      recommended_ops: ["Kaid", "Mira", "Smoke", "Jager", "Vigil", "Denari", "Castle"]
+      plan_summary: "Claw the Memorial wall, reinforce the Kitchen, Bar and Stock hatches, and keep Blue and Dirt contested. The site collapses if attackers get Blue and open hatches for free."
+      setups:
+        - name: "Church wall lock"
+          ops: ["Kaid", "Mira", "Smoke", "Jager", "Vigil"]
+          how: "Kaid claws the Memorial wall, Jager ADS covers Moto, Central Stairs and Blue, Smoke gasses the Kitchen hatch, Vigil roams 1F and flanks Blue late."
+        - name: "Final Boss"
+          ops: ["Denari", "Goyo", "Castle", "Azami", "Smoke"]
+          how: "Denari alone on site with tripwires and Church feet holes; Goyo, Castle and Azami take the Stock, Bar and Kitchen hatches; Castle is first back to site."
+      counters_to_watch: ["Thatcher plus Ace on the Memorial wall", "Hibana opening the Kitchen hatch to shoot into Arsenal", "Bar fake then a hatch drop into Church"]
+      retake_tips: ["Retake a table plant from Arsenal and the Moto hatch", "Keep the Blue generator angle as a pinch"]
     attacker:
-      recommended_spawns: ["Warehouse"]
-      drone_paths: ["Drone down the stairs", "Drone from Garage"]
-      entry_points: ["Stairs", "Hatches from 1F"]
-      hard_breach_targets: ["Church or Arsenal reinforced wall", "Hatches"]
-      plant_spots: ["Church after breach"]
-      recommended_ops: ["Thermite", "Hibana", "Thatcher", "Ace", "Buck"]
-      utility_priorities: ["Take 1F above", "Clear electric", "Smoke the plant"]
-      plan_summary: "Take 1F control, clear electric and open the key wall or hatches. Plant with teammates holding stairs."
-    common_mistakes: ["Rushing the stairs without utility"]
-    uncertain: []
+      recommended_spawns: ["Warehouse", "Main Gate"]
+      drone_paths: ["Drone Garage and Oil Pit", "Drone Blue and Dirt", "Drone 1F Kitchen and Bar for hatch players"]
+      entry_points: ["Memorial wall", "Kitchen and Bar hatches", "Blue and Central Stairs", "Escape Tunnel"]
+      hard_breach_targets: ["Memorial-side Church wall", "Kitchen hatch over Arsenal"]
+      plant_spots: ["Behind the Church table", "Arsenal under the Kitchen hatch"]
+      recommended_ops: ["Ace", "Thatcher", "Hibana", "Nomad", "Iana", "Striker"]
+      utility_priorities: ["EMP the Memorial wall", "Hibana opens the Kitchen hatch", "Nomad clears Garage and Oil Pit and pressures Blue"]
+      plan_summary: "Three lanes: Ace breaches the Memorial wall, Hibana opens the Kitchen hatch, Nomad takes Blue. Iana plants behind the Church table."
+      executes:
+        - name: "Three-lane basement hit"
+          ops: ["Ace", "Thatcher", "Hibana", "Nomad", "Iana"]
+          how: "Thatcher EMPs and Ace opens Memorial, Hibana opens Kitchen hatch, Nomad clears Garage, Oil Pit and Blue, Iana plants behind the table."
+        - name: "Bar Fish"
+          ops: ["Ram", "Hibana", "Striker", "Thatcher", "Nomad"]
+          how: "Ram fakes Bar, Hibana opens the floor and Striker drops into Church."
+      key_kills: ["1F hatch roamer (Vigil)", "Blue and Dirt holders", "Generator corner anchor"]
+      post_plant: ["Cover the Moto hatch and the Blue generator after planting", "Hold Memorial breach and Kitchen hatch"]
+    common_mistakes: ["Defenders giving up Blue and Dirt for free", "Attackers forgetting the Moto hatch"]
+    uncertain: ["Church wall lock is based on a 2020 default; panel counts after the 2021 rework may differ"]
 general:
-  attack: ["Roof and Construction side are strong for 2F", "Clear the outside before committing"]
-  defense: ["Window spawn peeks are common and punished", "Roam Garage and Strip Club to delay"]
+  attack: ["Construction Site spawn for all 2F sites; clear roof and Logistic first", "Near-instant runouts from the front lobby onto Main Gate", "Take Warehouse top to stop the CCTV/Cash peek"]
+  defense: ["Defenders peek toward Warehouse when holding CCTV or Cash", "Roam Garage, Strip Club and Kitchen to delay", "Bar/Stock is the site most teams pick last"]

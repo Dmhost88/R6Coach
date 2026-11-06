@@ -2,100 +2,160 @@ id: calypso_casino
 name: Calypso Casino
 aliases: ["Calypso Casino", "Casino", "CALYPSO CASINO"]
 floors: [basement, 1F, 2F, roof]
-attacker_spawns: []
+attacker_spawns:
+  - name: "Garden Ruins"
+    notes: "Garden side. Used for Bar/Betting and Blackjack takes; Kali can hold the back of Bar from the Garden Ruins entrance."
+  - name: "Pool Side"
+    notes: "Approach used for the 2F Cigar Room / Pool execute (Kitchen burn, Tequila clear)."
+  - name: "Basement Spawn"
+    notes: "Low spawn by the casino facade; scale the facade or push the Vault and Cash side for basement."
 sites:
   - id: cigar_room_pool
     name: "2F Cigar Room / 2F Pool"
     aliases: ["2F Pool / 2F Cigar Room", "Cigar Room", "Pool", "Cigar"]
     floor: 2F
     defender:
-      reinforce: ["Kitchen exterior wall, the main hard-breach target", "Wall and hatch around Pool"]
-      rotates: ["Small murder holes in the Kitchen to Cigar soft wall, not big enough to vault"]
-      anchor_spots: ["Cigar Room crouch-height stands facing Kitchen", "South Mezzanine"]
-      roam_areas: ["Aquarium hallway", "Barista", "Tequila stairs"]
-      key_utility: ["Jammer on the Kitchen outer wall", "Banshees or traps in Aquarium hallway and Pool hallway", "Gates or shields on Cigar and Kitchen doors"]
-      recommended_ops: ["Mute", "Kaid", "Melusi", "Azami", "Thorn", "Aruni"]
-      plan_summary: "Deny the Kitchen wall and focus on stopping entry through Kitchen. Spread players across Aquarium hallway, Barista, Cigar and South Mezzanine with one roamer on Tequila."
+      reinforce: ["Kitchen outside wall, both panels, Kaid claws it", "Pool to Lobby wall, both panels", "Barista/Pool wall on the Pool bar half", "Cigar/Pool wall one half and the Aqua-side wall right half", "Humidor hatch; late pocket on the Barista rotate once Barista is lost"]
+      rotates: ["Small Barista/Pool rotate", "Cigar/Pool rotate with high holes", "Kitchen/Cigar low holes for Kaid", "Humidor crouch rotate"]
+      anchor_spots: ["Cigar desk holding the clawed Kitchen wall", "Pool bar behind Smoke wire", "South Mezzanine", "Mira spot on the Lobby-facing Pool wall"]
+      roam_areas: ["Barista stall (Azami Kiba)", "Aqua stairs and Aquarium hallway", "Lobby side and Tequila"]
+      key_utility: ["Kaid claw on the Kitchen wall", "Wamai Mag-NETs in Barista and Kitchen", "Thorn Razorblooms on the Lobby side", "Smoke wire on Aqua and gas on the Pool bar"]
+      recommended_ops: ["Kaid", "Azami", "Wamai", "Smoke", "Thorn", "Mute"]
+      plan_summary: "Layered hold: stall Barista and Aqua, then fold to the Cigar desk with the Kitchen wall clawed. Do not hug the Kitchen wall since Thermite hits hard through it."
+      setups:
+        - name: "Barista stall, Cigar fold"
+          ops: ["Kaid", "Azami", "Wamai", "Smoke", "Thorn"]
+          how: "Azami Kibas Barista and seals the rotate on exit; Smoke wires Aqua; Thorn traps the Lobby side then falls to Pool; Kaid holds the clawed Kitchen wall from the Cigar desk."
+        - name: "Kitchen jammer deny"
+          ops: ["Mute", "Kaid", "Melusi", "Azami", "Aruni"]
+          how: "Mute jams the Kitchen wall, Melusi Banshees Aquarium and Pool hallways, Aruni gates the Cigar and Kitchen doors, one roamer on Tequila."
+      counters_to_watch: ["Thatcher EMP then Thermite on the Kitchen wall after Tequila is cleared", "Ace opening the far-side Pool wall and the Barista/Pool wall", "Rauora panels cutting your Tequila rotate"]
+      retake_tips: ["A Pool plant next to the Barista opening is retaken from Cigar high holes and Aqua", "Keep a Mute or Smoke alive for the defuser; the Barista bar is soft"]
     attacker:
-      recommended_spawns: []
-      drone_paths: ["Drone Aquarium hallway and Humidor first", "Use vertical drone vents for intel"]
-      entry_points: ["Aquarium stairs and hallway", "Tequila door", "Kitchen wall breach"]
-      hard_breach_targets: ["Kitchen exterior wall"]
-      plant_spots: ["Plant so the defuser is hard to reach from outside the Kitchen wall"]
-      recommended_ops: ["Thermite", "Thatcher", "Rauora", "Flores", "Nomad", "Dokkaebi"]
-      utility_priorities: ["Pressure Aquarium hallway to pull defenders off the wall", "Clear anti-breach on Kitchen wall", "Block doors with Rauora panels and smoke lines"]
-      plan_summary: "Pressure Aquarium hallway first, then clear anti-breach and burn the Kitchen wall. Block rotate doors, smoke lines and plant behind the breach."
-    common_mistakes: ["Breaching Kitchen before Aquarium is cleared", "Defenders over-holding the wall instead of the entries"]
-    uncertain: ["Exact selection-screen wording and floor prefixes not verified", "Pool reinforcement details vary by source"]
+      recommended_spawns: ["Pool Side"]
+      drone_paths: ["Drone Tequila and Barista first", "Drone Aquarium hallway and Humidor", "Use the vertical drone vents for anchor pings"]
+      entry_points: ["Kitchen wall breach", "Tequila door", "Barista", "Aqua stairs and hallway"]
+      hard_breach_targets: ["Kitchen outside wall (left side)", "Far-side Pool wall", "Barista/Pool wall"]
+      plant_spots: ["Pool beside the Barista opening, under smoke", "Behind the Kitchen breach if Cigar is cleared"]
+      recommended_ops: ["Thermite", "Thatcher", "Rauora", "Ace", "Capitao", "Flores"]
+      utility_priorities: ["Thatcher EMPs the Kitchen wall before Thermite", "Rauora panels on Tequila and far-side doors", "Capitao smokes the Pool plant and fire-bolts the defuser lanes"]
+      plan_summary: "Burn the left Kitchen wall, clear Tequila, pinch Barista, then Ace opens the Pool and Barista walls. Plant in Pool by the Barista opening under smoke."
+      executes:
+        - name: "Barista clear into Pool plant"
+          ops: ["Thermite", "Thatcher", "Rauora", "Ace", "Capitao"]
+          how: "Pool Side. Thatcher EMPs and Thermite burns Kitchen, clear Tequila, pinch Barista, Ace opens far-side then Barista/Pool wall, Capitao smokes and plants."
+      key_kills: ["Barista stall (Azami)", "Aqua wire holder", "Cigar desk anchor through the Kitchen breach", "Lobby-side trapper falling back to Pool"]
+      post_plant: ["Hold the Pool plant from the Barista door and the Kitchen breach", "Keep Rauora panels up on Tequila to stop rotates"]
+    common_mistakes: ["Breaching Kitchen before Tequila and Aquarium are cleared", "Defenders hugging the Kitchen wall at Thermite's timing"]
+    uncertain: ["New map (June 2026); callouts like Aqua, Barista, Tequila vary between guides", "siegestrats plans are synthesis with no reported rounds; selection-screen wording not verified"]
   - id: blackjack_poker
     name: "1F Blackjack / 1F Poker"
     aliases: ["1F Poker / 1F Blackjack", "Blackjack", "Poker"]
     floor: 1F
     defender:
-      reinforce: ["Blackjack outer reinforcable wall", "Hatches above site if they would expose cameras or anchors"]
-      rotates: ["Keep Blackjack to Poker connection open"]
-      anchor_spots: ["Behind the counter near the bomb", "Vending area covering Registration Hallway"]
-      roam_areas: ["Humidor and Aquarium hallway above", "North Mezzanine"]
-      key_utility: ["Evil Eyes covering plant spots", "ADS near entries and cameras", "Electrify the Blackjack wall"]
-      recommended_ops: ["Maestro", "Mute", "Jager", "Goyo", "Aruni", "Kaid"]
-      plan_summary: "Play plant denial with Maestro cameras protected by ADS and jammers. Hold Blackjack and Poker with gates on doors and use 2F players to fight vertical."
+      reinforce: ["Blackjack exterior breach wall, both halves", "Bathroom north double wall", "Roulette double soft wall and the Roulette/Bathroom wall right side", "Blackjack/Secret wall one half", "Both upstairs Kitchen walls"]
+      rotates: ["Humidor/Shop hatch left open and held from above", "Secret rotate between Blackjack and the side room", "Keep Blackjack to Poker connection open"]
+      anchor_spots: ["Vending covering Registration hallway (Clash)", "Behind the counter near the bomb", "Roulette and Poker (Kaid)"]
+      roam_areas: ["Humidor above Blackjack", "Cigar/Shop area for vertical", "North Mezzanine"]
+      key_utility: ["Clash shield and wire at Vending", "Mute jammers on doors and C4 up through holes", "Melusi Banshees and the drop hatch", "Kaid claws on the Roulette wall"]
+      recommended_ops: ["Clash", "Smoke", "Kaid", "Mute", "Melusi", "Maestro"]
+      plan_summary: "Hold Humidor vertical over Blackjack and extend into Roulette. Reinforce the Blackjack exterior, play the Humidor hatch open, and anchor Vending with Clash."
+      setups:
+        - name: "Humidor vert, Roulette extension"
+          ops: ["Clash", "Smoke", "Kaid", "Mute", "Melusi"]
+          how: "Smoke plays vertical on Blackjack from Cigar/Shop, Kaid holds Roulette and Poker, Clash holds Vending, Melusi plays the open Humidor hatch, Mute jams doors."
+        - name: "Evil Eye plant denial"
+          ops: ["Maestro", "Mute", "Jager", "Goyo", "Kaid"]
+          how: "Maestro cams cover the Blackjack plant behind Jager ADS and jammers; Goyo Volcans on doors; 2F players fight the Humidor take."
+      counters_to_watch: ["Ram BU-GI floor breach over Blackjack from Humidor", "Ying Candela through the Secret window to flush the side room", "Thermite on Blackjack (Ace if jammers are up)"]
+      retake_tips: ["A plant tight to the Blackjack breach is retaken from Secret and Roulette together", "If Humidor is lost, the plant is covered from above; clear Humidor first"]
     attacker:
-      recommended_spawns: []
-      drone_paths: ["Drone Registration Hallway", "Drone through site drone holes"]
-      entry_points: ["Site doors", "Blackjack wall breach", "Vertical from Humidor"]
-      hard_breach_targets: ["Blackjack reinforced wall"]
-      plant_spots: ["Near the breached wall, covered from above"]
-      recommended_ops: ["Ace", "Sens", "Thatcher", "Rauora", "Ram", "Nomad"]
-      utility_priorities: ["Disable electric before breaching", "Sens walls block camera denial", "Take top floor for vertical"]
-      plan_summary: "Take top floor and Humidor, clear electric and open Blackjack. Block doors and cut camera lines with Sens walls for the plant."
-    common_mistakes: ["Planting into Evil Eye sightlines", "Ignoring the 2F vertical defenders"]
-    uncertain: ["Exact selection-screen wording not verified"]
+      recommended_spawns: ["Garden Ruins"]
+      drone_paths: ["Drone Registration hallway and Vending", "Drone Humidor from 2F", "Drone the Secret window"]
+      entry_points: ["Blackjack exterior wall", "Humidor for vertical", "Secret window", "Aqua stairs"]
+      hard_breach_targets: ["Blackjack exterior wall, left side first", "Floor over Blackjack from Humidor"]
+      plant_spots: ["Tight against the Blackjack breach, covered from Humidor"]
+      recommended_ops: ["Thermite", "Thatcher", "Ying", "Ram", "Nomad", "Ace"]
+      utility_priorities: ["Take Humidor first", "Thatcher scans and EMPs the Blackjack wall then Secret", "Nomad Airjab the Aqua stairs"]
+      plan_summary: "Take Humidor for vertical, Ram opens the floor, Thermite burns Blackjack and Ying flushes Secret. Plant on the breach covered from Humidor."
+      executes:
+        - name: "Humidor top, Blackjack burn"
+          ops: ["Thermite", "Thatcher", "Ying", "Ram", "Nomad"]
+          how: "Garden Ruins. Ram and Nomad take Humidor, Ram opens the floor, Thatcher EMPs and Thermite burns Blackjack, Ying Candelas Secret and enters; plant on the breach."
+      key_kills: ["Humidor and Cigar/Shop vertical players", "Secret room anchor", "Vending Clash on Registration hallway"]
+      post_plant: ["Plant tight to the breach; hold from Humidor holes and outside the wall", "Nomad Airjab on Aqua stairs for the rotate"]
+    common_mistakes: ["Planting into Evil Eye lines", "Ignoring the 2F vertical defenders over Blackjack"]
+    uncertain: ["Humidor vs Shop room name disputed between creators", "Selection-screen wording not verified"]
   - id: bar_betting
     name: "1F Bar / 1F Betting"
     aliases: ["1F Betting / 1F Bar", "Bar", "Betting"]
     floor: 1F
     defender:
-      reinforce: ["Bar and Wine Stock walls", "Hatch above Bar if you will not use it"]
-      rotates: ["Bar Connector between rooms"]
-      anchor_spots: ["Behind the thick Bar pillar", "Betting Lounge corners"]
-      roam_areas: ["Mezzanine Entrance and Tequila above", "Bar Hallway"]
-      key_utility: ["Claws on Bar and Wine Stock walls", "Gates on Bar Connector and hallways", "Banshees on top-floor approaches"]
-      recommended_ops: ["Kaid", "Azami", "Valkyrie", "Aruni", "Melusi"]
-      plan_summary: "Considered the weakest site because of the hatch above Bar. Deny walls with electric, slow doors with gates, and contest the floor above."
+      reinforce: ["Bar/Janitor wall, both panels, clawed", "2F hatch over Bar (Kitchen floor)", "Wine Stock to Janitor and Wine Stock to Green walls", "Bathroom to Blackjack wall, both panels", "Registration hallway wall and the wall to bottom Green stairs"]
+      rotates: ["Bar/Betting counter rotate", "Betting to Roulette rotate with head holes", "Roulette feet holes and Bar feet holes to bottom Tequila", "Pocket: Janitor-side Wine Stock rotate"]
+      anchor_spots: ["Thick Bar pillar (Kaid)", "Roulette behind Castle panels", "Bathroom by 1:45 with a Mira on the Bathroom/Blackjack wall"]
+      roam_areas: ["Upstairs Kitchen and Tequila (Valkyrie), back by 1:45", "Janitor stairs", "Wine Stock windows"]
+      key_utility: ["Kaid claw on the Janitor wall", "Smoke on Janitor stairs with gas", "Azami Kibas on the Wine Stock windows", "Castle panels on the Roulette doors"]
+      recommended_ops: ["Kaid", "Smoke", "Azami", "Castle", "Valkyrie", "Mira"]
+      plan_summary: "Weakest site because of the floor above Bar. Lock Janitor stairs, watch Wine Stock, reinforce the Kitchen floor hatch and crossfire from Roulette and Bathroom."
+      setups:
+        - name: "Janitor stairs, Roulette crossfire"
+          ops: ["Kaid", "Smoke", "Azami", "Castle", "Valkyrie"]
+          how: "Kaid claws Janitor wall and plays the Bar pillar, Smoke holds Janitor stairs, Azami Kibas Wine Stock, Castle panels Roulette, Valkyrie delays upstairs then Bathroom."
+      counters_to_watch: ["Ram opening the Kitchen floor over Bar", "Hibana pelleting the Janitor wall after Kali lances the claws", "Capitao fire bolts on the plant"]
+      retake_tips: ["Retake a Bar breach plant from Roulette feet holes and the counter rotate", "Do not stand against the Janitor wall; Thermite and Hibana go through"]
     attacker:
-      recommended_spawns: []
-      drone_paths: ["Drone Bar Hallway", "Drone the floor above through the hatch area"]
-      entry_points: ["Janitor wall", "Hatch above Bar", "Bar and Betting hallways"]
-      hard_breach_targets: ["Janitor wall into Bar", "Hatch above Bar"]
-      plant_spots: ["Bar under the hatch so teammates cover from above"]
-      recommended_ops: ["Hibana", "Ram", "Gridlock", "Capitao", "Flores"]
-      utility_priorities: ["Take the floor above for vertical", "Open the hatch", "Fire bolts and smokes for the plant"]
-      plan_summary: "Usually the easiest site. Go upstairs for vertical, open the hatch and Janitor wall, then plant in Bar with cover from above."
-    common_mistakes: ["Defenders leaving the hatch uncontested", "Attackers not clearing hidden traps in Bar"]
-    uncertain: ["Exact selection-screen wording not verified"]
+      recommended_spawns: ["Garden Ruins"]
+      drone_paths: ["Drone Servers under Janitor to scout the wall utility", "Drone upstairs Kitchen and Barista", "Drone Registration and Tequila for the north clear"]
+      entry_points: ["Janitor wall (opened right side)", "Kitchen floor over Bar", "Garden Ruins entrance at the back of Bar", "Wine Stock rappel window"]
+      hard_breach_targets: ["Janitor wall into Bar (right dartboard side)", "Kitchen floor hatch over Bar"]
+      plant_spots: ["Just inside the Janitor breach, Bar side, in smoke"]
+      recommended_ops: ["Hibana", "Kali", "Ram", "Capitao", "Gridlock", "Flores"]
+      utility_priorities: ["Ram clears Barista and opens the Kitchen floor", "Kali lances claws from Garden Ruins", "Gridlock Trax on Aqua stairs for the flank"]
+      plan_summary: "Ram opens the Kitchen floor, Kali lances the claws, Hibana opens the Janitor wall, then Capitao smokes and plants just inside the breach."
+      executes:
+        - name: "Janitor wall, Kitchen floor"
+          ops: ["Hibana", "Kali", "Ram", "Capitao", "Gridlock"]
+          how: "Garden Ruins. Capitao clears Janitor and Servers, Kali lances claws and holds Bar's back, Ram opens Kitchen floor, Hibana opens the right Janitor wall, plant in smoke."
+      key_kills: ["Upstairs Valkyrie before she drops to Bathroom", "Janitor stairs Smoke", "Bar pillar anchor (from the Kitchen holes)"]
+      post_plant: ["Plant inside the Janitor breach, hold Bar's back from outside Garden Ruins", "Gridlock holds Kitchen upstairs; watch Registration and Tequila"]
+    common_mistakes: ["Defenders leaving the floor above uncontested", "Attackers not clearing Wine Stock before planting"]
+    uncertain: ["An alternate plant from ATM is credited to FortyThree; test both", "Selection-screen wording not verified"]
   - id: cctv_vault_checkpoint
     name: "B CCTV / B Vault Checkpoint"
-    aliases: ["B Vault Checkpoint / B CCTV", "CCTV", "Vault", "Vault Checkpoint", "Basement"]
+    aliases: ["B Vault Checkpoint / B CCTV", "Basement CCTV / Vault Checkpoint", "CCTV", "Vault", "Vault Checkpoint", "Basement"]
     floor: basement
     defender:
-      reinforce: ["Vault wall", "Hatches above basement"]
-      rotates: ["Keep paths between CCTV and Vault Checkpoint safe"]
-      anchor_spots: ["CCTV prone spots", "Each player holds one entry"]
-      roam_areas: ["Break Room and Manager's Office above", "Ventilation Hallway stairs"]
-      key_utility: ["Electrify the Vault wall", "Tripwires on Break Room, Ventilation and Locker stairs", "Barricades on Manager's Office windows"]
-      recommended_ops: ["Kaid", "Castle", "Denari", "Goyo", "Tubarao", "Azami"]
-      plan_summary: "Each defender locks one basement entry while one stays on site. Electrify the Vault wall and wire the stairs."
+      reinforce: ["Vault exterior wall, both halves, clawed by Kaid", "Lockers stairs to Janitor double wall", "Vault Checkpoint / Yellow stairs wall and the Yellow 90 soft wall", "Weapon Cache hatch", "Manager's Office wall, both halves"]
+      rotates: ["Keep the Cash Counting to site path open", "Hold Yellow with a shield", "Late reinforcement on the wall beside the site desk"]
+      anchor_spots: ["Kaid boosted watching Lockers", "Cash Counting behind the Manager's window barricade (Castle)", "Smoke corners at the Lockers stairs"]
+      roam_areas: ["Bar and Janitor above to slow the Cash vertical (Vigil)", "Top Green stairs", "Break Room and Manager's Office"]
+      key_utility: ["Kaid claw on the Vault wall", "Castle barricade on the Manager's window", "Echo Yokai on plant spots with a Vent shield", "Wire on Lockers stairs"]
+      recommended_ops: ["Kaid", "Smoke", "Castle", "Echo", "Vigil", "Bandit"]
+      plan_summary: "Bunker basement: Kaid claws the Vault wall, Smoke locks the Lockers stairs, Castle blocks the Manager's window and a Vigil slows the vertical over Cash from Bar."
+      setups:
+        - name: "Basement bunker, stair lock"
+          ops: ["Kaid", "Smoke", "Castle", "Echo", "Vigil"]
+          how: "Kaid claws Vault, Smoke holds Lockers stairs, Castle plays Cash Counting, Echo Yokais the plants, Vigil roams Bar and Janitor against the Cash vertical."
+      counters_to_watch: ["Green-side push: Sledge hammers the Bar floor over Cash while Thermite burns Manager's Office", "Rauora panels on the three site doors", "Flores drones on Kaid claws"]
+      retake_tips: ["A plant just inside the Cash breach is retaken from Yellow and Weapons cross at once", "Echo Yokai delays the plant while the roamer flanks top Green"]
     attacker:
-      recommended_spawns: []
-      drone_paths: ["Drone down the stairs", "Use vertical vents to scout below"]
-      entry_points: ["Break Room push", "Service, Locker and Bar stairs", "Hatches"]
-      hard_breach_targets: ["Cash Counting walls", "CCTV wall"]
-      plant_spots: ["Behind breached CCTV wall with doors blocked"]
-      recommended_ops: ["Thermite", "Rauora", "Flores", "Ram", "Gridlock", "Hibana"]
-      utility_priorities: ["Take 1F control first", "Destroy claws and batteries from above", "Block site doors for the plant"]
-      plan_summary: "Push from Break Room, take 1F control and clear electric from above. Breach the CCTV wall and block doors while planting."
-    common_mistakes: ["Rushing stairs into tripwires", "Leaving the 1F flank uncovered"]
-    uncertain: ["Exact selection-screen wording not verified"]
+      recommended_spawns: ["Basement Spawn", "Garden Ruins"]
+      drone_paths: ["Drone Green stairs and Break Room", "Drone Yellow for the shield", "Use the vertical drone vents over Cash"]
+      entry_points: ["Green stairs", "Yellow stairs", "Bar Stock window and floor over Cash", "Manager's Office"]
+      hard_breach_targets: ["Manager's Office wall", "Right-side site wall from Cash Counting", "Bar floor over Cash"]
+      plant_spots: ["Just inside the Cash breach under smoke"]
+      recommended_ops: ["Thermite", "Rauora", "Sledge", "Nomad", "Flores", "Ram", "Gridlock"]
+      utility_priorities: ["Take Bar Stock and open the floor over Cash", "Airjab the Bar hallway door", "Flores RCE the claws on the breach"]
+      plan_summary: "Go green side: Sledge opens the floor over Cash, Thermite burns Manager's Office and the site wall, Rauora panels the site doors and plants under smoke."
+      executes:
+        - name: "Green side Cash burn"
+          ops: ["Thermite", "Rauora", "Sledge", "Nomad", "Flores"]
+          how: "Sledge takes Bar Stock and hammers the floor over Cash, Thermite burns Manager's Office then the site wall, Rauora panels doors, Flores clears claws, plant inside the breach."
+      key_kills: ["Yellow shield and shotgun holder", "Top Green roamer", "Kaid on the boost watching Lockers"]
+      post_plant: ["Rauora holds Yellow, Nomad bottom Green, Flores the Weapons cross", "Keep a player on the Bar floor holes above"]
+    common_mistakes: ["Rushing Lockers stairs into wire and Smoke", "Leaving the 1F Bar flank uncovered"]
+    uncertain: ["Plant spot inside the Cash breach vs at the right-side site wall unclear in the source", "Manager's Office reinforcement unverified; route not tested in a custom"]
 general:
-  attack: ["Rooftop crane allows rappel entries", "Vertical drone vents give intel", "Defenders on 1F get punished by vertical play"]
-  defense: ["New map: drone and learn runouts before roaming", "Watch rooftop and crane angles for spawn peeks"]
+  attack: ["Rooftop crane allows rappel entries onto the top floor", "Expanded vertical drone vents give early anchor intel", "Upper-floor control decides most sites; clear roams before committing", "Thermite is strong on Kitchen and Janitor walls after Y11S3.1"]
+  defense: ["New map: learn runouts before roaming; spawn peeks toward the crane and roof are unknown to many players", "Common roams: Barista and Aqua stall for Cigar, Humidor for Blackjack, Kitchen upstairs for Bar", "Fold back to site with time; long casino-floor sightlines punish late rotates"]

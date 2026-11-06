@@ -4,106 +4,163 @@ aliases: ["Fortress", "FORTRESS"]
 floors: [1F, 2F, roof]
 attacker_spawns:
   - name: "Main Gate"
-    notes: "Front gate with the two towers."
+    notes: "Front gate between the two towers. Pre-rework name; still used by current guides."
   - name: "Parking"
-    notes: "Parking side approach."
+    notes: "Parking side approach toward the Old Tower and Laundry side. Pre-rework name."
   - name: "Garden"
-    notes: "Garden side approach."
+    notes: "Garden side approach toward Hammam and Sitting Room. Name not confirmed post-rework."
   - name: "Stable"
-    notes: "Stable side approach."
+    notes: "Stable side approach. Name not confirmed post-rework."
 sites:
   - id: commanders_office_bathroom
     name: "2F Commander's Office / 2F Bathroom"
-    aliases: ["2F Bathroom / 2F Commander's Office", "Commander", "Commander's Office", "Bathroom"]
+    aliases: ["2F Bathroom / 2F Commander's Office", "Commander", "Commander's Office", "Command", "Bathroom"]
     floor: 2F
     defender:
-      reinforce: ["Commander's Office outer walls", "Bathroom walls attackers use to isolate site"]
-      rotates: ["Commander's Office to Bathroom connection"]
-      anchor_spots: ["Commander's Office behind desk", "Bathroom corners"]
-      roam_areas: ["Towers early round", "Old Roof and Courtyard Corridor"]
-      key_utility: ["Smoke and Wamai to hold the towers", "Bandit or Mozzie for delay"]
-      recommended_ops: ["Smoke", "Wamai", "Mozzie", "Bandit", "Castle", "Fenrir"]
-      plan_summary: "Extend into the towers early to delay, then fold back to Commander's Office and Bathroom. Keep walls reinforced toward the roofs."
+      reinforce: ["Bathroom to Briefing wall, left and right panels (Bandit batteries)", "Commander's to Horse (Museum) wall, left panel", "Commander's back wall, both panels (second one late)", "Briefing to Dormitory walls 1 and 2", "Pockets: Old Tower rotate and Bathroom rotate"]
+      rotates: ["Eagle (Central) stairs floor holes", "Hole in the Books-Command wall for Smoke", "Top Bathroom-Flag panel left soft", "Crouch and prone holes on the Horse side"]
+      anchor_spots: ["Commander's black boxes (Castle)", "Bathroom corner by the tub (Bandit)", "Top White stairs (Smoke)", "Horse behind Aruni gates"]
+      roam_areas: ["Old Tower with Mozzie Pests, layering back via Games", "Eagle stairs (Smoke wire) and Horse (Wamai shield)", "Master Bedroom (Jager), Flag/Meeting (Bandit)"]
+      key_utility: ["Bandit batteries on the Bathroom-Briefing wall", "Aruni gates on the Command doors", "Fenrir mines on the top floor and a camera in Bathroom", "Wamai Mag-NETs and Jager ADS against Thatcher"]
+      recommended_ops: ["Smoke", "Wamai", "Mozzie", "Bandit", "Castle", "Fenrir", "Jager", "Aruni"]
+      plan_summary: "Contest Eagle, Horse and Old Tower early, then fold into Commander's and Bathroom with the Bathroom-Briefing wall electrified. Master Bedroom is no longer plantable."
+      setups:
+        - name: "Extend towers, fold back"
+          ops: ["Smoke", "Wamai", "Mozzie", "Bandit", "Castle"]
+          how: "Smoke wires Eagle stairs, Wamai holds Horse on a shield, Mozzie Pests Old Tower then layers back via Games, Bandit batteries Bathroom-Briefing, Castle barricades hallways."
+        - name: "Beach (pro deck)"
+          ops: ["Fenrir", "Smoke", "Bandit", "Jager", "Aruni"]
+          how: "Aruni gates the Command doors from Horse, Fenrir mines the top floor from Books, Smoke holds Top White with holes into Command, Jager plays Master Bed, Bandit seals the Dorms wing."
+      counters_to_watch: ["Thermite on the far-right Bathroom-Briefing wall timed with Thatcher's 15 s disrupt", "Nokk lurking outside Horse for a backstab", "Osa Talon shield plant in Bathroom (Noor can burn it)"]
+      retake_tips: ["A Bathroom plant behind the half wall is retaken from Commander's and the Bathroom rotate", "Smoke gas through the Books-Command hole stops the defuser"]
     attacker:
-      recommended_spawns: ["Main Gate"]
-      drone_paths: ["Drone the towers", "Drone Courtyard Corridor"]
-      entry_points: ["Towers", "Old Roof", "Courtyard Corridor"]
-      hard_breach_targets: ["Reinforced Commander's Office walls"]
-      plant_spots: ["Commander's Office after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
-      utility_priorities: ["Clear tower holds", "Clear anti-breach", "Smoke plant"]
-      plan_summary: "Clear the towers and roof, then open the site wall and plant under smoke while watching Courtyard Corridor."
-    common_mistakes: ["Rushing the towers into extended defenders"]
-    uncertain: ["Map reworked in Y10S4; wall and hatch callouts not verified", "Spawn names may have changed in the rework"]
+      recommended_spawns: ["Main Gate", "Parking"]
+      drone_paths: ["Drone Old Tower and Laundry stairs", "Drone Eagle stairs and Horse", "Drone the Courtyard from Courtyard Corridor"]
+      entry_points: ["Laundry early entry", "Old Tower", "Courtyard Corridor", "Old Roof"]
+      hard_breach_targets: ["Bathroom-Briefing wall (far-right panel)", "Commander's walls toward Horse"]
+      plant_spots: ["Bathroom behind the half wall", "Bathroom tight on the door"]
+      recommended_ops: ["Flores", "Thermite", "Thatcher", "Nokk", "Osa", "Ace"]
+      utility_priorities: ["Flores clears stair utility and holds Courtyard", "Thatcher EMPs the Bathroom wall right before Thermite", "Nokk lurks Horse"]
+      plan_summary: "Take Laundry and the Old Tower side, then Thatcher and Thermite open the Bathroom-Briefing wall and Osa plants in Bathroom with Nokk lurking Horse."
+      executes:
+        - name: "Old Tower clear, Bathroom tuck"
+          ops: ["Flores", "Thermite", "Thatcher", "Nokk", "Osa"]
+          how: "Flores clears stairs and holds Courtyard, take Laundry and Old Tower, Thatcher EMPs and Thermite burns Bathroom-Briefing, Nokk lurks Horse, Osa checks the tub and plants."
+      key_kills: ["Old Tower Mozzie", "Eagle stairs Smoke", "Horse Wamai or Aruni", "Tub corner in Bathroom"]
+      post_plant: ["Plant behind the Bathroom half wall; hold from Briefing breach", "Nokk collapses from Horse; keep Courtyard watched"]
+    common_mistakes: ["Rushing towers into extended defenders", "Defenders planning for a Master Bedroom plant that no longer exists"]
+    uncertain: ["Y10S4 rework; callouts vary: Horse is also Museum, Eagle is Central stairs, Command is Commander's Office, Meeting is Briefing", "Beach is from a public tier-2 stratbook deck, not a verified pro match"]
   - id: dormitory_games_room
     name: "2F Dormitory / 2F Games Room"
-    aliases: ["2F Games Room / 2F Dormitory", "Dormitory", "Dorms", "Games Room"]
+    aliases: ["2F Games Room / 2F Dormitory", "Dormitory", "Dorms", "Games Room", "Games"]
     floor: 2F
     defender:
-      reinforce: ["Dormitory and Games Room outer walls"]
-      rotates: ["Dormitory to Games Room connection", "Briefing hatch area for vertical play"]
-      anchor_spots: ["Dormitory bunks", "Games Room corners"]
-      roam_areas: ["Vending area", "Briefing"]
-      key_utility: ["Kaid on main walls", "Azami barriers to shape angles", "Fenrir mines on entries"]
-      recommended_ops: ["Kaid", "Smoke", "Fenrir", "Azami", "Jager", "Wamai"]
-      plan_summary: "Hold Vending and extend toward Briefing with a bunker setup on site. Electrify walls and use barriers to make tight angles."
+      reinforce: ["Dorms breach toward Vending, with feet holes", "Radio-Tiles panels 1 and 2 and the Games-Glow wall (Kaid claws)", "Bunks outside wall (claw)", "Bathroom-Flag lower panels 1 and 2", "Fire-Closet, Master-Douche and Clock walls"]
+      rotates: ["Top Bathroom-Flag panel", "Twin to Meeting (Briefing) hole", "Dorms to Bunks head holes", "Vending hallway rotate"]
+      anchor_spots: ["Games holding the clawed outside walls (Kaid)", "Twin by the stairs (Jager, Smoke)", "Tub side and Bathroom-Flag wall (Azami)", "Briefing bunker"]
+      roam_areas: ["Flag and Meeting (Fenrir with four mines)", "Vending early", "Old Tower and the Horse side"]
+      key_utility: ["Kaid claws on the Games outside walls", "Azami Kibas to extend the hold to the Bathroom wall", "Fenrir mines on 2F routes", "Smoke wire on both stairs; one wire on 1F Main stairs"]
+      recommended_ops: ["Kaid", "Smoke", "Fenrir", "Azami", "Jager", "Wamai", "Aruni"]
+      plan_summary: "Hold Vending early with the Dorms breach shut, bunker Briefing and the Games corner, or push the hold out to the Bathroom wall with Azami and Fenrir."
+      setups:
+        - name: "Elvis Extension"
+          ops: ["Kaid", "Smoke", "Fenrir", "Azami", "Jager"]
+          how: "Kaid holds Games and claws the outside walls, Smoke holds Twin and wires both stairs, Azami pushes the hold to the Bathroom-Flag wall, Fenrir roams Flag and Meeting."
+        - name: "Vending hold, Briefing bunker"
+          ops: ["Kaid", "Wamai", "Azami", "Aruni", "Smoke"]
+          how: "Hold Vending early, keep the Dorms breach reinforced with feet holes, then bunker Briefing; Wamai nets throw lanes and Aruni gates doors."
+      counters_to_watch: ["Thermite on the Dorms breach from the window side", "Zofia clearing the Old Tower drop into Vending", "Flores RCE up Laundry stairs for the pinch"]
+      retake_tips: ["Deep Games corner plant with an Osa shield facing Briefing: retake from Twin and Bunks holes", "Fenrir gas is faster this season; pop it on the planter"]
     attacker:
-      recommended_spawns: ["Parking", "Garden"]
-      drone_paths: ["Drone Vending", "Drone Briefing"]
-      entry_points: ["Vending side", "Briefing side", "Roof windows"]
-      hard_breach_targets: ["Dormitory reinforced walls"]
-      plant_spots: ["Dormitory after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ace", "Flores"]
-      utility_priorities: ["Clear extended defenders in Vending", "Clear electric", "Smoke plant"]
-      plan_summary: "Clear Vending and Briefing extensions first, then open the site wall and plant."
-    common_mistakes: ["Ignoring the Briefing flank"]
-    uncertain: ["Rework callouts not fully verified"]
+      recommended_spawns: ["Parking", "Main Gate"]
+      drone_paths: ["Drone Old Tower and Vending", "Drone Laundry stairs", "Drone Central stairs and Briefing"]
+      entry_points: ["Old Tower drop", "Vending", "Laundry stairs", "Dorms window side"]
+      hard_breach_targets: ["Dorms breach wall from the window side"]
+      plant_spots: ["Deep Games corner, shield facing Briefing"]
+      recommended_ops: ["Thermite", "Thatcher", "Zofia", "Flores", "Osa", "Ghost"]
+      utility_priorities: ["Clear the Old Tower hold and the Vending rotate first", "Thatcher claymore on Central stairs for flank", "Ghost pressure on the Horse door and Vending window"]
+      plan_summary: "Pinch Old Tower and Vending, burn the Dorms breach from the window side, and Osa shield-plants deep in Games facing Briefing."
+      executes:
+        - name: "Old Tower pinch, Games plant"
+          ops: ["Thermite", "Thatcher", "Zofia", "Flores", "Osa"]
+          how: "Zofia clears the Old Tower drop then Vending, Flores walks up Laundry stairs, Thatcher disrupts and Thermite burns Dorms, Osa plants deep Games facing Briefing."
+      key_kills: ["Old Tower holder", "Vending hallway rotate player", "Horse-side extender", "Flag and Meeting roamer"]
+      post_plant: ["Shield plant deep Games facing Briefing; hold Vending and the breach", "Thatcher claymore on Central stairs for the flank"]
+    common_mistakes: ["Ignoring the Briefing flank", "Shield planting into a Noor"]
+    uncertain: ["Dorms-wing room names (Twin, Bunks, Glow, Radio-Tiles) come from one stratbook deck"]
   - id: waiting_room_cafeteria
     name: "1F Waiting Room / 1F Cafeteria"
-    aliases: ["1F Cafeteria / 1F Waiting Room", "Waiting Room", "Cafeteria", "Cafe"]
+    aliases: ["1F Cafeteria / 1F Waiting Room", "Waiting Room", "Cafeteria", "Cafe", "Kitchen"]
     floor: 1F
     defender:
-      reinforce: ["Waiting Room and Cafeteria outer walls", "Floor hatches above site if not played"]
-      rotates: ["Waiting Room to Cafeteria connection"]
-      anchor_spots: ["Cafeteria corners", "Waiting Room behind cover"]
-      roam_areas: ["Infirmary", "Briefing above site"]
-      key_utility: ["Fenrir mines on entries", "Azami barriers", "Kaid on walls"]
-      recommended_ops: ["Fenrir", "Smoke", "Wamai", "Castle", "Kaid", "Azami"]
-      plan_summary: "Delay from Infirmary and hold the Briefing hatch from above while two anchor site. Electrify the main walls."
+      reinforce: ["Oven triple wall, all three panels (Kaid claws two)", "Hammam (Fountain/Oven) wall, both panels", "Cafeteria to main hallway wall", "Waiting/Infirmary wall and the Waiting wall beside Kitchen", "2F Bathroom/Briefing wall, left and middle panels"]
+      rotates: ["Briefing hatch over Waiting left open (Melusi)", "Laundry hatch open for Pulse", "Cafeteria/Infirmary gap with head holes", "Kitchen to Waiting crouch rotate and the middle Cafeteria soft wall"]
+      anchor_spots: ["Cafeteria power spot (Kaid)", "Star corner behind the Dining walls", "Fountain behind Frost mats"]
+      roam_areas: ["Infirmary contest, fall back via the gap (Azami)", "Briefing hatch above Waiting (Melusi drops late)", "Laundry on 2F (Pulse drops by 1:30)"]
+      key_utility: ["Kaid claws on the Oven wall", "Frost mats in Fountain", "Wamai on hatches (Star and Flu hatches)", "Fenrir mines and an Oven camera"]
+      recommended_ops: ["Kaid", "Azami", "Frost", "Melusi", "Pulse", "Fenrir", "Wamai", "Castle"]
+      plan_summary: "New site since the rework, about 60 percent defender. Contest Infirmary, seal Oven, hold Fountain and cover Waiting from the Briefing hatch above."
+      setups:
+        - name: "Infirmary delay, Briefing hatch"
+          ops: ["Azami", "Kaid", "Frost", "Melusi", "Pulse"]
+          how: "Azami contests Infirmary, Kaid claws Oven and plays power spot, Frost mats Fountain and exits via Oven, Melusi holds the Briefing hatch, Pulse scans Laundry and drops by 1:30."
+        - name: "BLT"
+          ops: ["Fenrir", "Smoke", "Wamai", "Castle", "Kaid"]
+          how: "Kaid holds Star behind the clawed Dining walls, Wamai seals the two hatches, Castle panels the doors, Fenrir anchors Prep with mines and an Oven camera."
+      counters_to_watch: ["Sledge through the Showers wall into Fountain, then Hibana on Oven", "Thermite on the Dining/Oven wall; do not stand behind it", "Lion scans on each breach"]
+      retake_tips: ["A deep Cafeteria plant is retaken from Waiting and the Briefing hatch", "If attackers take Briefing, give up the hatch and retake through Kitchen"]
     attacker:
       recommended_spawns: ["Parking", "Stable"]
-      drone_paths: ["Drone Infirmary", "Drone from 2F above"]
-      entry_points: ["Infirmary side", "Vertical from Briefing"]
-      hard_breach_targets: ["Reinforced Cafeteria walls", "Hatch from Briefing"]
-      plant_spots: ["Cafeteria after breach"]
-      recommended_ops: ["Thermite", "Hibana", "Thatcher", "Buck", "Flores"]
-      utility_priorities: ["Take Briefing for vertical", "Clear electric", "Smoke plant"]
-      plan_summary: "Take Briefing for vertical and Infirmary for ground pressure, then open the site wall and plant."
-    common_mistakes: ["Fighting Infirmary without vertical support"]
-    uncertain: ["New site since the Y10S4 rework; details not fully verified"]
+      drone_paths: ["Drone Infirmary for the Azami contest", "Drone Fountain and the Showers wall", "Drone Briefing above for the hatch player"]
+      entry_points: ["Showers wall into Fountain", "Oven walls from the Lobby side", "Infirmary", "Briefing hatch from 2F"]
+      hard_breach_targets: ["Oven triple wall", "Showers wall", "Briefing hatch"]
+      plant_spots: ["Deep Cafeteria on the power-spot side", "Waiting if a defender is above, holding the hatch"]
+      recommended_ops: ["Hibana", "Thatcher", "Sledge", "Lion", "Nomad", "Thermite"]
+      utility_priorities: ["Sledge opens Showers and holds Fountain", "Thatcher EMPs the Oven claws for Hibana", "Nomad Airjabs White stairs and holds the Gun Room cut-off"]
+      plan_summary: "Take Fountain first through Showers, burn the three Oven walls from Lobby, hold the 90 hall and pinch down into Cafeteria for a deep plant."
+      executes:
+        - name: "Fountain first, Oven burn"
+          ops: ["Hibana", "Thatcher", "Sledge", "Lion", "Nomad"]
+          how: "Sledge opens Showers and holds Fountain, Thatcher EMPs and Hibana opens Oven, Lion scans breaches, Nomad jabs White stairs; pinch the hallway and plant deep Cafeteria."
+      key_kills: ["Fountain holder", "Infirmary contester", "Briefing hatch player above Waiting", "Oven-wall anchor behind claws"]
+      post_plant: ["Hibana holds the Oven breach, Nomad the Gun Room cut-off", "If a defender is above, plant Waiting and hold the hatch"]
+    common_mistakes: ["Fighting Infirmary without vertical support", "Planting Cafeteria with Briefing still held"]
+    uncertain: ["Sources disagree on the Waiting/Infirmary wall (soft with head holes vs reinforced)", "Hatch names Star and Flu are deck callouts"]
   - id: hammam_sitting_room
     name: "1F Hammam / 1F Sitting Room"
-    aliases: ["1F Sitting Room / 1F Hammam", "Hammam", "Sitting Room"]
+    aliases: ["1F Sitting Room / 1F Hammam", "Hammam", "Sitting Room", "Sitting"]
     floor: 1F
     defender:
-      reinforce: ["Sitting Room wall", "Hammam outer walls"]
-      rotates: ["Hammam to Sitting Room connection"]
-      anchor_spots: ["Hammam near the bathtub", "Sitting Room corners"]
-      roam_areas: ["Gun Room", "2F above"]
-      key_utility: ["Tubarao or Kaid on walls", "Frost mats and Thorn shells on entries"]
+      reinforce: ["Sitting Room outside wall, both panels", "Showers to Hammam wall, both panels", "Hallway wall with the long plant angle", "Site/Lobby-side wall, both panels", "Horse hatch on 2F"]
+      rotates: ["Gun Room rotate never reinforced", "Hallway rotate beside the outside wall", "Head holes to the second tucked plant", "Optional 2F holes over Music"]
+      anchor_spots: ["Hammam near the bathtub steps", "Sitting Room off the outside wall (Tubarao)", "Gun Room behind a shield (Frost)"]
+      roam_areas: ["Gun Room", "2F above site, flanking late (Caveira)", "Showers"]
+      key_utility: ["Tubarao freezes on the Sitting wall", "Warden C4 on the tucked plant from the rotate", "Frost mats in Gun Room", "Thorn Razorblooms on Showers and Hammam windows"]
       recommended_ops: ["Tubarao", "Warden", "Frost", "Thorn", "Caveira"]
-      plan_summary: "Hold the Sitting wall and control Gun Room. Traps at entries and one roamer to delay."
+      plan_summary: "Weak, rarely played site. Keep the Sitting wall shut with Tubarao, own Gun Room with Frost, trap Showers and the Hammam windows, and roam 2F above."
+      setups:
+        - name: "Sitting wall shut, Gun Room control"
+          ops: ["Tubarao", "Warden", "Frost", "Thorn", "Caveira"]
+          how: "Tubarao denies the Sitting wall, Warden C4s the tucked plant, Frost mats Gun Room behind a shield, Thorn traps Showers and windows, Caveira roams 2F and flanks late."
+      counters_to_watch: ["Thermite on the Sitting outside wall", "Capitao fire bolts through Showers", "Glaz holding through smoke from the Sitting window", "Vertical through the tower onto the Horse hatch"]
+      retake_tips: ["A Hammam steps plant is retaken from Gun Room and the hallway rotate", "Warden C4 through head holes on the tucked plant"]
     attacker:
       recommended_spawns: ["Garden", "Stable"]
-      drone_paths: ["Drone Gun Room", "Drone through exterior doors"]
-      entry_points: ["Gun Room", "Exterior doors"]
-      hard_breach_targets: ["Sitting Room reinforced wall"]
-      plant_spots: ["Hammam after clearing"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ace", "Twitch"]
-      utility_priorities: ["Clear traps", "Open Sitting wall", "Smoke plant"]
-      plan_summary: "Take Gun Room, clear traps and open the Sitting wall. Plant under smoke."
-    common_mistakes: ["Walking into Frost mats without droning"]
-    uncertain: ["Strat source marked as rough; rooms may be off"]
+      drone_paths: ["Drone Gun Room and Showers", "Drone through the Sitting window", "Drone 2F above site"]
+      entry_points: ["Sitting outside wall", "Sitting window", "Showers", "Hallway window"]
+      hard_breach_targets: ["Sitting Room outside wall", "Horse hatch from 2F if they go vertical"]
+      plant_spots: ["Hammam steps", "Hammam half wall"]
+      recommended_ops: ["Thermite", "Capitao", "Glaz", "Ying", "Nomad"]
+      utility_priorities: ["Capitao fire bolts Showers and smokes the plant", "Glaz holds site through smoke", "Nomad opens the hallway window and Airjabs the rotate"]
+      plan_summary: "Burn the Sitting outside wall, fire-bolt Showers, and Ying Candelas Hammam to plant on the steps under smoke while Glaz holds through it."
+      executes:
+        - name: "Sitting wall step plant"
+          ops: ["Thermite", "Capitao", "Glaz", "Ying", "Nomad"]
+          how: "Thermite burns the Sitting wall, Capitao bolts Showers and smokes, Glaz opens the window and holds through smoke, Ying Candelas Hammam and plants on the steps."
+      key_kills: ["Gun Room Frost", "2F roamer above (Caveira)", "Showers trapper"]
+      post_plant: ["Glaz holds the steps plant through smoke from the window", "Nomad watches the hallway flank"]
+    common_mistakes: ["Walking into Frost mats without droning", "Shield plants into Noor this season"]
+    uncertain: ["Very few rounds recorded (about 11 in siege.gg data); treat as a rough read", "Rooms and timings may be off"]
 general:
-  attack: ["Courtyard is an exterior zone since the rework", "Corridors are shorter and sites have more entries"]
-  defense: ["Defenders in Courtyard are detected as outside", "Tower extensions are a common delay"]
+  attack: ["Courtyard is an exterior zone since the Y10S4 rework; defenders there are spotted as outside", "Corridors are shorter and sites have more entries; drone towers and Courtyard Corridor first", "Thermite (220 damage, three charges) is the default breacher; Thatcher is the main support"]
+  defense: ["Tower extensions are the common delay; fold back by 1:30", "Master Bedroom is no longer plantable since the rework", "Cafeteria/Waiting is the strongest defense site at about 60 percent"]

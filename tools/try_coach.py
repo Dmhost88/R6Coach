@@ -22,6 +22,9 @@ if len(sys.argv) > 1:
     cfg.coach.effort = sys.argv[1]
 bus = Bus()
 bus.subscribe("error", lambda ev: print("ERROR", ev.data))
+bus.subscribe("llm.usage", lambda ev: print(
+    f"   usage {ev.data['purpose']}: in {ev.data.get('input_tokens')} | cache write {ev.data.get('cache_write')} "
+    f"| cache read {ev.data.get('cache_read')} | out {ev.data.get('output_tokens')} | ${ev.data['cost']}"))
 claude = Claude(bus)
 kb = Knowledge(cfg.storage.path() / "notes")
 state = {"s": GameState()}

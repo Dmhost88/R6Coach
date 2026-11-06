@@ -4,104 +4,176 @@ aliases: ["Bank", "BANK"]
 floors: [basement, 1F, 2F, roof]
 attacker_spawns:
   - name: "Boulevard"
-    notes: "Front street. Fast access to Main Lobby and the front of the building."
+    notes: "Front street. Near-instant defender runouts from Lobby; fast to Main Lobby, Quad windows and the Lobby rappel."
   - name: "Jewelry Front"
-    notes: "Side street by the jewelry store. Good for Square, Tellers side and roof climbs."
+    notes: "Side street with the Sewer manhole into Server. Default spawn for basement Server takes and Square/Tellers-side pressure."
   - name: "Back Alley"
-    notes: "Rear of the bank. Closest to the garage ramp and basement pushes."
+    notes: "Rear of the bank by the Garage ramp, Loading Dock and Terrace. Default for Stock and Top Square takes on 2F and 1F."
 sites:
   - id: ceo_executive_lounge
     name: "2F CEO Office / 2F Executive Lounge"
-    aliases: ["2F Executive Lounge / 2F CEO Office", "CEO", "Executive Lounge", "CEO Office"]
+    aliases: ["2F Executive Lounge / 2F CEO Office", "CEO", "Executive Lounge", "CEO Office", "Lounge"]
     floor: 2F
     defender:
-      reinforce: ["Outer walls of CEO and Executive Lounge that face the roof and Skylight side", "Walls attackers use to isolate site from Admin side"]
-      rotates: ["Keep a rotate between Executive Lounge and the hallway so anchors can swap rooms"]
-      anchor_spots: ["Deep CEO corners away from windows", "Executive Lounge behind cover facing the main doors"]
-      roam_areas: ["1F Tellers and Square to delay vertical pushes", "Roof-adjacent rooms early round to punish rappels"]
-      key_utility: ["Anti-breach on the main hard-breach walls", "Shields at doors to slow site takes", "Deny window entries with impact or barbed wire"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Valkyrie", "Melusi"]
-      plan_summary: "Two anchors split CEO and Executive Lounge with walls reinforced toward the roof. Hold anti-breach on the key walls and keep one player off site to punish roof and window takes."
-    attacker:
-      recommended_spawns: ["Jewelry Front", "Boulevard"]
-      drone_paths: ["Drone from roof through windows into Lounge", "Drone up the stairs from Lobby to scout 2F hallway"]
-      entry_points: ["Roof and skylight windows", "Stairs from 1F Lobby"]
-      hard_breach_targets: ["Reinforced outer walls into CEO and Executive Lounge"]
-      plant_spots: ["Default plant in the room you breach, under smoke cover"]
-      recommended_ops: ["Thermite", "Thatcher", "Ash", "Buck", "Dokkaebi"]
-      utility_priorities: ["Clear anti-breach first", "Smoke the windows and doors before plant", "Use roof control to deny rotations"]
-      plan_summary: "Take roof and 2F hallway control, clear anti-breach on the outer wall and open it with a hard breacher. Smoke lines and plant inside the breached room."
-    common_mistakes: ["Defenders leaving windows open without utility", "Attackers forgetting roamers on 1F flanking the stairs"]
-    uncertain: ["Exact hard-breach wall names after recent visual updates not verified"]
-  - id: open_area_staff_room
-    name: "1F Open Area / 1F Staff Room"
-    aliases: ["1F Staff Room / 1F Open Area", "Open Area", "Staff Room"]
-    floor: 1F
-    defender:
-      reinforce: ["Staff Room outer walls", "Hatches above site from 2F where possible"]
-      rotates: ["Rotation into Tellers side for crossfires"]
-      anchor_spots: ["Staff Room corners", "Open Area behind desks"]
-      roam_areas: ["2F above site to deny vertical", "Square and Lobby"]
-      key_utility: ["Cameras covering the windows", "Traps on main entries"]
-      recommended_ops: ["Mute", "Kaid", "Echo", "Smoke", "Lesion"]
-      plan_summary: "Hold Staff Room and Open Area with reinforced outer walls and players above site to stop vertical. Use traps on main doors and swap rooms through rotations."
+      reinforce: ["CEO to Skylight Stairwell (Top Square) wall, both panels, clawed by Kaid", "Lounge to CEO wall, with a Mira window", "Lounge to Front Desk, both panels", "Conference south wall to the hallway, Mira optional", "CEO to Janitor walls if Warden anchors CEO"]
+      rotates: ["Keep the Janitor Closet floor hatch open with murder holes so Smoke can gas from below", "Lounge to Conference hallway stays open so the Lounge anchor can swing onto the CEO plant", "Skylight Stairwell railing is destructible; do not rely on it as cover"]
+      anchor_spots: ["CEO bookshelf corner off the Top Square wall", "Lounge behind the Mira window watching CEO", "Front Desk behind the counter facing Herds", "Conference corner covering the south hallway"]
+      roam_areas: ["Stock Room and Terrace (Vigil), then late flank through Skylight", "Janitor and Top Square to fight the Square wall take", "Herds and Lobby stairs to punish the Lobby rappel"]
+      key_utility: ["Kaid claw on the Top Square wall and the Janitor hatch", "Jager ADS in Lounge and Front Desk for Thatcher/Capitao throws", "Castle panels on the Banana doors", "Azami Kiba by Lounge and wire on both stairs"]
+      recommended_ops: ["Kaid", "Mira", "Smoke", "Jager", "Vigil", "Castle", "Warden", "Azami"]
+      plan_summary: "Deny the Top Square wall with Kaid, put Mira windows on Lounge to CEO, and let Smoke play Janitor from below. One roamer in Stock and Terrace bleeds time, then flanks Skylight."
+      setups:
+        - name: "Skylight wall deny"
+          ops: ["Kaid", "Mira", "Smoke", "Jager", "Vigil"]
+          how: "Kaid claws Top Square and the Janitor hatch, Mira windows Lounge to CEO and Conference. Smoke holds Janitor through holes; Vigil roams Stock and Terrace, late Skylight flank."
+        - name: "Balance"
+          ops: ["Warden", "Wamai", "Castle", "Mira", "Azami"]
+          how: "Warden anchors CEO with the Janitor and Stock walls up. Castle panels Banana, Wamai nets throw lanes, Mira anchors Lounge, Azami Kibas Lounge and wires stairs."
+        - name: "Ocean Man laser wrap"
+          ops: ["Denari", "Clash", "Smoke", "Bandit", "Azami"]
+          how: "Denari lasers three lines around CEO, Clash holds Main Stairs, Bandit batteries Banana walls and the Janitor door wall, Azami Kibas the Banana windows."
+      counters_to_watch: ["Buck shooting up from Stock and Janitor ceilings below: keep a 1F player or play off the floor", "Thatcher/Ace on Top Square: fight the hard breacher from Janitor, not behind the wall", "Ram and Sledge hot-breaching the Quad windows at round start: hold Banana with a shotgun"]
+      retake_tips: ["Retake a CEO bookshelf plant from Lounge and Janitor at once, Smoke gas first", "If they plant Top Square side, swing from Conference while a teammate holds Stock", "Save Kaid or Bandit C4-style damage via holes; electrified walls stay up post-plant"]
     attacker:
       recommended_spawns: ["Back Alley", "Boulevard"]
-      drone_paths: ["Drone through the front windows", "Drone from Lobby into Open Area"]
-      entry_points: ["Front windows", "Lobby side"]
-      hard_breach_targets: ["Staff Room exterior wall"]
-      plant_spots: ["Staff Room default plant if breach is opened"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Ace"]
-      utility_priorities: ["Vertical from 2F to clear anchors", "Flash and smoke the window entries"]
-      plan_summary: "Take 2F above site and play vertical while a hard breacher opens Staff Room. Plant under smoke while teammates hold flank doors."
-    common_mistakes: ["Peeking windows without droning", "Ignoring 2F vertical threats"]
-    uncertain: ["Hatch locations above this site not verified for current version"]
+      drone_paths: ["Back Alley into Stock window, then drone Janitor and Top Square", "Boulevard Lobby stairs up to Herds and the Front Desk", "Roof Quad windows into Lounge and CEO for early anchor pings"]
+      entry_points: ["Stock Room window and Terrace", "Top Square (Skylight Stairwell)", "CEO and Lounge Quad windows (rappel)", "Lobby stairs into Herds"]
+      hard_breach_targets: ["CEO to Top Square wall (Thatcher plus Ace or Thermite)", "E3 elevator wall as a fallback breach", "Lounge to Front Desk wall"]
+      plant_spots: ["CEO bookshelf by the far-right Top Square panel", "Default CEO plant behind the desk under smoke"]
+      recommended_ops: ["Ace", "Thatcher", "Buck", "Nomad", "Zero", "Thermite", "Ram"]
+      utility_priorities: ["Buck opens the Stock and Janitor ceilings from 1F first", "EMP Top Square claws before Ace's charges", "Zero Argus cams on the Main Stairs and Square flanks"]
+      plan_summary: "Win Stock and Janitor with Buck from below, EMP and open the Top Square wall, then plant at the bookshelf with flank cams on Main Stairs."
+      executes:
+        - name: "Stock from below, Top Square wall, bookshelf plant"
+          ops: ["Ace", "Thatcher", "Buck", "Zero", "Nomad"]
+          how: "Back Alley. Buck clears Stock and Janitor from the floor below, Thatcher EMPs Top Square and Ace opens it, Nomad jabs Stock hallway and rappels CEO window."
+        - name: "Quad window hot breach"
+          ops: ["Ram", "Sledge", "Lion", "Zofia", "Nomad"]
+          how: "Only after a drone shows Herds empty: Ram and Sledge open both CEO Quad windows at start while Zofia pressures Top Square and Lion holds the Janitor rotate."
+      key_kills: ["Stock Room shield or Vigil before entering Janitor", "Janitor Closet player and the Top Square anchor (clear from Square with Buck)", "Herds/Front Desk player watching the Lobby stairs", "Conference corner before planting CEO"]
+      post_plant: ["Plant CEO bookshelf, then hold from Top Square and the Stock window", "Keep a flank on Main Stairs and Skylight; roamers come back through Square", "Default plant lets one player hold Lounge through the Quad window"]
+    common_mistakes: ["Defenders standing behind the Top Square wall when Ace or Thermite blows it", "Attackers pushing Janitor before clearing Stock and the ceilings below", "Ignoring the late Vigil flank through Skylight Stairwell"]
+    uncertain: ["Room names Herds, Banana and Quad come from stratbooks; in-game callouts may say Executive Hallway or Front Desk", "siegestrats setups have no reported rounds yet"]
+  - id: open_area_staff_room
+    name: "1F Open Area / 1F Staff Room"
+    aliases: ["1F Staff Room / 1F Open Area", "Open Area", "Staff Room", "Staff"]
+    floor: 1F
+    defender:
+      reinforce: ["2F Stock hatch and 2F Janitor hatch to Admin first (prep is short)", "Square wall panels 1-3, Kaid claw on panel 1", "Staff Room wall facing Electrical", "Printer panel in line with the window and the Open Area/Staff panel beside the rotate", "Open Area wall by the hallway door"]
+      rotates: ["Crouch rotate between Open Area and Staff Room", "Feet holes on the Printer walls", "Head holes above the Square wall for C4", "Head hole from Admin into Archives"]
+      anchor_spots: ["Staff Room behind the kitchen counter", "Open Area desks watching the Printer window", "Kanzen (Tachanka DP27 plant denial)"]
+      roam_areas: ["2F above site to deny Stock and Janitor hatches (Caveira, Smoke, Aruni)", "Archives and Tellers to fight the Stock hatch and the Square", "Lobby with a fallback to Open Area"]
+      key_utility: ["Mira windows on the rotate and Printer panels", "Kaid claw on Square wall panel 1", "Castle panels on Banana entries", "Thorn Razorbloom on the Stock window and the plant"]
+      recommended_ops: ["Kaid", "Mira", "Castle", "Smoke", "Caveira", "Tachanka", "Tubarao", "Maestro"]
+      plan_summary: "Lock both 2F hatches early, claw the Square wall and put Mira windows on the rotate. Hold the floor above with one or two players and fall back to Staff Room and E2."
+      setups:
+        - name: "Clawed Square wall bunker"
+          ops: ["Kaid", "Castle", "Mira", "Smoke", "Caveira"]
+          how: "Hatches first, then Square panels 1-3 with Kaid. Mira windows the rotate and Printer, Smoke gasses through the Square head holes, Caveira roams 2F then Archives."
+        - name: "Beacon"
+          ops: ["Tachanka", "Smoke", "Aruni", "Mira", "Valkyrie"]
+          how: "Tachanka anchors Kanzen and denies plants with the DP27; Smoke and Aruni deny vertical from 2F Janitor; Valkyrie reinforces three 1F site walls and cams."
+      counters_to_watch: ["Ram opening the Stock floor to cut off the Mira and anchor: keep someone on 2F", "Ash opening Printer and Electrical early for sightlines", "Brava kludging the claw on the Square wall"]
+      retake_tips: ["A Staff Room counter plant is hit from Open Area and the Electrical side together", "Tubarao freezes and C4 through head holes stop the defuser", "Do not all rotate up to 2F late; the floor gets cut by Ram"]
+    attacker:
+      recommended_spawns: ["Back Alley", "Jewelry Front"]
+      drone_paths: ["Pre-place drones in Top Square and Stock from Back Alley", "Drone Archives and Lobby to find the Tellers/Archives player", "Drone Printer window for the Mira"]
+      entry_points: ["2F Stock and Janitor for vertical", "Square (Skylight Stairwell)", "Printer and Electrical windows", "Lobby into Open Area"]
+      hard_breach_targets: ["Staff Room exterior wall", "Square wall into Open Area", "Stock and Janitor hatches if left reinforced"]
+      plant_spots: ["Behind the Staff Room kitchen counter", "Open Area by the Printer side after a Square breach"]
+      recommended_ops: ["Ace", "Brava", "Ram", "Ash", "Nomad", "Buck", "Thatcher"]
+      utility_priorities: ["Win 2F Stock and Top Square, then Ram the Stock floor", "Brava kludge the claws, Ash opens Printer and Electrical", "Flank watch on Main Stairs, Square and bottom Blue"]
+      plan_summary: "Take 2F above site first, Ram the floor to deny the anchors, open Printer for lines and breach the Staff Room wall with Ace. Plant behind the counter."
+      executes:
+        - name: "Stock and Top Square, Ram the floor, burn Square"
+          ops: ["Ace", "Brava", "Ram", "Ash", "Nomad"]
+          how: "Back Alley. Clear 2F, Ram opens the Stock floor, Ash opens Printer and Electrical, Brava kludges claws; Ace hits Staff Room and the team plants behind the counter."
+        - name: "Janitor rush"
+          ops: ["Blitz", "Glaz", "Capitao", "Nomad", "Lion"]
+          how: "Capitao smoke bolt on Janitor; Blitz and Glaz take it with thermal, Capitao rappels to Square and breaches, Nomad plays Archives and Lion holds Square."
+      key_kills: ["2F Janitor and Stock players before going vertical", "Archives/Tellers player fighting the Stock hatch", "Kanzen Tachanka or the Staff Room anchor (check through Printer)"]
+      post_plant: ["Plant behind the Staff Room counter and hold from the Ram hole above", "Keep one on Main Stairs and one on bottom Blue for flanks", "Hold the Printer window line from outside"]
+    common_mistakes: ["Defenders forgetting to reinforce both 2F hatches before the Square wall", "Attackers breaching before killing the 2F denial players"]
+    uncertain: ["Hatch names (Stock hatch, Janitor hatch to Admin) are stratbook callouts", "Kanzen is a team callout, not an official room name"]
   - id: tellers_archives
     name: "1F Tellers' Office / 1F Archives"
     aliases: ["1F Archives / 1F Tellers' Office", "Tellers", "Archives", "Tellers Office"]
     floor: 1F
     defender:
-      reinforce: ["Archives outer walls", "Tellers walls toward Lobby and Square"]
-      rotates: ["Keep Tellers to Archives connection open for rotations"]
-      anchor_spots: ["Archives shelves", "Tellers behind counters"]
-      roam_areas: ["2F above site", "Square and Lobby"]
-      key_utility: ["Shields at doorways", "Anti-breach on Archives walls"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Castle", "Mira"]
-      plan_summary: "Anchor Archives and Tellers with outer walls reinforced and a player above site. Delay in Square and Lobby, then fall back onto site."
+      reinforce: ["Archives to Square wall, both panels, clawed", "Tellers' Office to hallway, Lobby side and E2 side", "2F Janitor hatch to Admin", "2F CEO to Top Square and CEO to Janitor walls", "Flex: the Lobby hatch into B Vault"]
+      rotates: ["Archives / Admin / Open Area rotate stays open", "Feet holes into Tellers' Office and Tellers", "Head hole in the Tellers to Lobby wall", "Noor cuts three floor holes over site from 2F CEO"]
+      anchor_spots: ["Archives shelves off the Square wall", "Tellers' Office behind the counters", "Executive Lounge above site (Castle) for vertical"]
+      roam_areas: ["Lobby, falling back to Open Area (Caveira)", "2F CEO and Lounge holding vertical", "Square to fight the Archives wall take"]
+      key_utility: ["Kaid claws on the Archives Square wall", "Castle panels on the Plaza windows", "Maestro Evil Eyes in Tellers and Archives", "Noor plant denial through the CEO floor"]
+      recommended_ops: ["Noor", "Castle", "Kaid", "Maestro", "Caveira", "Mira"]
+      plan_summary: "Rare pick: hold vertical from CEO and Lounge over a clawed Archives wall, Maestro cams on both rooms, and a Lobby roamer who falls back to Open Area."
+      setups:
+        - name: "CEO vertical hold"
+          ops: ["Noor", "Castle", "Kaid", "Maestro", "Caveira"]
+          how: "Kaid claws Archives to Square, Noor holds CEO and lances through the floor, Castle panels Plaza windows and plays Lounge, Maestro cams both rooms, Caveira holds Lobby."
+      counters_to_watch: ["Buck from Executive Lounge shooting down into Tellers' Office", "Ace on the reinforced Tellers' Office wall from Lobby", "Gridlock clearing Admin to cut the rotate"]
+      retake_tips: ["There is no rotate next to the default plant; retake from 2F holes and Archives together", "Maestro shoots the planter through bulletproof glass"]
     attacker:
-      recommended_spawns: ["Jewelry Front", "Boulevard"]
-      drone_paths: ["Drone into Square and Lobby", "Drone from 2F down through soft floors"]
-      entry_points: ["Square side", "Lobby side"]
-      hard_breach_targets: ["Archives exterior walls"]
-      plant_spots: ["Archives or Tellers depending on breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ash", "Iana"]
-      utility_priorities: ["Clear Square and Lobby roamers", "Vertical from 2F", "Smoke the plant"]
-      plan_summary: "Clear Square and Lobby, then open Archives with a hard breach while vertical from 2F pins anchors. Plant inside the breached room."
-    common_mistakes: ["Rushing Lobby without flank watch", "Defenders not punishing vertical from 2F"]
-    uncertain: []
+      recommended_spawns: ["Boulevard", "Jewelry Front"]
+      drone_paths: ["Drone Lobby, Lobby stairs and E2", "Drone 2F Executive Lounge for the vertical player"]
+      entry_points: ["Lobby", "Square side into Archives", "2F Executive Lounge for vertical"]
+      hard_breach_targets: ["Tellers' Office wall from Lobby", "Archives to Square wall"]
+      plant_spots: ["Behind the bulletproof projector unit in Tellers' Office", "Archives after the Square wall is open"]
+      recommended_ops: ["Ace", "Thatcher", "Buck", "Zero", "Gridlock"]
+      utility_priorities: ["Take Executive Lounge for vertical early", "Zero cams on Lobby stairs, E2 and Main Stairs", "Gridlock Trax in Admin and Open Area"]
+      plan_summary: "Take Lobby and Executive Lounge, play Buck vertical onto Tellers' Office, then Ace opens the Tellers' wall from Lobby and you plant behind the projector."
+      executes:
+        - name: "Lobby take with Executive Lounge vertical"
+          ops: ["Ace", "Thatcher", "Buck", "Zero", "Gridlock"]
+          how: "Win Lobby, Buck takes Lounge and opens the floor over Tellers' Office, Thatcher and Ace open the Tellers' wall, Gridlock clears Admin and holds Open Area."
+      key_kills: ["Lobby roamer before stepping off Boulevard", "Executive Lounge vertical player", "E2 feet-hole player and Main Stairs defender"]
+      post_plant: ["Plant behind the projector, hold from Lobby and the Lounge floor holes", "Watch E2 and Main Stairs for the Open Area rotate"]
+    common_mistakes: ["Attackers ignoring the E2 feet holes", "Defenders conceding Executive Lounge vertical for free"]
+    uncertain: ["Only one defense and one attack source found; rarely played site", "Projector plant spot comes from a voice-over source"]
   - id: cctv_lockers
     name: "B CCTV Room / B Lockers"
     aliases: ["B Lockers / B CCTV Room", "Lockers", "CCTV", "Basement"]
     floor: basement
     defender:
-      reinforce: ["Hatches above site (garage and 1F)", "Lockers and CCTV walls attackers hard breach"]
-      rotates: ["Keep a rotate between Lockers and CCTV"]
-      anchor_spots: ["Deep Lockers", "CCTV behind desks"]
-      roam_areas: ["Garage and ramp", "Server and Vault area", "1F above basement"]
-      key_utility: ["Deny hatches with Mute jammer or Bandit", "Kaid claws on reinforced walls", "Traps on basement stairs"]
-      recommended_ops: ["Mute", "Kaid", "Bandit", "Echo", "Valkyrie", "Goyo"]
-      plan_summary: "Reinforce the hatches and key walls, deny them with electric or jammers, and hold Lockers and CCTV with a crossfire. One roamer delays garage and stairs."
+      reinforce: ["CCTV to Server wall, both panels, clawed by Kaid", "Open Area hatch and Elevator hatch", "Admin hatch (claw it)", "Lockers to Vault Entrance, two panels", "Loading Dock to Lockers Hallway"]
+      rotates: ["Lockers to CCTV through Red Hallway stays open", "Lobby hatch into Vault left open but watched", "Hold the CCTV hatch soft for about 20 s, then decide"]
+      anchor_spots: ["Deep Lockers watching Red Hallway (Tachanka DP27)", "CCTV behind the desks off the Server wall", "Vault Entrance crossfire onto Lockers"]
+      roam_areas: ["Server and Square to delay the Sewer take (Vigil)", "Long Desk and Marble on 1F", "Garage ramp and Tunnel"]
+      key_utility: ["Kaid claws on the Server wall and Admin hatch", "Mira windows on Red Hallway to CCTV and the Lockers south wall", "Wamai Mag-NETs in CCTV and Lockers Hallway", "Smoke gas on the CCTV plant"]
+      recommended_ops: ["Kaid", "Mira", "Smoke", "Wamai", "Vigil", "Echo", "Mute", "Tachanka"]
+      plan_summary: "Claw the Server wall and both hatches, Mira on Red Hallway, Smoke gasses the plant. One roamer delays the Server take; the Lobby hatch is watched, not reinforced."
+      setups:
+        - name: "Server wall claw"
+          ops: ["Kaid", "Mira", "Smoke", "Wamai", "Vigil"]
+          how: "Kaid claws CCTV-Server and the Admin hatch, Wamai reinforces Open Area and Elevator hatches and nets CCTV. Mira windows Red Hallway, Vigil delays Server from Square."
+        - name: "DZ Tachanka Lockers"
+          ops: ["Tachanka", "Smoke", "Fenrir", "Valkyrie", "Tubarao"]
+          how: "Tachanka anchors Lockers on Red Hallway; Tubarao denies from Staff Room above with C4; Fenrir mines and Valkyrie cams the rest."
+        - name: "Lasagna"
+          ops: ["Echo", "Vigil", "Mute", "Smoke", "Kaid"]
+          how: "Echo plays Yokai from below, Vigil fakes Long Desk, Mute shoots drones in Marble and jams 1F, Smoke wires the stairs."
+      counters_to_watch: ["Server take through the Sewer into the CCTV wall plus Hibana on the Admin hatch", "Thatcher EMP timing on the claws; re-claw the second wall if you can", "Grim and Blitz down the Server stairs with Deimos up Tunnel"]
+      retake_tips: ["A CCTV plant tight to the Server wall is retaken from Red Hallway and Lockers with Smoke gas first", "Echo Yokai can deny the defuser from the ceiling", "Wamai nets stop the nade clears on your retake path"]
     attacker:
-      recommended_spawns: ["Back Alley", "Boulevard"]
-      drone_paths: ["Drone down the garage ramp", "Drone down the basement stairs from Lobby"]
-      entry_points: ["Garage", "Basement stairs", "Hatches from 1F"]
-      hard_breach_targets: ["Reinforced hatches above site", "Lockers and CCTV reinforced walls"]
-      plant_spots: ["Under the opened hatch", "Inside Lockers after breach"]
-      recommended_ops: ["Hibana", "Thermite", "Thatcher", "Buck", "Ace"]
-      utility_priorities: ["EMP or destroy batteries and claws", "Open hatches for vertical", "Smoke the plant"]
-      plan_summary: "Take garage and 1F above site, clear anti-breach and open hatches and walls. Pressure site from multiple angles before planting."
-    common_mistakes: ["Attackers forgetting hatch denial", "Defenders over-rotating to garage and leaving stairs"]
-    uncertain: ["Exact hatch names on current version not verified"]
+      recommended_spawns: ["Jewelry Front", "Back Alley"]
+      drone_paths: ["Sewer drone into Server and Server Room Stairs", "Garage ramp drone into Tunnel and Vault Entrance", "Lobby drone for the hatch players"]
+      entry_points: ["Sewer manhole into Server", "Server Room Stairs from Square", "Garage ramp and Tunnel", "Admin and Lobby hatches from 1F"]
+      hard_breach_targets: ["CCTV to Server wall", "Admin hatch over CCTV", "Lockers walls from Vault Entrance"]
+      plant_spots: ["CCTV tight to the Server wall", "Lockers after a Red Hallway clear"]
+      recommended_ops: ["Ace", "Thatcher", "Hibana", "Nomad", "Iana", "Grim", "Deimos"]
+      utility_priorities: ["Thatcher EMP the Server wall, then the Admin hatch", "Nomad Airjabs on Square and Server Room Stairs", "Iana Gemini to clear the plant corner"]
+      plan_summary: "Take Server through the Sewer, EMP and open the CCTV wall with Ace while Hibana opens the Admin hatch for vertical. Plant tight to the Server wall."
+      executes:
+        - name: "Server take into CCTV wall plus Admin hatch"
+          ops: ["Ace", "Thatcher", "Hibana", "Nomad", "Iana"]
+          how: "Jewelry Front through the Sewer. Thatcher EMPs Server wall then Admin hatch, Ace opens CCTV, Hibana opens the hatch to shoot down, Nomad holds Server stairs, Iana plants."
+        - name: "Blue Cheese split"
+          ops: ["Blitz", "Grim", "Deimos", "Twitch", "Thatcher"]
+          how: "Blitz goes down Server stairs with Grim behind, Deimos pushes up Tunnel at the same time, Twitch opens the back wall, plant behind Blitz."
+      key_kills: ["Square and Server stairs roamer (Vigil) before the Sewer take", "Server step and Garage stackers", "Lobby hatch watcher from 1F", "Red Hallway Mira or Tachanka lines before planting"]
+      post_plant: ["Plant tight to the Server wall in CCTV and hold from Server and the Admin hatch", "Cross Red Hallway from the breach and keep Square watched"]
+    common_mistakes: ["Defenders over-rotating to Garage and leaving Server open", "Attackers forgetting the Lobby hatch drops into Vault"]
+    uncertain: ["Lobby hatch into Vault is from a 2021 change; confirm it is still in the current version"]
 general:
-  attack: ["Roof control is strong for 2F sites", "Garage ramp is the default basement approach", "Drone Lobby and Square early for roamers"]
-  defense: ["Watch spawn peeks out of front windows and roof", "Do not run out of Lobby early without info", "Basement is the most played defense"]
+  attack: ["Boulevard and Jewelry Front have near-instant Lobby runouts; drone Lobby and the Quad before walking", "Back Alley for 2F and 1F Stock/Top Square takes; Jewelry Front Sewer for basement", "Win Stock and Top Square on 2F before any 1F or 2F execute", "Roamers to clear: Stock, Terrace, Square, Long Desk, Marble"]
+  defense: ["Spawn peeks from Lobby onto Boulevard are fast but known; one rifler only", "Common roams: Vigil Stock-Terrace-Skylight, Caveira 2F then Archives, Vigil fake at Long Desk for basement", "Always watch or reinforce the Lobby hatch into Vault on basement"]

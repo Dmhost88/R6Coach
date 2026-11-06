@@ -195,9 +195,18 @@ class Claude:
         self.bus = bus
         self.client = anthropic.Anthropic(max_retries=2, timeout=45.0)
         self.total_cost = 0.0
+        self.match_cost = 0.0      # reset when a new match starts (see App)
         self.calls = 0
         self._lock = threading.Lock()
         self._last_errors: dict[str, float] = {}
+        self.budget = 0.0          # USD per match; 0 = no cap
+
+    def budget_level(self) -> str:
+        """'ok', 'tight' (>=80% of the per-match budget) or 'spent' (>=100%)."""
+        if self.budget <= 0:
+            return "ok"
+        used = self.match_cost / self.budget
+        return "spent" if used >= 1.0 else "tight" if used >= 0.8 else "ok"
 
     # ------------------------------------------------------------------ helpers
     def _error(self, source: str, message: str) -> None:
@@ -218,6 +227,7 @@ class Claude:
         ) / 1_000_000
         with self._lock:
             self.total_cost += cost
+            self.match_cost += cost
             self.calls += 1
             total = self.total_cost
         self.bus.publish(
@@ -227,6 +237,10 @@ class Claude:
             cost=round(cost, 5),
             total_cost=round(total, 4),
             seconds=round(time.time() - started, 2),
+            input_tokens=getattr(usage, "input_tokens", 0) or 0,
+            cache_read=getattr(usage, "cache_read_input_tokens", 0) or 0,
+            cache_write=getattr(usage, "cache_creation_input_tokens", 0) or 0,
+            output_tokens=getattr(usage, "output_tokens", 0) or 0,
         )
 
     def _parse(
@@ -234,7 +248,7 @@ class Claude:
         *,
         model: str,
         effort: str,
-        system: str,
+        system: str | list[str],
         content: list[dict],
         schema: type[T],
         purpose: str,
@@ -243,12 +257,18 @@ class Claude:
         kwargs = {}
         if model in FALLBACK_MODELS:
             kwargs = {"betas": [FALLBACK_BETA], "fallbacks": "default"}
+        # Prompt caching: system blocks go most-stable first (the brief, then the operator database,
+        # then the current map's dossier), each with a cache breakpoint, so later calls in a match
+        # read them from cache at a tenth of the price. Only the short match state is sent fresh.
+        blocks = [system] if isinstance(system, str) else [b for b in system if b]
+        system_param = [{"type": "text", "text": b, "cache_control": {"type": "ephemeral"}}
+                        for b in blocks[:4]]
         started = time.time()
         try:
             resp = self.client.beta.messages.parse(
                 model=model,
                 max_tokens=max_tokens,
-                system=[{"type": "text", "text": system, "cache_control": {"type": "ephemeral"}}],
+                system=system_param,
                 messages=[{"role": "user", "content": content}],
                 output_config={"effort": effort},
                 output_format=schema,
@@ -307,11 +327,12 @@ class Claude:
         self,
         model: str,
         effort: str,
-        system: str,
+        system: str | list[str],
         prompt: str,
         purpose: str,
         image_jpeg: Optional[bytes] = None,
     ) -> Optional[CoachLines]:
+        """`system` may be a list of blocks, most stable first; each block is cached."""
         content: list[dict] = []
         if image_jpeg is not None:
             b64 = base64.standard_b64encode(image_jpeg).decode("ascii")

@@ -35,6 +35,8 @@ class App:
         data.mkdir(parents=True, exist_ok=True)
         self.bus = Bus()
         self.claude = Claude(self.bus)
+        self.claude.budget = cfg.coach.budget_per_match
+        self.bus.subscribe("match.started", lambda ev: setattr(self.claude, "match_cost", 0.0))
         self.knowledge = Knowledge(notes_dir=data / "notes")
         self.profile = Profile(data / "profile.sqlite")
         self.frames = FrameStore(data, cfg.storage.keep_frames_days)
@@ -93,6 +95,9 @@ class App:
             "muted": self.speaker.muted,
             "paused": self.watcher.paused,
             "cost": round(self.claude.total_cost, 4),
+            "match_cost": round(self.claude.match_cost, 4),
+            "budget_per_match": self.cfg.coach.budget_per_match,
+            "budget_level": self.claude.budget_level(),
             "calls": self.claude.calls,
             "ptt_key": self.cfg.push_to_talk.key if self.ptt else "off",
             "ptt_ready": self.ptt_ready,

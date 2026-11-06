@@ -2,106 +2,384 @@ id: oregon
 name: Oregon
 aliases: ["Oregon", "OREGON"]
 floors: [basement, 1F, 2F, 3F, roof]
+# Layout: Y11S1 (March 2026) Oregon rework, checked against Y11S3.2 guides (siegestrats.com, stratbook.gg).
 attacker_spawns:
   - name: "Junkyard"
-    notes: "Junkyard side, toward Big Tower and Dorms side."
+    notes: "Back side by Big Tower and the Garage double doors. Best spawn for Dorms (Big Tower, Attic) and the Meeting Garage push."
   - name: "Street"
-    notes: "Street side, toward main entrance and Kitchen."
+    notes: "Front side facing Kitchen/Dining, Small Tower and Showers. Default spawn for the Dining exterior breach; watch Small Tower windows on approach."
   - name: "Construction Site"
-    notes: "Construction side, good for basement and Laundry approaches."
+    notes: "Basement side toward Blue Bunker and Laundry stairs. Default for Laundry/Supply executes; also feeds Big Tower."
 sites:
   - id: kids_dorms_dorms_main_hall
     name: "2F Kids' Dorms / 2F Dorms Main Hall"
-    aliases: ["2F Dorms Main Hall / 2F Kids' Dorms", "Kids Dorms", "Dorms", "Main Dorms"]
+    aliases: ["2F Dorms Main Hall / 2F Kids' Dorms", "Kids' Dorms / Dorms Main Hall", "Kids Dorms", "Dorms", "Main Dorms", "Dorms Main Hall"]
     floor: 2F
     defender:
-      reinforce: ["Dorms outer walls", "Walls toward the towers"]
-      rotates: ["Kids Dorms to Main Dorms connection"]
-      anchor_spots: ["Kids Dorms corners", "Main Dorms bunks"]
-      roam_areas: ["Big Tower", "1F below"]
-      key_utility: ["Window denial", "Anti-breach on main walls"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Valkyrie", "Melusi"]
-      plan_summary: "Hold Dorms with reinforced walls and a crossfire. Contest Big Tower and roof early."
+      reinforce:
+        - "Both halves of the Master breach wall into Dorms; this is the main hard-breach target."
+        - "Armory wall, left side, so Armory can't become a second breach lane."
+        - "Both halves of the Attic wall facing Big Tower, so Big Tower can't open Attic for free."
+        - "Master/Attic connecting wall."
+        - "Kids' Dorms wall at Big Window, reinforced as a rotate-side wall."
+      rotates:
+        - "Kids' Dorms rotate and feet holes toward Big Window; stay low and play through feet holes."
+        - "Kids' Dorms hatch: either leave it soft as a drop/escape or reinforce; creators disagree, decide per team."
+        - "No head holes on the Trophy wall; Trophy is a hiding spot, not a window."
+      anchor_spots:
+        - "Kids' Dorms behind Azami barriers, watching Big Window and the Kids rotate."
+        - "Trophy Room behind Thorn Razorblooms, crossfiring Dorms Main Hall doorway."
+        - "Dorms Main Hall bunk line watching the Master breach (Kaid anchor)."
+      roam_areas:
+        - "Master Bedroom early: kill drones, then fall back before Master breach opens."
+        - "Attic, holding Big Tower pushes through Attic prox and a cam."
+        - "Big Tower top early on Junkyard spawn, only with a pre-planned retreat into Attic."
+        - "White Stairs and Main Stairs from below; trap them so 1F roamers can flank."
+      key_utility:
+        - "Kaid claws on the Master breach wall and Attic walls; Bandit is the backup on Master."
+        - "Thorn Razorblooms on White Stairs, Big Window and Trophy door."
+        - "Azami barriers to close Kids-Trophy and Big Window lines."
+        - "Valkyrie cams on the lampshade in Dorms and in Attic for hatch and stair intel."
+      recommended_ops: ["Kaid", "Azami", "Thorn", "Valkyrie", "Vigil", "Mira", "Bandit", "Smoke"]
+      plan_summary: "Deny the Master breach and Attic walls, hold Kids/Trophy crossfire into Dorms Main Hall, roam Master and Attic early, and keep White/Main Stairs trapped."
+      setups:
+        - name: "Attic cam, Big Window feet holes"
+          ops: ["Kaid", "Azami", "Thorn", "Valkyrie", "Vigil"]
+          how: "Kaid claws Master breach and Attic; Azami barriers Kids-Trophy and Big Window; Thorn traps White, Big Window, Trophy; Vigil kills Master drones then roams."
+        - name: "Mira Dorms hold"
+          ops: ["Mira", "Kaid", "Smoke", "Valkyrie", "Vigil"]
+          how: "Mira on the Dorms Main Hall wall facing Kids' Dorms gives a window onto the default plant; Smoke saves gas for the planter on the bunk line."
+        - name: "Big Tower contest"
+          ops: ["Kaid", "Mira", "Jäger", "Melusi", "Vigil"]
+          how: "Two players fight Big Tower and Attic until about 2:00, then drop into Kids' Dorms through the rotate; Melusi slows Main Stairs."
+      counters_to_watch:
+        - "Big Tower into Attic take with Thermite on Attic/Master: keep Attic prox up and trade from Kids rotate."
+        - "Thatcher or Kali on the Master wall to break claws: re-claw or swap to Bandit batteries after disruptor."
+        - "Junkyard rappel at Big Window: Azami barrier and Thorn bloom make the window a death line."
+        - "Vertical play from 3F Attic above Kids hatch: watch with a Valkyrie cam, punish through the hatch."
+      retake_tips:
+        - "Defuser usually sits in Kids' Dorms by the hatch or at the bunk line; retake from Trophy and White Stairs together."
+        - "Use the Kids hatch from 3F Attic only if you still own Attic; otherwise come White Stairs."
+        - "Smoke gas or Goyo fire on the default Dorms plant buys the trade."
     attacker:
-      recommended_spawns: ["Junkyard"]
-      drone_paths: ["Drone from roof", "Drone through windows"]
-      entry_points: ["Roof and windows", "Tower routes", "Stairs"]
-      hard_breach_targets: ["Reinforced Dorms walls"]
-      plant_spots: ["Kids Dorms after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
-      utility_priorities: ["Take tower and roof", "Open wall", "Smoke plant"]
-      plan_summary: "Take Big Tower and roof control, breach the Dorms wall and plant."
-    common_mistakes: ["Ignoring Big Tower defenders"]
-    uncertain: []
+      recommended_spawns: ["Junkyard", "Construction Site"]
+      drone_paths:
+        - "Drone Big Tower from Junkyard first; it is the most common roam."
+        - "Drone Attic from Big Tower top, then look for the Attic prox and Kids hatch."
+        - "Second drone up White Stairs to find Thorn blooms and Trophy anchor."
+      entry_points:
+        - "Big Tower to Attic, then Master Bedroom."
+        - "Armory from Main Stairs."
+        - "Big Window rappel from Junkyard side."
+        - "White Stairs from 1F as a lurk or split."
+      hard_breach_targets:
+        - "Master breach wall into Dorms Main Hall (Thermite or Hibana)."
+        - "Attic wall facing Big Tower, to open Attic early."
+        - "Armory wall left side as a second lane."
+      plant_spots:
+        - "Dorms Main Hall bunk line next to the Master breach."
+        - "Kids' Dorms corner by Big Window once Kids is cleared."
+      recommended_ops: ["Thermite", "Hibana", "Thatcher", "Kali", "Ash", "Buck", "Iana", "Brava"]
+      utility_priorities:
+        - "Thatcher or Kali on the Master breach before Thermite; Brava can steal Kaid claws."
+        - "Clear Thorn blooms on White and Big Window with frags or Ash."
+        - "Flank watch on White and Main Stairs during the plant."
+      plan_summary: "Take Big Tower and Attic, clear Master, then breach the Master wall and split into Dorms from Master, Armory and Big Window."
+      executes:
+        - name: "Big Tower to Master breach"
+          ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
+          how: "Clear Big Tower and Attic, Thatcher disables Master wall claws, Thermite opens it; Ash and Buck open Attic angles while Iana drone-scouts Kids."
+        - name: "Armory plus Big Window split"
+          ops: ["Hibana", "Kali", "Ash", "Nomad", "Sens"]
+          how: "Hibana opens the Armory wall, Kali shoots denial; a rappel player swings Big Window on the breach so Kids and Trophy split their attention."
+      key_kills:
+        - "Big Tower roam: clear from Junkyard before moving to Attic."
+        - "Attic player: clear from Big Tower before committing to Master."
+        - "Master Bedroom roamer (often Vigil): clear before breaching."
+        - "Trophy anchor behind blooms: flash or frag from White Stairs side."
+      post_plant:
+        - "Plant in Dorms Main Hall bunk line, hold from Master and Armory."
+        - "One player on Big Tower/Attic to cut White Stairs and Kids hatch retakes."
+    common_mistakes:
+      - "Committing to Dorms before Attic and Big Tower are cleared."
+      - "Breaching Master without killing claws first."
+      - "Defenders over-staying Big Tower after attackers commit."
+    uncertain:
+      - "Kids' Dorms hatch reinforce vs open: guides split; both are viable."
+      - "Wall list follows Y11S3.2 guides; verify panels on the reworked map in a custom."
   - id: kitchen_dining_hall
     name: "1F Kitchen / 1F Dining Hall"
-    aliases: ["1F Dining Hall / 1F Kitchen", "Kitchen", "Dining Hall", "Dining"]
+    aliases: ["1F Dining Hall / 1F Kitchen", "Kitchen / Dining Hall", "Kitchen", "Dining Hall", "Dining"]
     floor: 1F
     defender:
-      reinforce: ["Kitchen and Dining outer walls", "Floor above where reinforceable"]
-      rotates: ["Kitchen to Dining connection"]
-      anchor_spots: ["Kitchen counters", "Dining corners"]
-      roam_areas: ["2F above", "Exterior approaches"]
-      key_utility: ["Traps on entries", "Shields at doors"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Echo", "Mira"]
-      plan_summary: "Hold Kitchen and Dining with vertical denial and traps on entries."
+      reinforce:
+        - "Both panels of the Small Tower wall (Kaid claw)."
+        - "Both panels of the Meeting-side back wall."
+        - "Right half of the Showers wall."
+        - "Wall beside the Security rotates."
+        - "Kids' Dorms hatch above Kitchen, so nobody drops onto site."
+        - "Optional: both panels of the Master main wall on 2F."
+      rotates:
+        - "Two rotates into Security, kept open."
+        - "Showers rotate with a left foot hole."
+        - "Dining head holes toward Small Tower."
+        - "Holes toward Z corridor."
+      anchor_spots:
+        - "Kitchen corner by Security rotate (Kaid anchor)."
+        - "Showers foot hole looking at the Dining breach."
+        - "Behind Clash in Showers after Small Tower falls."
+      roam_areas:
+        - "Small Tower: contest early, it is the attackers' first foothold."
+        - "Showers, falling back from Small Tower."
+        - "2F above site, shooting the Thermite through the floor around 1:30."
+        - "Freezer stairs and Z as the backside lurk."
+      key_utility:
+        - "Kaid claws on the Small Tower wall; Bandit backup."
+        - "Castle barricade on the Freezer door with wire on Z."
+        - "Fenrir mines on Freezer stairs and Z."
+        - "Pulse on 2F to tag and kill the Thermite on the Dining wall."
+      recommended_ops: ["Kaid", "Clash", "Castle", "Fenrir", "Pulse", "Mira", "Smoke"]
+      plan_summary: "Fight Small Tower early, crossfire the Dining breach from Showers and Kitchen, and deny the plant from 2F above."
+      setups:
+        - name: "Small Tower fight, Showers crossfire"
+          ops: ["Kaid", "Clash", "Castle", "Fenrir", "Pulse"]
+          how: "Clash contests Small Tower then falls to Showers; Kaid claws Small Tower wall; Castle seals rotates; Pulse kills Thermite from above around 1:30."
+        - name: "Kitchen bunker"
+          ops: ["Kaid", "Mira", "Smoke", "Jäger", "Valkyrie"]
+          how: "Fully close Small Tower side, Mira watches Dining from Kitchen, Smoke gases the Dining plant; Valkyrie cams Showers and Freezer stairs."
+      counters_to_watch:
+        - "Dining exterior wall Thermite from Street: shoot it from 2F or through Dining head holes."
+        - "Small Tower plus 2F vertical: keep Kids hatch reinforced, watch Master."
+        - "Freezer stairs flank from basement: Fenrir mines and Castle barricade."
+      retake_tips:
+        - "Retake through Security rotates and Showers together; one player denies from 2F holes over the wall plant."
+        - "Default plants are near the Dining breach; gas or fire there before peeking."
     attacker:
       recommended_spawns: ["Street"]
-      drone_paths: ["Drone through windows", "Drone from 2F"]
-      entry_points: ["Exterior doors and windows", "Vertical from 2F"]
-      hard_breach_targets: ["Reinforced outer walls"]
-      plant_spots: ["Dining Hall after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Ace"]
-      utility_priorities: ["Vertical from above", "Open wall", "Smoke plant"]
-      plan_summary: "Take 2F control, open the site wall and plant."
-    common_mistakes: ["Ignoring vertical defenders"]
-    uncertain: []
+      drone_paths:
+        - "Drone Small Tower and Showers first from Street."
+        - "Drone Freezer stairs from the basement side for the Kitchen anchor."
+        - "Drone 2F above Kitchen for a vertical player."
+      entry_points:
+        - "Small Tower, then Showers."
+        - "Dining exterior wall breach from Street."
+        - "2F above (Kids' Dorms/Master) for vertical."
+        - "Freezer stairs from basement as a split."
+      hard_breach_targets:
+        - "Dining exterior wall (Thermite or Hibana)."
+        - "Small Tower wall into Kitchen."
+      plant_spots:
+        - "Dining Hall against the breached wall."
+        - "Kitchen corner by Security once rotates are cleared."
+      recommended_ops: ["Thermite", "Hibana", "Thatcher", "Buck", "Sledge", "Ace", "Zofia"]
+      utility_priorities:
+        - "Clear Kaid claws on Small Tower wall with Thatcher or Kali."
+        - "Take 2F above site to stop Pulse/Valkyrie verticals."
+        - "Smoke the Dining plant from Showers' angles."
+      plan_summary: "Take Small Tower and Showers, kill the 2F vertical player, breach Dining from outside and plant against the wall."
+      executes:
+        - name: "Small Tower take, Dining wall"
+          ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
+          how: "Clear Small Tower and Showers, Thatcher pops claws, Thermite opens Dining from Street while Buck verticals from 2F above Kitchen."
+        - name: "Showers and Freezer split"
+          ops: ["Ace", "Kali", "Sledge", "Zofia", "Gridlock"]
+          how: "Ace on Small Tower wall, Kali clears denial; one player pushes Freezer stairs to split Kitchen anchor; Gridlock covers Z flank."
+      key_kills:
+        - "Small Tower contester (often Clash)."
+        - "2F vertical player (Pulse) above the Dining breach."
+        - "Freezer/Z lurk from the basement."
+      post_plant:
+        - "Plant on the Dining breach wall, hold from Small Tower and outside on Street."
+        - "One player on 2F above to stop vertical retakes."
+    common_mistakes:
+      - "Ignoring the 2F player who shoots the Thermite through the floor."
+      - "Defenders giving up Small Tower without a fight."
+    uncertain:
+      - "Creators disagree on how much of the Small Tower side to close."
   - id: meeting_hall_kitchen
     name: "1F Meeting Hall / 1F Kitchen"
-    aliases: ["1F Kitchen / 1F Meeting Hall", "Meeting", "Meeting Hall"]
+    aliases: ["1F Kitchen / 1F Meeting Hall", "Meeting Hall / Kitchen", "Meeting", "Meeting Hall"]
     floor: 1F
     defender:
-      reinforce: ["Meeting Hall outer walls"]
-      rotates: ["Meeting Hall to Kitchen connection"]
-      anchor_spots: ["Meeting Hall stage area", "Kitchen counters"]
-      roam_areas: ["Towers", "2F above"]
-      key_utility: ["Anti-breach on walls", "Traps on doors"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Castle", "Lesion"]
-      plan_summary: "Hold Meeting and Kitchen with reinforced walls and players above for vertical denial."
+      reinforce:
+        - "Two panels on the Stage wall (Bandit battery)."
+        - "Both Split walls, plus a barricade on the Split door."
+        - "Meeting Garage wall."
+        - "Z corridor wall on the Kitchen side."
+        - "One half of the Green wall."
+        - "Two Attic walls on 2F to stop the Meeting-over push."
+        - "Kids rotate wall toward Big Window."
+      rotates:
+        - "Box-side Kitchen/Meeting crouch rotate."
+        - "Rotate into Security."
+        - "Hatch-side Kitchen/Meeting wall with head holes."
+        - "2F Meeting hatch left open for vertical."
+        - "Stage hatch to basement left open."
+      anchor_spots:
+        - "Box-side rotate between Kitchen and Meeting (Bandit anchor)."
+        - "Kitchen and Security side (Castle)."
+        - "Feet holes into Meeting from the Green side (Kapkan)."
+      roam_areas:
+        - "2F over the Meeting hatch."
+        - "Attic and Big Tower to slow Meeting-over."
+        - "White Stairs flank (Caveira)."
+      key_utility:
+        - "Bandit batteries on Stage."
+        - "Castle barricades on Split and doors; Small Tower side too."
+        - "Kapkan traps on Freezer, Split and Green."
+        - "Kaid claws on Attic walls."
+      recommended_ops: ["Bandit", "Kaid", "Castle", "Kapkan", "Caveira", "Aruni", "Mira"]
+      plan_summary: "Shut Stage and Split, keep two players upstairs on the Meeting hatch, and crossfire Meeting from the Kitchen rotates."
+      setups:
+        - name: "Stage and Split shut, two upstairs"
+          ops: ["Bandit", "Kaid", "Castle", "Kapkan", "Caveira"]
+          how: "Bandit denies Stage, Castle closes Split, Kaid holds the Meeting hatch from 2F, Kapkan traps Green and Split; Caveira flanks White."
+        - name: "Aruni doors and Security extend"
+          ops: ["Aruni", "Kaid", "Mira", "Smoke", "Fenrir"]
+          how: "Aruni gates doors including Small Tower side, extend Security toward White, trap the bottom of Freezer stairs."
+      counters_to_watch:
+        - "Garage take through the barricaded double door: hold it from the box-side rotate."
+        - "Meeting-over from Big Tower via rear Stage and Attic: keep Attic claws up and an upstairs player."
+        - "Vertical through 2F Meeting hatch: Kaid holds it."
+      retake_tips:
+        - "Retake via box-side rotate and the Meeting hatch at once."
+        - "Default plants: Stage and Meeting by Garage door; deny from feet holes."
     attacker:
       recommended_spawns: ["Junkyard", "Street"]
-      drone_paths: ["Drone Meeting Hall doors", "Drone from towers"]
-      entry_points: ["Exterior doors", "Tower routes", "Vertical from 2F"]
-      hard_breach_targets: ["Meeting Hall reinforced wall"]
-      plant_spots: ["Meeting Hall after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ash", "Zofia"]
-      utility_priorities: ["Take towers", "Open wall", "Smoke plant"]
-      plan_summary: "Take tower control, open Meeting and plant with flank watch."
-    common_mistakes: ["Over-committing one door"]
+      drone_paths:
+        - "Drone Garage double doors and Meeting from Junkyard."
+        - "Drone Big Tower and Attic for upstairs players."
+        - "Drone White Stairs for a Caveira flank."
+      entry_points:
+        - "Garage double doors into Meeting."
+        - "Big Tower, rear Stage and Attic ('Meeting over')."
+        - "2F Meeting hatch for vertical."
+      hard_breach_targets:
+        - "Stage wall."
+        - "Meeting Garage wall."
+        - "Attic walls if going over."
+      plant_spots:
+        - "Meeting Hall stage side."
+        - "Meeting by the Garage doors."
+      recommended_ops: ["Thermite", "Hibana", "Thatcher", "Buck", "Ash", "Zofia", "Gridlock"]
+      utility_priorities:
+        - "Kill Bandit batteries on Stage first."
+        - "Clear Kapkan traps on Split and Green."
+        - "Vertical through Meeting hatch from 2F."
+      plan_summary: "Take Big Tower and Attic, clear the upstairs player, then hit Meeting from Garage and Stage at once."
+      executes:
+        - name: "Meeting over"
+          ops: ["Hibana", "Thatcher", "Buck", "Ash", "Iana"]
+          how: "Take Big Tower, push rear Stage and Attic; Hibana opens Stage while Buck verticals through the Meeting hatch."
+        - name: "Garage take"
+          ops: ["Ash", "Zofia", "Thermite", "Thatcher", "Gridlock"]
+          how: "Ash and Zofia break the Castle barricade at the Garage doors; Thermite on Garage wall; Gridlock watches White."
+      key_kills:
+        - "Upstairs player on the Meeting hatch."
+        - "Caveira roaming White Stairs."
+        - "Box-side rotate anchor."
+      post_plant:
+        - "Plant Stage or Meeting by Garage, hold from Garage and Attic."
+        - "Deny the box-side rotate from Garage."
+    common_mistakes:
+      - "Over-committing one door."
+      - "Ignoring the Meeting hatch upstairs player."
     uncertain: []
   - id: laundry_room_supply_room
     name: "B Laundry Room / B Supply Room"
-    aliases: ["B Supply Room / B Laundry Room", "Laundry", "Supply", "Basement"]
+    aliases: ["B Supply Room / B Laundry Room", "Laundry Room / Supply Room", "Laundry", "Supply", "Supply Room", "Basement"]
     floor: basement
     defender:
-      reinforce: ["Laundry and Supply walls", "Hatches above basement"]
-      rotates: ["Laundry to Supply connection"]
-      anchor_spots: ["Supply Room shelves", "Laundry corners"]
-      roam_areas: ["1F above", "Basement stairs"]
-      key_utility: ["Electric on main walls", "Traps on stairs"]
-      recommended_ops: ["Mute", "Kaid", "Bandit", "Echo", "Goyo"]
-      plan_summary: "Deny walls and hatches, hold Laundry and Supply with a crossfire and a stairs roamer."
+      reinforce:
+        - "Freezer hatch."
+        - "Electrical hatch, with a barricade on top."
+        - "Laundry hatch."
+        - "Right half of the Electrical wall facing Blue Bunker (Mira)."
+        - "Right half of the Supply wall toward the Laundry/Freezer corridor."
+        - "Both Pillar wall panels."
+        - "Flex: Blue-side wall after the shield breaks."
+      rotates:
+        - "Laundry wall rotate (community split on this)."
+        - "Elbow rotate between Laundry and Supply."
+      anchor_spots:
+        - "Pillar in Supply (Kaid)."
+        - "Elbow (Smoke)."
+        - "Behind the Blue Bunker Mira (Jäger)."
+      roam_areas:
+        - "Freezer early."
+        - "1F above hatches."
+        - "Laundry and Tower stairs."
+      key_utility:
+        - "Mira on Electrical wall facing Blue Bunker."
+        - "Jäger ADS on the Blue door."
+        - "Kaid claws Electrical and Freezer hatches."
+        - "Melusi Banshees on the three stairs."
+      recommended_ops: ["Mira", "Jäger", "Kaid", "Smoke", "Melusi", "Mute", "Bandit"]
+      plan_summary: "Deny all hatches, mirror Blue Bunker, hold Pillar and Elbow, then collapse on the plant."
+      setups:
+        - name: "Mirror bunker, Pillar and Elbow"
+          ops: ["Mira", "Jäger", "Kaid", "Smoke", "Melusi"]
+          how: "Mira watches Blue Bunker, Kaid claws hatches and holds Pillar, Smoke holds Elbow, Melusi traps all three stairs."
+        - name: "Freezer contest"
+          ops: ["Kaid", "Mira", "Echo", "Goyo", "Mute"]
+          how: "Two fight Freezer and Laundry stairs early, then fold into Supply; Echo and Goyo deny the plant."
+      counters_to_watch:
+        - "Blue Bunker take: Mira window and Jäger ADS."
+        - "Vertical through hatches: keep claws and barricade."
+        - "Laundry stairs push: Banshee and Freezer player."
+      retake_tips:
+        - "Retake through Elbow and Freezer with gas/Goyo on the plant."
+        - "Use Mira window to see the defuser."
     attacker:
       recommended_spawns: ["Construction Site"]
-      drone_paths: ["Drone down stairs", "Drone basement entries"]
-      entry_points: ["Stairs", "Hatches", "Exterior basement access"]
-      hard_breach_targets: ["Laundry or Supply walls", "Hatches"]
-      plant_spots: ["Laundry after breach"]
-      recommended_ops: ["Thermite", "Hibana", "Thatcher", "Buck", "Ace"]
-      utility_priorities: ["Clear electric", "Open wall", "Smoke plant"]
-      plan_summary: "Take 1F control, clear electric and open the key wall. Plant under smoke."
-    common_mistakes: ["Rushing stairs into traps"]
-    uncertain: []
+      drone_paths:
+        - "Drone Blue Bunker and Electrical from Construction."
+        - "Drone Laundry stairs and Freezer."
+        - "Drone hatches from 1F."
+      entry_points:
+        - "Blue Bunker into Electrical."
+        - "Laundry stairs."
+        - "Freezer and Tower stairs."
+        - "Hatches from 1F."
+      hard_breach_targets:
+        - "Electrical wall facing Blue Bunker (Mira)."
+        - "Freezer and Electrical hatches."
+      plant_spots:
+        - "Supply near Pillar."
+        - "Laundry corner."
+      recommended_ops: ["Thermite", "Hibana", "Thatcher", "Buck", "Ace", "Kali"]
+      utility_priorities:
+        - "Kill the Mira and Jäger ADS."
+        - "Clear Banshees on stairs."
+        - "Open the hatch for vertical."
+      plan_summary: "Take Blue Bunker and Freezer, open the Electrical wall, kill Mira, and plant in Supply."
+      executes:
+        - name: "Bunker breach"
+          ops: ["Hibana", "Thatcher", "Buck", "Ash", "Iana"]
+          how: "Take Blue Bunker, Thatcher on Electrical wall, Hibana opens it; Buck verticals from 1F."
+        - name: "Laundry stairs split"
+          ops: ["Thermite", "Kali", "Ace", "Zofia", "Gridlock"]
+          how: "Kali clears Mira, Thermite opens Electrical; Zofia pushes Laundry stairs."
+      key_kills:
+        - "Freezer player."
+        - "Laundry stairs roamer."
+        - "Pillar anchor."
+      post_plant:
+        - "Plant at Supply Pillar, hold from Electrical and Blue Bunker."
+        - "Watch Laundry stairs for flanks."
+    common_mistakes:
+      - "Rushing stairs into traps."
+      - "Ignoring the Freezer hatch."
+    uncertain:
+      - "Laundry-wall rotate: community split on keeping it soft or reinforced."
 general:
-  attack: ["Towers give strong angles; take them early", "Modernized in Y11S1 with new destructibles"]
-  defense: ["Tower and window spawn peeks are common", "Avoid running out toward Junkyard early"]
+  attack:
+    - "Junkyard: clear Big Tower windows before crossing; it is the main spawn-peek tower."
+    - "Street: Small Tower and Showers windows peek the street; drone them before moving."
+    - "Take Big Tower early for Dorms and Meeting; it controls Attic and rear Stage."
+    - "Watch White Stairs as the main flank route between 1F and 2F."
+  defense:
+    - "Big Tower is the main roam; leave by about 2:00 or you get trapped."
+    - "Small Tower and Showers are early fight spots for Kitchen/Dining."
+    - "Freezer and Z are the basement lurk lanes into Kitchen."
+    - "Avoid runouts toward Junkyard early; attackers often pre-aim Big Tower."
