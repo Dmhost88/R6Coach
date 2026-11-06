@@ -1,0 +1,109 @@
+id: consulate
+name: Consulate
+aliases: ["Consulate", "CONSULATE"]
+floors: [basement, 1F, 2F, roof]
+attacker_spawns:
+  - name: "Riot Barricade"
+    notes: "Front of consulate behind barricades."
+  - name: "Police Line"
+    notes: "Front-side street. Approach toward Main Entrance."
+  - name: "Gas Station"
+    notes: "Side spawn. Good for garage and basement approaches."
+  - name: "Side Entrance"
+    notes: "Side of the building. Fast to side doors and stairs."
+sites:
+  - id: meeting_room_consul_office
+    name: "2F Meeting Room / 2F Consul Office"
+    aliases: ["2F Consul Office / 2F Meeting Room", "Meeting Room", "Consul Office", "Consulate Office"]
+    floor: 2F
+    defender:
+      reinforce: ["Outer walls of Meeting Room and Consul Office", "Walls attackers use from the 2F hallway"]
+      rotates: ["Meeting to Consul Office connection"]
+      anchor_spots: ["Consul Office behind desk", "Meeting Room corners"]
+      roam_areas: ["1F below", "Roof and 2F hallway"]
+      key_utility: ["Window denial", "Anti-breach on main walls"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Valkyrie", "Azami"]
+      plan_summary: "Hold Meeting and Consul Office with reinforced walls and a crossfire. Delay roof and stair pushes."
+    attacker:
+      recommended_spawns: ["Police Line", "Side Entrance"]
+      drone_paths: ["Drone through 2F windows", "Drone up stairs"]
+      entry_points: ["Windows and roof", "Stairs"]
+      hard_breach_targets: ["Reinforced walls into Meeting or Consul Office"]
+      plant_spots: ["Meeting Room after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
+      utility_priorities: ["Take 2F hallway", "Open the wall", "Smoke plant"]
+      plan_summary: "Take 2F hallway and roof, open the key wall and plant under smoke."
+    common_mistakes: ["Ignoring flank via stairs"]
+    uncertain: ["Consulate was reworked in 2023 and modernized in Y10S3; callouts may differ"]
+  - id: piano_room_exposition_room
+    name: "1F Piano Room / 1F Exposition Room"
+    aliases: ["1F Exposition Room / 1F Piano Room", "Piano", "Exposition", "Expo"]
+    floor: 1F
+    defender:
+      reinforce: ["Piano and Exposition outer walls", "Floor above where reinforceable"]
+      rotates: ["Piano to Exposition connection"]
+      anchor_spots: ["Piano corners", "Exposition behind displays"]
+      roam_areas: ["2F above", "Lobby"]
+      key_utility: ["Traps at doors", "Shields at main entries"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Echo", "Mira"]
+      plan_summary: "Hold Piano and Exposition with reinforced outer walls and vertical denial from 2F."
+    attacker:
+      recommended_spawns: ["Riot Barricade", "Police Line"]
+      drone_paths: ["Drone through Lobby", "Drone from 2F"]
+      entry_points: ["Lobby", "Exterior windows", "Vertical from 2F"]
+      hard_breach_targets: ["Reinforced outer walls"]
+      plant_spots: ["Piano Room after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Ace"]
+      utility_priorities: ["Vertical from above", "Open wall", "Smoke plant"]
+      plan_summary: "Take 2F above site, open the outer wall and plant under smoke."
+    common_mistakes: ["Rushing Lobby without drones"]
+    uncertain: []
+  - id: tellers_servers
+    name: "1F Tellers / B Servers"
+    aliases: ["B Servers / 1F Tellers", "Tellers", "Servers"]
+    floor: 1F
+    defender:
+      reinforce: ["Hatch and floor between Tellers and Servers if not used", "Tellers outer walls"]
+      rotates: ["Vertical connection between Tellers and Servers"]
+      anchor_spots: ["Servers racks", "Tellers behind counters"]
+      roam_areas: ["Lobby", "Basement hallways"]
+      key_utility: ["Deny hatches", "Traps on stairs"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Bandit", "Goyo"]
+      plan_summary: "Split-floor site. Hold Servers deep and Tellers above with careful hatch control."
+    attacker:
+      recommended_spawns: ["Side Entrance", "Gas Station"]
+      drone_paths: ["Drone Lobby and stairs", "Drone basement hallways"]
+      entry_points: ["Lobby", "Basement stairs"]
+      hard_breach_targets: ["Reinforced hatches and walls"]
+      plant_spots: ["Tellers or Servers depending on control"]
+      recommended_ops: ["Thermite", "Hibana", "Thatcher", "Buck", "Ace"]
+      utility_priorities: ["Clear hatch denial", "Take 1F", "Smoke plant"]
+      plan_summary: "Take 1F control and open vertical into Servers, or plant in Tellers with vertical cover."
+    common_mistakes: ["Splitting the team across floors without trades"]
+    uncertain: ["Split-floor site pairing taken from Liquipedia; verify on selection screen"]
+  - id: cafeteria_garage
+    name: "B Cafeteria / B Garage"
+    aliases: ["B Garage / B Cafeteria", "Cafeteria", "Garage", "Basement"]
+    floor: basement
+    defender:
+      reinforce: ["Garage walls toward the yard", "Hatches above basement"]
+      rotates: ["Cafeteria to Garage connection"]
+      anchor_spots: ["Cafeteria corners", "Garage behind cars"]
+      roam_areas: ["1F above", "Garage yard approach"]
+      key_utility: ["Electric on main walls", "Traps on stairs"]
+      recommended_ops: ["Mute", "Kaid", "Bandit", "Echo", "Castle"]
+      plan_summary: "Deny main walls and hatches, hold Cafeteria and Garage crossfire with a roamer on stairs."
+    attacker:
+      recommended_spawns: ["Gas Station"]
+      drone_paths: ["Drone into Garage", "Drone down stairs"]
+      entry_points: ["Garage", "Stairs", "Hatches"]
+      hard_breach_targets: ["Garage reinforced wall", "Hatches"]
+      plant_spots: ["Garage after breach"]
+      recommended_ops: ["Thermite", "Hibana", "Thatcher", "Ace", "Buck"]
+      utility_priorities: ["Clear electric", "Open wall", "Smoke plant"]
+      plan_summary: "Take Garage and 1F, clear electric and open the key wall. Plant under smoke."
+    common_mistakes: ["Entering Garage without clearing the yard"]
+    uncertain: []
+general:
+  attack: ["Clear exterior roamers before committing", "Map is modernized; check new destructibles"]
+  defense: ["Front windows are classic spawn peek spots", "Avoid early runouts into Police Line"]

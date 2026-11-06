@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>R6 Coach</title>
+<style>
+  :root {
+    --bg: #0f1114; --panel: #171a1f; --line: #262a31; --text: #e6e8eb; --muted: #8b929c;
+    --accent: #e8a33d; --good: #4fb87a; --bad: #e0605a; --blue: #5b9bd5;
+    --mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.45 "Segoe UI", system-ui, sans-serif; }
+  header { display: flex; align-items: center; gap: 16px; padding: 10px 16px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  header h1 { font-size: 15px; margin: 0; letter-spacing: .02em; }
+  .pill { padding: 2px 10px; border-radius: 99px; background: var(--panel); border: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+  .pill.on { color: var(--good); border-color: #2c5a3f; }
+  .pill.warn { color: var(--accent); border-color: #6b4c1f; }
+  .spacer { flex: 1; }
+  button { background: var(--panel); color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 5px 12px; cursor: pointer; font: inherit; }
+  button:hover { border-color: var(--muted); }
+  button.primary { background: var(--accent); color: #1a1205; border-color: var(--accent); font-weight: 600; }
+  nav { display: flex; gap: 2px; padding: 0 16px; border-bottom: 1px solid var(--line); }
+  nav button { border: 0; border-bottom: 2px solid transparent; border-radius: 0; background: none; color: var(--muted); padding: 10px 14px; }
+  nav button.active { color: var(--text); border-bottom-color: var(--accent); }
+  main { padding: 16px; }
+  .tab { display: none; } .tab.active { display: block; }
+  .grid { display: grid; grid-template-columns: minmax(280px, 380px) 1fr; gap: 16px; }
+  @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px; }
+  .card h2 { margin: 0 0 10px; font-size: 12px; text-transform: none; color: var(--muted); font-weight: 600; }
+  dl.state { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; margin: 0; }
+  dl.state dt { color: var(--muted); }
+  dl.state dd { margin: 0; font-weight: 500; }
+  .score { font-size: 28px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .score .us { color: var(--blue); } .score .them { color: var(--accent); }
+  #feed { list-style: none; margin: 0; padding: 0; max-height: 62vh; overflow-y: auto; }
+  #feed li { padding: 8px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 64px 1fr; gap: 10px; }
+  #feed .t { color: var(--muted); font-family: var(--mono); font-size: 12px; }
+  #feed .phase { color: var(--muted); font-size: 12px; margin-right: 6px; }
+  #feed li.q .body { color: var(--blue); }
+  #feed li.err .body { color: var(--bad); }
+  .ask { display: flex; gap: 8px; margin-top: 12px; }
+  input[type=text], textarea, select { background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 6px 10px; font: inherit; width: 100%; }
+  textarea { min-height: 260px; font-family: var(--mono); font-size: 13px; }
+  .row { display: flex; gap: 12px; align-items: center; margin: 8px 0; }
+  .row label { min-width: 150px; color: var(--muted); }
+  .row input[type=range] { flex: 1; }
+  .hint { color: var(--muted); font-size: 12px; }
+  img#frame { width: 100%; border-radius: 6px; border: 1px solid var(--line); background: #000; min-height: 120px; }
+  pre { font-family: var(--mono); font-size: 12px; white-space: pre-wrap; margin: 0; max-height: 50vh; overflow: auto; }
+  table { width: 100%; border-collapse: collapse; }
+  td, th { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+  th { color: var(--muted); font-weight: 500; }
+  .w { color: var(--good); } .l { color: var(--bad); }
+</style>
+</head>
+<body>
+<header>
+  <h1>R6 Coach</h1>
+  <span class="pill" id="capture">capture: …</span>
+  <span class="pill" id="screen">screen: …</span>
+  <span class="pill" id="cost">$0.00</span>
+  <span class="pill" id="ptt">push-to-talk: loading</span>
+  <span class="spacer"></span>
+  <button id="btn-mute">Mute</button>
+  <button id="btn-repeat">Repeat</button>
+  <button id="btn-skip">Skip</button>
+  <button id="btn-pause">Pause reading</button>
+</header>
+<nav>
+  <button data-tab="live" class="active">Live</button>
+  <button data-tab="detect">What the coach sees</button>
+  <button data-tab="settings">Settings</button>
+  <button data-tab="maps">Map notes</button>
+  <button data-tab="history">Matches</button>
+</nav>
+<main>
+  <section class="tab active" id="tab-live">
+    <div class="grid">
+      <div>
+        <div class="card">
+          <h2>Match</h2>
+          <div class="score"><span class="us" id="s-us">0</span> – <span class="them" id="s-them">0</span></div>
+          <dl class="state" id="state"></dl>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Coach</h2>
+        <ul id="feed"></ul>
+        <form class="ask" id="ask-form">
+          <input type="text" id="ask" placeholder="Type a question, or hold your push-to-talk key and ask" autocomplete="off">
+          <button class="primary" type="submit">Ask</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="tab" id="tab-detect">
+    <div class="grid">
+      <div class="card">
+        <h2>Last screen read</h2>
+        <pre id="last-read">Nothing read yet.</pre>
+        <div class="row"><button id="btn-force">Read screen now</button></div>
+        <p class="hint">The coach only reads menus and the HUD. It never looks for enemies in the game world.</p>
+      </div>
+      <div class="card">
+        <h2>Current frame</h2>
+        <img id="frame" alt="Latest captured frame">
+        <p class="hint">Refreshes every 3 seconds while this tab is open.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="tab" id="tab-settings">
+    <div class="grid">
+      <div class="card">
+        <h2>Operator pool (best first, comma separated)</h2>
+        <div class="row"><label>Attack</label><input type="text" id="pool-attack" list="ops"></div>
+        <div class="row"><label>Defense</label><input type="text" id="pool-defense" list="ops"></div>
+        <div class="row"><label>Not owned</label><input type="text" id="not-owned"></div>
+        <datalist id="ops"></datalist>
+        <h2 style="margin-top:18px">Coach</h2>
+        <div class="row"><label>Skill level</label>
+          <select id="skill"><option value="new">New</option><option value="intermediate">Intermediate</option><option value="advanced">Advanced</option></select>
+        </div>
+        <div class="row"><label>Volume</label><input type="range" id="volume" min="0" max="1" step="0.05"></div>
+        <p class="hint" id="models"></p>
+      </div>
+      <div class="card">
+        <h2>Chattiness per phase (0 silent, 3 detailed)</h2>
+        <div id="chat"></div>
+        <div class="row"><button class="primary" id="save-settings">Save settings</button><span class="hint" id="saved"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tab" id="tab-maps">
+    <div class="grid">
+      <div class="card">
+        <h2>Map</h2>
+        <select id="map-select"></select>
+        <pre id="map-data" style="margin-top:12px"></pre>
+      </div>
+      <div class="card">
+        <h2>Your notes (the coach trusts these over the database)</h2>
+        <textarea id="notes" placeholder="e.g. On Bank basement I like to anchor CCTV as Mute and jam the hatch."></textarea>
+        <div class="row"><button class="primary" id="save-notes">Save notes</button><span class="hint" id="notes-saved"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tab" id="tab-history">
+    <div class="card">
+      <h2>Recent matches</h2>
+      <table><thead><tr><th>When</th><th>Map</th><th>Score</th><th>Result</th></tr></thead><tbody id="matches"></tbody></table>
+    </div>
+  </section>
+</main>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const PHASES = { map_ban: "Map ban", operator_ban: "Operator ban", operator_select: "Operator select",
+                 prep_phase: "Prep phase", action_phase: "Action phase", between_rounds: "Between rounds" };
+let frameTimer = null;
+
+function esc(s) { return String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+function hhmmss(ts) { return new Date(ts * 1000).toLocaleTimeString([], { hour12: false }); }
+async function api(path, opts = {}) {
+  const r = await fetch(path, { headers: { "Content-Type": "application/json" }, ...opts });
+  if (!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+
+// ---------- tabs
+document.querySelectorAll("nav button").forEach((b) => b.addEventListener("click", () => {
+  document.querySelectorAll("nav button").forEach((x) => x.classList.toggle("active", x === b));
+  document.querySelectorAll(".tab").forEach((t) => t.classList.toggle("active", t.id === "tab-" + b.dataset.tab));
+  clearInterval(frameTimer);
+  if (b.dataset.tab === "detect") { refreshFrame(); frameTimer = setInterval(refreshFrame, 3000); }
+  if (b.dataset.tab === "history") loadMatches();
+}));
+
+// ---------- live state
+function renderState(s) {
+  $("s-us").textContent = s.score_us ?? 0;
+  $("s-them").textContent = s.score_them ?? 0;
+  const rows = [["Map", s.map], ["Side", s.side], ["Site", s.site], ["Spawn", s.spawn], ["Round", s.round_number],
+    ["You", s.my_operator], ["Team", (s.teammate_operators || []).join(", ")], ["Bans", (s.banned_operators || []).join(", ")],
+    ["Timer", s.timer_seconds != null ? s.timer_seconds + "s" : null],
+    ["Alive", s.alive_us != null ? `${s.alive_us} v ${s.alive_them ?? "?"}` : null],
+    ["Pinged", (s.pinged_enemies || []).map((p) => p.location + (p.operator ? ` (${p.operator})` : "")).join(", ")]];
+  $("state").innerHTML = rows.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v || "–")}</dd>`).join("");
+  $("screen").textContent = "screen: " + (s.screen || "?").replace(/_/g, " ");
+}
+function addFeed(ts, phase, text, cls = "") {
+  const li = document.createElement("li");
+  li.className = cls;
+  li.innerHTML = `<span class="t">${hhmmss(ts)}</span><span class="body">${phase ? `<span class="phase">${esc(PHASES[phase] || phase)}</span>` : ""}${esc(text)}</span>`;
+  const feed = $("feed");
+  feed.prepend(li);
+  while (feed.children.length > 200) feed.lastChild.remove();
+}
+function renderStatus(st) {
+  $("capture").textContent = "capture: " + st.capture;
+  $("capture").className = "pill " + (st.capture.startsWith("capturing") || st.capture.startsWith("replay") ? "on" : "warn");
+  $("cost").textContent = `$${st.cost.toFixed(2)} · ${st.calls} calls`;
+  $("btn-mute").textContent = st.muted ? "Unmute" : "Mute";
+  $("btn-pause").textContent = st.paused ? "Resume reading" : "Pause reading";
+  $("ptt").textContent = "push-to-talk: " + st.ptt_key + (st.ptt_ready || st.ptt_key === "off" ? "" : " (loading)");
+  $("ptt").className = "pill " + (st.ptt_ready ? "on" : "");
+  if (st.state) renderState(st.state);
+}
+
+function handle(ev) {
+  const d = ev.data || {};
+  switch (ev.topic) {
+    case "state.updated": renderState(d.state); break;
+    case "coach.said": addFeed(ev.ts, d.phase, d.text); break;
+    case "ptt.question": addFeed(ev.ts, "", "You: " + d.text, "q"); break;
+    case "error": addFeed(ev.ts, "", `${d.source}: ${d.message}`, "err"); break;
+    case "vision.read": $("last-read").textContent = JSON.stringify(d.read, null, 1); break;
+    case "llm.usage": $("cost").textContent = `$${d.total_cost.toFixed(2)}`; break;
+    case "ptt.ready": $("ptt").classList.add("on"); $("ptt").textContent = $("ptt").textContent.replace(" (loading)", ""); break;
+    case "ptt.listening": $("ptt").classList.add("warn"); setTimeout(() => $("ptt").classList.remove("warn"), 1500); break;
+  }
+}
+
+function connect() {
+  const ws = new WebSocket(`ws://${location.host}/ws`);
+  ws.onmessage = (m) => handle(JSON.parse(m.data));
+  ws.onclose = () => setTimeout(connect, 2000);
+}
+
+async function boot() {
+  renderStatus(await api("/api/status"));
+  for (const ev of await api("/api/history")) if (ev.topic !== "state.updated") handle(ev);
+  connect();
+  setInterval(async () => { try { renderStatus(await api("/api/status")); } catch {} }, 5000);
+  loadSettings(); loadMaps();
+}
+
+// ---------- controls
+const control = async (a, body) => renderStatus(await api("/api/control/" + a, { method: "POST", body: JSON.stringify(body || {}) }));
+$("btn-mute").onclick = () => control("mute");
+$("btn-repeat").onclick = () => control("repeat");
+$("btn-skip").onclick = () => control("skip");
+$("btn-pause").onclick = () => control("pause");
+$("btn-force").onclick = () => control("force_read");
+$("ask-form").onsubmit = (e) => { e.preventDefault(); const t = $("ask").value.trim(); if (t) { control("ask", { text: t }); $("ask").value = ""; } };
+
+function refreshFrame() { $("frame").src = "/api/frame.jpg?t=" + Date.now(); }
+
+// ---------- settings
+const list = (s) => s.split(",").map((x) => x.trim()).filter(Boolean);
+async function loadSettings() {
+  const s = await api("/api/settings");
+  $("pool-attack").value = s.operator_pool.attack.join(", ");
+  $("pool-defense").value = s.operator_pool.defense.join(", ");
+  $("not-owned").value = s.not_owned.join(", ");
+  $("skill").value = s.skill_level;
+  $("volume").value = s.volume;
+  $("models").textContent = `Coach model: ${s.coach_model} · Screen reading: ${s.vision_model} · edit config.yaml to change`;
+  $("ops").innerHTML = s.operators.map((o) => `<option value="${esc(o)}">`).join("");
+  $("chat").innerHTML = Object.entries(PHASES).map(([k, label]) =>
+    `<div class="row"><label>${label}</label><input type="range" min="0" max="3" step="1" data-k="${k}" value="${s.chattiness[k] ?? 1}"><span class="hint" data-v="${k}">${s.chattiness[k] ?? 1}</span></div>`).join("");
+  $("chat").querySelectorAll("input").forEach((i) => i.oninput = () => $("chat").querySelector(`[data-v=${i.dataset.k}]`).textContent = i.value);
+}
+$("save-settings").onclick = async () => {
+  const chattiness = {};
+  $("chat").querySelectorAll("input").forEach((i) => chattiness[i.dataset.k] = +i.value);
+  await api("/api/settings", { method: "POST", body: JSON.stringify({
+    operator_pool: { attack: list($("pool-attack").value), defense: list($("pool-defense").value) },
+    not_owned: list($("not-owned").value), chattiness, skill_level: $("skill").value, volume: +$("volume").value }) });
+  $("saved").textContent = "Saved."; setTimeout(() => $("saved").textContent = "", 2000);
+};
+
+// ---------- maps
+async function loadMaps() {
+  const maps = await api("/api/maps");
+  $("map-select").innerHTML = maps.map((m) => `<option value="${m.id}">${esc(m.name)}</option>`).join("");
+  if (maps.length) showMap(maps[0].id); else $("map-data").textContent = "No map data yet.";
+}
+async function showMap(id) {
+  const m = await api("/api/maps/" + id);
+  $("map-data").textContent = (m.data.sites || []).map((s) => `${s.name}\n  ${s.defender?.plan_summary || ""}\n  ${s.attacker?.plan_summary || ""}`).join("\n\n");
+  $("notes").value = m.notes;
+}
+$("map-select").onchange = (e) => showMap(e.target.value);
+$("save-notes").onclick = async () => {
+  await api(`/api/maps/${$("map-select").value}/notes`, { method: "POST", body: JSON.stringify({ notes: $("notes").value }) });
+  $("notes-saved").textContent = "Saved."; setTimeout(() => $("notes-saved").textContent = "", 2000);
+};
+
+// ---------- history
+async function loadMatches() {
+  const ms = await api("/api/matches");
+  $("matches").innerHTML = ms.map((m) => `<tr><td>${new Date(m.started * 1000).toLocaleString()}</td><td>${esc(m.map || "?")}</td>
+    <td>${m.score_us ?? "?"} – ${m.score_them ?? "?"}</td><td class="${m.won ? "w" : m.won === 0 ? "l" : ""}">${m.won == null ? "–" : m.won ? "Win" : "Loss"}</td></tr>`).join("")
+    || `<tr><td colspan="4" class="hint">No matches recorded yet.</td></tr>`;
+}
+
+boot();
+</script>
+</body>
+</html>

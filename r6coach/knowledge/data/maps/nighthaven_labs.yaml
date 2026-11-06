@@ -1,0 +1,107 @@
+id: nighthaven_labs
+name: Nighthaven Labs
+aliases: ["Nighthaven Labs", "Nighthaven", "NIGHTHAVEN LABS", "Labs"]
+floors: [basement, 1F, 2F, roof]
+attacker_spawns:
+  - name: "Park"
+    notes: "Park side approach."
+  - name: "Generator"
+    notes: "Generator side approach."
+  - name: "Helipad"
+    notes: "Helipad side, good for upper floor attacks."
+sites:
+  - id: command_center_servers
+    name: "2F Command Center / 2F Servers"
+    aliases: ["2F Servers / 2F Command Center", "Command", "Command Center", "Servers", "Server"]
+    floor: 2F
+    defender:
+      reinforce: ["Command Center and Servers outer walls"]
+      rotates: ["Command to Servers connection"]
+      anchor_spots: ["Command Center behind consoles", "Servers racks"]
+      roam_areas: ["1F below", "Roof and Meeting Room area"]
+      key_utility: ["Window denial", "Anti-breach on main walls"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Valkyrie", "Azami"]
+      plan_summary: "Hold Command and Servers with reinforced walls. Contest roof and the Meeting Room runout hatch."
+    attacker:
+      recommended_spawns: ["Helipad"]
+      drone_paths: ["Drone from roof", "Drone up one of the five stairs"]
+      entry_points: ["Roof and windows", "Stairs"]
+      hard_breach_targets: ["Reinforced site walls"]
+      plant_spots: ["Command Center after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
+      utility_priorities: ["Roof control", "Open wall", "Smoke plant"]
+      plan_summary: "Take roof and 2F, breach the site wall and plant while watching stair flanks."
+    common_mistakes: ["Forgetting the many stair flanks"]
+    uncertain: ["Exact selection-screen wording not verified", "Modernized in Y10S3"]
+  - id: kitchen_cafeteria
+    name: "1F Kitchen / 1F Cafeteria"
+    aliases: ["1F Cafeteria / 1F Kitchen", "Kitchen", "Cafeteria"]
+    floor: 1F
+    defender:
+      reinforce: ["Kitchen and Cafeteria outer walls"]
+      rotates: ["Kitchen to Cafeteria connection"]
+      anchor_spots: ["Kitchen counters", "Cafeteria corners"]
+      roam_areas: ["2F above", "Exterior approaches"]
+      key_utility: ["Traps on entries", "Shields at doors"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Echo", "Mira"]
+      plan_summary: "Hold Kitchen and Cafeteria with vertical denial from 2F and traps on entries."
+    attacker:
+      recommended_spawns: ["Park", "Generator"]
+      drone_paths: ["Drone exterior doors", "Drone from 2F"]
+      entry_points: ["Exterior doors", "Vertical from 2F"]
+      hard_breach_targets: ["Reinforced outer walls"]
+      plant_spots: ["Kitchen after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Ace"]
+      utility_priorities: ["Vertical from above", "Open wall", "Smoke plant"]
+      plan_summary: "Take 2F control, open the site wall and plant."
+    common_mistakes: ["Ignoring vertical defenders"]
+    uncertain: []
+  - id: control_room_storage
+    name: "1F Control Room / 1F Storage"
+    aliases: ["1F Storage / 1F Control Room", "Control", "Control Room", "Storage"]
+    floor: 1F
+    defender:
+      reinforce: ["Control Room outer walls"]
+      rotates: ["Control to Storage connection"]
+      anchor_spots: ["Control Room consoles", "Storage shelves"]
+      roam_areas: ["2F above", "Basement below"]
+      key_utility: ["Anti-breach on walls", "Traps on doors"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Castle", "Lesion"]
+      plan_summary: "Hold Control and Storage with reinforced walls and vertical denial above."
+    attacker:
+      recommended_spawns: ["Generator"]
+      drone_paths: ["Drone exterior doors", "Drone from 2F"]
+      entry_points: ["Exterior doors", "Vertical from 2F"]
+      hard_breach_targets: ["Control Room reinforced wall"]
+      plant_spots: ["Control Room after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ash", "Zofia"]
+      utility_priorities: ["Vertical from above", "Open wall", "Smoke plant"]
+      plan_summary: "Take 2F, open Control and plant with flank watch."
+    common_mistakes: ["Over-committing one door"]
+    uncertain: []
+  - id: tank_assembly
+    name: "B Tank / B Assembly"
+    aliases: ["B Assembly / B Tank", "Tank", "Assembly", "Basement"]
+    floor: basement
+    defender:
+      reinforce: ["Hatches above basement", "Tank walls"]
+      rotates: ["Tank to Assembly connection"]
+      anchor_spots: ["Tank area corners", "Assembly behind machines"]
+      roam_areas: ["1F above", "Basement stairs"]
+      key_utility: ["Deny hatches", "Traps on stairs"]
+      recommended_ops: ["Mute", "Kaid", "Bandit", "Echo", "Goyo"]
+      plan_summary: "Deny hatches and hold Tank and Assembly with a crossfire and a stairs roamer."
+    attacker:
+      recommended_spawns: ["Park"]
+      drone_paths: ["Drone down stairs"]
+      entry_points: ["Stairs", "Hatches"]
+      hard_breach_targets: ["Hatches", "Tank walls"]
+      plant_spots: ["Under opened hatch"]
+      recommended_ops: ["Hibana", "Thermite", "Thatcher", "Buck", "Ace"]
+      utility_priorities: ["Take 1F", "Open hatches", "Smoke plant"]
+      plan_summary: "Take 1F, open hatches and plant with vertical cover."
+    common_mistakes: ["Rushing stairs without utility"]
+    uncertain: []
+general:
+  attack: ["Five stairs connect floors; expect flanks", "Many breakable walls reward hard breachers"]
+  defense: ["Runout hatch outside Meeting Room is a surprise route", "Do not get comfortable; flanks everywhere"]

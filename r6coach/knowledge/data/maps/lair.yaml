@@ -1,0 +1,109 @@
+id: lair
+name: Lair
+aliases: ["Lair", "LAIR"]
+floors: [basement, 1F, 2F, roof]
+attacker_spawns:
+  - name: "Shooting Range"
+    notes: "Exterior range side."
+  - name: "Gate"
+    notes: "Front gate approach."
+  - name: "Lift"
+    notes: "Lift side approach."
+  - name: "Dock"
+    notes: "Sea dock approach, good for lower floors."
+sites:
+  - id: master_office_r6_room
+    name: "2F Master Office / 2F R6 Room"
+    aliases: ["2F R6 Room / 2F Master Office", "Master Office", "R6 Room"]
+    floor: 2F
+    defender:
+      reinforce: ["Master Office and R6 Room outer walls"]
+      rotates: ["Master Office to R6 Room connection"]
+      anchor_spots: ["Master Office behind desk", "R6 Room corners"]
+      roam_areas: ["1F below", "Roof approaches"]
+      key_utility: ["Window and roof denial", "Anti-breach on main walls"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Valkyrie", "Azami"]
+      plan_summary: "Hold Master Office and R6 Room with reinforced walls and a crossfire. Delay roof entries."
+    attacker:
+      recommended_spawns: ["Gate", "Lift"]
+      drone_paths: ["Drone from roof", "Drone up stairs"]
+      entry_points: ["Roof and windows", "Stairs"]
+      hard_breach_targets: ["Reinforced site walls"]
+      plant_spots: ["Master Office after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
+      utility_priorities: ["Take roof and hallway", "Open wall", "Smoke plant"]
+      plan_summary: "Take 2F control, breach the site wall and plant under smoke."
+    common_mistakes: ["Ignoring stairs flank"]
+    uncertain: ["Modernized in Y10S3; callouts not re-verified"]
+  - id: bunks_briefing
+    name: "1F Bunks / 1F Briefing"
+    aliases: ["1F Briefing / 1F Bunks", "Bunks", "Briefing"]
+    floor: 1F
+    defender:
+      reinforce: ["Bunks and Briefing outer walls", "Floor above where reinforceable"]
+      rotates: ["Bunks to Briefing connection"]
+      anchor_spots: ["Bunks beds", "Briefing corners"]
+      roam_areas: ["2F above", "Basement below"]
+      key_utility: ["Traps on entries", "Shields at doors"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Echo", "Mira"]
+      plan_summary: "Hold Bunks and Briefing with vertical denial from 2F and traps on doors."
+    attacker:
+      recommended_spawns: ["Gate", "Shooting Range"]
+      drone_paths: ["Drone ground doors", "Drone from 2F"]
+      entry_points: ["Exterior doors", "Vertical from 2F"]
+      hard_breach_targets: ["Reinforced outer walls"]
+      plant_spots: ["Bunks after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Ace"]
+      utility_priorities: ["Vertical from above", "Open wall", "Smoke plant"]
+      plan_summary: "Take 2F above site, open the wall and plant under smoke."
+    common_mistakes: ["Fighting without vertical control"]
+    uncertain: []
+  - id: armory_weapon_maintenance
+    name: "1F Armory / 1F Weapon Maintenance"
+    aliases: ["1F Weapon Maintenance / 1F Armory", "Armory", "Weapon Maintenance"]
+    floor: 1F
+    defender:
+      reinforce: ["Armory outer walls"]
+      rotates: ["Armory to Weapon Maintenance connection"]
+      anchor_spots: ["Armory racks", "Weapon Maintenance benches"]
+      roam_areas: ["2F above", "Exterior approaches"]
+      key_utility: ["Anti-breach on walls", "Traps on doors"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Castle", "Lesion"]
+      plan_summary: "Hold Armory and Weapon Maintenance with reinforced walls and vertical denial above."
+    attacker:
+      recommended_spawns: ["Shooting Range", "Lift"]
+      drone_paths: ["Drone exterior doors", "Drone from 2F"]
+      entry_points: ["Exterior doors", "Vertical from 2F"]
+      hard_breach_targets: ["Armory reinforced wall"]
+      plant_spots: ["Armory after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ash", "Zofia"]
+      utility_priorities: ["Vertical from above", "Open wall", "Smoke plant"]
+      plan_summary: "Take 2F, open Armory and plant with flank watch."
+    common_mistakes: ["Over-committing one door"]
+    uncertain: []
+  - id: lab_lab_support
+    name: "B Lab / B Lab Support"
+    aliases: ["B Lab Support / B Lab", "Lab", "Lab Support", "Basement"]
+    floor: basement
+    defender:
+      reinforce: ["Hatches above basement", "Lab walls"]
+      rotates: ["Lab to Lab Support connection"]
+      anchor_spots: ["Lab corners", "Lab Support behind equipment"]
+      roam_areas: ["1F above", "Dock-side entries"]
+      key_utility: ["Deny hatches", "Traps on stairs"]
+      recommended_ops: ["Mute", "Kaid", "Bandit", "Echo", "Goyo"]
+      plan_summary: "Deny hatches and hold Lab and Lab Support with a crossfire and a stairs roamer."
+    attacker:
+      recommended_spawns: ["Dock"]
+      drone_paths: ["Drone down stairs", "Drone dock entries"]
+      entry_points: ["Stairs", "Hatches", "Dock-side entries"]
+      hard_breach_targets: ["Hatches", "Lab walls"]
+      plant_spots: ["Under opened hatch"]
+      recommended_ops: ["Hibana", "Thermite", "Thatcher", "Buck", "Ace"]
+      utility_priorities: ["Take 1F", "Open hatches", "Smoke plant"]
+      plan_summary: "Take 1F, open hatches and plant with vertical cover."
+    common_mistakes: ["Rushing basement stairs"]
+    uncertain: []
+general:
+  attack: ["Every floor has exterior entries; split pressure", "Drone early for roamers"]
+  defense: ["Watch exterior entry points for spawn peeks", "Lair has many flanks; roam with info"]

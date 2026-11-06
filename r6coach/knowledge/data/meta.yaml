@@ -1,0 +1,59 @@
+season:
+  name: "Operation Split Fire"
+  code: "Y11S3"
+  patch: "Y11S3.2 mid-season update (2026-10-15)"
+  started: "2026-09-01"
+  next_season: "Y11S4 expected early December 2026; Ranked moves to a more stable map rotation"
+ranked_map_pool:
+  - bank
+  - border
+  - calypso_casino
+  - chalet
+  - clubhouse
+  - coastline
+  - consulate
+  - fortress
+  - kafe_dostoyevsky
+  - kanal
+  - lair
+  - nighthaven_labs
+  - oregon
+  - outback
+  - villa
+legend_division_pool: [border, bank, chalet, clubhouse, villa, fortress, kafe_dostoyevsky, lair, nighthaven_labs]
+generated: "2026-11-06"
+operator_count: 78
+sources:
+  - "https://news.ubisoft.com/en-us/article/1yzD1EJhuk6vXsTt8eP1hf/rainbow-six-siege-operation-split-fire-midseason-update-legend-division-arrives-noor-buffs-and-a-final-ranked-map-rotation"
+  - "https://www.ubisoft.com/en-ca/game/rainbow-six/siege/game-info/seasons"
+  - "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/noor"
+  - "https://www.ubisoft.com/en-gb/game/rainbow-six/siege/game-info/seasons/highstakes"
+  - "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/calypso-casino"
+  - "https://www.ubisoft.com/en-us/game/rainbow-six/siege/news-updates/seasons/tenfoldpursuit"
+  - "https://www.ubisoft.com/en-gb/game/rainbow-six/siege/news-updates/8dJbwMqIt5Y8lZgwJRjWZ/y10s2-designers-notes"
+  - "https://news.ubisoft.com/en-us/article/75JAC7c5Ka6wnsxMyq2Ylz/rainbow-six-siege-operation-system-override-dokkaebi-remaster-calypso-casino-map-and-ranked-30"
+  - "https://liquipedia.net/rainbowsix/api.php (map pages: spawns and bomb sites)"
+  - "https://siegestrats.com/maps"
+  - "https://siegestrats.com/maps/bank"
+  - "https://siegestrats.com/maps/fortress"
+  - "https://siegestrats.com/maps/villa"
+  - "https://siegestrats.com/maps/calypso-casino"
+  - "https://gamerant.com/rainbow-six-siege-calypso-casino-best-meta-strategy/"
+  - "https://r6coaching.com/guides/calypso-casino.html"
+  - "https://stratbook.gg/maps/casino"
+  - "https://timesaver.gg/blog/rainbow-six-siege-operators-list"
+  - "https://siege.gg/news/rainbow-six-siege-operators"
+  - "https://www.hotspawn.com/rainbow-six/news/rainbow-six-siege-x-year-11-roadmap"
+notes:
+  - "Ranked pool is the 15-map list from Ubisoft's Y11S3.2 article: 9 Pro League maps plus Oregon, Coastline, Consulate, Kanal, Outback, Casino. Skyscraper and Theme Park left on 2026-10-15."
+  - "Y11S4 is expected around early December 2026 and will change the pool; regenerate then."
+  - "Site names use the format '<floor> Room A / <floor> Room B'. Room order and punctuation on the defender selection screen were not verified in-game; aliases include the reversed order."
+  - "Calypso Casino: attacker spawn names conflict between sources and were left empty. Site names come from third-party guides; Ubisoft does not publish them."
+  - "Fortress was reworked in Y10S4. Site names come from siegestrats; spawn names are pre-rework Liquipedia names and may be outdated."
+  - "Villa Y11S3: Living Room / Library site moved to basement as Art Storage / Old Office; Garage is now interior."
+  - "Consulate, Nighthaven Labs and Lair were modernized in Y10S3; Coastline, Villa and Oregon in Y11S1. Ubisoft describes these as visual and destructibility updates, not layout changes."
+  - "Consulate site '1F Tellers / B Servers' is a split-floor pairing taken from Liquipedia; verify on the selection screen."
+  - "Per-site tactical advice (walls, hatches, plant spots) is general coach-level guidance written from common knowledge; specific wall callouts were left out where not verified. Casino, Villa and Fortress have more concrete detail from current guides."
+  - "Operator speeds follow timesaver.gg (Oct 2026). Some secondary gadget lists may be out of date after Siege X loadout changes."
+  - "Thatcher: E.G.S. Disruptor replaced EMP grenades in Y10S4. Dokkaebi: Jegeo Payload replaced Logic Bomb in Y11S2; in Y11S3 it is a maintained signal that Mute and Tubarao can sever."
+  - "Solid Snake gadgets come from On-Site Procurement (collects secondaries from downed operators); exact starting item not verified."

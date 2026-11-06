@@ -1,0 +1,101 @@
+id: calypso_casino
+name: Calypso Casino
+aliases: ["Calypso Casino", "Casino", "CALYPSO CASINO"]
+floors: [basement, 1F, 2F, roof]
+attacker_spawns: []
+sites:
+  - id: cigar_room_pool
+    name: "2F Cigar Room / 2F Pool"
+    aliases: ["2F Pool / 2F Cigar Room", "Cigar Room", "Pool", "Cigar"]
+    floor: 2F
+    defender:
+      reinforce: ["Kitchen exterior wall, the main hard-breach target", "Wall and hatch around Pool"]
+      rotates: ["Small murder holes in the Kitchen to Cigar soft wall, not big enough to vault"]
+      anchor_spots: ["Cigar Room crouch-height stands facing Kitchen", "South Mezzanine"]
+      roam_areas: ["Aquarium hallway", "Barista", "Tequila stairs"]
+      key_utility: ["Jammer on the Kitchen outer wall", "Banshees or traps in Aquarium hallway and Pool hallway", "Gates or shields on Cigar and Kitchen doors"]
+      recommended_ops: ["Mute", "Kaid", "Melusi", "Azami", "Thorn", "Aruni"]
+      plan_summary: "Deny the Kitchen wall and focus on stopping entry through Kitchen. Spread players across Aquarium hallway, Barista, Cigar and South Mezzanine with one roamer on Tequila."
+    attacker:
+      recommended_spawns: []
+      drone_paths: ["Drone Aquarium hallway and Humidor first", "Use vertical drone vents for intel"]
+      entry_points: ["Aquarium stairs and hallway", "Tequila door", "Kitchen wall breach"]
+      hard_breach_targets: ["Kitchen exterior wall"]
+      plant_spots: ["Plant so the defuser is hard to reach from outside the Kitchen wall"]
+      recommended_ops: ["Thermite", "Thatcher", "Rauora", "Flores", "Nomad", "Dokkaebi"]
+      utility_priorities: ["Pressure Aquarium hallway to pull defenders off the wall", "Clear anti-breach on Kitchen wall", "Block doors with Rauora panels and smoke lines"]
+      plan_summary: "Pressure Aquarium hallway first, then clear anti-breach and burn the Kitchen wall. Block rotate doors, smoke lines and plant behind the breach."
+    common_mistakes: ["Breaching Kitchen before Aquarium is cleared", "Defenders over-holding the wall instead of the entries"]
+    uncertain: ["Exact selection-screen wording and floor prefixes not verified", "Pool reinforcement details vary by source"]
+  - id: blackjack_poker
+    name: "1F Blackjack / 1F Poker"
+    aliases: ["1F Poker / 1F Blackjack", "Blackjack", "Poker"]
+    floor: 1F
+    defender:
+      reinforce: ["Blackjack outer reinforcable wall", "Hatches above site if they would expose cameras or anchors"]
+      rotates: ["Keep Blackjack to Poker connection open"]
+      anchor_spots: ["Behind the counter near the bomb", "Vending area covering Registration Hallway"]
+      roam_areas: ["Humidor and Aquarium hallway above", "North Mezzanine"]
+      key_utility: ["Evil Eyes covering plant spots", "ADS near entries and cameras", "Electrify the Blackjack wall"]
+      recommended_ops: ["Maestro", "Mute", "Jager", "Goyo", "Aruni", "Kaid"]
+      plan_summary: "Play plant denial with Maestro cameras protected by ADS and jammers. Hold Blackjack and Poker with gates on doors and use 2F players to fight vertical."
+    attacker:
+      recommended_spawns: []
+      drone_paths: ["Drone Registration Hallway", "Drone through site drone holes"]
+      entry_points: ["Site doors", "Blackjack wall breach", "Vertical from Humidor"]
+      hard_breach_targets: ["Blackjack reinforced wall"]
+      plant_spots: ["Near the breached wall, covered from above"]
+      recommended_ops: ["Ace", "Sens", "Thatcher", "Rauora", "Ram", "Nomad"]
+      utility_priorities: ["Disable electric before breaching", "Sens walls block camera denial", "Take top floor for vertical"]
+      plan_summary: "Take top floor and Humidor, clear electric and open Blackjack. Block doors and cut camera lines with Sens walls for the plant."
+    common_mistakes: ["Planting into Evil Eye sightlines", "Ignoring the 2F vertical defenders"]
+    uncertain: ["Exact selection-screen wording not verified"]
+  - id: bar_betting
+    name: "1F Bar / 1F Betting"
+    aliases: ["1F Betting / 1F Bar", "Bar", "Betting"]
+    floor: 1F
+    defender:
+      reinforce: ["Bar and Wine Stock walls", "Hatch above Bar if you will not use it"]
+      rotates: ["Bar Connector between rooms"]
+      anchor_spots: ["Behind the thick Bar pillar", "Betting Lounge corners"]
+      roam_areas: ["Mezzanine Entrance and Tequila above", "Bar Hallway"]
+      key_utility: ["Claws on Bar and Wine Stock walls", "Gates on Bar Connector and hallways", "Banshees on top-floor approaches"]
+      recommended_ops: ["Kaid", "Azami", "Valkyrie", "Aruni", "Melusi"]
+      plan_summary: "Considered the weakest site because of the hatch above Bar. Deny walls with electric, slow doors with gates, and contest the floor above."
+    attacker:
+      recommended_spawns: []
+      drone_paths: ["Drone Bar Hallway", "Drone the floor above through the hatch area"]
+      entry_points: ["Janitor wall", "Hatch above Bar", "Bar and Betting hallways"]
+      hard_breach_targets: ["Janitor wall into Bar", "Hatch above Bar"]
+      plant_spots: ["Bar under the hatch so teammates cover from above"]
+      recommended_ops: ["Hibana", "Ram", "Gridlock", "Capitao", "Flores"]
+      utility_priorities: ["Take the floor above for vertical", "Open the hatch", "Fire bolts and smokes for the plant"]
+      plan_summary: "Usually the easiest site. Go upstairs for vertical, open the hatch and Janitor wall, then plant in Bar with cover from above."
+    common_mistakes: ["Defenders leaving the hatch uncontested", "Attackers not clearing hidden traps in Bar"]
+    uncertain: ["Exact selection-screen wording not verified"]
+  - id: cctv_vault_checkpoint
+    name: "B CCTV / B Vault Checkpoint"
+    aliases: ["B Vault Checkpoint / B CCTV", "CCTV", "Vault", "Vault Checkpoint", "Basement"]
+    floor: basement
+    defender:
+      reinforce: ["Vault wall", "Hatches above basement"]
+      rotates: ["Keep paths between CCTV and Vault Checkpoint safe"]
+      anchor_spots: ["CCTV prone spots", "Each player holds one entry"]
+      roam_areas: ["Break Room and Manager's Office above", "Ventilation Hallway stairs"]
+      key_utility: ["Electrify the Vault wall", "Tripwires on Break Room, Ventilation and Locker stairs", "Barricades on Manager's Office windows"]
+      recommended_ops: ["Kaid", "Castle", "Denari", "Goyo", "Tubarao", "Azami"]
+      plan_summary: "Each defender locks one basement entry while one stays on site. Electrify the Vault wall and wire the stairs."
+    attacker:
+      recommended_spawns: []
+      drone_paths: ["Drone down the stairs", "Use vertical vents to scout below"]
+      entry_points: ["Break Room push", "Service, Locker and Bar stairs", "Hatches"]
+      hard_breach_targets: ["Cash Counting walls", "CCTV wall"]
+      plant_spots: ["Behind breached CCTV wall with doors blocked"]
+      recommended_ops: ["Thermite", "Rauora", "Flores", "Ram", "Gridlock", "Hibana"]
+      utility_priorities: ["Take 1F control first", "Destroy claws and batteries from above", "Block site doors for the plant"]
+      plan_summary: "Push from Break Room, take 1F control and clear electric from above. Breach the CCTV wall and block doors while planting."
+    common_mistakes: ["Rushing stairs into tripwires", "Leaving the 1F flank uncovered"]
+    uncertain: ["Exact selection-screen wording not verified"]
+general:
+  attack: ["Rooftop crane allows rappel entries", "Vertical drone vents give intel", "Defenders on 1F get punished by vertical play"]
+  defense: ["New map: drone and learn runouts before roaming", "Watch rooftop and crane angles for spawn peeks"]

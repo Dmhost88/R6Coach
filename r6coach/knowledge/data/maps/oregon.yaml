@@ -1,0 +1,107 @@
+id: oregon
+name: Oregon
+aliases: ["Oregon", "OREGON"]
+floors: [basement, 1F, 2F, 3F, roof]
+attacker_spawns:
+  - name: "Junkyard"
+    notes: "Junkyard side, toward Big Tower and Dorms side."
+  - name: "Street"
+    notes: "Street side, toward main entrance and Kitchen."
+  - name: "Construction Site"
+    notes: "Construction side, good for basement and Laundry approaches."
+sites:
+  - id: kids_dorms_dorms_main_hall
+    name: "2F Kids' Dorms / 2F Dorms Main Hall"
+    aliases: ["2F Dorms Main Hall / 2F Kids' Dorms", "Kids Dorms", "Dorms", "Main Dorms"]
+    floor: 2F
+    defender:
+      reinforce: ["Dorms outer walls", "Walls toward the towers"]
+      rotates: ["Kids Dorms to Main Dorms connection"]
+      anchor_spots: ["Kids Dorms corners", "Main Dorms bunks"]
+      roam_areas: ["Big Tower", "1F below"]
+      key_utility: ["Window denial", "Anti-breach on main walls"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Valkyrie", "Melusi"]
+      plan_summary: "Hold Dorms with reinforced walls and a crossfire. Contest Big Tower and roof early."
+    attacker:
+      recommended_spawns: ["Junkyard"]
+      drone_paths: ["Drone from roof", "Drone through windows"]
+      entry_points: ["Roof and windows", "Tower routes", "Stairs"]
+      hard_breach_targets: ["Reinforced Dorms walls"]
+      plant_spots: ["Kids Dorms after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
+      utility_priorities: ["Take tower and roof", "Open wall", "Smoke plant"]
+      plan_summary: "Take Big Tower and roof control, breach the Dorms wall and plant."
+    common_mistakes: ["Ignoring Big Tower defenders"]
+    uncertain: []
+  - id: kitchen_dining_hall
+    name: "1F Kitchen / 1F Dining Hall"
+    aliases: ["1F Dining Hall / 1F Kitchen", "Kitchen", "Dining Hall", "Dining"]
+    floor: 1F
+    defender:
+      reinforce: ["Kitchen and Dining outer walls", "Floor above where reinforceable"]
+      rotates: ["Kitchen to Dining connection"]
+      anchor_spots: ["Kitchen counters", "Dining corners"]
+      roam_areas: ["2F above", "Exterior approaches"]
+      key_utility: ["Traps on entries", "Shields at doors"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Echo", "Mira"]
+      plan_summary: "Hold Kitchen and Dining with vertical denial and traps on entries."
+    attacker:
+      recommended_spawns: ["Street"]
+      drone_paths: ["Drone through windows", "Drone from 2F"]
+      entry_points: ["Exterior doors and windows", "Vertical from 2F"]
+      hard_breach_targets: ["Reinforced outer walls"]
+      plant_spots: ["Dining Hall after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Ace"]
+      utility_priorities: ["Vertical from above", "Open wall", "Smoke plant"]
+      plan_summary: "Take 2F control, open the site wall and plant."
+    common_mistakes: ["Ignoring vertical defenders"]
+    uncertain: []
+  - id: meeting_hall_kitchen
+    name: "1F Meeting Hall / 1F Kitchen"
+    aliases: ["1F Kitchen / 1F Meeting Hall", "Meeting", "Meeting Hall"]
+    floor: 1F
+    defender:
+      reinforce: ["Meeting Hall outer walls"]
+      rotates: ["Meeting Hall to Kitchen connection"]
+      anchor_spots: ["Meeting Hall stage area", "Kitchen counters"]
+      roam_areas: ["Towers", "2F above"]
+      key_utility: ["Anti-breach on walls", "Traps on doors"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Castle", "Lesion"]
+      plan_summary: "Hold Meeting and Kitchen with reinforced walls and players above for vertical denial."
+    attacker:
+      recommended_spawns: ["Junkyard", "Street"]
+      drone_paths: ["Drone Meeting Hall doors", "Drone from towers"]
+      entry_points: ["Exterior doors", "Tower routes", "Vertical from 2F"]
+      hard_breach_targets: ["Meeting Hall reinforced wall"]
+      plant_spots: ["Meeting Hall after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ash", "Zofia"]
+      utility_priorities: ["Take towers", "Open wall", "Smoke plant"]
+      plan_summary: "Take tower control, open Meeting and plant with flank watch."
+    common_mistakes: ["Over-committing one door"]
+    uncertain: []
+  - id: laundry_room_supply_room
+    name: "B Laundry Room / B Supply Room"
+    aliases: ["B Supply Room / B Laundry Room", "Laundry", "Supply", "Basement"]
+    floor: basement
+    defender:
+      reinforce: ["Laundry and Supply walls", "Hatches above basement"]
+      rotates: ["Laundry to Supply connection"]
+      anchor_spots: ["Supply Room shelves", "Laundry corners"]
+      roam_areas: ["1F above", "Basement stairs"]
+      key_utility: ["Electric on main walls", "Traps on stairs"]
+      recommended_ops: ["Mute", "Kaid", "Bandit", "Echo", "Goyo"]
+      plan_summary: "Deny walls and hatches, hold Laundry and Supply with a crossfire and a stairs roamer."
+    attacker:
+      recommended_spawns: ["Construction Site"]
+      drone_paths: ["Drone down stairs", "Drone basement entries"]
+      entry_points: ["Stairs", "Hatches", "Exterior basement access"]
+      hard_breach_targets: ["Laundry or Supply walls", "Hatches"]
+      plant_spots: ["Laundry after breach"]
+      recommended_ops: ["Thermite", "Hibana", "Thatcher", "Buck", "Ace"]
+      utility_priorities: ["Clear electric", "Open wall", "Smoke plant"]
+      plan_summary: "Take 1F control, clear electric and open the key wall. Plant under smoke."
+    common_mistakes: ["Rushing stairs into traps"]
+    uncertain: []
+general:
+  attack: ["Towers give strong angles; take them early", "Modernized in Y11S1 with new destructibles"]
+  defense: ["Tower and window spawn peeks are common", "Avoid running out toward Junkyard early"]

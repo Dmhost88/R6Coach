@@ -1,0 +1,307 @@
+"""Watches the captured frames, decides when a cloud read is worth it, and keeps GameState.
+
+Cost control: frames are compared locally (tiny grayscale thumbnails). A screenshot is only
+sent to the vision model when the screen has changed meaningfully, or when a per-screen
+refresh interval has passed, and never more often than the configured minimum interval.
+"""
+
+from __future__ import annotations
+
+import logging
+import threading
+import time
+import uuid
+from typing import Optional
+
+import cv2
+import numpy as np
+
+from .bus import Bus
+from .capture import FrameSource, downscale, encode_jpeg
+from .config import Config
+from .frames import FrameStore
+from .hud import HudRead
+from .live import KillTracker
+from .llm import Claude
+from .models import PRE_ROUND, GameState, Screen, ScreenRead
+
+log = logging.getLogger(__name__)
+
+THUMB = (96, 40)
+CHANGE_THRESHOLD = 14.0   # mean abs grey-level difference vs last read thumbnail
+STABLE_THRESHOLD = 6.0    # difference between consecutive samples to count as "settled"
+REFRESH_FACTOR = 2.5      # refresh interval = min interval * factor, even without change
+MATCH_RESET_SCREENS = {Screen.main_menu, Screen.matchmaking, Screen.match_end}
+ROUND_START = {Screen.operator_ban, Screen.operator_select}
+
+
+def thumbnail(img: np.ndarray) -> np.ndarray:
+    small = cv2.resize(img, THUMB, interpolation=cv2.INTER_AREA)
+    return cv2.cvtColor(small, cv2.COLOR_BGR2GRAY).astype(np.float32)
+
+
+def diff(a: Optional[np.ndarray], b: Optional[np.ndarray]) -> float:
+    if a is None or b is None:
+        return 255.0
+    return float(np.mean(np.abs(a - b)))
+
+
+class ReadGate:
+    """Pure decision logic, separated so it can be unit tested."""
+
+    def __init__(self, cfg: Config) -> None:
+        self.cfg = cfg
+        self.last_read_ts = 0.0
+        self.last_read_thumb: Optional[np.ndarray] = None
+        self.prev_thumb: Optional[np.ndarray] = None
+        self.stable_since = 0.0
+
+    def should_read(self, now: float, thumb: np.ndarray, screen: Screen) -> bool:
+        moving = diff(thumb, self.prev_thumb) > STABLE_THRESHOLD
+        self.prev_thumb = thumb
+        if moving:
+            self.stable_since = now
+        min_iv = self.cfg.vision.interval_for(screen.value)
+        since = now - self.last_read_ts
+        if since < min_iv:
+            return False
+        changed = diff(thumb, self.last_read_thumb) > CHANGE_THRESHOLD
+        # Live rounds never sit still, so they don't need to settle first.
+        settled = screen in (Screen.action_phase, Screen.spectating) or now - self.stable_since >= 0.6
+        if changed and settled:
+            return True
+        return since >= min_iv * REFRESH_FACTOR
+
+    def mark_read(self, now: float, thumb: np.ndarray) -> None:
+        self.last_read_ts = now
+        self.last_read_thumb = thumb
+
+
+class Watcher:
+    def __init__(self, cfg: Config, bus: Bus, source: FrameSource, claude: Claude, frames: FrameStore) -> None:
+        self.cfg = cfg
+        self.bus = bus
+        self.source = source
+        self.claude = claude
+        self.frames = frames
+        self.state = GameState()
+        self.gate = ReadGate(cfg)
+        self.last_jpeg: Optional[bytes] = None
+        self.paused = False
+        self._stop = threading.Event()
+        self._thread: Optional[threading.Thread] = None
+        self._last_frame_ts = 0.0
+        self.kills = KillTracker(cfg.player_name)
+        self._lock = threading.RLock()   # cloud reads and HUD reads merge from different threads
+        self._last_timer: Optional[int] = None
+
+    def start(self) -> None:
+        self._thread = threading.Thread(target=self._run, name="watcher", daemon=True)
+        self._thread.start()
+
+    def stop(self) -> None:
+        self._stop.set()
+
+    def force_read(self) -> None:
+        self.gate.last_read_ts = 0.0
+        self.gate.last_read_thumb = None
+
+    def current_jpeg(self) -> Optional[bytes]:
+        latest = self.source.latest()
+        if latest is None:
+            return None
+        return encode_jpeg(downscale(latest[1], self.cfg.capture.upload_width))
+
+    def _run(self) -> None:
+        period = 1.0 / max(self.cfg.capture.sample_fps, 0.1)
+        while not self._stop.is_set():
+            self._stop.wait(period)
+            if self.paused:
+                continue
+            try:
+                self._tick()
+            except Exception:  # keep watching even if one read fails unexpectedly
+                log.exception("watcher tick failed")
+                self.bus.publish("error", source="watcher", message="Screen read failed; see log")
+                self._stop.wait(5)
+
+    def _tick(self) -> None:
+        latest = self.source.latest()
+        if latest is None:
+            return
+        ts, img = latest
+        if ts == self._last_frame_ts and self.gate.last_read_ts > ts:
+            return  # no new frame since the last read
+        self._last_frame_ts = ts
+        now = time.time()
+        thumb = thumbnail(img)
+        if not self.gate.should_read(now, thumb, self.state.screen):
+            return
+        self.gate.mark_read(now, thumb)
+        jpeg = encode_jpeg(downscale(img, self.cfg.capture.upload_width))
+        self.last_jpeg = jpeg
+        read = self.claude.read_screen(
+            jpeg, self.cfg.vision.model, self.cfg.vision.effort, hint=self.state.summary(),
+            player_name=self.cfg.player_name,
+        )
+        if read is None:
+            return
+        self.frames.maybe_save(read, jpeg, self.state)
+        self.apply(read)
+
+    # ------------------------------------------------------------------ state merge
+    def apply(self, read: ScreenRead) -> None:
+        with self._lock:
+            self._apply(read)
+
+    # ------------------------------------------------------------------ local HUD merge
+    def apply_hud(self, h: HudRead) -> None:
+        """Merge a local HUD read. Runs about once a second; costs nothing."""
+        with self._lock:
+            self._apply_hud(h)
+
+    def _apply_hud(self, h: HudRead) -> None:
+        s = self.state
+        prev_screen = s.screen
+        live = lambda kind, **kw: self.bus.publish("live.event", kind=kind, **kw)  # noqa: E731
+
+        # Phase changes. The ban and operator-select screens show the same top-bar timer, so the
+        # timer alone never moves the phase; banners and the prep -> action timer jump do.
+        new_screen = None
+        if "prep" in h.events and prev_screen not in (Screen.prep_phase, Screen.action_phase):
+            new_screen = Screen.prep_phase
+        if "action" in h.events or (
+            prev_screen == Screen.prep_phase and h.timer is not None and h.timer >= 150
+            and self._last_timer is not None and self._last_timer <= 15
+        ):
+            new_screen = Screen.action_phase
+        round_over = "won_round" in h.events or "lost_round" in h.events
+        if round_over:
+            new_screen = Screen.round_end
+
+        if h.timer is not None:
+            if h.timer != s.timer_seconds:
+                s.timer_seconds = h.timer
+                live("timer", seconds=h.timer)
+            self._last_timer = h.timer
+        if h.in_round:
+            if h.score_us is not None:
+                s.score_us = h.score_us
+            if h.score_them is not None:
+                s.score_them = h.score_them
+            if h.reinforcements is not None:
+                s.team_reinforcements = h.reinforcements
+        if h.room:
+            s.my_location = h.room
+        if h.health is not None:
+            s.health = h.health
+        if h.site and not s.site:
+            s.site = h.site
+        if h.side:
+            s.side = h.side
+        if h.alive_us is not None:
+            if (h.alive_us, h.alive_them) != (s.alive_us, s.alive_them):
+                s.alive_us, s.alive_them = h.alive_us, h.alive_them
+                live("vs", alive_us=h.alive_us, alive_them=h.alive_them, player_alive=s.player_alive)
+        if "planted" in h.events and not s.defuser_planted:
+            s.defuser_planted = True
+            live("planted")
+        if "enemies_found_bombs" in h.events:
+            live("found_bombs")
+
+        me = self.cfg.player_name.lower()
+        for k in self.kills.new_kills(h.kills):
+            mine = bool(me) and k.killer.lower() == me
+            died = bool(me) and k.victim.lower() == me
+            if died:
+                s.player_alive = False
+                self.bus.publish("player.died", killer=k.killer)
+            live("kill", mine=mine, killer=k.killer, victim=k.victim,
+                 killer_team=k.killer_team, victim_team=k.victim_team)
+            self.bus.publish("killfeed", entries=[{
+                "killer_operator": None, "killer_team": k.killer_team, "killer": k.killer,
+                "victim_team": k.victim_team, "victim": k.victim}])
+
+        if new_screen is not None and new_screen != prev_screen:
+            s.screen = new_screen
+            self.bus.publish("screen.changed", previous=prev_screen.value, screen=new_screen.value,
+                             state=s.model_dump(mode="json"), source="hud")
+            if new_screen == Screen.round_end:
+                self.bus.publish("round.ended", won="won_round" in h.events, state=s.model_dump(mode="json"))
+        self.bus.publish("state.updated", state=s.model_dump(mode="json"))
+
+    def _apply(self, read: ScreenRead) -> None:
+        """Merge one screen read into the match state and publish what changed."""
+        s = self.state
+        self.bus.publish("vision.read", read=read.model_dump(mode="json"))
+        if read.confidence < 0.35:
+            return
+        prev_screen = s.screen
+        screen = read.screen
+
+        # New match: ban/select screens after a menu or a finished match, or a different map.
+        new_match = screen in (Screen.map_ban, Screen.operator_ban, Screen.operator_select) and (
+            s.match_id is None or prev_screen in MATCH_RESET_SCREENS
+        )
+        if new_match:
+            self.state = s = GameState(match_id=uuid.uuid4().hex[:10])
+            self.bus.publish("match.started", match_id=s.match_id)
+            if self.kills:
+                self.kills.reset_match()
+
+        # Round boundary: the first pre-round screen (ban phase or op select) after anything else
+        # starts a new round and clears round-scoped info. Bans happen every round, so they reset too.
+        if screen in ROUND_START and prev_screen not in PRE_ROUND:
+            s.my_operator = None
+            s.teammate_operators = []
+            s.enemy_operators = []
+            s.banned_operators = []
+            s.site = None
+            s.site_options = []
+            s.spawn = None
+            s.my_location = None
+            s.team_reinforcements = None
+            s.health = None
+            s.player_alive = True
+            s.defuser_planted = False
+            self.bus.publish("live.event", kind="round_reset")
+            if self.kills:
+                self.kills.reset_round()
+            s.pinged_enemies = []
+
+        for field in ("map", "side", "site", "spawn", "my_operator", "my_location", "round_number",
+                      "timer_seconds", "alive_us", "alive_them", "team_reinforcements"):
+            val = getattr(read, field)
+            if val is not None:
+                setattr(s, field, val)
+        if read.teammate_operators:
+            s.teammate_operators = read.teammate_operators
+        if read.enemy_operators:  # reveals only grow during a round
+            s.enemy_operators = list(dict.fromkeys(s.enemy_operators + read.enemy_operators))
+        if read.site_options:
+            s.site_options = read.site_options
+        if read.banned_operators:
+            s.banned_operators = read.banned_operators
+        if read.map_ban_options:
+            s.map_ban_options = read.map_ban_options
+        if read.score_us is not None:
+            s.score_us = read.score_us
+        if read.score_them is not None:
+            s.score_them = read.score_them
+        if read.defuser_planted is not None:
+            s.defuser_planted = read.defuser_planted
+        if screen in (Screen.prep_phase, Screen.action_phase, Screen.spectating):
+            s.pinged_enemies = read.pinged_enemies
+        s.screen = screen
+        s.last_read_ts = time.time()
+
+        if screen != prev_screen:
+            self.bus.publish("screen.changed", previous=prev_screen.value, screen=screen.value,
+                             state=s.model_dump(mode="json"))
+        if screen == Screen.round_end and prev_screen != Screen.round_end:
+            self.bus.publish("round.ended", won=read.round_won, state=s.model_dump(mode="json"))
+        if screen == Screen.match_end and prev_screen != Screen.match_end:
+            self.bus.publish("match.ended", state=s.model_dump(mode="json"))
+        if read.killfeed:
+            self.bus.publish("killfeed", entries=[k.model_dump() for k in read.killfeed])
+        self.bus.publish("state.updated", state=s.model_dump(mode="json"))

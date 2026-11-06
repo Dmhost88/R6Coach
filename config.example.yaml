@@ -1,0 +1,69 @@
+# R6 Coach configuration. Copy to config.yaml and edit.
+# API keys go in .env (see .env.example), never in this file.
+
+player_name: ""                    # your in-game name, so the coach can tell your kills apart
+
+capture:
+  window_title: "Rainbow Six"      # substring of the game window title
+  sample_fps: 2                    # frames per second checked locally (cheap)
+  upload_width: 1600               # screenshots are downscaled to this width before upload
+
+vision:
+  model: claude-opus-5-5           # model that reads static screens (op select, bans, round end)
+  effort: low
+  # Minimum seconds between cloud screen reads, per detected screen. Live rounds are read
+  # locally by the HUD reader, so they need few cloud reads.
+  min_interval:
+    default: 6
+    operator_select: 3
+    map_ban: 4
+    operator_ban: 4
+    prep_phase: 12
+    action_phase: 90
+    spectating: 60
+    round_end: 4
+
+hud:
+  enabled: true                    # free local reading of timer, score, banners, killfeed, your room
+  period: 1.0                      # seconds between local reads
+
+coach:
+  model: claude-opus-5-5           # model that writes advice and answers questions
+  effort: medium
+  skill_level: intermediate        # new | intermediate | advanced
+  # Chattiness per phase: 0 = silent, 1 = essentials only, 2 = normal, 3 = detailed
+  chattiness:
+    map_ban: 1
+    operator_ban: 1
+    operator_select: 2
+    prep_phase: 2
+    action_phase: 1
+    between_rounds: 1
+
+operator_pool:                     # your comfort picks, best first
+  attack: [Ash, Thermite, Twitch, Ace, Zofia]
+  defense: [Mute, Kaid, Valkyrie, Smoke, Mira]
+not_owned: []                      # operators you don't own
+
+voice:
+  provider: openai                 # openai | elevenlabs | sapi (offline Windows voice)
+  openai_voice: onyx
+  openai_model: gpt-4o-mini-tts
+  elevenlabs_voice_id: ""
+  elevenlabs_model: eleven_flash_v2_5
+  volume: 0.9                      # 0.0 - 1.0
+  output_device: null              # null = default device, or a device name substring
+
+push_to_talk:
+  key: f13                         # pynput key name, or mouse button: mouse_x1 / mouse_x2
+  whisper_model: base.en           # tiny.en | base.en | small.en
+  whisper_device: cuda             # cuda | cpu
+
+dashboard:
+  host: 127.0.0.1
+  port: 8765
+  open_browser: true
+
+storage:
+  data_dir: data                   # profile DB, key frames, TTS cache, logs
+  keep_frames_days: 14

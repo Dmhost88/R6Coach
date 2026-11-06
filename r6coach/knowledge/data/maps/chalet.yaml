@@ -1,0 +1,109 @@
+id: chalet
+name: Chalet
+aliases: ["Chalet", "CHALET"]
+floors: [basement, 1F, 2F, roof]
+attacker_spawns:
+  - name: "Front Yard"
+    notes: "Front of the chalet. Good for Main Entrance and 2F windows."
+  - name: "Campfire"
+    notes: "Side spawn. Common for Garage and basement attacks."
+  - name: "Cliffside"
+    notes: "Rear cliff path toward Bar and Gaming Room side."
+  - name: "Lakeside"
+    notes: "Lake side. Approach toward Kitchen, Dining and Trophy side."
+sites:
+  - id: master_bedroom_office
+    name: "2F Master Bedroom / 2F Office"
+    aliases: ["2F Office / 2F Master Bedroom", "Master Bedroom", "Office", "Master"]
+    floor: 2F
+    defender:
+      reinforce: ["Master Bedroom and Office outer walls", "Walls facing the balcony"]
+      rotates: ["Connection between Office and Master Bedroom for swaps"]
+      anchor_spots: ["Master Bedroom far corners", "Office behind desk"]
+      roam_areas: ["Library and 1F below", "Balcony early round"]
+      key_utility: ["Deny windows and balcony doors", "Anti-breach on the main walls"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Valkyrie", "Melusi"]
+      plan_summary: "Reinforce outer walls and hold Master and Office with a crossfire. Delay from Library and the balcony, then collapse onto site."
+    attacker:
+      recommended_spawns: ["Front Yard", "Lakeside"]
+      drone_paths: ["Drone through 2F windows", "Drone up main stairs"]
+      entry_points: ["Balcony and windows", "Main stairs", "Library side"]
+      hard_breach_targets: ["Reinforced Master Bedroom walls"]
+      plant_spots: ["Master Bedroom default after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
+      utility_priorities: ["Take Library and balcony", "Clear anti-breach", "Smoke the plant"]
+      plan_summary: "Take Library and balcony control, open the main wall and plant under smoke while watching stairs."
+    common_mistakes: ["Fighting through Library without drone support"]
+    uncertain: ["Exact wall callouts for current version not verified"]
+  - id: bar_gaming_room
+    name: "1F Bar / 1F Gaming Room"
+    aliases: ["1F Gaming Room / 1F Bar", "Bar", "Gaming Room"]
+    floor: 1F
+    defender:
+      reinforce: ["Bar exterior walls", "Floor hatches above site from 2F where reinforceable"]
+      rotates: ["Bar to Gaming Room connection"]
+      anchor_spots: ["Behind the bar counter", "Gaming Room corners"]
+      roam_areas: ["2F above site", "Fireplace and Main Entrance"]
+      key_utility: ["Anti-breach on the Bar walls", "Traps in Main Entrance and connecting hall"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Echo", "Castle"]
+      plan_summary: "Hold Bar and Gaming Room with outer walls reinforced and a 2F player denying vertical. Delay with traps at main entries."
+    attacker:
+      recommended_spawns: ["Cliffside", "Campfire"]
+      drone_paths: ["Drone through exterior windows into Bar", "Drone from 2F above site"]
+      entry_points: ["Exterior doors", "Vertical from 2F"]
+      hard_breach_targets: ["Bar reinforced outer wall"]
+      plant_spots: ["Bar behind cover after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Zofia"]
+      utility_priorities: ["Vertical from 2F", "Clear anti-breach", "Smoke the plant"]
+      plan_summary: "Take 2F above site for vertical, breach Bar and plant under smoke and flash cover."
+    common_mistakes: ["Ignoring 2F defenders playing vertical"]
+    uncertain: []
+  - id: kitchen_dining_room
+    name: "1F Kitchen / 1F Dining Room"
+    aliases: ["1F Dining Room / 1F Kitchen", "Kitchen", "Dining Room", "Dining"]
+    floor: 1F
+    defender:
+      reinforce: ["Kitchen and Dining outer walls", "Hatch or floor above site where relevant"]
+      rotates: ["Kitchen to Dining connection"]
+      anchor_spots: ["Kitchen counters", "Dining corners"]
+      roam_areas: ["Trophy and Library above", "Main Entrance"]
+      key_utility: ["Shields at doors", "Cameras covering windows"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Mira", "Lesion"]
+      plan_summary: "Reinforce outer walls and hold Kitchen and Dining with vertical denial above. Use shields and cameras to delay window entries."
+    attacker:
+      recommended_spawns: ["Lakeside", "Front Yard"]
+      drone_paths: ["Drone windows from Lakeside", "Drone from 2F above"]
+      entry_points: ["Exterior windows", "Main Entrance", "Vertical from 2F"]
+      hard_breach_targets: ["Kitchen or Dining reinforced outer wall"]
+      plant_spots: ["Kitchen or Dining after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ace", "Ash"]
+      utility_priorities: ["Vertical from above", "Open outer wall", "Smoke the plant"]
+      plan_summary: "Take 2F control and play vertical, open the outer wall and plant under cover."
+    common_mistakes: ["Peeking windows without utility"]
+    uncertain: []
+  - id: wine_cellar_snowmobile_garage
+    name: "B Wine Cellar / B Snowmobile Garage"
+    aliases: ["B Snowmobile Garage / B Wine Cellar", "Wine Cellar", "Garage", "Snowmobile Garage", "Basement"]
+    floor: basement
+    defender:
+      reinforce: ["Garage exterior wall and garage door side", "Hatches above basement"]
+      rotates: ["Connection between Wine Cellar and Garage"]
+      anchor_spots: ["Wine Cellar racks", "Garage behind snowmobiles"]
+      roam_areas: ["1F above basement", "Exterior garage approach early"]
+      key_utility: ["Deny hatches with jammers or electric", "Anti-breach on Garage wall", "Traps on basement stairs"]
+      recommended_ops: ["Mute", "Kaid", "Bandit", "Echo", "Goyo"]
+      plan_summary: "Reinforce garage walls and hatches, deny them with electric or jammers, and hold a Wine Cellar to Garage crossfire."
+    attacker:
+      recommended_spawns: ["Campfire"]
+      drone_paths: ["Drone the garage door", "Drone down the stairs"]
+      entry_points: ["Garage exterior", "Basement stairs", "Hatches from 1F"]
+      hard_breach_targets: ["Garage reinforced wall", "Hatches above site"]
+      plant_spots: ["Garage after breach", "Under opened hatch"]
+      recommended_ops: ["Thermite", "Hibana", "Thatcher", "Buck", "Ace"]
+      utility_priorities: ["Clear anti-breach on Garage", "Open hatches", "Smoke the plant"]
+      plan_summary: "Breach the Garage from outside after clearing electric, while teammates take 1F and open hatches. Plant in Garage with vertical cover."
+    common_mistakes: ["Entering Garage before hatches are pressured"]
+    uncertain: ["Exact hatch callouts not verified"]
+general:
+  attack: ["Snowy exterior hides runouts poorly; drone windows", "Vertical play from 1F is strong for basement"]
+  defense: ["Spawn peeks out of windows are common", "Do not run out at round start into Campfire lines"]

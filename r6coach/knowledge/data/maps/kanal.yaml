@@ -1,0 +1,107 @@
+id: kanal
+name: Kanal
+aliases: ["Kanal", "KANAL", "Canal"]
+floors: [basement, 1F, 2F, roof]
+attacker_spawns:
+  - name: "Floating Dock"
+    notes: "Water side. Approach toward Coast Guard building."
+  - name: "Sailboats"
+    notes: "Sailboats side. Toward the bridges and Control building."
+  - name: "Construction Site"
+    notes: "Construction side. Good for the land approach and basement."
+sites:
+  - id: server_room_radar_room
+    name: "2F Server Room / 2F Radar Room"
+    aliases: ["2F Radar Room / 2F Server Room", "Server", "Radar"]
+    floor: 2F
+    defender:
+      reinforce: ["Server and Radar outer walls"]
+      rotates: ["Server to Radar connection"]
+      anchor_spots: ["Server racks", "Radar corners"]
+      roam_areas: ["Bridges between buildings", "1F below"]
+      key_utility: ["Window denial", "Anti-breach on main walls"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Valkyrie", "Melusi"]
+      plan_summary: "Hold Server and Radar with reinforced walls. Contest the bridges early to slow rotations."
+    attacker:
+      recommended_spawns: ["Sailboats", "Construction Site"]
+      drone_paths: ["Drone across bridges", "Drone through 2F windows"]
+      entry_points: ["Bridges", "Windows and roof"]
+      hard_breach_targets: ["Reinforced Server or Radar wall"]
+      plant_spots: ["Server after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
+      utility_priorities: ["Control bridges", "Open wall", "Smoke plant"]
+      plan_summary: "Take bridges and 2F control, breach the site wall and plant."
+    common_mistakes: ["Crossing bridges into crossfires"]
+    uncertain: []
+  - id: security_room_map_room
+    name: "1F Security Room / 1F Map Room"
+    aliases: ["1F Map Room / 1F Security Room", "Security", "Map Room", "Maps"]
+    floor: 1F
+    defender:
+      reinforce: ["Security and Map Room outer walls", "Floor above where reinforceable"]
+      rotates: ["Security to Map Room connection"]
+      anchor_spots: ["Map Room corners", "Security behind desks"]
+      roam_areas: ["2F above", "Bridges"]
+      key_utility: ["Traps on entries", "Shields at doors"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Echo", "Castle"]
+      plan_summary: "Hold Security and Map Room with vertical denial from 2F and traps on entries."
+    attacker:
+      recommended_spawns: ["Floating Dock", "Construction Site"]
+      drone_paths: ["Drone ground floor doors", "Drone from 2F"]
+      entry_points: ["Exterior doors", "Vertical from 2F"]
+      hard_breach_targets: ["Reinforced outer walls"]
+      plant_spots: ["Map Room after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Zofia"]
+      utility_priorities: ["Vertical from above", "Open wall", "Smoke plant"]
+      plan_summary: "Take 2F for vertical, open the outer wall and plant under smoke."
+    common_mistakes: ["Ignoring 2F defenders"]
+    uncertain: []
+  - id: coast_guard_meeting_lounge
+    name: "1F Coast Guard Meeting Room / 1F Lounge"
+    aliases: ["1F Lounge / 1F Coast Guard Meeting Room", "Coast Guard", "Lounge", "Meeting Room"]
+    floor: 1F
+    defender:
+      reinforce: ["Coast Guard Meeting outer walls"]
+      rotates: ["Meeting to Lounge connection"]
+      anchor_spots: ["Meeting Room corners", "Lounge behind cover"]
+      roam_areas: ["2F above", "Water side approach"]
+      key_utility: ["Traps on entries", "Anti-breach on walls"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Mira", "Lesion"]
+      plan_summary: "Hold the Coast Guard building with a crossfire and reinforced walls, players above to stop vertical."
+    attacker:
+      recommended_spawns: ["Floating Dock"]
+      drone_paths: ["Drone through Coast Guard doors", "Drone from 2F"]
+      entry_points: ["Water side doors", "Vertical from 2F"]
+      hard_breach_targets: ["Reinforced Meeting Room wall"]
+      plant_spots: ["Meeting Room after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ash", "Ace"]
+      utility_priorities: ["Vertical from above", "Open wall", "Smoke plant"]
+      plan_summary: "Take 2F of Coast Guard building, breach and plant with flank watch on bridges."
+    common_mistakes: ["Ignoring bridge flanks"]
+    uncertain: []
+  - id: kayaks_supply_room
+    name: "B Kayaks / B Supply Room"
+    aliases: ["B Supply Room / B Kayaks", "Kayaks", "Supply Room", "Basement"]
+    floor: basement
+    defender:
+      reinforce: ["Hatches above basement", "Supply Room walls"]
+      rotates: ["Kayaks to Supply connection"]
+      anchor_spots: ["Supply Room shelves", "Kayaks corners"]
+      roam_areas: ["1F above", "Exterior basement entries"]
+      key_utility: ["Deny hatches", "Traps on stairs"]
+      recommended_ops: ["Mute", "Kaid", "Bandit", "Echo", "Goyo"]
+      plan_summary: "Deny hatches and hold Kayaks and Supply with a crossfire and a stairs roamer."
+    attacker:
+      recommended_spawns: ["Construction Site"]
+      drone_paths: ["Drone down stairs", "Drone basement entries"]
+      entry_points: ["Stairs", "Hatches", "Exterior basement doors"]
+      hard_breach_targets: ["Hatches", "Supply Room walls"]
+      plant_spots: ["Under opened hatch"]
+      recommended_ops: ["Hibana", "Thermite", "Thatcher", "Buck", "Ace"]
+      utility_priorities: ["Take 1F above", "Open hatches", "Smoke plant"]
+      plan_summary: "Take 1F, open hatches for vertical and plant under cover."
+    common_mistakes: ["Rushing basement without hatch control"]
+    uncertain: []
+general:
+  attack: ["Bridges connect buildings; deny rotations", "Water side gives long sightlines"]
+  defense: ["Long exterior sightlines make spawn peeks common", "Roam bridges carefully"]

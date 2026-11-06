@@ -1,0 +1,107 @@
+id: coastline
+name: Coastline
+aliases: ["Coastline", "COASTLINE"]
+floors: [1F, 2F, roof]
+attacker_spawns:
+  - name: "Main Entrance"
+    notes: "Front of the building. Fast to Main Entrance and Hookah side."
+  - name: "Pool Side"
+    notes: "Pool area. Good for Blue Bar, Sunrise Bar and Kitchen side."
+  - name: "Ruins"
+    notes: "Ruins behind. Quick to roof and Theater side."
+sites:
+  - id: hookah_billiards
+    name: "2F Hookah Lounge / 2F Billiards Room"
+    aliases: ["2F Billiards Room / 2F Hookah Lounge", "Hookah", "Billiards"]
+    floor: 2F
+    defender:
+      reinforce: ["Hookah outer walls", "Billiards walls toward the hallway"]
+      rotates: ["Hookah to Billiards connection"]
+      anchor_spots: ["Hookah corners", "Billiards behind tables"]
+      roam_areas: ["1F below", "Roof and balconies"]
+      key_utility: ["Window denial", "Anti-breach on outer walls"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Valkyrie", "Melusi"]
+      plan_summary: "Hold Hookah and Billiards with a crossfire and reinforced outer walls. Contest roof and windows early."
+    attacker:
+      recommended_spawns: ["Main Entrance", "Ruins"]
+      drone_paths: ["Drone through 2F windows", "Drone up interior stairs"]
+      entry_points: ["Windows and roof", "Stairs"]
+      hard_breach_targets: ["Hookah reinforced wall"]
+      plant_spots: ["Hookah after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
+      utility_priorities: ["Take 2F hallway", "Open the wall", "Smoke plant"]
+      plan_summary: "Take roof and hallway control, open Hookah and plant under smoke."
+    common_mistakes: ["Swinging windows into multiple angles"]
+    uncertain: []
+  - id: theater_penthouse
+    name: "2F Theater / 2F Penthouse"
+    aliases: ["2F Penthouse / 2F Theater", "Theater", "Penthouse"]
+    floor: 2F
+    defender:
+      reinforce: ["Theater and Penthouse outer walls", "Walls toward the 2F hallway"]
+      rotates: ["Theater to Penthouse connection"]
+      anchor_spots: ["Theater seats", "Penthouse bathroom side"]
+      roam_areas: ["Roof", "1F below"]
+      key_utility: ["Shields at doors", "Traps on main approaches"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Echo", "Azami"]
+      plan_summary: "Reinforce outer walls and hold Theater and Penthouse with a crossfire. Delay roof and stair pushes."
+    attacker:
+      recommended_spawns: ["Ruins"]
+      drone_paths: ["Drone from roof", "Drone up stairs"]
+      entry_points: ["Roof and windows", "Stairs"]
+      hard_breach_targets: ["Theater or Penthouse reinforced wall"]
+      plant_spots: ["Theater after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ace", "Dokkaebi"]
+      utility_priorities: ["Roof control", "Open wall", "Smoke plant"]
+      plan_summary: "Take roof and hallway, breach the site wall and plant with flank watch."
+    common_mistakes: ["Leaving the 1F stairs unwatched"]
+    uncertain: []
+  - id: kitchen_service_entrance
+    name: "1F Kitchen / 1F Service Entrance"
+    aliases: ["1F Service Entrance / 1F Kitchen", "Kitchen", "Service Entrance"]
+    floor: 1F
+    defender:
+      reinforce: ["Kitchen outer walls", "Floor above site where reinforceable"]
+      rotates: ["Kitchen to Service Entrance connection"]
+      anchor_spots: ["Kitchen counters", "Service Entrance corners"]
+      roam_areas: ["2F above", "Pool side"]
+      key_utility: ["Traps at doors", "Cameras on windows"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Lesion", "Castle"]
+      plan_summary: "Hold Kitchen and Service Entrance with reinforced walls and vertical denial from 2F."
+    attacker:
+      recommended_spawns: ["Pool Side"]
+      drone_paths: ["Drone through Kitchen windows", "Drone from 2F"]
+      entry_points: ["Exterior doors", "Vertical from 2F"]
+      hard_breach_targets: ["Kitchen reinforced outer wall"]
+      plant_spots: ["Kitchen after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Zofia"]
+      utility_priorities: ["Vertical from above", "Open wall", "Smoke plant"]
+      plan_summary: "Play vertical from 2F, breach Kitchen and plant under smoke."
+    common_mistakes: ["Ignoring 2F defenders"]
+    uncertain: []
+  - id: blue_bar_sunrise_bar
+    name: "1F Blue Bar / 1F Sunrise Bar"
+    aliases: ["1F Sunrise Bar / 1F Blue Bar", "Blue Bar", "Sunrise Bar"]
+    floor: 1F
+    defender:
+      reinforce: ["Blue Bar outer walls", "Sunrise Bar walls toward Pool side"]
+      rotates: ["Blue Bar to Sunrise connection"]
+      anchor_spots: ["Behind the Blue Bar counter", "Sunrise corners"]
+      roam_areas: ["2F above", "Pool and Main Lobby"]
+      key_utility: ["Shields at doors", "Traps in hallways"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Mira", "Melusi"]
+      plan_summary: "Hold Blue Bar and Sunrise with reinforced walls toward Pool. Use 2F players to deny vertical."
+    attacker:
+      recommended_spawns: ["Pool Side", "Main Entrance"]
+      drone_paths: ["Drone from Pool side doors", "Drone from 2F"]
+      entry_points: ["Pool side", "Main Lobby", "Vertical from 2F"]
+      hard_breach_targets: ["Blue Bar reinforced wall"]
+      plant_spots: ["Blue Bar after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ash", "Iana"]
+      utility_priorities: ["Take 2F above", "Open wall", "Smoke plant"]
+      plan_summary: "Take 2F control, open Blue Bar and plant with flank watch on Main Lobby."
+    common_mistakes: ["Pushing Main Lobby without droning"]
+    uncertain: []
+general:
+  attack: ["Many entries make full clears slow; drone early", "Modernized in Y11S1 with new destructibles"]
+  defense: ["Window spawn peeks on Pool side are risky", "Roamers have many flank routes"]

@@ -1,0 +1,107 @@
+id: border
+name: Border
+aliases: ["Border", "BORDER"]
+floors: [1F, 2F, roof]
+attacker_spawns:
+  - name: "East Vehicle Entrance"
+    notes: "East side. Quick to East Balcony and the Customs side."
+  - name: "Valley"
+    notes: "Central approach toward the main building and Fountain side."
+  - name: "West Vehicle Exit"
+    notes: "West side. Fast to West Balcony and the Armory side."
+sites:
+  - id: armory_lockers_archives
+    name: "2F Armory Lockers / 2F Archives"
+    aliases: ["2F Archives / 2F Armory Lockers", "Armory", "Archives", "Armory Lockers"]
+    floor: 2F
+    defender:
+      reinforce: ["Armory and Archives walls facing the balconies", "Walls attackers use to isolate from 1F stairs"]
+      rotates: ["Rotation between Armory and Archives for crossfires"]
+      anchor_spots: ["Deep Armory lockers", "Archives behind shelves"]
+      roam_areas: ["East and West Balcony early round", "1F below site to deny vertical"]
+      key_utility: ["Anti-breach on balcony-facing walls", "Cameras covering both balconies"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Valkyrie", "Azami"]
+      plan_summary: "Reinforce balcony walls and hold Armory and Archives with a crossfire. Contest the balconies early with utility, then play site."
+    attacker:
+      recommended_spawns: ["East Vehicle Entrance", "West Vehicle Exit"]
+      drone_paths: ["Drone through balcony windows", "Drone up the stairs from 1F"]
+      entry_points: ["East Balcony", "West Balcony", "Interior stairs"]
+      hard_breach_targets: ["Reinforced walls from the balconies into site"]
+      plant_spots: ["Inside the room opened by the breach, out of balcony sightlines"]
+      recommended_ops: ["Thermite", "Thatcher", "Ash", "Buck", "Ace"]
+      utility_priorities: ["Take both balconies", "Clear anti-breach and open the key wall", "Smoke the plant"]
+      plan_summary: "Take a balcony, clear anti-breach and open the site wall while teammates hold the interior stairs. Plant behind cover after the breach."
+    common_mistakes: ["Peeking balcony doors without utility", "Defenders not watching both balconies"]
+    uncertain: ["Exact current hard-breach wall callouts not verified"]
+  - id: workshop_ventilation
+    name: "1F Workshop / 1F Ventilation Room"
+    aliases: ["1F Ventilation Room / 1F Workshop", "Workshop", "Vent Room", "Ventilation"]
+    floor: 1F
+    defender:
+      reinforce: ["Outer Workshop walls", "Hatches or floors above site where reinforceable"]
+      rotates: ["Rotation from Ventilation Room toward Supply and Customs side"]
+      anchor_spots: ["Workshop behind workbenches", "Ventilation corners"]
+      roam_areas: ["2F above site", "Fountain and Main Lobby"]
+      key_utility: ["Shields at doorways", "Traps on main entries"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Lesion", "Maestro"]
+      plan_summary: "Reinforce Workshop outer walls and hold site with a 2F player to stop vertical. Delay main entries with traps."
+    attacker:
+      recommended_spawns: ["Valley", "West Vehicle Exit"]
+      drone_paths: ["Drone through Main Lobby", "Drone from 2F above site"]
+      entry_points: ["Main Lobby", "Exterior doors near Workshop"]
+      hard_breach_targets: ["Reinforced outer Workshop wall"]
+      plant_spots: ["Workshop default after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Iana"]
+      utility_priorities: ["Vertical from 2F", "Clear anti-breach", "Smoke the plant"]
+      plan_summary: "Take 2F above site for vertical pressure, breach Workshop and plant under smoke while flanks are held."
+    common_mistakes: ["Forgetting to clear 2F before planting"]
+    uncertain: ["Site name order on the selection screen not verified"]
+  - id: customs_supply
+    name: "1F Customs Inspection / 1F Supply Room"
+    aliases: ["1F Supply Room / 1F Customs Inspection", "Customs", "Supply"]
+    floor: 1F
+    defender:
+      reinforce: ["Customs exterior walls", "Supply Room walls toward hallways"]
+      rotates: ["Rotation toward Ventilation Room side"]
+      anchor_spots: ["Customs desks", "Supply Room shelves"]
+      roam_areas: ["2F above site", "East side hallways"]
+      key_utility: ["Anti-breach on Customs wall", "Cameras on the exterior doors"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Echo", "Castle"]
+      plan_summary: "Reinforce Customs outer walls and hold Supply with a crossfire. Keep a player above site to fight vertical."
+    attacker:
+      recommended_spawns: ["East Vehicle Entrance"]
+      drone_paths: ["Drone through the Customs exterior doors", "Drone from 2F"]
+      entry_points: ["Exterior doors near Customs", "East Balcony to 2F then vertical"]
+      hard_breach_targets: ["Customs reinforced wall"]
+      plant_spots: ["Customs after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ash", "Zofia"]
+      utility_priorities: ["Open Customs wall", "Vertical from 2F", "Smoke and flash entries"]
+      plan_summary: "Take East side and 2F control, breach Customs and plant under cover from vertical teammates."
+    common_mistakes: ["Over-committing to one entry"]
+    uncertain: []
+  - id: tellers_bathroom
+    name: "1F Tellers / 1F Bathroom"
+    aliases: ["1F Bathroom / 1F Tellers", "Tellers", "Bathroom"]
+    floor: 1F
+    defender:
+      reinforce: ["Tellers walls toward Main Lobby", "Bathroom outer walls"]
+      rotates: ["Rotation toward Workshop side"]
+      anchor_spots: ["Tellers behind counters", "Bathroom stalls corner"]
+      roam_areas: ["Main Lobby", "2F above site"]
+      key_utility: ["Shields at Tellers entries", "Traps in Main Lobby"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Mira", "Melusi"]
+      plan_summary: "Hold Tellers and Bathroom with reinforced walls toward Main Lobby. Use traps and a 2F player to slow the execute."
+    attacker:
+      recommended_spawns: ["Valley", "West Vehicle Exit"]
+      drone_paths: ["Drone through Main Lobby", "Drone from 2F above Tellers"]
+      entry_points: ["Main Lobby", "West side doors"]
+      hard_breach_targets: ["Tellers reinforced wall"]
+      plant_spots: ["Tellers after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Dokkaebi"]
+      utility_priorities: ["Clear Main Lobby", "Vertical from 2F", "Smoke the plant"]
+      plan_summary: "Clear Main Lobby, play vertical from 2F and breach Tellers. Plant under smoke with flank watch."
+    common_mistakes: ["Swinging Main Lobby without droning"]
+    uncertain: []
+general:
+  attack: ["Balcony control is key for 2F", "Drone for runouts early; many open exterior paths"]
+  defense: ["Spawn peeks from windows are risky and well known", "Avoid running out at round start without a plan"]

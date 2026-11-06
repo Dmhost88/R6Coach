@@ -1,0 +1,109 @@
+id: clubhouse
+name: Clubhouse
+aliases: ["Clubhouse", "CLUBHOUSE", "Club House"]
+floors: [basement, 1F, 2F, roof]
+attacker_spawns:
+  - name: "Main Entrance"
+    notes: "Front gate. Toward Garage and Main Entrance."
+  - name: "Shipping Docks"
+    notes: "Side spawn near the docks and rear of the building."
+  - name: "Warehouse"
+    notes: "Behind the warehouse, good for basement and Church side."
+  - name: "Construction Site"
+    notes: "Construction side. Good for roof and 2F CCTV and Cash pushes."
+sites:
+  - id: gym_bedroom
+    name: "2F Gym / 2F Bedroom"
+    aliases: ["2F Bedroom / 2F Gym", "Gym", "Bedroom"]
+    floor: 2F
+    defender:
+      reinforce: ["Gym and Bedroom outer walls", "Walls toward the 2F hallway"]
+      rotates: ["Gym to Bedroom rotate"]
+      anchor_spots: ["Bedroom corners", "Gym behind equipment"]
+      roam_areas: ["1F below and Bar", "Roof access points"]
+      key_utility: ["Anti-breach on outer walls", "Window denial"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Valkyrie", "Melusi"]
+      plan_summary: "Hold Gym and Bedroom with a rotate between them and outer walls reinforced. Delay roof and window entries with utility."
+    attacker:
+      recommended_spawns: ["Construction Site", "Shipping Docks"]
+      drone_paths: ["Drone through 2F windows", "Drone up the stairs"]
+      entry_points: ["Roof and windows", "Interior stairs"]
+      hard_breach_targets: ["Reinforced Gym or Bedroom outer wall"]
+      plant_spots: ["Gym default after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
+      utility_priorities: ["Take 2F hallway", "Clear anti-breach", "Smoke the plant"]
+      plan_summary: "Take 2F hallway and roof, breach the site wall and plant inside under smoke."
+    common_mistakes: ["Ignoring 1F flank via stairs"]
+    uncertain: []
+  - id: cctv_cash_room
+    name: "2F CCTV Room / 2F Cash Room"
+    aliases: ["2F Cash Room / 2F CCTV Room", "CCTV", "Cash", "Cash Room"]
+    floor: 2F
+    defender:
+      reinforce: ["CCTV outer walls", "Cash Room walls toward Construction side"]
+      rotates: ["CCTV to Cash connection"]
+      anchor_spots: ["Cash Room deep corners", "CCTV behind desk"]
+      roam_areas: ["Construction side and roof", "1F below"]
+      key_utility: ["Electric or jammers on the main walls", "Shields at doors"]
+      recommended_ops: ["Mute", "Kaid", "Bandit", "Smoke", "Echo"]
+      plan_summary: "A strong ranked site. Deny CCTV and Cash walls with electric and hold a tight crossfire between the rooms."
+    attacker:
+      recommended_spawns: ["Construction Site"]
+      drone_paths: ["Drone from the roof", "Drone through the stairs to 2F"]
+      entry_points: ["Construction side windows and roof", "Stairs"]
+      hard_breach_targets: ["CCTV or Cash reinforced walls"]
+      plant_spots: ["Cash or CCTV after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ace", "Kali"]
+      utility_priorities: ["Clear electric", "Open the wall", "Smoke and plant"]
+      plan_summary: "Take roof and Construction side, clear electric and open the main wall. Plant after clearing anchors with vertical and flashes."
+    common_mistakes: ["Wasting breach charges on denied walls"]
+    uncertain: []
+  - id: bar_stock_room
+    name: "1F Bar / 1F Stock Room"
+    aliases: ["1F Stock Room / 1F Bar", "Bar", "Stock Room"]
+    floor: 1F
+    defender:
+      reinforce: ["Bar exterior walls", "Floor hatches above site from 2F"]
+      rotates: ["Bar to Stock Room rotate"]
+      anchor_spots: ["Behind the bar", "Stock Room shelves"]
+      roam_areas: ["2F above", "Garage and Strip Club"]
+      key_utility: ["Traps at main doors", "Anti-breach on outer wall"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Castle", "Mira"]
+      plan_summary: "Hold Bar and Stock Room with outer walls reinforced and players above site to stop vertical."
+    attacker:
+      recommended_spawns: ["Main Entrance", "Shipping Docks"]
+      drone_paths: ["Drone through the front doors", "Drone from 2F above Bar"]
+      entry_points: ["Main Entrance", "Garage side", "Vertical from 2F"]
+      hard_breach_targets: ["Bar outer wall"]
+      plant_spots: ["Bar after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Zofia"]
+      utility_priorities: ["Vertical from above", "Clear anti-breach", "Smoke plant"]
+      plan_summary: "Take 2F for vertical, open the outer wall and plant under smoke."
+    common_mistakes: ["Fighting Garage without drones"]
+    uncertain: []
+  - id: church_arsenal_room
+    name: "B Church / B Arsenal Room"
+    aliases: ["B Arsenal Room / B Church", "Church", "Arsenal", "Basement"]
+    floor: basement
+    defender:
+      reinforce: ["Church and Arsenal walls attackers hard breach", "Hatches above basement"]
+      rotates: ["Church to Arsenal connection"]
+      anchor_spots: ["Church pews", "Arsenal back corners"]
+      roam_areas: ["1F above", "Garage and outside approach"]
+      key_utility: ["Deny the main walls with electric", "Traps on stairs"]
+      recommended_ops: ["Mute", "Kaid", "Bandit", "Echo", "Goyo"]
+      plan_summary: "Deny the main walls and hatches, hold a Church to Arsenal crossfire, and keep a roamer on the stairs."
+    attacker:
+      recommended_spawns: ["Warehouse"]
+      drone_paths: ["Drone down the stairs", "Drone from Garage"]
+      entry_points: ["Stairs", "Hatches from 1F"]
+      hard_breach_targets: ["Church or Arsenal reinforced wall", "Hatches"]
+      plant_spots: ["Church after breach"]
+      recommended_ops: ["Thermite", "Hibana", "Thatcher", "Ace", "Buck"]
+      utility_priorities: ["Take 1F above", "Clear electric", "Smoke the plant"]
+      plan_summary: "Take 1F control, clear electric and open the key wall or hatches. Plant with teammates holding stairs."
+    common_mistakes: ["Rushing the stairs without utility"]
+    uncertain: []
+general:
+  attack: ["Roof and Construction side are strong for 2F", "Clear the outside before committing"]
+  defense: ["Window spawn peeks are common and punished", "Roam Garage and Strip Club to delay"]

@@ -1,0 +1,783 @@
+operators:
+  # ---------------- ATTACKERS ----------------
+  - name: Sledge
+    side: attack
+    roles: [soft_breacher, map_control]
+    speed: 2
+    unique_gadget: "Breaching hammer that opens soft walls, floors and hatches; knocks back shields."
+    gadget_options: ["Frag Grenade", "Stun Grenade", "Impact EMP Grenade"]
+    counters: ["Soft-wall setups", "Deployable shields", "Ballistic shield users"]
+    countered_by: ["Reinforced walls", "Roamers punishing loud breaches"]
+    comp_notes: "Flexible vertical and soft-breach pick. Good when a map rewards opening floors."
+    ban_value: low
+  - name: Thatcher
+    side: attack
+    roles: [anti_gadget, support]
+    speed: 1
+    unique_gadget: "E.G.S. Disruptor: tracks electronic defender gadgets through cover and disables them with EMP bursts."
+    gadget_options: ["Breach Charge", "Claymore"]
+    counters: ["Bandit", "Kaid", "Mute", "Surya Gates", "Valkyrie and Maestro cameras"]
+    countered_by: ["Wamai", "Roamers", "Non-electronic denial like Castle"]
+    comp_notes: "Pairs with a hard breacher to clear anti-breach. Reworked in Y10S4."
+    ban_value: medium
+  - name: Ash
+    side: attack
+    roles: [entry, soft_breacher]
+    speed: 3
+    unique_gadget: "Breaching rounds that blow open soft walls and barricades from range."
+    gadget_options: ["Breach Charge", "Claymore"]
+    counters: ["Barricades", "Soft walls", "Deployables in the open"]
+    countered_by: ["Jager", "Wamai", "Trap defenders"]
+    comp_notes: "Fast entry fragger for opening lines early."
+    ban_value: low
+  - name: Thermite
+    side: attack
+    roles: [hard_breacher]
+    speed: 2
+    unique_gadget: "Exothermic charge that opens reinforced walls."
+    gadget_options: ["Smoke Grenade", "Stun Grenade"]
+    counters: ["Reinforced walls", "Castle panels"]
+    countered_by: ["Bandit", "Kaid", "Mute", "Goyo", "Noor", "Roamers on the wall"]
+    comp_notes: "Core hard breacher for big wall openings. Needs anti-gadget support."
+    ban_value: medium
+  - name: Twitch
+    side: attack
+    roles: [anti_gadget, intel]
+    speed: 2
+    unique_gadget: "Shock drones that zap defender gadgets and can hit defenders."
+    gadget_options: ["Smoke Grenade", "Claymore"]
+    counters: ["Cameras", "Traps", "Shields", "Mute jammers"]
+    countered_by: ["Mute", "Wamai", "Mozzie"]
+    comp_notes: "Good utility clear for trap-heavy setups."
+    ban_value: low
+  - name: Montagne
+    side: attack
+    roles: [support, entry]
+    speed: 1
+    unique_gadget: "Extendable Le Roc shield giving near full cover."
+    gadget_options: ["Smoke Grenade", "Impact EMP Grenade"]
+    counters: ["Plant denial by gunfire", "Long angles"]
+    countered_by: ["Noor", "Clash", "Goyo", "Melee flanks"]
+    comp_notes: "Plant cover and soft-entry shield. Noor lances hurt shields."
+    ban_value: low
+  - name: Glaz
+    side: attack
+    roles: [map_control]
+    speed: 3
+    unique_gadget: "Flip Sight scope that highlights enemies through smoke."
+    gadget_options: ["Smoke Grenade", "Frag Grenade", "Claymore"]
+    counters: ["Window holds", "Spawn peekers"]
+    countered_by: ["Close-range roamers"]
+    comp_notes: "Map control on long-sightline maps."
+    ban_value: low
+  - name: Fuze
+    side: attack
+    roles: [crowd_control, anti_gadget]
+    speed: 1
+    unique_gadget: "Cluster charge that drops grenades through soft surfaces."
+    gadget_options: ["Breach Charge", "Hard Breach Charge", "Smoke Grenade"]
+    counters: ["Clustered defenders", "Deployables"]
+    countered_by: ["Jager", "Wamai", "Reinforcements"]
+    comp_notes: "Clears sites and utility through floors and walls."
+    ban_value: low
+  - name: Blitz
+    side: attack
+    roles: [entry]
+    speed: 2
+    unique_gadget: "Flash shield that blinds defenders at close range."
+    gadget_options: ["Smoke Grenade", "Breach Charge"]
+    counters: ["Close angles", "Corner anchors"]
+    countered_by: ["Noor", "Clash", "Explosives"]
+    comp_notes: "Aggressive entry on tight sites."
+    ban_value: low
+  - name: IQ
+    side: attack
+    roles: [anti_gadget, intel]
+    speed: 3
+    unique_gadget: "Electronics detector that shows defender gadgets nearby."
+    gadget_options: ["Breach Charge", "Frag Grenade", "Claymore"]
+    counters: ["Hidden traps", "Cameras"]
+    countered_by: ["Non-electronic traps"]
+    comp_notes: "Good for finding hidden utility on solo queue."
+    ban_value: low
+  - name: Buck
+    side: attack
+    roles: [soft_breacher, map_control]
+    speed: 2
+    unique_gadget: "Skeleton Key underbarrel shotgun for vertical play."
+    gadget_options: ["Stun Grenade", "Hard Breach Charge"]
+    counters: ["Floor anchors", "Soft walls"]
+    countered_by: ["Reinforced floors", "Roamers"]
+    comp_notes: "Great vertical pick on multi-floor maps."
+    ban_value: low
+  - name: Blackbeard
+    side: attack
+    roles: [entry, support]
+    speed: 1
+    unique_gadget: "H.U.L.L. adaptable shield that can be used as a mobile or rifle shield."
+    gadget_options: ["Claymore", "Stun Grenade"]
+    counters: ["Window holds"]
+    countered_by: ["Noor", "Explosives", "Flanks"]
+    comp_notes: "Window and angle control. Shield breaks under pressure."
+    ban_value: low
+  - name: Capitao
+    side: attack
+    roles: [crowd_control, support]
+    speed: 3
+    unique_gadget: "Crossbow with fire and smoke bolts for area denial."
+    gadget_options: ["Claymore", "Hard Breach Charge"]
+    counters: ["Retakes", "Defuser denial"]
+    countered_by: ["Wamai", "Smoke"]
+    comp_notes: "Post-plant denial and site take smokes."
+    ban_value: low
+  - name: Hibana
+    side: attack
+    roles: [hard_breacher]
+    speed: 3
+    unique_gadget: "X-KAIROS pellets that open reinforced walls and hatches remotely."
+    gadget_options: ["Stun Grenade", "Claymore"]
+    counters: ["Reinforced hatches", "Castle panels"]
+    countered_by: ["Bandit", "Kaid", "Mute", "Wamai"]
+    comp_notes: "Best hard breacher for hatches and small openings."
+    ban_value: medium
+  - name: Jackal
+    side: attack
+    roles: [intel, map_control]
+    speed: 2
+    unique_gadget: "Eyenox visor that tracks defender footprints."
+    gadget_options: ["Claymore", "Smoke Grenade"]
+    counters: ["Roamers", "Caveira", "Vigil"]
+    countered_by: ["Stationary anchors"]
+    comp_notes: "Anti-roam pick for roam-heavy defenses."
+    ban_value: low
+  - name: Ying
+    side: attack
+    roles: [entry, crowd_control]
+    speed: 2
+    unique_gadget: "Candela flash devices that blind through cover."
+    gadget_options: ["Smoke Grenade", "Hard Breach Charge"]
+    counters: ["Anchors", "Close holds"]
+    countered_by: ["Wamai", "Jager"]
+    comp_notes: "Strong site takes with flashes."
+    ban_value: low
+  - name: Zofia
+    side: attack
+    roles: [anti_gadget, soft_breacher, crowd_control]
+    speed: 1
+    unique_gadget: "KS79 Lifeline with impact and concussion grenades."
+    gadget_options: ["Breach Charge", "Claymore"]
+    counters: ["Cameras", "Deployables", "Clustered anchors"]
+    countered_by: ["Jager", "Wamai"]
+    comp_notes: "Utility clear and vertical in one pick."
+    ban_value: low
+  - name: Dokkaebi
+    side: attack
+    roles: [intel, anti_gadget]
+    speed: 3
+    unique_gadget: "Jegeo Payload: targets one defender's phone, maintained signal makes it explode and blocks cameras."
+    gadget_options: ["Smoke Grenade", "Stun Grenade", "Impact EMP Grenade"]
+    counters: ["Camera users", "Roamers relying on cams"]
+    countered_by: ["Mute", "Tubarao", "Vigil"]
+    comp_notes: "Remastered Y11S2. Denies defender intel and forces positions."
+    ban_value: medium
+  - name: Lion
+    side: attack
+    roles: [intel]
+    speed: 2
+    unique_gadget: "EE-ONE-D drone scan that reveals moving defenders."
+    gadget_options: ["Stun Grenade", "Claymore"]
+    counters: ["Roamers", "Rotations"]
+    countered_by: ["Patient defenders", "Vigil"]
+    comp_notes: "Good intel for plant timing."
+    ban_value: low
+  - name: Finka
+    side: attack
+    roles: [support]
+    speed: 2
+    unique_gadget: "Adrenal Surge that boosts team health and revives downed teammates."
+    gadget_options: ["Frag Grenade", "Smoke Grenade", "Stun Grenade"]
+    counters: ["Lesion poison", "Concussion effects"]
+    countered_by: ["Burst damage"]
+    comp_notes: "Team sustain for executes."
+    ban_value: low
+  - name: Maverick
+    side: attack
+    roles: [hard_breacher]
+    speed: 3
+    unique_gadget: "Blowtorch that cuts quiet holes in reinforced walls."
+    gadget_options: ["Stun Grenade", "Claymore"]
+    counters: ["Reinforced walls", "Anti-breach that only reacts to charges"]
+    countered_by: ["Wall watchers", "Thunderbird and Castle"]
+    comp_notes: "Sneaky hard breach and murder holes."
+    ban_value: low
+  - name: Nomad
+    side: attack
+    roles: [flank_watch, crowd_control]
+    speed: 2
+    unique_gadget: "Airjab launcher that knocks back anyone triggering it."
+    gadget_options: ["Stun Grenade", "Breach Charge"]
+    counters: ["Roamers", "Flanks"]
+    countered_by: ["Patient defenders", "Shooting airjabs"]
+    comp_notes: "Lock flanks on roam-heavy maps."
+    ban_value: low
+  - name: Gridlock
+    side: attack
+    roles: [flank_watch, crowd_control]
+    speed: 1
+    unique_gadget: "Trax Stingers that slow and damage defenders."
+    gadget_options: ["Smoke Grenade", "Breach Charge"]
+    counters: ["Roamers", "Defuser retakes"]
+    countered_by: ["Twitch-like utility clear", "Shooting stingers"]
+    comp_notes: "Flank watch and post-plant denial."
+    ban_value: low
+  - name: Nokk
+    side: attack
+    roles: [entry, anti_gadget]
+    speed: 2
+    unique_gadget: "HEL device hides from cameras and silences footsteps."
+    gadget_options: ["Frag Grenade", "Hard Breach Charge"]
+    counters: ["Cameras", "Pulse"]
+    countered_by: ["Traps", "Sound"]
+    comp_notes: "Flank fragger, best in solo play."
+    ban_value: low
+  - name: Amaru
+    side: attack
+    roles: [entry]
+    speed: 2
+    unique_gadget: "Garra Hook to rappel fast into windows and hatches."
+    gadget_options: ["Stun Grenade", "Hard Breach Charge"]
+    counters: ["Hatch holds", "Window anchors"]
+    countered_by: ["Barbed wire", "Traps"]
+    comp_notes: "Fast vertical entry for surprise plays."
+    ban_value: low
+  - name: Kali
+    side: attack
+    roles: [anti_gadget, map_control]
+    speed: 2
+    unique_gadget: "LV Explosive Lance that destroys gadgets behind walls."
+    gadget_options: ["Claymore", "Breach Charge"]
+    counters: ["Bandit", "Kaid", "Mute"]
+    countered_by: ["Roamers", "Close ranges"]
+    comp_notes: "Anti-gadget and long-range picks."
+    ban_value: low
+  - name: Iana
+    side: attack
+    roles: [intel]
+    speed: 2
+    unique_gadget: "Gemini Replicator hologram for safe intel."
+    gadget_options: ["Frag Grenade", "Smoke Grenade"]
+    counters: ["Angle holds", "Shields"]
+    countered_by: ["Mute", "Patience"]
+    comp_notes: "Safe info pick for executes."
+    ban_value: low
+  - name: Ace
+    side: attack
+    roles: [hard_breacher]
+    speed: 1
+    unique_gadget: "S.E.L.M.A. aqua breacher that opens reinforced walls."
+    gadget_options: ["Breach Charge", "Claymore"]
+    counters: ["Reinforced walls"]
+    countered_by: ["Bandit", "Kaid", "Mute", "Goyo"]
+    comp_notes: "Throwable hard breach, very flexible."
+    ban_value: medium
+  - name: Zero
+    side: attack
+    roles: [intel, anti_gadget]
+    speed: 3
+    unique_gadget: "Argus cameras shot into walls."
+    gadget_options: ["Hard Breach Charge", "Claymore"]
+    counters: ["Shields", "Roamers"]
+    countered_by: ["Mute", "Shooting cameras"]
+    comp_notes: "Intel and anti-gadget support."
+    ban_value: low
+  - name: Flores
+    side: attack
+    roles: [anti_gadget]
+    speed: 2
+    unique_gadget: "RCE-Ratero drones that explode on gadgets."
+    gadget_options: ["Stun Grenade", "Claymore"]
+    counters: ["Azami", "Thorn", "Fenrir", "Castle"]
+    countered_by: ["Jager", "Wamai", "Mute"]
+    comp_notes: "Clears deployables and traps."
+    ban_value: low
+  - name: Osa
+    side: attack
+    roles: [support]
+    speed: 1
+    unique_gadget: "TALON-8 clear shield for windows and doors."
+    gadget_options: ["Smoke Grenade", "Claymore"]
+    counters: ["Long holds", "Spawn peeks"]
+    countered_by: ["Noor", "Explosives"]
+    comp_notes: "Cover for plants and entries. Easier placement since Y11S3."
+    ban_value: low
+  - name: Sens
+    side: attack
+    roles: [support, crowd_control]
+    speed: 3
+    unique_gadget: "R.O.U. projector walls that block sight."
+    gadget_options: ["Claymore", "Hard Breach Charge"]
+    counters: ["Maestro", "Anchors on long lines"]
+    countered_by: ["Smoke", "Thunderbird"]
+    comp_notes: "Plant cover against camera denial."
+    ban_value: low
+  - name: Grim
+    side: attack
+    roles: [intel, crowd_control]
+    speed: 3
+    unique_gadget: "Kawan Hive launcher with bees that ping defenders."
+    gadget_options: ["Claymore", "Breach Charge"]
+    counters: ["Anchors", "Roamers"]
+    countered_by: ["Vigil", "Patient play"]
+    comp_notes: "Intel and denial for executes."
+    ban_value: low
+  - name: Brava
+    side: attack
+    roles: [anti_gadget, intel]
+    speed: 3
+    unique_gadget: "Kludge drone that hijacks defender gadgets."
+    gadget_options: ["Smoke Grenade", "Claymore"]
+    counters: ["Valkyrie", "Maestro", "Bandit", "Clash"]
+    countered_by: ["Mute", "Jager"]
+    comp_notes: "Turns defender gadgets against them."
+    ban_value: medium
+  - name: Ram
+    side: attack
+    roles: [soft_breacher]
+    speed: 1
+    unique_gadget: "BU-GI auto breacher that tears through floors."
+    gadget_options: ["Stun Grenade", "Smoke Grenade"]
+    counters: ["Soft floors", "Floor anchors"]
+    countered_by: ["Reinforcements", "Barbed wire stops it", "Fenrir"]
+    comp_notes: "Fast vertical openings."
+    ban_value: medium
+  - name: Deimos
+    side: attack
+    roles: [intel, map_control]
+    speed: 2
+    unique_gadget: "DeathMark Tracker that hunts one defender."
+    gadget_options: ["Frag Grenade", "Hard Breach Charge"]
+    counters: ["Roamers", "Last defenders"]
+    countered_by: ["Patience", "Holds that hide"]
+    comp_notes: "Late round hunter."
+    ban_value: medium
+  - name: Striker
+    side: attack
+    roles: [support]
+    speed: 2
+    unique_gadget: "None; can pick any attacker secondary gadget."
+    gadget_options: ["Any attacker secondary gadget"]
+    counters: []
+    countered_by: []
+    comp_notes: "Recruit-style fill pick when ops are banned."
+    ban_value: low
+  - name: Rauora
+    side: attack
+    roles: [support, flank_watch]
+    speed: 2
+    unique_gadget: "D.O.M. panel launcher that blocks doorways with bulletproof panels."
+    gadget_options: ["Smoke Grenade", "Breach Charge"]
+    counters: ["Rotations", "Retakes"]
+    countered_by: ["Noor", "Explosives"]
+    comp_notes: "Blocks site doors during plants."
+    ban_value: low
+  - name: Solid Snake
+    side: attack
+    roles: [intel, roamer]
+    speed: 3
+    unique_gadget: "Soliton Radar MK III: shows nearby layout and defenders; precision mode charges limited."
+    gadget_options: ["On-Site Procurement: collects secondary gadgets from downed operators"]
+    counters: ["Roamers", "Anchors"]
+    countered_by: ["Mute jammers", "Vigil", "Alibi"]
+    comp_notes: "Infiltration and intel. Radar hides some camera gadgets."
+    ban_value: medium
+  # ---------------- DEFENDERS ----------------
+  - name: Smoke
+    side: defense
+    roles: [anti_entry, crowd_control, anchor]
+    speed: 2
+    unique_gadget: "Remote gas canisters that deal damage over time in an area."
+    gadget_options: ["Barbed Wire", "Proximity Alarm"]
+    counters: ["Plants", "Defuser pickups", "Hard breachers on a wall", "Site pushes"]
+    countered_by: ["Finka", "Wamai-free utility like frags", "Twitch and Zofia clearing canisters"]
+    comp_notes: "Excellent plant denial and wall delay. Strong on Fortress and tight sites."
+    ban_value: low
+  - name: Mute
+    side: defense
+    roles: [anti_gadget, anchor]
+    speed: 2
+    unique_gadget: "Signal disruptors that jam drones, breach gadgets and attacker electronics nearby."
+    gadget_options: ["Bulletproof Camera", "Nitro Cell"]
+    counters: ["Drones", "Hibana", "Thermite charges", "Dokkaebi payload", "Solid Snake radar", "Brava"]
+    countered_by: ["Thatcher", "Twitch", "Kali", "Zofia"]
+    comp_notes: "Core anti-breach and anti-drone pick. Jam hatches and key walls."
+    ban_value: medium
+  - name: Castle
+    side: defense
+    roles: [anchor, support]
+    speed: 2
+    unique_gadget: "Armor panels that make doors and windows bulletproof barriers."
+    gadget_options: ["Proximity Alarm", "Bulletproof Camera"]
+    counters: ["Easy door entries", "Fast rotations by attackers"]
+    countered_by: ["Hard breachers", "Flores", "Fuze"]
+    comp_notes: "Shapes entries and forces breach usage. Good for basement bunkers."
+    ban_value: low
+  - name: Pulse
+    side: defense
+    roles: [intel, roamer]
+    speed: 3
+    unique_gadget: "Cardiac sensor that detects nearby heartbeats through walls and floors."
+    gadget_options: ["Nitro Cell", "Barbed Wire"]
+    counters: ["Planters below or above", "Hidden attackers"]
+    countered_by: ["Nokk", "Vertical attackers with good info"]
+    comp_notes: "Great for vertical kills with nitro or shotgun through floors."
+    ban_value: low
+  - name: Doc
+    side: defense
+    roles: [support, anchor]
+    speed: 1
+    unique_gadget: "Stim pistol that heals, overheals and revives teammates."
+    gadget_options: ["Bulletproof Camera", "Barbed Wire"]
+    counters: ["Chip damage", "Lesion poison", "Fire"]
+    countered_by: ["Burst damage and headshots"]
+    comp_notes: "Anchor sustain. Pick when your team trades often."
+    ban_value: low
+  - name: Rook
+    side: defense
+    roles: [support, anchor]
+    speed: 1
+    unique_gadget: "Armor pack giving teammates extra armor and down protection."
+    gadget_options: ["Proximity Alarm", "Impact Grenade"]
+    counters: ["Body-shot damage"]
+    countered_by: ["Headshots", "Explosives"]
+    comp_notes: "Easy team value. Drop plates early in prep."
+    ban_value: low
+  - name: Kapkan
+    side: defense
+    roles: [trapper]
+    speed: 2
+    unique_gadget: "Entry denial devices on doorways and windows that explode when crossed."
+    gadget_options: ["Barbed Wire", "Impact Grenade"]
+    counters: ["Fast entries", "Unscouted pushes"]
+    countered_by: ["IQ", "Twitch", "Careful droning", "Shooting the device"]
+    comp_notes: "Trap pick for flank routes and main entries."
+    ban_value: low
+  - name: Tachanka
+    side: defense
+    roles: [anti_entry, crowd_control]
+    speed: 1
+    unique_gadget: "Shumikha launcher firing fire grenades; impact or bounce mode since Y11S3.2."
+    gadget_options: ["Barbed Wire", "Proximity Alarm"]
+    counters: ["Plants", "Doorway pushes", "Shields"]
+    countered_by: ["Finka", "Wamai-proof timing", "Flank pressure"]
+    comp_notes: "Area denial for plants and chokes. Bounce mode passes thin glass and paper."
+    ban_value: low
+  - name: Jager
+    side: defense
+    roles: [anti_gadget, roamer]
+    speed: 3
+    unique_gadget: "Active Defense System that intercepts thrown projectiles."
+    gadget_options: ["Bulletproof Camera", "Barbed Wire"]
+    counters: ["Flashes", "Frags", "Zofia", "Capitao bolts", "EMP grenades"]
+    countered_by: ["Thatcher", "Twitch", "Flores"]
+    comp_notes: "Protects cameras and anchors from grenades. Strong all-round pick."
+    ban_value: medium
+  - name: Bandit
+    side: defense
+    roles: [anti_gadget, roamer]
+    speed: 3
+    unique_gadget: "Shock wire batteries that electrify reinforced walls and barbed wire."
+    gadget_options: ["Barbed Wire", "Nitro Cell"]
+    counters: ["Thermite", "Hibana", "Ace", "Maverick charges on walls"]
+    countered_by: ["Thatcher", "Kali", "Twitch", "Brava"]
+    comp_notes: "Wall denial with battery tricking. Pairs with Kaid and Mute."
+    ban_value: low
+  - name: Frost
+    side: defense
+    roles: [trapper]
+    speed: 2
+    unique_gadget: "Welcome Mat traps that down attackers who step in."
+    gadget_options: ["Bulletproof Camera", "Deployable Shield"]
+    counters: ["Fast entries", "Window vaults", "Hatch drops"]
+    countered_by: ["IQ", "Droning", "Shooting mats"]
+    comp_notes: "Trap windows and hatch landings."
+    ban_value: low
+  - name: Valkyrie
+    side: defense
+    roles: [intel]
+    speed: 2
+    unique_gadget: "Black Eye sticky cameras for extra intel."
+    gadget_options: ["Impact Grenade", "Nitro Cell"]
+    counters: ["Information gaps", "Plants out of default cam view"]
+    countered_by: ["Twitch", "Brava", "Dokkaebi", "Thatcher"]
+    comp_notes: "Feeds intel to anchors. Place cams high and hidden."
+    ban_value: low
+  - name: Caveira
+    side: defense
+    roles: [roamer, intel]
+    speed: 3
+    unique_gadget: "Silent Step quiet movement and interrogation to reveal attackers."
+    gadget_options: ["Impact Grenade", "Proximity Alarm"]
+    counters: ["Isolated attackers", "Solo flankers"]
+    countered_by: ["Jackal", "Nomad", "Gridlock", "Team play"]
+    comp_notes: "High-skill roamer. Interrogations reveal the whole team."
+    ban_value: medium
+  - name: Echo
+    side: defense
+    roles: [intel, anti_entry]
+    speed: 2
+    unique_gadget: "Yokai drones on ceilings that stun with sonic bursts."
+    gadget_options: ["Impact Grenade", "Deployable Shield"]
+    counters: ["Planters", "Defuser pickups"]
+    countered_by: ["Twitch", "Smoke grenades", "Thatcher"]
+    comp_notes: "Plant denial and intel. Hide drones high on site."
+    ban_value: medium
+  - name: Mira
+    side: defense
+    roles: [anchor]
+    speed: 1
+    unique_gadget: "Black Mirror one-way bulletproof windows on walls and hatches."
+    gadget_options: ["Proximity Alarm", "Nitro Cell"]
+    counters: ["Site entries", "Plants in view of windows"]
+    countered_by: ["Melee to break the glass", "Explosives on the canister", "Sledge", "Ash"]
+    comp_notes: "Strong site anchor. Glass now breaks to melee."
+    ban_value: high
+  - name: Lesion
+    side: defense
+    roles: [trapper, intel]
+    speed: 2
+    unique_gadget: "Gu mines that poison and reveal attackers who step on them."
+    gadget_options: ["Impact Grenade", "Bulletproof Camera"]
+    counters: ["Fast pushes", "Runners"]
+    countered_by: ["IQ", "Finka", "Twitch"]
+    comp_notes: "Passive intel and delay on flanks."
+    ban_value: low
+  - name: Ela
+    side: defense
+    roles: [trapper, roamer]
+    speed: 2
+    unique_gadget: "Grzmot mines that concuss attackers."
+    gadget_options: ["Barbed Wire", "Deployable Shield"]
+    counters: ["Fast entries", "Pushes into roam areas"]
+    countered_by: ["IQ", "Twitch", "Shooting mines"]
+    comp_notes: "Aggressive roamer with traps for chokes."
+    ban_value: low
+  - name: Vigil
+    side: defense
+    roles: [roamer]
+    speed: 3
+    unique_gadget: "ERC-7 that hides him from drones and cameras."
+    gadget_options: ["Impact Grenade", "Bulletproof Camera"]
+    counters: ["Drones", "Solid Snake radar", "Grim bees", "Lion"]
+    countered_by: ["Jackal", "Nomad", "Gridlock"]
+    comp_notes: "Flank roamer who wastes attacker intel time."
+    ban_value: low
+  - name: Alibi
+    side: defense
+    roles: [intel, roamer]
+    speed: 3
+    unique_gadget: "Prisma holograms that ping attackers who shoot them."
+    gadget_options: ["Impact Grenade", "Proximity Alarm"]
+    counters: ["Trigger-happy attackers", "Snake radar"]
+    countered_by: ["Drones", "Patience"]
+    comp_notes: "Roam and bait with holograms."
+    ban_value: low
+  - name: Maestro
+    side: defense
+    roles: [intel, anti_entry]
+    speed: 1
+    unique_gadget: "Evil Eye bulletproof turrets that see and shoot lasers."
+    gadget_options: ["Barbed Wire", "Impact Grenade"]
+    counters: ["Planters", "Shields", "Smokes on plant"]
+    countered_by: ["Sens", "Brava", "Twitch", "Melee from above"]
+    comp_notes: "Plant denial anchor. Protect cams with Jager or Mute."
+    ban_value: medium
+  - name: Clash
+    side: defense
+    roles: [anti_entry, crowd_control]
+    speed: 1
+    unique_gadget: "CCE Shield MK2: deployable shield with remote taser that slows and stuns."
+    gadget_options: ["Impact Grenade", "Barbed Wire"]
+    counters: ["Fast entries", "Planters in hallways"]
+    countered_by: ["Explosives", "Melee bash", "Brava disabling taser"]
+    comp_notes: "Remastered Y10S2. Deploy the shield and roam; taser slows attackers more toward her."
+    ban_value: low
+  - name: Kaid
+    side: defense
+    roles: [anti_gadget, anchor]
+    speed: 1
+    unique_gadget: "Rtila Electroclaws that electrify walls, hatches and metal gadgets."
+    gadget_options: ["Barbed Wire", "Nitro Cell"]
+    counters: ["Thermite", "Hibana", "Ace", "Hard breach on hatches"]
+    countered_by: ["Thatcher", "Kali", "Twitch", "Brava"]
+    comp_notes: "Wall and hatch denial. Pick on most sites."
+    ban_value: low
+  - name: Mozzie
+    side: defense
+    roles: [anti_gadget, intel]
+    speed: 2
+    unique_gadget: "Pest launcher that hacks attacker drones."
+    gadget_options: ["Barbed Wire", "Nitro Cell"]
+    counters: ["Drones", "Twitch", "Flores drones"]
+    countered_by: ["Twitch", "Brava", "Shooting pests"]
+    comp_notes: "Steal drones for free intel."
+    ban_value: low
+  - name: Warden
+    side: defense
+    roles: [anchor]
+    speed: 1
+    unique_gadget: "Glance smart glasses that see through smoke and resist flashes."
+    gadget_options: ["Deployable Shield", "Nitro Cell"]
+    counters: ["Smoke plants", "Flashes", "Ying", "Blitz"]
+    countered_by: ["Gunfights in open", "Utility without smoke"]
+    comp_notes: "Anti-smoke anchor."
+    ban_value: low
+  - name: Goyo
+    side: defense
+    roles: [anti_entry, anchor]
+    speed: 2
+    unique_gadget: "Volcan canisters on shields that explode into fire when shot."
+    gadget_options: ["Proximity Alarm", "Impact Grenade"]
+    counters: ["Plants", "Breach walls", "Shields"]
+    countered_by: ["Flores", "Twitch", "Zofia"]
+    comp_notes: "Fire denial on walls and plant spots."
+    ban_value: low
+  - name: Wamai
+    side: defense
+    roles: [anti_gadget]
+    speed: 2
+    unique_gadget: "Mag-NET discs that catch and redirect thrown projectiles."
+    gadget_options: ["Impact Grenade", "Proximity Alarm"]
+    counters: ["Frags", "Flashes", "Hibana pellets", "Capitao bolts"]
+    countered_by: ["Thatcher", "Twitch", "Solid aim"]
+    comp_notes: "Anti-utility alternative to Jager."
+    ban_value: low
+  - name: Oryx
+    side: defense
+    roles: [roamer]
+    speed: 2
+    unique_gadget: "Remah Dash that breaks soft walls and knocks down attackers; can climb hatches."
+    gadget_options: ["Barbed Wire", "Proximity Alarm"]
+    counters: ["Soft walls", "Unsuspecting attackers"]
+    countered_by: ["Gunfights", "Nomad airjabs"]
+    comp_notes: "Mobile roamer for vertical plays."
+    ban_value: low
+  - name: Melusi
+    side: defense
+    roles: [anti_entry, intel]
+    speed: 1
+    unique_gadget: "Banshee sonic devices that slow and alert on attackers."
+    gadget_options: ["Impact Grenade", "Bulletproof Camera"]
+    counters: ["Entries", "Rushes"]
+    countered_by: ["Flores", "Ash", "Explosives"]
+    comp_notes: "Slows pushes and gives intel."
+    ban_value: medium
+  - name: Aruni
+    side: defense
+    roles: [anti_entry]
+    speed: 1
+    unique_gadget: "Surya gates laser barriers that block doors and hurt crossers."
+    gadget_options: ["Barbed Wire", "Bulletproof Camera"]
+    counters: ["Entries", "Rotations"]
+    countered_by: ["Thatcher", "Impact EMP", "Brava"]
+    comp_notes: "Gate entries and rotations."
+    ban_value: low
+  - name: Thunderbird
+    side: defense
+    roles: [support]
+    speed: 2
+    unique_gadget: "Kona stations that heal defenders and revive."
+    gadget_options: ["Barbed Wire", "Bulletproof Camera"]
+    counters: ["Chip damage"]
+    countered_by: ["Burst damage", "Shooting stations"]
+    comp_notes: "Sustain for anchors."
+    ban_value: low
+  - name: Thorn
+    side: defense
+    roles: [trapper]
+    speed: 2
+    unique_gadget: "Razorbloom shells that explode near attackers."
+    gadget_options: ["Deployable Shield", "Barbed Wire"]
+    counters: ["Entries", "Planters"]
+    countered_by: ["Flores", "Twitch"]
+    comp_notes: "Trap entries and plant spots."
+    ban_value: low
+  - name: Azami
+    side: defense
+    roles: [anchor, support]
+    speed: 2
+    unique_gadget: "Kiba barriers that create bulletproof foam walls."
+    gadget_options: ["Impact Grenade", "Barbed Wire"]
+    counters: ["Open angles", "Holes from vertical"]
+    countered_by: ["Flores", "Noor-style piercing", "Explosives"]
+    comp_notes: "Shapes angles and patches holes."
+    ban_value: medium
+  - name: Solis
+    side: defense
+    roles: [intel]
+    speed: 2
+    unique_gadget: "SPEC-IO sensor that sees attacker electronics."
+    gadget_options: ["Impact Grenade", "Bulletproof Camera"]
+    counters: ["Drones", "Electronic gadgets"]
+    countered_by: ["Mute-free attacks", "Nokk"]
+    comp_notes: "Intel by tracking attacker gadgets."
+    ban_value: low
+  - name: Fenrir
+    side: defense
+    roles: [trapper]
+    speed: 2
+    unique_gadget: "F-NATT dread mines that release fear gas."
+    gadget_options: ["Bulletproof Camera", "Barbed Wire"]
+    counters: ["Entries", "Planters"]
+    countered_by: ["Flores", "Twitch"]
+    comp_notes: "Strong trapper. Pairs with Smoke."
+    ban_value: medium
+  - name: Tubarao
+    side: defense
+    roles: [anti_gadget]
+    speed: 2
+    unique_gadget: "Zoto canisters that freeze and slow attacker gadgets and operators."
+    gadget_options: ["Nitro Cell", "Proximity Alarm"]
+    counters: ["Hard breach charges", "Dokkaebi payload"]
+    countered_by: ["Thatcher", "Twitch"]
+    comp_notes: "Freezes breaches and can sever Dokkaebi payload."
+    ban_value: low
+  - name: Sentry
+    side: defense
+    roles: [support]
+    speed: 2
+    unique_gadget: "None; can pick any defender secondary gadget."
+    gadget_options: ["Any defender secondary gadget"]
+    counters: []
+    countered_by: []
+    comp_notes: "Recruit-style fill pick when ops are banned."
+    ban_value: low
+  - name: Skopos
+    side: defense
+    roles: [intel, roamer]
+    speed: 3
+    unique_gadget: "V10 Pantheon shells: two robotic bodies she switches between."
+    gadget_options: ["Impact Grenade", "Proximity Alarm"]
+    counters: ["Drones", "Intel denial"]
+    countered_by: ["Twitch", "Explosives"]
+    comp_notes: "Hold two angles with two bodies."
+    ban_value: low
+  - name: Denari
+    side: defense
+    roles: [trapper, anti_entry]
+    speed: 3
+    unique_gadget: "T.R.I.P. connector devices linked by lasers that slow and injure."
+    gadget_options: ["Observation Blocker", "Deployable Shield"]
+    counters: ["Entries", "Stair pushes"]
+    countered_by: ["Flores", "Twitch", "Shooting devices"]
+    comp_notes: "Laser webs on stairs and doors. More devices make a bigger web."
+    ban_value: medium
+  - name: Noor
+    side: defense
+    roles: [anti_entry, crowd_control]
+    speed: 2
+    unique_gadget: "Horus Lance launcher: five lances that pierce shields and surfaces, then burst into flame."
+    gadget_options: ["Deployable Shield", "Barbed Wire"]
+    counters: ["Shield attackers", "Montagne", "Blitz", "Osa", "Rauora panels"]
+    countered_by: ["Flank pressure", "Non-shield executes", "Fast hard breach"]
+    comp_notes: "Anti-shield and area denial. Buffed Y11S3.2: 80 impact damage and full guardbreak on shields."
+    ban_value: medium

@@ -1,0 +1,107 @@
+id: kafe_dostoyevsky
+name: Kafe Dostoyevsky
+aliases: ["Kafe Dostoyevsky", "Kafe", "KAFE DOSTOYEVSKY", "Cafe"]
+floors: [1F, 2F, 3F, roof]
+attacker_spawns:
+  - name: "River Docks"
+    notes: "River side. Good for Kitchen and 1F pushes."
+  - name: "Christmas Market"
+    notes: "Market square. Central approach to main entrances."
+  - name: "Park"
+    notes: "Park side. Good for roof and upper floor attacks."
+sites:
+  - id: cocktail_lounge_bar
+    name: "3F Cocktail Lounge / 3F Bar"
+    aliases: ["3F Bar / 3F Cocktail Lounge", "Bar", "Cocktail", "Cocktail Lounge"]
+    floor: 3F
+    defender:
+      reinforce: ["Bar and Cocktail outer walls", "Walls toward Cigar Lounge side"]
+      rotates: ["Bar to Cocktail connection"]
+      anchor_spots: ["Behind the bar counter", "Cocktail corners"]
+      roam_areas: ["2F below", "Roof approaches"]
+      key_utility: ["Window and roof denial", "Anti-breach on main wall"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Valkyrie", "Melusi"]
+      plan_summary: "Hold Bar and Cocktail with reinforced walls and a crossfire. Delay roof and 2F stair pushes."
+    attacker:
+      recommended_spawns: ["Park"]
+      drone_paths: ["Drone from roof", "Drone up stairs from 2F"]
+      entry_points: ["Roof and windows", "Stairs"]
+      hard_breach_targets: ["Reinforced Bar or Cocktail wall"]
+      plant_spots: ["Bar after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
+      utility_priorities: ["Roof control", "Open the wall", "Smoke plant"]
+      plan_summary: "Take roof and 3F hallway, open the main wall and plant under smoke."
+    common_mistakes: ["Ignoring stairs flank from 2F"]
+    uncertain: []
+  - id: fireplace_hall_mining_room
+    name: "2F Fireplace Hall / 2F Mining Room"
+    aliases: ["2F Mining Room / 2F Fireplace Hall", "Mining", "Fireplace", "Fireplace Hall"]
+    floor: 2F
+    defender:
+      reinforce: ["Mining Room outer walls", "Floor above where relevant"]
+      rotates: ["Mining to Fireplace connection"]
+      anchor_spots: ["Mining Room corners", "Fireplace pillars"]
+      roam_areas: ["3F above", "1F below"]
+      key_utility: ["Shields at doors", "Traps on stairs"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Echo", "Mira"]
+      plan_summary: "Hold Mining and Fireplace with a crossfire, players above to deny vertical."
+    attacker:
+      recommended_spawns: ["Christmas Market", "Park"]
+      drone_paths: ["Drone through windows", "Drone from 3F"]
+      entry_points: ["Windows", "Stairs", "Vertical from 3F"]
+      hard_breach_targets: ["Mining Room reinforced wall"]
+      plant_spots: ["Mining after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Ace"]
+      utility_priorities: ["Vertical from above", "Open wall", "Smoke plant"]
+      plan_summary: "Take 3F for vertical, breach Mining and plant under cover."
+    common_mistakes: ["Fighting without vertical control"]
+    uncertain: []
+  - id: reading_room_fireplace_hall
+    name: "2F Reading Room / 2F Fireplace Hall"
+    aliases: ["2F Fireplace Hall / 2F Reading Room", "Reading Room", "Reading", "Fireplace"]
+    floor: 2F
+    defender:
+      reinforce: ["Reading Room outer walls"]
+      rotates: ["Reading to Fireplace connection"]
+      anchor_spots: ["Reading Room shelves", "Fireplace pillars"]
+      roam_areas: ["3F above", "1F below"]
+      key_utility: ["Traps on stairs", "Anti-breach on Reading walls"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Castle", "Lesion"]
+      plan_summary: "Hold Reading and Fireplace with reinforced walls and vertical denial above."
+    attacker:
+      recommended_spawns: ["Christmas Market"]
+      drone_paths: ["Drone through windows", "Drone up stairs"]
+      entry_points: ["Windows", "Stairs", "Vertical from 3F"]
+      hard_breach_targets: ["Reading Room reinforced wall"]
+      plant_spots: ["Reading Room after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ash", "Zofia"]
+      utility_priorities: ["Vertical from 3F", "Open wall", "Smoke plant"]
+      plan_summary: "Play vertical from 3F, breach Reading and plant with flank watch."
+    common_mistakes: ["Over-committing to one stairway"]
+    uncertain: []
+  - id: kitchen_service_kitchen_cooking
+    name: "1F Kitchen Service / 1F Kitchen Cooking"
+    aliases: ["1F Kitchen Cooking / 1F Kitchen Service", "Kitchen", "Kitchen Service", "Kitchen Cooking"]
+    floor: 1F
+    defender:
+      reinforce: ["Kitchen outer walls", "Floor above where reinforceable"]
+      rotates: ["Service to Cooking connection"]
+      anchor_spots: ["Kitchen counters", "Service corners"]
+      roam_areas: ["2F above", "Bakery and main entrances"]
+      key_utility: ["Traps at doors", "Shields at entries"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Echo", "Goyo"]
+      plan_summary: "Hold Kitchen with reinforced outer walls and players above site for vertical denial."
+    attacker:
+      recommended_spawns: ["River Docks"]
+      drone_paths: ["Drone through Kitchen windows", "Drone from 2F"]
+      entry_points: ["Exterior doors", "Vertical from 2F"]
+      hard_breach_targets: ["Kitchen reinforced outer wall"]
+      plant_spots: ["Kitchen after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Ace"]
+      utility_priorities: ["Vertical from above", "Open wall", "Smoke plant"]
+      plan_summary: "Take 2F control, open Kitchen and plant under smoke."
+    common_mistakes: ["Ignoring 2F defenders"]
+    uncertain: []
+general:
+  attack: ["Three floors: control the floor above the site", "Roof is strong for 3F"]
+  defense: ["Window spawn peeks are well known", "Do not run out early into Christmas Market lines"]

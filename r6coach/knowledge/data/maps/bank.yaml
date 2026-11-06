@@ -1,0 +1,107 @@
+id: bank
+name: Bank
+aliases: ["Bank", "BANK"]
+floors: [basement, 1F, 2F, roof]
+attacker_spawns:
+  - name: "Boulevard"
+    notes: "Front street. Fast access to Main Lobby and the front of the building."
+  - name: "Jewelry Front"
+    notes: "Side street by the jewelry store. Good for Square, Tellers side and roof climbs."
+  - name: "Back Alley"
+    notes: "Rear of the bank. Closest to the garage ramp and basement pushes."
+sites:
+  - id: ceo_executive_lounge
+    name: "2F CEO Office / 2F Executive Lounge"
+    aliases: ["2F Executive Lounge / 2F CEO Office", "CEO", "Executive Lounge", "CEO Office"]
+    floor: 2F
+    defender:
+      reinforce: ["Outer walls of CEO and Executive Lounge that face the roof and Skylight side", "Walls attackers use to isolate site from Admin side"]
+      rotates: ["Keep a rotate between Executive Lounge and the hallway so anchors can swap rooms"]
+      anchor_spots: ["Deep CEO corners away from windows", "Executive Lounge behind cover facing the main doors"]
+      roam_areas: ["1F Tellers and Square to delay vertical pushes", "Roof-adjacent rooms early round to punish rappels"]
+      key_utility: ["Anti-breach on the main hard-breach walls", "Shields at doors to slow site takes", "Deny window entries with impact or barbed wire"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Valkyrie", "Melusi"]
+      plan_summary: "Two anchors split CEO and Executive Lounge with walls reinforced toward the roof. Hold anti-breach on the key walls and keep one player off site to punish roof and window takes."
+    attacker:
+      recommended_spawns: ["Jewelry Front", "Boulevard"]
+      drone_paths: ["Drone from roof through windows into Lounge", "Drone up the stairs from Lobby to scout 2F hallway"]
+      entry_points: ["Roof and skylight windows", "Stairs from 1F Lobby"]
+      hard_breach_targets: ["Reinforced outer walls into CEO and Executive Lounge"]
+      plant_spots: ["Default plant in the room you breach, under smoke cover"]
+      recommended_ops: ["Thermite", "Thatcher", "Ash", "Buck", "Dokkaebi"]
+      utility_priorities: ["Clear anti-breach first", "Smoke the windows and doors before plant", "Use roof control to deny rotations"]
+      plan_summary: "Take roof and 2F hallway control, clear anti-breach on the outer wall and open it with a hard breacher. Smoke lines and plant inside the breached room."
+    common_mistakes: ["Defenders leaving windows open without utility", "Attackers forgetting roamers on 1F flanking the stairs"]
+    uncertain: ["Exact hard-breach wall names after recent visual updates not verified"]
+  - id: open_area_staff_room
+    name: "1F Open Area / 1F Staff Room"
+    aliases: ["1F Staff Room / 1F Open Area", "Open Area", "Staff Room"]
+    floor: 1F
+    defender:
+      reinforce: ["Staff Room outer walls", "Hatches above site from 2F where possible"]
+      rotates: ["Rotation into Tellers side for crossfires"]
+      anchor_spots: ["Staff Room corners", "Open Area behind desks"]
+      roam_areas: ["2F above site to deny vertical", "Square and Lobby"]
+      key_utility: ["Cameras covering the windows", "Traps on main entries"]
+      recommended_ops: ["Mute", "Kaid", "Echo", "Smoke", "Lesion"]
+      plan_summary: "Hold Staff Room and Open Area with reinforced outer walls and players above site to stop vertical. Use traps on main doors and swap rooms through rotations."
+    attacker:
+      recommended_spawns: ["Back Alley", "Boulevard"]
+      drone_paths: ["Drone through the front windows", "Drone from Lobby into Open Area"]
+      entry_points: ["Front windows", "Lobby side"]
+      hard_breach_targets: ["Staff Room exterior wall"]
+      plant_spots: ["Staff Room default plant if breach is opened"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Ace"]
+      utility_priorities: ["Vertical from 2F to clear anchors", "Flash and smoke the window entries"]
+      plan_summary: "Take 2F above site and play vertical while a hard breacher opens Staff Room. Plant under smoke while teammates hold flank doors."
+    common_mistakes: ["Peeking windows without droning", "Ignoring 2F vertical threats"]
+    uncertain: ["Hatch locations above this site not verified for current version"]
+  - id: tellers_archives
+    name: "1F Tellers' Office / 1F Archives"
+    aliases: ["1F Archives / 1F Tellers' Office", "Tellers", "Archives", "Tellers Office"]
+    floor: 1F
+    defender:
+      reinforce: ["Archives outer walls", "Tellers walls toward Lobby and Square"]
+      rotates: ["Keep Tellers to Archives connection open for rotations"]
+      anchor_spots: ["Archives shelves", "Tellers behind counters"]
+      roam_areas: ["2F above site", "Square and Lobby"]
+      key_utility: ["Shields at doorways", "Anti-breach on Archives walls"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Castle", "Mira"]
+      plan_summary: "Anchor Archives and Tellers with outer walls reinforced and a player above site. Delay in Square and Lobby, then fall back onto site."
+    attacker:
+      recommended_spawns: ["Jewelry Front", "Boulevard"]
+      drone_paths: ["Drone into Square and Lobby", "Drone from 2F down through soft floors"]
+      entry_points: ["Square side", "Lobby side"]
+      hard_breach_targets: ["Archives exterior walls"]
+      plant_spots: ["Archives or Tellers depending on breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ash", "Iana"]
+      utility_priorities: ["Clear Square and Lobby roamers", "Vertical from 2F", "Smoke the plant"]
+      plan_summary: "Clear Square and Lobby, then open Archives with a hard breach while vertical from 2F pins anchors. Plant inside the breached room."
+    common_mistakes: ["Rushing Lobby without flank watch", "Defenders not punishing vertical from 2F"]
+    uncertain: []
+  - id: cctv_lockers
+    name: "B CCTV Room / B Lockers"
+    aliases: ["B Lockers / B CCTV Room", "Lockers", "CCTV", "Basement"]
+    floor: basement
+    defender:
+      reinforce: ["Hatches above site (garage and 1F)", "Lockers and CCTV walls attackers hard breach"]
+      rotates: ["Keep a rotate between Lockers and CCTV"]
+      anchor_spots: ["Deep Lockers", "CCTV behind desks"]
+      roam_areas: ["Garage and ramp", "Server and Vault area", "1F above basement"]
+      key_utility: ["Deny hatches with Mute jammer or Bandit", "Kaid claws on reinforced walls", "Traps on basement stairs"]
+      recommended_ops: ["Mute", "Kaid", "Bandit", "Echo", "Valkyrie", "Goyo"]
+      plan_summary: "Reinforce the hatches and key walls, deny them with electric or jammers, and hold Lockers and CCTV with a crossfire. One roamer delays garage and stairs."
+    attacker:
+      recommended_spawns: ["Back Alley", "Boulevard"]
+      drone_paths: ["Drone down the garage ramp", "Drone down the basement stairs from Lobby"]
+      entry_points: ["Garage", "Basement stairs", "Hatches from 1F"]
+      hard_breach_targets: ["Reinforced hatches above site", "Lockers and CCTV reinforced walls"]
+      plant_spots: ["Under the opened hatch", "Inside Lockers after breach"]
+      recommended_ops: ["Hibana", "Thermite", "Thatcher", "Buck", "Ace"]
+      utility_priorities: ["EMP or destroy batteries and claws", "Open hatches for vertical", "Smoke the plant"]
+      plan_summary: "Take garage and 1F above site, clear anti-breach and open hatches and walls. Pressure site from multiple angles before planting."
+    common_mistakes: ["Attackers forgetting hatch denial", "Defenders over-rotating to garage and leaving stairs"]
+    uncertain: ["Exact hatch names on current version not verified"]
+general:
+  attack: ["Roof control is strong for 2F sites", "Garage ramp is the default basement approach", "Drone Lobby and Square early for roamers"]
+  defense: ["Watch spawn peeks out of front windows and roof", "Do not run out of Lobby early without info", "Basement is the most played defense"]

@@ -1,0 +1,107 @@
+id: outback
+name: Outback
+aliases: ["Outback", "OUTBACK"]
+floors: [1F, 2F, roof]
+attacker_spawns:
+  - name: "Fuel Pump"
+    notes: "Service station front, toward Mechanic Shop and Kitchen."
+  - name: "Storage Yard"
+    notes: "Storage yard side approach."
+  - name: "Camping"
+    notes: "Camping side, toward motel bedrooms."
+sites:
+  - id: piano_room_laundry_room
+    name: "2F Piano Room / 2F Laundry Room"
+    aliases: ["2F Laundry Room / 2F Piano Room", "Piano", "Laundry"]
+    floor: 2F
+    defender:
+      reinforce: ["Piano and Laundry outer walls"]
+      rotates: ["Piano to Laundry connection"]
+      anchor_spots: ["Piano corners", "Laundry behind machines"]
+      roam_areas: ["1F below", "Roof approaches"]
+      key_utility: ["Window denial", "Anti-breach on walls"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Valkyrie", "Melusi"]
+      plan_summary: "Hold Piano and Laundry with reinforced walls and contest roof entries."
+    attacker:
+      recommended_spawns: ["Storage Yard"]
+      drone_paths: ["Drone from roof", "Drone up stairs"]
+      entry_points: ["Roof and windows", "Stairs"]
+      hard_breach_targets: ["Reinforced site walls"]
+      plant_spots: ["Piano after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
+      utility_priorities: ["Roof control", "Open wall", "Smoke plant"]
+      plan_summary: "Take roof and 2F hallway, breach and plant under smoke."
+    common_mistakes: ["Ignoring stairs flank"]
+    uncertain: ["Room order on selection screen not verified"]
+  - id: party_room_office
+    name: "2F Party Room / 2F Office"
+    aliases: ["2F Office / 2F Party Room", "Party Room", "Office"]
+    floor: 2F
+    defender:
+      reinforce: ["Party Room and Office outer walls"]
+      rotates: ["Party Room to Office connection"]
+      anchor_spots: ["Party Room corners", "Office desk"]
+      roam_areas: ["1F below", "Roof"]
+      key_utility: ["Shields at doors", "Anti-breach on walls"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Echo", "Azami"]
+      plan_summary: "Hold Party Room and Office with a crossfire and reinforced walls."
+    attacker:
+      recommended_spawns: ["Fuel Pump", "Storage Yard"]
+      drone_paths: ["Drone from roof", "Drone up stairs"]
+      entry_points: ["Roof and windows", "Stairs"]
+      hard_breach_targets: ["Reinforced Party Room wall"]
+      plant_spots: ["Party Room after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ace", "Dokkaebi"]
+      utility_priorities: ["Roof control", "Open wall", "Smoke plant"]
+      plan_summary: "Take 2F control, breach the site wall and plant."
+    common_mistakes: ["Swinging doors without drones"]
+    uncertain: []
+  - id: green_bedroom_red_bedroom
+    name: "1F Green Bedroom / 1F Red Bedroom"
+    aliases: ["1F Red Bedroom / 1F Green Bedroom", "Green Bedroom", "Red Bedroom", "Bedrooms"]
+    floor: 1F
+    defender:
+      reinforce: ["Bedroom outer walls", "Floor above where reinforceable"]
+      rotates: ["Green to Red Bedroom connection"]
+      anchor_spots: ["Bedroom corners"]
+      roam_areas: ["2F above", "Motel exterior"]
+      key_utility: ["Traps on entries", "Shields at doors"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Mira", "Lesion"]
+      plan_summary: "Hold the bedrooms with vertical denial from 2F and traps on doors."
+    attacker:
+      recommended_spawns: ["Camping"]
+      drone_paths: ["Drone motel doors", "Drone from 2F"]
+      entry_points: ["Exterior motel doors", "Vertical from 2F"]
+      hard_breach_targets: ["Reinforced outer walls"]
+      plant_spots: ["Green Bedroom after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Zofia"]
+      utility_priorities: ["Vertical from above", "Open wall", "Smoke plant"]
+      plan_summary: "Take 2F above, open the wall and plant."
+    common_mistakes: ["Ignoring vertical defenders"]
+    uncertain: []
+  - id: mechanic_shop_kitchen
+    name: "1F Mechanic Shop / 1F Kitchen"
+    aliases: ["1F Kitchen / 1F Mechanic Shop", "Mechanic Shop", "Garage", "Kitchen"]
+    floor: 1F
+    defender:
+      reinforce: ["Mechanic Shop outer walls and garage side"]
+      rotates: ["Mechanic Shop to Kitchen connection"]
+      anchor_spots: ["Mechanic Shop behind vehicles", "Kitchen counters"]
+      roam_areas: ["2F above", "Fuel Pump side"]
+      key_utility: ["Anti-breach on walls", "Traps on doors"]
+      recommended_ops: ["Mute", "Kaid", "Smoke", "Castle", "Goyo"]
+      plan_summary: "Hold Mechanic Shop and Kitchen with reinforced walls and vertical denial."
+    attacker:
+      recommended_spawns: ["Fuel Pump"]
+      drone_paths: ["Drone garage doors", "Drone from 2F"]
+      entry_points: ["Garage doors", "Vertical from 2F"]
+      hard_breach_targets: ["Mechanic Shop reinforced wall"]
+      plant_spots: ["Mechanic Shop after breach"]
+      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ash", "Ace"]
+      utility_priorities: ["Vertical from above", "Open wall", "Smoke plant"]
+      plan_summary: "Take 2F, open the shop wall and plant with flank watch."
+    common_mistakes: ["Over-committing one door"]
+    uncertain: []
+general:
+  attack: ["Two-floor map: vertical play is strong", "Drone motel side for roamers"]
+  defense: ["Exterior windows invite spawn peeks", "Roam motel and roof carefully"]
