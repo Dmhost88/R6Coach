@@ -399,10 +399,12 @@ class Coach:
             f"Player's pools: attack {self.cfg.operator_pool.attack}, defense {self.cfg.operator_pool.defense}\n"
             f"{self._memory()}\n"
             f"{self._focus(s)}\n"
-            "The screen shows which side the player's team is banning (e.g. 'BAN A DEFENDER'). Name the one "
-            "ban that most hurts the enemy here. Base it on what they've actually run this match if anything, "
-            "else on this map's meta. Say why in one line, in terms of the sites and the player's next round. "
-            "Avoid the player's own pool. Put it in recommended_bans."
+            "The screen shows which side the player's team is banning (e.g. 'BAN A DEFENDER') and any bans "
+            "already made: read them and never recommend an operator that is already banned. Name the one ban "
+            "that most hurts the enemy here. Base it on what the enemy has actually run this match if anything, "
+            "else on this map's meta. At ban time nobody has picked yet: never plan around specific teammates' "
+            "operators or assume who your team will run; reason about the enemy, the possible sites and the "
+            "player's own pool only. Say why in one line. Put it in recommended_bans."
         )
         return self._ask("operator_ban", prompt, image=True, map_name=s.map)
 
@@ -442,19 +444,26 @@ class Coach:
         return out
 
     def _advise_death(self, s: GameState, killer: Optional[str]) -> Optional[CoachLines]:
+        trail = self.memory.death_trail() if self.memory is not None else ""
         prompt = (
             f"THE PLAYER JUST DIED on {s.map} ({s.side}, site {s.site or 'unknown'}), playing "
             f"{s.my_operator or 'unknown op'}, killed by {killer or 'unknown'} in {s.my_location or 'unknown room'} "
             f"with {s.timer_seconds if s.timer_seconds is not None else '?'}s left, "
-            f"players {s.alive_us} v {s.alive_them} just before, defuser planted: {s.defuser_planted}.\n"
+            f"defuser planted: {s.defuser_planted}. Players alive just before: "
+            f"{s.alive_us if s.alive_us is not None else '?'} on the player's team v "
+            f"{s.alive_them if s.alive_them is not None else '?'} enemies.\n"
+            + (f"The player's last seconds (room and health from their HUD, oldest first): {trail}\n" if trail else "")
+            + "If their health was already low, say what they should have done about that first.\n"
             f"{self._memory()}\n"
             f"{self._focus(s)}\n"
-            "The screenshot is the kill cam: read the killer's operator, weapon and the angle or position "
-            "they shot from. Death debrief, like a coach on comms right after a death: "
+            "The screenshot is the kill cam: read the killer's operator card and weapon. Describe the angle "
+            "or position they shot from only if it is clearly visible; never invent details (props, open "
+            "walls, holes) you can't see. Death debrief, like a coach on comms right after a death: "
             "Line 1: what was good in how the player played the round, if anything was (be honest). "
-            "Line 2: the actual mistake: the angle, timing or decision that got them killed, with exact "
-            "locations. Line 3: the fix next time. If they keep dying the same way, say so. "
-            "No consolation, no filler."
+            "Line 2: the actual mistake: the angle, timing or decision that got them killed, using the room "
+            "they died in and the killer's operator. Line 3: the fix next time: an exact spot to play "
+            "instead (room plus what to hold from there), and why it beats that operator. If they keep "
+            "dying the same way, say so. No consolation, no filler."
         )
         return self._ask("death", prompt, image=True, map_name=s.map)
 
@@ -483,10 +492,12 @@ class Coach:
                     "when action starts, and when to rotate or fall back. If the enemy's attackers haven't "
                     f"been seen yet, plan for this site's common attack, and say 'likely'.{reinf}")
         else:
-            task = (f"PREP PHASE on attack, player is {me}. Give this round's specific plan IN TIME ORDER, one "
+            task = (f"PREP PHASE on attack, player is {me}. Give {me}'s own job this round, IN TIME ORDER, one "
                     "step per line: what to drone for now (and from where a drone can actually see it), the "
-                    "roam to clear first, the breach or entry with the utility it needs, then the plant spot "
-                    "and where to hold it.")
+                    f"roam to clear first, what {me} does on the entry with their own gadget (not another "
+                    "operator's job), then the plant spot and where to hold it. If an enemy operator from "
+                    "earlier rounds threatens this site (a camera, trap or anchor that killed the player), say "
+                    f"how {me} deals with it.")
         prompt = (
             f"{task}\nMap {s.map}, site {s.site or 'unknown'} "
             f"(possible: {' | '.join(s.site_options) or 'unknown'}), spawn {s.spawn or 'unknown'}, "

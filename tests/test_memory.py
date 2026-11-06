@@ -28,3 +28,16 @@ def test_memory_records_rounds_and_tendencies(bus):
 
     bus.publish("match.started", match_id="m2")
     assert "first round" in mem.text()
+
+
+def test_death_trail_shows_health_and_rooms(bus):
+    state = GameState(my_location="2F Piano Room")
+    mem = MatchMemory(bus, lambda: state, "dmhost88")
+    bus.publish("live.event", kind="round_reset")
+    for room, hp in (("2F Office", 110), ("2F Office", 35), ("2F Piano Room", 35)):
+        bus.publish("state.updated", state={"screen": "action_phase", "player_alive": True,
+                                            "my_location": room, "health": hp})
+    bus.publish("player.died", killer="Enemy_C")
+    assert mem.death_trail() == "2F Office 110 HP -> 2F Office 35 HP -> 2F Piano Room 35 HP"
+    bus.publish("live.event", kind="round_reset")
+    assert mem.death_trail() == ""

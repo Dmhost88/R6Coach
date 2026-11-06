@@ -7,7 +7,8 @@ operators revealed on the HUD, sites and spawns. Reset when a new match starts.
 from __future__ import annotations
 
 import threading
-from collections import Counter
+import time
+from collections import Counter, deque
 from dataclasses import asdict, dataclass, field
 from typing import Optional
 
@@ -60,10 +61,33 @@ class MatchMemory:
         self.rounds: list[RoundRecord] = []
         self.cur = RoundRecord(n=1)
         self.killers_of_me: Counter[str] = Counter()
+        self._trail: deque = deque(maxlen=40)    # (time, room, health) while alive this round
+        self.last_trail: list[tuple[float, Optional[str], Optional[int]]] = []   # frozen at death
         bus.subscribe("match.started", lambda ev: self.reset())
         bus.subscribe("live.event", self._on_live)
         bus.subscribe("player.died", self._on_died)
         bus.subscribe("round.ended", self._on_round_ended)
+        bus.subscribe("state.updated", self._on_state)
+
+    def _on_state(self, ev: Event) -> None:
+        """Keep a short trail of the player's room and health (from the HUD) while alive."""
+        st = ev.data.get("state") or {}
+        if st.get("screen") != "action_phase" or not st.get("player_alive", True):
+            return
+        point = (st.get("my_location"), st.get("health"))
+        with self._lock:
+            if not self._trail or (self._trail[-1][1], self._trail[-1][2]) != point:
+                self._trail.append((time.time(), *point))
+
+    def death_trail(self, seconds: float = 20.0) -> str:
+        """'2F Office 110 HP -> 2F Office 35 HP -> 2F Piano Room 35 HP' for the last seconds before death."""
+        with self._lock:
+            pts = list(self.last_trail)
+        if not pts:
+            return ""
+        end = pts[-1][0]
+        steps = [f"{room or '?'} {hp if hp is not None else '?'} HP" for t, room, hp in pts if end - t <= seconds]
+        return " -> ".join(steps)
 
     def reset(self) -> None:
         with self._lock:
@@ -77,6 +101,8 @@ class MatchMemory:
             if kind == "round_reset":
                 # A round that never got a result (e.g. coach started mid-round) is simply dropped.
                 self.cur = RoundRecord(n=len(self.rounds) + 1)
+                self._trail.clear()
+                self.last_trail = []
             elif kind == "kill":
                 team = ev.data.get("killer_team")
                 if self.cur.first_blood is None and team in ("us", "them"):
@@ -93,6 +119,7 @@ class MatchMemory:
     def _on_died(self, ev: Event) -> None:
         s = self.current_state()
         with self._lock:
+            self.last_trail = list(self._trail)
             self.cur.died_to = ev.data.get("killer")
             self.cur.died_in = s.my_location
             if self.cur.died_to:
