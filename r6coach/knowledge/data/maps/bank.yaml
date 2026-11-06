@@ -54,6 +54,19 @@ sites:
       post_plant: ["Plant CEO bookshelf, then hold from Top Square and the Stock window", "Keep a flank on Main Stairs and Skylight; roamers come back through Square", "Default plant lets one player hold Lounge through the Quad window"]
     common_mistakes: ["Defenders standing behind the Top Square wall when Ace or Thermite blows it", "Attackers pushing Janitor before clearing Stock and the ceilings below", "Ignoring the late Vigil flank through Skylight Stairwell"]
     uncertain: ["Room names Herds, Banana and Quad come from stratbooks; in-game callouts may say Executive Hallway or Front Desk", "siegestrats setups have no reported rounds yet"]
+    video_insights:
+      - creator: "Garfieldisdoc"
+        url: "https://www.youtube.com/watch?v=1qCEYZwQzes&t=30"
+        side: attack
+        points:
+          - "Hibana rappels to the E3 (Elevator 3) wall and opens it to cut rotates between Janitor, Long Desk, Stock and Marble; she should not carry the bomb."
+          - "Pair the E3 open with a Lobby push: drone the Lobby stairs, clear wall utility, cam E2, then fight for Front Desk and Beepers."
+          - "Send one or two players to Stock and open the Stock window early; it adds phantom pressure on site."
+          - "Stock is usually held with feet holes and an anchor behind the trading table: pre-place a drone in 1F Open Area, clear Beepers, then shoot up from below (Buck)."
+          - "From 1F, also open a hole into the Janitor doorway and a line onto the Conference rotate to cut swings."
+          - "No vertical? Collapse Stock at once from Top Square, the Stock window and bottom Marble or the Skylight drop."
+          - "Quad window rappellers shoot out Castle barricades to cut Janitor and Double Door; keep one player at ATMs or on the rappel watching Lobby swings."
+          - "From Top Square, open the soft wall and run in, or open the far-right Square wall and plant on the bookshelf; hold it while one player watches the Beepers rotate."
   - id: open_area_staff_room
     name: "1F Open Area / 1F Staff Room"
     aliases: ["1F Staff Room / 1F Open Area", "Open Area", "Staff Room", "Staff"]
@@ -95,6 +108,19 @@ sites:
       post_plant: ["Plant behind the Staff Room counter and hold from the Ram hole above", "Keep one on Main Stairs and one on bottom Blue for flanks", "Hold the Printer window line from outside"]
     common_mistakes: ["Defenders forgetting to reinforce both 2F hatches before the Square wall", "Attackers breaching before killing the 2F denial players"]
     uncertain: ["Hatch names (Stock hatch, Janitor hatch to Admin) are stratbook callouts", "Kanzen is a team callout, not an official room name"]
+    video_insights:
+      - creator: "Garfieldisdoc"
+        url: "https://www.youtube.com/watch?v=1qCEYZwQzes&t=428"
+        side: attack
+        points:
+          - "Win 2F first: pre-place drones for Top Square and the CEO rappel; expect a Stock door player, a back-elevator player and a Conference floater."
+          - "Bring Gridlock or Nomad to lock the Lobby and Marble flanks while the 2F players work the floor."
+          - "Go vertical through the Stock floor onto the Mira and open the Stock hatch so you can drop when needed."
+          - "Drone Archives at the same time; if someone is there, open vertical on them from CEO. Open the Janitor hatch for more lines."
+          - "Watch the bottom Blue drop, then open the bottom Square wall; the far-side player and the B chassis tuck are what's left."
+          - "Open the Printer window at round start for phantom pressure and play it late."
+          - "If the Square wall can't be opened, keep the vertical, push the E2 side (expect Tellers' Office feet holes), drop the hatch and plant near it."
+          - "Expect this site to take the whole round to reach a plant."
   - id: tellers_archives
     name: "1F Tellers' Office / 1F Archives"
     aliases: ["1F Archives / 1F Tellers' Office", "Tellers", "Archives", "Tellers Office"]
@@ -130,6 +156,17 @@ sites:
       post_plant: ["Plant behind the projector, hold from Lobby and the Lounge floor holes", "Watch E2 and Main Stairs for the Open Area rotate"]
     common_mistakes: ["Attackers ignoring the E2 feet holes", "Defenders conceding Executive Lounge vertical for free"]
     uncertain: ["Only one defense and one attack source found; rarely played site", "Projector plant spot comes from a voice-over source"]
+    video_insights:
+      - creator: "Garfieldisdoc"
+        url: "https://www.youtube.com/watch?v=1qCEYZwQzes&t=698"
+        side: attack
+        points:
+          - "Rarely attacked; the two areas that matter are 1F Open Area and Top Square."
+          - "Open the Electrical closet and the Printer window early for phantom pressure, then drone how Open Area is held."
+          - "A player sitting back in Open Area gets pushed out by a teammate going vertical from above; avoid popping that hatch since it enables late flanks."
+          - "After Open Area, go through Admin and open the Archives walls; if they reinforced 2F, often only the last wall is hard."
+          - "Hold Top Square during the execute: with bottom Blue it is the only flank. Watch for C4 through the head holes."
+          - "Old-school option: win ATMs in Lobby and breach the Lobby desk wall, but the E2 feet holes and a Marble stairs player make it rough; smoke an off-site plant."
   - id: cctv_lockers
     name: "B CCTV Room / B Lockers"
     aliases: ["B Lockers / B CCTV Room", "Lockers", "CCTV", "Basement"]
@@ -174,6 +211,25 @@ sites:
       post_plant: ["Plant tight to the Server wall in CCTV and hold from Server and the Admin hatch", "Cross Red Hallway from the breach and keep Square watched"]
     common_mistakes: ["Defenders over-rotating to Garage and leaving Server open", "Attackers forgetting the Lobby hatch drops into Vault"]
     uncertain: ["Lobby hatch into Vault is from a 2021 change; confirm it is still in the current version"]
+    video_insights:
+      - creator: "Garfieldisdoc"
+        url: "https://www.youtube.com/watch?v=1qCEYZwQzes&t=963"
+        side: attack
+        points:
+          - "Bring a hard breacher, a shield and Twitch; Twitch counters the Mira and Goyo setups here."
+          - "First win Server; if nobody holds Server or Blue, go straight to opening the Server-side walls and aim to plant tight to the wall."
+          - "Against Mira, Tachanka, Smoke or Goyo canisters, start the plant and cancel repeatedly to bait out their utility."
+          - "A second group takes Printer, drones it clear, then EMPs and Hibanas the reinforced, barricaded 1F hatches over site."
+          - "Those hatch angles pop Goyo canisters, force out the Vault Entrance player and cover the Red Hallway rotate even late in the round."
+          - "If the Mira wins, someone drops the hallway hatch to kill it or cut the Garage head-holes player."
+          - "With man advantage, walk a player down the Marble stairs to cut defenders off."
+          - "Twitch pushes Garage late, after drones pop the utility: defenders leave Garage once nobody attacks it early."
+          - "Shoot every cam, not just Garage: from Jewelry Front you can hit the Lobby cam and, from the Sewer corner, the Top Square cam; the E2 cam is bangable from the rappel."
 general:
   attack: ["Boulevard and Jewelry Front have near-instant Lobby runouts; drone Lobby and the Quad before walking", "Back Alley for 2F and 1F Stock/Top Square takes; Jewelry Front Sewer for basement", "Win Stock and Top Square on 2F before any 1F or 2F execute", "Roamers to clear: Stock, Terrace, Square, Long Desk, Marble"]
   defense: ["Spawn peeks from Lobby onto Boulevard are fast but known; one rifler only", "Common roams: Vigil Stock-Terrace-Skylight, Caveira 2F then Archives, Vigil fake at Long Desk for basement", "Always watch or reinforce the Lobby hatch into Vault on basement"]
+sources:
+  - creator: "Garfieldisdoc"
+    title: "How to Attack EVERY Bombsite in Rainbow Six Siege (2026)"
+    url: "https://www.youtube.com/watch?v=1qCEYZwQzes"
+    upload_date: "2026-07-07"

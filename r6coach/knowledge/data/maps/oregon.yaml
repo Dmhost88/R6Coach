@@ -107,6 +107,18 @@ sites:
     uncertain:
       - "Kids' Dorms hatch reinforce vs open: guides split; both are viable."
       - "Wall list follows Y11S3.2 guides; verify panels on the reworked map in a custom."
+    video_insights:
+      - creator: "Garfieldisdoc"
+        url: "https://www.youtube.com/watch?v=1qCEYZwQzes&t=12289"
+        side: attack
+        points:
+          - "Default is a split: one group takes Big Tower and opens the Tower wall into Attic, the other works the Master wall."
+          - "Drop a cut-off cam in Big Tower at round start so nobody roams in behind the Attic group."
+          - "Two players rappel at Armory to clear extenders up to the Master side; respect the head hole there."
+          - "Hard breacher opens the Master wall from the Master balcony; that breach buys time for the Attic side to clear the drop with frags or Ying."
+          - "From Attic, one player holds the cut-off while another clears the Bolo spot on the dresser, then the breacher flashes in."
+          - "Late in the round, open Big Window or the Kids' window to cut the chassis, white bookshelf and White Stairs angles."
+          - "If the planter is in Attic, plant on that side: less exposed to the white head holes; hold the pixel peek and rotate from Trophy or the deep Armory hole."
   - id: kitchen_dining_hall
     name: "1F Kitchen / 1F Dining Hall"
     aliases: ["1F Dining Hall / 1F Kitchen", "Kitchen / Dining Hall", "Kitchen", "Dining Hall", "Dining"]
@@ -196,6 +208,17 @@ sites:
       - "Defenders giving up Small Tower without a fight."
     uncertain:
       - "Creators disagree on how much of the Small Tower side to close."
+      - "Attack route: existing plan is Small Tower and the Dining wall; Garfieldisdoc (2026) prefers a Garage/Meeting take and calls the Small Tower thermite take too exposed."
+    video_insights:
+      - creator: "Garfieldisdoc"
+        url: "https://www.youtube.com/watch?v=1qCEYZwQzes&t=12468"
+        side: attack
+        points:
+          - "Skip the usual Small Tower thermite and open-floor plant; too many angles to clear."
+          - "Take Garage, then enter through Meeting with one player (Gridlock) locking the Lobby and Z flank."
+          - "Only go Meeting if the Meeting hatch above is not popped; two players push Meeting and clear rear Stage."
+          - "Hold Green Hallway, or push up it to contest back-of-site players, then plant just inside."
+          - "Defenders usually stack Small Tower and rarely play vertical or rotates here, so you often arrive with man advantage."
   - id: meeting_hall_kitchen
     name: "1F Meeting Hall / 1F Kitchen"
     aliases: ["1F Kitchen / 1F Meeting Hall", "Meeting Hall / Kitchen", "Meeting", "Meeting Hall"]
@@ -285,6 +308,17 @@ sites:
       - "Over-committing one door."
       - "Ignoring the Meeting hatch upstairs player."
     uncertain: []
+    video_insights:
+      - creator: "Garfieldisdoc"
+        url: "https://www.youtube.com/watch?v=1qCEYZwQzes&t=12564"
+        side: attack
+        points:
+          - "Basic take: win Garage and Lobby, Gridlock or fight the Z side, then open the single Meeting wall."
+          - "The Green double door is usually Castled: break the barricade and plant behind a Montagne walking in."
+          - "Against strong teams go Meeting-over from Big Tower: win rear Stage and the back stairs."
+          - "Pre-place a drone on the downstairs pillar and walk up the Blue Bunker side; Gridlock the bottom-to-mid staircase."
+          - "In Big Tower, open the Attic wall so defenders can't walk up through an open hatch; just hold the hatch angle."
+          - "Then open the main Meeting wall and the Green barricade; smoke the left rotate and plant in Meeting, or on the Green door if Green is empty."
   - id: laundry_room_supply_room
     name: "B Laundry Room / B Supply Room"
     aliases: ["B Supply Room / B Laundry Room", "Laundry Room / Supply Room", "Laundry", "Supply", "Supply Room", "Basement"]
@@ -372,6 +406,20 @@ sites:
       - "Ignoring the Freezer hatch."
     uncertain:
       - "Laundry-wall rotate: community split on keeping it soft or reinforced."
+    video_insights:
+      - creator: "Garfieldisdoc"
+        url: "https://www.youtube.com/watch?v=1qCEYZwQzes&t=12727"
+        side: attack
+        points:
+          - "Defenders contest the Rear Stage stairs early, then bunker in site; read their setup before choosing a take."
+          - "Mira on the front wall: Bunker split. Use utility to get into Blue Bunker while a hard breacher goes Big Tower and pre-places a drone down the stairs."
+          - "Nomad airjabs Dining and the Meeting split for flank intel while the hard breacher EMPs and opens the hatch over site to break the Mira."
+          - "After the Mira or shield falls, push the back stairs to fight Pillar, the head holes and the E-box wall tuck."
+          - "Hibana can open Close and the side wall to catch players tucked in the Harry Potter closet and at Iconic."
+          - "Plant with one on Pillar (covers the Laundry rotate and Long Hall), one on Elbow, and one watching the Freezer swing."
+          - "High rank: Laundry/Freezer split instead. Pre-place for Garage and Showers, take 1F and open the Freezer, Laundry and Meeting hatches."
+          - "Flores clears the Laundry shield; bait the Mira peek off a drone; one player walks down Freezer watching Lockers, Close and the hallway."
+          - "Plant on the hard wall or tucked in the corner once Close is clear."
 general:
   attack:
     - "Junkyard: clear Big Tower windows before crossing; it is the main spawn-peek tower."
@@ -383,3 +431,8 @@ general:
     - "Small Tower and Showers are early fight spots for Kitchen/Dining."
     - "Freezer and Z are the basement lurk lanes into Kitchen."
     - "Avoid runouts toward Junkyard early; attackers often pre-aim Big Tower."
+sources:
+  - creator: "Garfieldisdoc"
+    title: "How to Attack EVERY Bombsite in Rainbow Six Siege (2026)"
+    url: "https://www.youtube.com/watch?v=1qCEYZwQzes"
+    upload_date: "2026-07-07"

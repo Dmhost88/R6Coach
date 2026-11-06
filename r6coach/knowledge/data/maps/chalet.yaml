@@ -50,6 +50,20 @@ sites:
       post_plant: ["Plant Office and hold from Library and the breach", "Keep flank watch on Library Stairs and Solarium"]
     common_mistakes: ["Defenders staying in Library past 1:30", "Attackers ignoring the Big Window cut"]
     uncertain: ["No dedicated attack strat for this site; execute built from general sources", "Kanine and Ivy are team callouts"]
+    video_insights:
+      - creator: "Garfieldisdoc"
+        url: "https://www.youtube.com/watch?v=1qCEYZwQzes&t=3076"
+        side: attack
+        points:
+          - "Default: Library/Mezzanine split toward the main Office wall; Ace, Zofia and Gridlock fit well. Check for a Bandit trick first."
+          - "If defenders extend into Library, put a player on the Highway window slant rappel to shoot top Mezzanine and Library."
+          - "Push bottom Library into the Library stairs with frags, Ying or Candelas so a teammate can enter the Library double or single window."
+          - "Once in, Gridlock off Library and watch bottom Main and Fireplace stairs; keep one player on the Highway window side with claymores or Nomad."
+          - "Breach the main Office wall and plant on the half wall; watch swings from Piano and from Master Bathroom. Kanine balcony is optional pressure."
+          - "If the Library extend is too strong, switch to a Trophy/Solarium take with one attacker outside the Highway windows."
+          - "Claymore the Bathroom and Piano jump-outs; pre-place a drone in Trophy and take up to the Kitchen hallway."
+          - "A player in the Owl spot is cleared with a Kali bolt or vertical; then open the Solarium wall and fight into Bathroom."
+          - "Plant tucked in the Master corner or on the bed; with even numbers, a Big Window rappeller cuts the bookshelf and Closet players."
   - id: bar_gaming_room
     name: "1F Bar / 1F Gaming Room"
     aliases: ["1F Gaming Room / 1F Bar", "Bar", "Gaming Room", "Gaming"]
@@ -94,6 +108,18 @@ sites:
       post_plant: ["Hold the deep Gaming plant from Library holes and the Gaming window", "Flank watch on Library Stairs, Solarium stairs, Trophy and Stock"]
     common_mistakes: ["Defenders conceding Library for free", "Attackers walking Fireplace without clearing Mezzanine"]
     uncertain: ["Peng Fish variant drops through Library to plant Bar; not verified"]
+    video_insights:
+      - creator: "Garfieldisdoc"
+        url: "https://www.youtube.com/watch?v=1qCEYZwQzes&t=3543"
+        side: attack
+        points:
+          - "Expect a Mira here: Hibana starts on the Library side and spends two pellets on the soft wall to break it."
+          - "The rest take Piano and Office: one player on the slant window rappel shoots top Mezzanine while others drone from Trophy to Piano."
+          - "Set cut-off cams at Piano and bottom Trophy stairs before committing."
+          - "From Office, open the Library hall wall; a top-Library shield is cleared with Flores or frags."
+          - "Phantom pressure from the start: open the front Lobby door, the Fireplace window, the Mudroom window and the main Gaming window."
+          - "Open the hatch above site for vertical onto the B chassis and tucked spots; from there you can also see and shoot the Mira user."
+          - "Plant on the Gaming wall or take bottom Fireplace and walk in. Very coordinated site; many rounds end with no plant."
   - id: kitchen_dining_room
     name: "1F Kitchen / 1F Dining Room"
     aliases: ["1F Dining Room / 1F Kitchen", "Kitchen", "Dining Room", "Dining"]
@@ -135,6 +161,17 @@ sites:
       post_plant: ["Plant by the dining table, hold from the Fireplace breach and 2F holes", "Watch Solarium and Trophy for the flood back"]
     common_mistakes: ["Attackers opening Fireplace with batteries still live", "Defenders opening the Kitchen hatch early"]
     uncertain: ["ALVIRAN starts with Trophy and vertical instead of Library; both are played"]
+    video_insights:
+      - creator: "Garfieldisdoc"
+        url: "https://www.youtube.com/watch?v=1qCEYZwQzes&t=3831"
+        side: attack
+        points:
+          - "The goal is two big walls: the Fireplace wall downstairs and the main Office wall upstairs."
+          - "Take Lobby, Library and top Mezzanine; pre-place a drone in Library and watch the stairs flank and the 45 hallway."
+          - "If defenders leave Office soft, open it and play vertical; work the Highway windows to cut Piano and Bathroom."
+          - "Hold Trophy and the Solarium-to-Trophy stairs so nobody flanks back up while 2F plays vertical (open the hatch if needed)."
+          - "Gridlock is strong because of all the staircases; Sledge in through Snowmobile or come up via Gaming to clear the lower floor."
+          - "With 2F and Lobby won, open the Fireplace wall last and plant on default."
   - id: wine_cellar_snowmobile_garage
     name: "B Wine Cellar / B Snowmobile Garage"
     aliases: ["B Snowmobile Garage / B Wine Cellar", "Wine Cellar", "Garage", "Snowmobile Garage", "Basement"]
@@ -172,7 +209,25 @@ sites:
       key_kills: ["Vigil at the garage-door window", "Wine Cellar Mira anchor", "Blue stairs holder"]
       post_plant: ["Plant behind the snowmobiles with Osa's shield facing Wine", "Hold Main Stairs and Blue from 1F"]
     common_mistakes: ["Rushing stairs into the Jager and wire", "Shield plants into Noor's lance"]
-    uncertain: ["Fuze from the Fireplace floor into Wine Cellar is unverified", "Noor burns shields this season; the Osa plant may be weaker"]
+    uncertain: ["Fuze from the Fireplace floor into Wine Cellar is unverified", "Noor burns shields this season; the Osa plant may be weaker", "Garfieldisdoc (2026) describes a Lobby front breach and a Boiler/West Main take rather than the Snowmobile exterior wall; which wall his 'front breach' is was not named"]
+    video_insights:
+      - creator: "Garfieldisdoc"
+        url: "https://www.youtube.com/watch?v=1qCEYZwQzes&t=4033"
+        side: attack
+        points:
+          - "Two takes: a Lobby split on the front main breach, or a Boiler take; counter-pick the breach to their utility (Maverick vs Bandit tricks, Thermite with Twitch vs a plain barricade)."
+          - "Don't just rush the front breach: send Buck or Ram vertical after winning Library and the balcony above."
+          - "Nomad airjabs the Library single and Dining single, then holds the Snowmobile stairs while the breach opens."
+          - "A 'backstabber' enters Gaming early and walks down to hold bottom Blue for the whole round."
+          - "Vertical cuts the Connector and its door, the Mira, the rotate and Pillar; a second hard breacher can open the hatch."
+          - "Boiler take: still open the front breach for phantom pressure, then take West Main, Front Garage and airjab Dining with a drone in Trophy."
+          - "Bring two hard breachers: Hibana opens the long angle onto Connector (watch the feet hole), Ace or Thermite opens the Boiler wall from Boiler door."
+          - "Dump utility on the Pillar shield, then plant if nobody is roaming Dining. These rounds usually end as a 2v2 or 2v1."
 general:
   attack: ["Every plan wins Library and top floor first", "Drone Library in prep; empty Library means execute earlier", "Flank watch on Library Stairs, Solarium stairs, Trophy and Stock"]
   defense: ["Chalet is strong for spawn peeks with 1.5x scopes; pick one, then move", "Main roams: Library (out by 1:15-1:30 via Piano or Solarium), Master and Kanine, basement Blue", "On 2F the Big Window cut splits the floor; the Half Wall is the key spot"]
+sources:
+  - creator: "Garfieldisdoc"
+    title: "How to Attack EVERY Bombsite in Rainbow Six Siege (2026)"
+    url: "https://www.youtube.com/watch?v=1qCEYZwQzes"
+    upload_date: "2026-07-07"
