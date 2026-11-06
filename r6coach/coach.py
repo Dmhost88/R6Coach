@@ -117,6 +117,7 @@ class Coach:
         self.current_state = current_state      # () -> GameState
         self.current_jpeg = current_jpeg        # () -> Optional[bytes]
         self.memory = None                      # MatchMemory, set by the app
+        self._tls = threading.local()           # per-worker flag: was this answer streamed/spoken?
         self._rooms_map: Optional[str] = None
         self._rooms_cache: list[str] = []
         self.pool = ThreadPoolExecutor(max_workers=2, thread_name_prefix="coach")
@@ -223,7 +224,8 @@ class Coach:
             op = s.my_operator or self._recommended
             if op and self._once(f"preplan:{rnd}:{op}"):
                 plan_state = s.model_copy(deep=True, update={"my_operator": op})
-                self._prep_cache[rnd] = (op, self.pool.submit(self._safe, self._advise_prep, plan_state, True))
+                # Made ahead of time, spoken later: no streaming (live=False).
+                self._prep_cache[rnd] = (op, self.pool.submit(self._safe, self._advise_prep, plan_state, True, False))
 
     def _on_question(self, ev: Event) -> None:
         self.bus.publish("coach.thinking", question=ev.data["text"])
@@ -259,28 +261,52 @@ class Coach:
             return None
 
     def _run(self, phase: str, fn, state: GameState, *args) -> None:
-        self._deliver(phase, self._safe(fn, state, *args))
+        self._tls.streamed = False
+        out = self._safe(fn, state, *args)
+        self._deliver(phase, out, spoken=getattr(self._tls, "streamed", False))
 
-    def _deliver(self, phase: str, out: Optional[CoachLines]) -> None:
+    def _relevant(self, phase: str) -> bool:
+        """Is advice for this phase still worth saying right now?"""
+        now = self.current_state().screen
+        if phase == "between_rounds":
+            return now not in (Screen.prep_phase, Screen.action_phase)
+        if phase == "death":
+            # Still useful while spectating or between rounds; not once the next round's prep starts.
+            return now != Screen.prep_phase and not (now == Screen.action_phase
+                                                     and self.current_state().player_alive)
+        return now in STILL_RELEVANT.get(phase, {Screen(phase)})
+
+    def _deliver(self, phase: str, out: Optional[CoachLines], spoken: bool = False) -> None:
+        """spoken=True: the lines were already spoken one by one as they streamed in."""
         if out is None:
             return
-        now = self.current_state().screen
-        # Drop advice that arrives after the moment has passed.
-        if phase == "between_rounds":
-            relevant = now not in (Screen.prep_phase, Screen.action_phase)
-        elif phase == "death":
-            # Still useful while spectating or between rounds; not once the next round's prep starts.
-            relevant = now != Screen.prep_phase and not (now == Screen.action_phase
-                                                         and self.current_state().player_alive)
-        else:
-            relevant = now in STILL_RELEVANT.get(phase, {Screen(phase)})
-        if not relevant:
-            log.info("dropping stale %s advice (now %s)", phase, now.value)
+        if not spoken and not self._relevant(phase):
+            # Drop advice that arrives after the moment has passed.
+            log.info("dropping stale %s advice (now %s)", phase, self.current_state().screen.value)
             return
         if out.recommended_operator:
             self._recommended = out.recommended_operator
-        self.speak(out.lines, phase)
+        if not spoken:
+            self.speak(out.lines, phase)
         self.bus.publish("coach.advice", phase=phase, advice=out.model_dump())
+
+    def _speak_streamed(self, phase: str):
+        """Returns an on_line callback that speaks each streamed line if it's still relevant."""
+        first = {"done": False}
+
+        def on_line(text: str) -> None:
+            if phase != "question" and not self._relevant(phase):
+                return
+            if phase == "question":
+                priority = 0 if not first["done"] else 1
+            else:
+                priority = 2
+            if not first["done"]:
+                self.last_lines = []
+            first["done"] = True
+            self.last_lines.append(text)
+            self.speaker.say(text, priority=priority, ttl=40.0 if phase != "question" else 30.0, phase=phase)
+        return on_line
 
     def speak(self, lines: list[str], phase: str, priority: int = 2, ttl: float = 40.0) -> None:
         self.last_lines = lines
@@ -309,12 +335,20 @@ class Coach:
                 f"site {s.site or 'not known yet'} (full map dossier in the system prompt).")
 
     def _ask(self, phase: str, prompt: str, image: bool = False, deep: bool = False,
-             map_name: Optional[str] = None) -> Optional[CoachLines]:
+             map_name: Optional[str] = None, live: bool = True,
+             effort: Optional[str] = None) -> Optional[CoachLines]:
+        """live=True: the answer is spoken now, so stream it and start speaking at line 1."""
         n = FIXED_LINES.get(phase) or LINES_FOR_LEVEL.get(self.cfg.coach.level(phase), "2-4")
         prompt += f"\n\nReply with {n} spoken lines."
         jpeg = self.current_jpeg() if image else None
-        effort = self.cfg.coach.deep_effort if deep else self.cfg.coach.effort
-        return self.claude.coach(self.cfg.coach.model, effort, self._system(map_name), prompt,
+        effort = effort or (self.cfg.coach.deep_effort if deep else self.cfg.coach.effort)
+        system = self._system(map_name)
+        if live and self.cfg.coach.stream and hasattr(self.claude, "coach_stream"):
+            self._tls.streamed = True
+            return self.claude.coach_stream(self.cfg.coach.model, effort, system, prompt,
+                                            purpose=f"coach.{phase}", image_jpeg=jpeg,
+                                            on_line=self._speak_streamed(phase))
+        return self.claude.coach(self.cfg.coach.model, effort, system, prompt,
                                  purpose=f"coach.{phase}", image_jpeg=jpeg)
 
     def _pool_text(self, side: Optional[str], state: GameState) -> str:
@@ -374,7 +408,7 @@ class Coach:
             "order, and the one loadout choice that matters."
         )
         return self._ask("operator_select", prompt, image=True, map_name=s.map,
-                         deep=self.cfg.coach.deep_pick)
+                         effort=self.cfg.coach.pick_effort)
 
     def _advise_death(self, s: GameState, killer: Optional[str]) -> Optional[CoachLines]:
         prompt = (
@@ -407,7 +441,7 @@ class Coach:
         )
         return self._ask("between_rounds", prompt, deep=True, map_name=s.map)
 
-    def _advise_prep(self, s: GameState, deep: bool = False) -> Optional[CoachLines]:
+    def _advise_prep(self, s: GameState, deep: bool = False, live: bool = True) -> Optional[CoachLines]:
         me = s.my_operator or "their operator"
         if s.side == "defense":
             reinf = (f" The team has {s.team_reinforcements} reinforcements left."
@@ -432,7 +466,7 @@ class Coach:
             f"{self._memory()}\n"
             f"{self._focus(s)}"
         )
-        return self._ask("prep_phase", prompt, deep=deep, map_name=s.map)
+        return self._ask("prep_phase", prompt, deep=deep, map_name=s.map, live=live)
 
     def _answer(self, question: str) -> None:
         s = self.current_state()
@@ -449,12 +483,14 @@ class Coach:
             "Answer directly for this exact moment. If it's mid-round, keep it very short."
         )
         started = time.time()
+        self._tls.streamed = False
         out = self._ask("question", prompt, image=static)
-        if out is None:
+        if out is None or not out.lines:
             self.speaker.say("Couldn't get an answer. Try again.", priority=0, phase="question")
             return
-        self.last_lines = out.lines
-        for i, line in enumerate(out.lines):
-            self.speaker.say(line, priority=0 if i == 0 else 1, ttl=30, phase="question")
+        if not getattr(self._tls, "streamed", False):   # streamed lines were already spoken
+            self.last_lines = out.lines
+            for i, line in enumerate(out.lines):
+                self.speaker.say(line, priority=0 if i == 0 else 1, ttl=30, phase="question")
         self.bus.publish("coach.advice", phase="question", question=question, advice=out.model_dump(),
                          seconds=round(time.time() - started, 2))

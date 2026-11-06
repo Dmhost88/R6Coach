@@ -46,11 +46,13 @@ class HudCfg(BaseModel):
 
 class CoachCfg(BaseModel):
     model: str = "claude-opus-5-5"
-    effort: str = "medium"           # bans, picks, questions (short screens: must be quick)
+    # Measured on Opus 5.5 with cached prompts: low ~9 s to the first spoken line, medium ~19 s.
+    effort: str = "low"              # bans, questions, live prep (short windows: must be quick)
+    pick_effort: str = "medium"      # operator pick (op select gives ~30 s)
     deep_effort: str = "high"        # defense prep plan (made during pick) and round debriefs
     live_effort: str = "low"         # in-round tactical calls (must land within seconds)
     live_min_gap: float = 15.0       # seconds between in-round tactical calls
-    deep_pick: bool = True           # think harder on the operator pick (op select gives ~30s)
+    stream: bool = True              # speak the first line while the rest is still being written
     budget_per_match: float = 3.0    # USD; at 80% live calls and debriefs pause, at 100% only bans/picks
     skill_level: str = "intermediate"
     chattiness: dict[str, int] = Field(

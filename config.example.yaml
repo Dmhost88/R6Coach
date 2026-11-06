@@ -29,7 +29,8 @@ hud:
 
 coach:
   model: claude-opus-5-5           # model that writes advice and answers questions
-  effort: medium                   # bans, picks, questions (short screens: must be quick)
+  effort: low                      # bans, questions, live prep: ~9 s to the first line (medium ~19 s)
+  pick_effort: medium              # operator pick (op select gives ~30 s)
   deep_effort: high                # defense prep plan (made during pick) and round debriefs
   live_effort: low                 # in-round tactical calls (must land within seconds)
   live_min_gap: 15                 # seconds between in-round tactical calls

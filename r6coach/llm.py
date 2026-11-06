@@ -8,11 +8,12 @@ decline is retried on another model instead of leaving the coach silent.
 from __future__ import annotations
 
 import base64
+import json
 import logging
 import os
 import threading
 import time
-from typing import Optional, TypeVar
+from typing import Callable, Optional, TypeVar
 
 import anthropic
 from pydantic import BaseModel, Field
@@ -218,6 +219,41 @@ class Claude:
         self._last_errors[message] = now
         self.bus.publish("error", source=source, message=message)
 
+    @staticmethod
+    def _fallback_kwargs(model: str) -> dict:
+        return {"betas": [FALLBACK_BETA], "fallbacks": "default"} if model in FALLBACK_MODELS else {}
+
+    @staticmethod
+    def _system_param(system: str | list[str]) -> list[dict]:
+        # Prompt caching: system blocks go most-stable first (the brief, then the operator database,
+        # then the current map's dossier), each with a cache breakpoint, so later calls in a match
+        # read them from cache at a tenth of the price. Only the short match state is sent fresh.
+        blocks = [system] if isinstance(system, str) else [b for b in system if b]
+        return [{"type": "text", "text": b, "cache_control": {"type": "ephemeral"}} for b in blocks[:4]]
+
+    def _api_error(self, e: Exception, purpose: str) -> None:
+        """Turn an API failure into a (throttled) error event. Most specific first."""
+        if isinstance(e, anthropic.AuthenticationError):
+            self._error(purpose, "Anthropic API key invalid (check .env)")
+        elif isinstance(e, TypeError):
+            # The SDK raises TypeError before sending when no credentials are configured at all.
+            if "authentication" not in str(e).lower():
+                raise e
+            if os.environ.get("R6COACH_OFFLINE") == "1":
+                self._error(purpose, "Offline mode: Claude calls are off (started with --offline)")
+            else:
+                self._error(purpose, "No Anthropic API key: add ANTHROPIC_API_KEY to .env")
+        elif isinstance(e, anthropic.RateLimitError):
+            self._error(purpose, "Rate limited by the Anthropic API")
+        elif isinstance(e, anthropic.BadRequestError):
+            self._error(purpose, f"Bad request: {e.message}")
+        elif isinstance(e, anthropic.APIStatusError):
+            self._error(purpose, f"API error {e.status_code}")
+        elif isinstance(e, anthropic.APIConnectionError):
+            self._error(purpose, "Network error reaching the Anthropic API")
+        else:
+            raise e
+
     def _account(self, model: str, usage, purpose: str, started: float) -> None:
         inp, out, cache = PRICES.get(model, PRICES["claude-opus-5-5"])
         cost = (
@@ -255,15 +291,8 @@ class Claude:
         purpose: str,
         max_tokens: int = 4000,
     ) -> Optional[T]:
-        kwargs = {}
-        if model in FALLBACK_MODELS:
-            kwargs = {"betas": [FALLBACK_BETA], "fallbacks": "default"}
-        # Prompt caching: system blocks go most-stable first (the brief, then the operator database,
-        # then the current map's dossier), each with a cache breakpoint, so later calls in a match
-        # read them from cache at a tenth of the price. Only the short match state is sent fresh.
-        blocks = [system] if isinstance(system, str) else [b for b in system if b]
-        system_param = [{"type": "text", "text": b, "cache_control": {"type": "ephemeral"}}
-                        for b in blocks[:4]]
+        kwargs = self._fallback_kwargs(model)
+        system_param = self._system_param(system)
         started = time.time()
         try:
             resp = self.client.beta.messages.parse(
@@ -275,29 +304,8 @@ class Claude:
                 output_format=schema,
                 **kwargs,
             )
-        except anthropic.AuthenticationError:
-            self._error(purpose, "Anthropic API key invalid (check .env)")
-            return None
-        except TypeError as e:
-            # The SDK raises TypeError before sending when no credentials are configured at all.
-            if "authentication" not in str(e).lower():
-                raise
-            if os.environ.get("R6COACH_OFFLINE") == "1":
-                self._error(purpose, "Offline mode: Claude calls are off (started with --offline)")
-            else:
-                self._error(purpose, "No Anthropic API key: add ANTHROPIC_API_KEY to .env")
-            return None
-        except anthropic.RateLimitError:
-            self._error(purpose, "Rate limited by the Anthropic API")
-            return None
-        except anthropic.BadRequestError as e:
-            self._error(purpose, f"Bad request: {e.message}")
-            return None
-        except anthropic.APIStatusError as e:
-            self._error(purpose, f"API error {e.status_code}")
-            return None
-        except anthropic.APIConnectionError:
-            self._error(purpose, "Network error reaching the Anthropic API")
+        except Exception as e:  # noqa: BLE001 - _api_error re-raises anything it doesn't handle
+            self._api_error(e, purpose)
             return None
 
         self._account(model, resp.usage, purpose, started)
@@ -348,3 +356,72 @@ class Claude:
             model=model, effort=effort, system=system, content=content,
             schema=CoachLines, purpose=purpose, max_tokens=6000,
         )
+
+    def coach_stream(
+        self,
+        model: str,
+        effort: str,
+        system: str | list[str],
+        prompt: str,
+        purpose: str,
+        image_jpeg: Optional[bytes] = None,
+        on_line: Optional[Callable[[str], None]] = None,
+    ) -> Optional[CoachLines]:
+        """Like coach(), but streams: each spoken line is handed to `on_line` the moment it's
+        complete, so the voice can start on line 1 while the rest is still being written."""
+        content: list[dict] = []
+        if image_jpeg is not None:
+            b64 = base64.standard_b64encode(image_jpeg).decode("ascii")
+            content.append({"type": "image", "source": {"type": "base64", "media_type": "image/jpeg", "data": b64}})
+        content.append({"type": "text", "text": prompt + STREAM_FORMAT})
+        lines: list[str] = []
+        meta: dict = {}
+        started = time.time()
+        buf = ""
+        try:
+            with self.client.beta.messages.stream(
+                model=model, max_tokens=6000, system=self._system_param(system),
+                messages=[{"role": "user", "content": content}], output_config={"effort": effort},
+                **self._fallback_kwargs(model),
+            ) as stream:
+                for text in stream.text_stream:
+                    buf += text
+                    while "\n" in buf:
+                        raw, buf = buf.split("\n", 1)
+                        _take_stream_line(raw, lines, meta, on_line)
+                final = stream.get_final_message()
+            if buf:
+                _take_stream_line(buf, lines, meta, on_line)
+        except Exception as e:  # noqa: BLE001 - _api_error re-raises anything it doesn't handle
+            self._api_error(e, purpose)
+            return None
+        self._account(model, final.usage, purpose, started)
+        if final.stop_reason == "refusal":
+            log.warning("%s refused mid-stream: %s", purpose, getattr(final, "stop_details", None))
+            return None if not lines else CoachLines(lines=lines, recommended_operator="", recommended_bans=[])
+        return CoachLines(lines=lines, recommended_operator=str(meta.get("recommended_operator") or ""),
+                          recommended_bans=[str(b) for b in meta.get("recommended_bans") or []])
+
+
+STREAM_FORMAT = """
+
+OUTPUT FORMAT (streamed to speech): write each spoken line on its own line starting with "> ". \
+After the last spoken line write exactly one line: META: {"recommended_operator": "", \
+"recommended_bans": []} filled in where relevant. Write nothing else."""
+
+
+def _take_stream_line(raw: str, lines: list[str], meta: dict, on_line) -> None:
+    line = raw.strip()
+    if line.startswith(">"):
+        text = line.lstrip(">").strip()
+        if text:
+            lines.append(text)
+            if on_line:
+                on_line(text)
+    elif line.upper().startswith("META:"):
+        try:
+            data = json.loads(line.split(":", 1)[1].strip())
+            if isinstance(data, dict):
+                meta.update(data)
+        except (ValueError, IndexError):
+            log.debug("unparseable META line: %s", line)
