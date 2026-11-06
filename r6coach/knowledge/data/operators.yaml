@@ -68,10 +68,10 @@ operators:
     secondaries: ["5.7 USG", "M45 MEUSOC", "ITA12S"]
     gadget_details: "Placed charges that open a large hole in reinforced walls and hatches; bigger opening than other hard breachers. Charges can be shocked or destroyed while placed."
     pro_usage: ["Opens main site walls (e.g. Bank CCTV, Clubhouse CCTV) after anti-breach is cleared", "Smokes the wall area to place under cover", "Saves a charge for a hatch or rotation wall"]
-    hard_counters: ["Bandit/Kaid: shock destroys the charge", "Mute: jams placement", "Smoke/Goyo/Noor fire on the wall: deny the placer"]
+    hard_counters: ["Bandit/Kaid: shock destroys the charge", "Smoke/Goyo/Noor fire on the wall: deny the placer"]
     synergies: ["Thatcher: disrupts anti-breach", "Kali: lance kills batteries and claws", "Brava: hijacks Kaid claws"]
     counters: ["Reinforced walls", "Castle panels"]
-    countered_by: ["Bandit", "Kaid", "Mute", "Goyo", "Noor", "Roamers on the wall"]
+    countered_by: ["Bandit", "Kaid", "Goyo", "Noor", "Roamers on the wall"]
     comp_notes: "Core hard breacher for big wall openings. Needs anti-gadget support."
     ban_reason: "Occasionally banned on maps where one big wall wins the site."
     pick_rate_note: "High pick (~30% presence per timesaver.gg citing Ubisoft data); S tier Y11S3.2."
@@ -249,10 +249,10 @@ operators:
     secondaries: ["Bearing 9", "P229"]
     gadget_details: "40 mm launcher fires sticky X-KAIROS pellets, detonated remotely together to open reinforced walls, hatches or small holes from range."
     pro_usage: ["Opens reinforced hatches for vertical", "Fires pellets from outside a wall the roamers cannot reach", "Makes small murder holes in Castle panels or walls"]
-    hard_counters: ["Bandit/Kaid shock", "Mute jams detonation", "Wamai/Jager catch pellets in flight"]
+    hard_counters: ["Bandit/Kaid shock", "Wamai/Jager catch pellets in flight", "Mute jamming the pellets: uncertain since Y10S4, don't rely on it"]
     synergies: ["Thatcher/Kali: clear anti-breach", "Ace when two breaches are needed"]
     counters: ["Reinforced hatches", "Castle panels"]
-    countered_by: ["Bandit", "Kaid", "Mute", "Wamai"]
+    countered_by: ["Bandit", "Kaid", "Wamai"]
     comp_notes: "Best hard breacher for hatches and small openings."
     ban_reason: "Rarely banned outside hatch-heavy maps."
     pick_rate_note: "Medium pick; A tier on timesaver.gg Y11S3.2 as the next hard breacher after Ace/Thermite."
@@ -502,10 +502,10 @@ operators:
     secondaries: ["P9"]
     gadget_details: "Thrown S.E.L.M.A. sticks and expands; on walls it can detonate up to twice as it rolls down, on hatches/floors once. Can be thrown from range and destroyed by shots or shock."
     pro_usage: ["Throws S.E.L.M.A. onto the wall from cover after anti-breach is down", "Opens two walls with one charge on stacked reinforcements", "Pairs with Thermite for two breach lines"]
-    hard_counters: ["Kaid/Bandit shock", "Mute jams it", "Goyo/Noor fire on the wall"]
+    hard_counters: ["Kaid/Bandit shock", "Goyo/Noor fire on the wall", "Mute jamming the S.E.L.M.A.: uncertain since Y10S4, don't rely on it"]
     synergies: ["Thatcher: clears anti-breach", "Thermite: double hard breach"]
     counters: ["Reinforced walls"]
-    countered_by: ["Bandit", "Kaid", "Mute", "Goyo"]
+    countered_by: ["Bandit", "Kaid", "Goyo"]
     comp_notes: "Throwable hard breach, very flexible."
     ban_reason: "Self-sufficient safe breach; ~44% ban rate per timesaver.gg citing Ubisoft Y11S3 data. Pro bans lower (~9-11% Kickoff 2026, siege.gg)."
     pick_rate_note: "High pick; S tier on timesaver.gg Y11S3.2."
@@ -732,17 +732,18 @@ operators:
     side: defense
     roles: [anti_gadget, anchor]
     speed: 2
-    unique_gadget: "Signal disruptors that jam drones, breach gadgets and attacker electronics nearby."
+    unique_gadget: "Signal disruptors that jam drones, remote-detonated breach charges and attacker electronics nearby."
     gadget_options: ["Bulletproof Camera", "Nitro Cell"]
     primaries: ["MP5K", "M590A1"]
     secondaries: ["P226 Mk 25", "SMG-11"]
     gadget_details: "Four signal disruptors jam drones, remote breaches and attacker electronics nearby; since Y11S3 they also interrupt Dokkaebi uploads."
-    pro_usage: ["Jams the main breach wall and hatches", "Jams drone entries early", "Stops Dokkaebi uploads near site"]
+    pro_usage: ["Jams drone entries and drone holes early", "Jams hatches against remote breach charges",
+                "Stops Dokkaebi uploads near site", "Does not stop Thermite; against Hibana/Ace rely on Bandit or Kaid (Mute's effect on them is uncertain since Y10S4)"]
     hard_counters: ["Thatcher disruptor", "Twitch/Kali/Zofia destroy jammers"]
     synergies: ["Bandit/Kaid: layered anti-breach", "Echo/Maestro: protect cams from drones"]
-    counters: ["Drones", "Hibana", "Thermite charges", "Dokkaebi payload", "Solid Snake radar", "Brava"]
+    counters: ["Drones (incl. Twitch, Brava, Echo-style remote devices)", "Remote-detonated breach charges", "Dokkaebi payload", "Solid Snake radar"]
     countered_by: ["Thatcher", "Twitch", "Kali", "Zofia"]
-    comp_notes: "Core anti-breach and anti-drone pick. Jam hatches and key walls."
+    comp_notes: "Core anti-drone and anti-remote-breach pick. Hard walls still need Bandit or Kaid against Thermite/Hibana."
     ban_reason: "Rarely banned; usually a pick."
     pick_rate_note: "High pick; S tier on timesaver.gg Y11S3.2."
     ban_value: medium

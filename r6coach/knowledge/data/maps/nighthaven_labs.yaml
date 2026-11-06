@@ -2,106 +2,395 @@ id: nighthaven_labs
 name: Nighthaven Labs
 aliases: ["Nighthaven Labs", "Nighthaven", "NIGHTHAVEN LABS", "Labs"]
 floors: [basement, 1F, 2F, roof]
+# Layout: Y10S3 (Sep 2025) modernization was visual plus destructible props, no layout change. Checked against Y11S3.2 guides.
 attacker_spawns:
   - name: "Park"
-    notes: "Park side approach."
+    notes: "Park side approach (Liquipedia spawn A). A cam on the 1F Lobby ceiling can scan Park spawners; leave fast."
   - name: "Generator"
-    notes: "Generator side approach."
+    notes: "Generator side approach (Liquipedia spawn B). Can be watched from a cam by the Warehouse triple window."
   - name: "Helipad"
-    notes: "Helipad side, good for upper floor attacks."
+    notes: "Helipad side, good for 2F and roof attacks (Liquipedia spawn C)."
 sites:
   - id: command_center_servers
     name: "2F Command Center / 2F Servers"
-    aliases: ["2F Servers / 2F Command Center", "Command", "Command Center", "Servers", "Server"]
+    aliases: ["2F Servers / 2F Command Center", "Command Center / Servers", "Command", "Command Center", "Servers", "Server"]
     floor: 2F
     defender:
-      reinforce: ["Command Center and Servers outer walls"]
-      rotates: ["Command to Servers connection"]
-      anchor_spots: ["Command Center behind consoles", "Servers racks"]
-      roam_areas: ["1F below", "Roof and Meeting Room area"]
-      key_utility: ["Window denial", "Anti-breach on main walls"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Valkyrie", "Azami"]
-      plan_summary: "Hold Command and Servers with reinforced walls. Contest roof and the Meeting Room runout hatch."
+      reinforce:
+        - "Both IT exterior wall panels (Bandit batteries); IT is the main breach."
+        - "Rafters triple wall, left and middle panels."
+        - "Wall by Rafters, rotate facing Electrical."
+        - "Aqua hallway wall."
+        - "Both Connector outer walls."
+        - "Servers wall, right panel."
+      rotates:
+        - "Third Rafters panel or Connector pocket rotate."
+        - "Fish stairs side door."
+      anchor_spots:
+        - "Rafters rail (Azami)."
+        - "Aqua door and Fish stairs (Warden)."
+        - "E-box door (Mute)."
+        - "Connector fallback (Mozzie)."
+      roam_areas:
+        - "Meeting, stealing drones (Mozzie)."
+        - "Rafters early."
+      key_utility:
+        - "Bandit batteries on IT walls."
+        - "Mute jammers on the E-box door."
+        - "Mozzie pests on Meeting drones."
+        - "Azami Kiba to seal the rotate."
+      recommended_ops: ["Bandit", "Azami", "Warden", "Mute", "Mozzie", "Kaid", "Smoke", "Echo"]
+      plan_summary: "Deny the IT walls, stall Rafters, Aqua and Connector, then bunker Servers."
+      setups:
+        - name: "Battle for IT"
+          ops: ["Bandit", "Azami", "Warden", "Mute", "Mozzie"]
+          how: "Bandit holds IT walls, Azami stalls Rafters, Warden holds Aqua, Mute the E-box door, Mozzie steals Meeting drones."
+        - name: "Dark Ages"
+          ops: ["Echo", "Smoke", "Warden", "Mute", "Azami"]
+          how: "Echo and Smoke hold Command Center while others layer IT and Aqua."
+      counters_to_watch:
+        - "Thatcher E.G.S. only disables batteries about 15 s; re-check IT denial after each shot."
+        - "Rafters push: Azami."
+        - "Connector push: Mozzie fallback."
+      retake_tips:
+        - "Retake via Connector and Rafters."
     attacker:
       recommended_spawns: ["Helipad"]
-      drone_paths: ["Drone from roof", "Drone up one of the five stairs"]
-      entry_points: ["Roof and windows", "Stairs"]
-      hard_breach_targets: ["Reinforced site walls"]
-      plant_spots: ["Command Center after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
-      utility_priorities: ["Roof control", "Open wall", "Smoke plant"]
-      plan_summary: "Take roof and 2F, breach the site wall and plant while watching stair flanks."
-    common_mistakes: ["Forgetting the many stair flanks"]
-    uncertain: ["Exact selection-screen wording not verified", "Modernized in Y10S3"]
+      drone_paths:
+        - "Drone Meeting for Mozzie before sending more drones; pests steal them."
+        - "Drone IT and the IT walls for Bandit batteries."
+        - "Drone Rafters for Azami and Aqua and Fish stairs for the Warden."
+        - "Drone the E-box door for Mute and the Connector for the fallback player."
+      entry_points:
+        - "Aqua, via the Fish stairs."
+        - "Connector, opened from outside."
+        - "IT, once the wall denial is cleared."
+        - "Rafters."
+      hard_breach_targets:
+        - "IT exterior wall, both panels (Bandit batteries): clear denial from 1F below, then Thermite."
+        - "Both Connector outer walls (Maverick torches from outside)."
+        - "Rafters triple wall, left and middle panels."
+      plant_spots:
+        - "Tucked behind the server stack in Servers."
+        - "Servers by the IT breach."
+        - "Command Center."
+      recommended_ops: ["Gridlock", "Maverick", "Thermite", "Zofia", "Capitao", "Thatcher", "Kali", "Hibana", "Buck"]
+      utility_priorities:
+        - "Kill Mozzie pests early or drones get stolen."
+        - "Clear the IT wall denial from 1F below (Zofia) or with Kali; a Thatcher EMP lasts about 15 s."
+        - "Capitao smokes site doorways and fires the Rafters to force the rotate."
+        - "Gridlock Trax behind the Aqua take for the flank."
+      plan_summary: "Squeeze from Aqua and Connector, clear IT denial from below, burn the IT wall and plant behind the server stack."
+      executes:
+        - name: "Aqua squeeze, IT crack"
+          ops: ["Gridlock", "Maverick", "Thermite", "Zofia", "Capitao"]
+          how: "Gridlock takes Aqua via Fish stairs, Maverick torches Connector; Zofia clears IT denial from below, Thermite burns IT; Maverick plants behind servers."
+        - name: "IT breach"
+          ops: ["Thermite", "Thatcher", "Kali", "Buck", "Iana"]
+          how: "Take IT, Kali lances and Thatcher EMPs the walls, Thermite opens inside that window; Buck clears Rafters."
+      key_kills:
+        - "Mozzie in Meeting: first contact, before the drone phase."
+        - "Azami on the Rafters rail."
+        - "Warden at the Aqua door and Fish stairs."
+        - "Mute on the E-box door and the Connector fallback (Mozzie)."
+      post_plant:
+        - "Plant behind the server stack; hold from IT and Aqua."
+        - "Watch Connector and Rafters; retakes come from there."
+        - "Keep Capitao bolts or a frag for the defuser."
+    common_mistakes:
+      - "Ignoring Rafters."
+    uncertain:
+      - "alyttleton suggests head holes instead of a Rafters rotate for lower ranks."
+      - "Aqua squeeze is siegestrats.com's mix of HardBaguette's launch plan and Poxonlox Games (Feb 2026); not checked in a custom."
+      - "Which Connector walls Maverick torches is not named beyond 'Connector walls'."
   - id: kitchen_cafeteria
     name: "1F Kitchen / 1F Cafeteria"
-    aliases: ["1F Cafeteria / 1F Kitchen", "Kitchen", "Cafeteria"]
+    aliases: ["1F Cafeteria / 1F Kitchen", "Kitchen / Cafeteria", "Kitchen", "Cafeteria"]
     floor: 1F
     defender:
-      reinforce: ["Kitchen and Cafeteria outer walls"]
-      rotates: ["Kitchen to Cafeteria connection"]
-      anchor_spots: ["Kitchen counters", "Cafeteria corners"]
-      roam_areas: ["2F above", "Exterior approaches"]
-      key_utility: ["Traps on entries", "Shields at doors"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Echo", "Mira"]
-      plan_summary: "Hold Kitchen and Cafeteria with vertical denial from 2F and traps on entries."
+      reinforce:
+        - "Both Lobby wall panels (Cafeteria); Lobby is the main breach."
+        - "Games to Storage wall."
+        - "Wall beside the Games rotate."
+        - "Both Mezzanine walls on 2F."
+        - "Outside Freezer hatch, at end of prep."
+        - "Connector outer wall and Connector to Server wall."
+      rotates:
+        - "Freezer wall with knee holes."
+        - "Cafeteria head holes onto the breach."
+        - "Small top Exo rotate."
+        - "Site to Games rotate."
+        - "Connector floor holes."
+      anchor_spots:
+        - "Kitchen corner (Mute)."
+        - "Break knee holes (Warden)."
+        - "Games rotate with a long angle on the breach."
+      roam_areas:
+        - "Top of Lobby stairs behind Clash shield."
+        - "Mezzanine."
+      key_utility:
+        - "Castle barricades on Games side."
+        - "Clash at the top of Lobby stairs."
+        - "Bandit battery and floor holes."
+      recommended_ops: ["Mute", "Warden", "Castle", "Clash", "Bandit", "Kaid", "Maestro"]
+      plan_summary: "Hold Kitchen corner, Break and Games, and lock the floor above from Mezzanine."
+      setups:
+        - name: "Kitchen corner, top lock"
+          ops: ["Mute", "Warden", "Castle", "Clash", "Bandit"]
+          how: "Mute holds Kitchen corner, Warden Break knee holes, Castle Games, Clash top of Lobby stairs."
+        - name: "WAMMM"
+          ops: ["Maestro", "Mute", "Melusi", "Wamai", "Azami"]
+          how: "Maestro anchors Break, Wamai seals the doors."
+      counters_to_watch:
+        - "Thermite on the Lobby breach: Kaid, not Mute (Mute only jams remote devices since Y10S4)."
+        - "Mezzanine push."
+      retake_tips:
+        - "Retake via Games rotate."
     attacker:
       recommended_spawns: ["Park", "Generator"]
-      drone_paths: ["Drone exterior doors", "Drone from 2F"]
-      entry_points: ["Exterior doors", "Vertical from 2F"]
-      hard_breach_targets: ["Reinforced outer walls"]
-      plant_spots: ["Kitchen after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Ace"]
-      utility_priorities: ["Vertical from above", "Open wall", "Smoke plant"]
-      plan_summary: "Take 2F control, open the site wall and plant."
-    common_mistakes: ["Ignoring vertical defenders"]
-    uncertain: []
+      drone_paths:
+        - "Drone the top of the Lobby stairs for the Clash shield."
+        - "Drone Mezzanine for a shield or roamer before the vertical."
+        - "Drone the Lobby wall for Kaid claws or Bandit batteries."
+        - "Drone Games and Break for the Castle barricades and Warden knee holes."
+      entry_points:
+        - "Top of the Lobby stairs, then Mezzanine."
+        - "Cafeteria floor from Mezzanine (Sledge)."
+        - "Lobby wall breach."
+        - "Kitchen window (Kali holds it)."
+        - "Outside Freezer hatch."
+      hard_breach_targets:
+        - "Both Lobby wall panels into Cafeteria (main breach)."
+        - "Cafeteria floor, opened from Mezzanine above."
+        - "Outside Freezer hatch (reinforced at end of prep)."
+      plant_spots:
+        - "Lobby breach edge, under Thermite's smoke."
+        - "Kitchen."
+        - "Cafeteria."
+      recommended_ops: ["Thermite", "Kali", "Sledge", "Zofia", "Gridlock", "Thatcher", "Buck", "Ash"]
+      utility_priorities:
+        - "Kill or break Clash at the top of the Lobby stairs."
+        - "Kali lances the Lobby wall gadgets before Thermite."
+        - "Zofia breaks the Mezzanine shield and opens more floor."
+        - "Gridlock Trax the 90 hall and Aqua to stop flanks."
+        - "Clear Castle barricades on the Games side."
+      plan_summary: "Take the top of the Lobby stairs, go vertical into Cafeteria from Mezzanine, burn the Lobby wall and smoke-plant on the breach."
+      executes:
+        - name: "Lobby stairs vert pinch"
+          ops: ["Thermite", "Kali", "Sledge", "Zofia", "Gridlock"]
+          how: "Win the Lobby stairs, Sledge hammers the Cafeteria floor from Mezzanine; Kali lances, Thermite burns the Lobby wall and smoke-plants on the breach."
+        - name: "Lobby breach"
+          ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
+          how: "Take Lobby, Thatcher EMPs then Thermite burns the Lobby wall; Buck opens floor from Mezzanine."
+      key_kills:
+        - "Clash at the top of Lobby stairs: flank her or flash and swing."
+        - "Mute in the Kitchen corner: vertical from Mezzanine."
+        - "Warden at the Break knee holes."
+        - "Long angle from the Games rotate onto the breach."
+      post_plant:
+        - "Plant on the Lobby breach edge; hold from the Lobby."
+        - "Play vertical over the Cafeteria doors and counter from Mezzanine."
+        - "Kali holds the Kitchen window; Gridlock watches the Lobby."
+    common_mistakes:
+      - "Using Mute to stop Thermite."
+    uncertain:
+      - "Attack plan is siegestrats.com's write-up of Garfieldisdoc with HardBaguette and Athieno notes; '90 hall' is a creator callout."
   - id: control_room_storage
     name: "1F Control Room / 1F Storage"
-    aliases: ["1F Storage / 1F Control Room", "Control", "Control Room", "Storage"]
+    aliases: ["1F Storage / 1F Control Room", "Control Room / Storage", "Control", "Control Room", "Storage"]
     floor: 1F
     defender:
-      reinforce: ["Control Room outer walls"]
-      rotates: ["Control to Storage connection"]
-      anchor_spots: ["Control Room consoles", "Storage shelves"]
-      roam_areas: ["2F above", "Basement below"]
-      key_utility: ["Anti-breach on walls", "Traps on doors"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Castle", "Lesion"]
-      plan_summary: "Hold Control and Storage with reinforced walls and vertical denial above."
+      reinforce:
+        - "Both Garage outside walls."
+        - "Both IT outside wall panels."
+        - "Both Rafters panels and the wall beside Rafters (rotate to E-box)."
+        - "Aqua hallway wall with feet holes."
+        - "Both Server/Connector wall panels."
+        - "Barricade the Mud door."
+      rotates:
+        - "Third Rafters panel rotate."
+        - "Control to Cargo rotate, right side."
+        - "Storage/Control rotate."
+        - "Storage to Games head holes."
+        - "2F hatch to Games."
+      anchor_spots:
+        - "Storage window (Warden)."
+        - "Control (Melusi)."
+      roam_areas:
+        - "2F like Servers until 1:30."
+        - "Rafters (Azami)."
+        - "E-box (Kaid)."
+      key_utility:
+        - "Melusi Banshees on Fork and Aqua."
+        - "Smoke gas in Aqua hallway."
+        - "Kaid claws IT."
+      recommended_ops: ["Warden", "Melusi", "Smoke", "Azami", "Kaid", "Mute"]
+      plan_summary: "Hold 2F like Servers, drop at about 1:30 into a Storage/Control crossfire."
+      setups:
+        - name: "2F delay, Storage crossfire"
+          ops: ["Warden", "Melusi", "Smoke", "Azami", "Kaid"]
+          how: "Hold 2F like Servers, drop at 1:30; Warden Storage window, Melusi Control."
+      counters_to_watch:
+        - "Fork window plant."
+        - "Vertical from 2F."
+      retake_tips:
+        - "Re-contest the vert late."
     attacker:
-      recommended_spawns: ["Generator"]
-      drone_paths: ["Drone exterior doors", "Drone from 2F"]
-      entry_points: ["Exterior doors", "Vertical from 2F"]
-      hard_breach_targets: ["Control Room reinforced wall"]
-      plant_spots: ["Control Room after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ash", "Zofia"]
-      utility_priorities: ["Vertical from above", "Open wall", "Smoke plant"]
-      plan_summary: "Take 2F, open Control and plant with flank watch."
-    common_mistakes: ["Over-committing one door"]
-    uncertain: []
+      recommended_spawns: ["Park", "Generator"]
+      drone_paths:
+        - "Drone 2F first: IT walls, Rafters (pre-placed cam) and the E-box for Kaid."
+        - "Drone Fork and Aqua for Melusi Banshees and Smoke gas."
+        - "Drone Cargo from the Garage entrance."
+        - "Drone Storage for the Warden at the window and a C4 player below."
+      entry_points:
+        - "2F: Meeting, top of the Lobby stairs and Connector, to cut off the E-box."
+        - "IT, then Rafters."
+        - "Floor over Storage from Servers (Buck)."
+        - "Storage window, jump in to plant."
+        - "Fork window."
+        - "Garage."
+      hard_breach_targets:
+        - "IT outside wall, both panels (Kaid claws): Kali lances, Thermite burns."
+        - "Floor over Storage from 2F Servers."
+        - "Both Garage outside walls."
+      plant_spots:
+        - "Behind the pillar, jumping in through the Storage window."
+        - "Storage."
+        - "Control Room."
+      recommended_ops: ["Thermite", "Kali", "Buck", "Zofia", "Gridlock", "Sledge", "Thatcher", "Hibana"]
+      utility_priorities:
+        - "Take 2F above first; defenders hold it like a Servers setup until about 1:30."
+        - "Kali lances Kaid claws on the IT wall before Thermite."
+        - "Zofia wins the E-box and holds the Games hatch."
+        - "Gridlock Trax Aqua and the Cargo stairs, then holds Garage."
+        - "Clear Melusi Banshees on Fork and Aqua."
+      plan_summary: "Win IT and Servers on 2F, open the floor over Storage, then jump the Storage window and plant behind the pillar."
+      executes:
+        - name: "Servers take, window plant"
+          ops: ["Thermite", "Kali", "Buck", "Zofia", "Gridlock"]
+          how: "Open the Storage window, push Meeting, Lobby stairs and Connector; Thermite burns IT, Buck opens Storage floor; Kali jumps the window and plants."
+        - name: "Top then drop"
+          ops: ["Buck", "Sledge", "Thatcher", "Hibana", "Ash"]
+          how: "Take 2F, Thatcher and Hibana open IT, Buck and Sledge open the floor over Storage, then drop and plant."
+      key_kills:
+        - "Azami on Rafters: pinch from IT and the E-box side."
+        - "Kaid on the E-box."
+        - "Warden at the Storage window: vertical from Servers before jumping in."
+        - "The C4 player below site; the plan's main gap."
+      post_plant:
+        - "Plant behind the pillar; hold from 2F through the open floor and from the Storage window."
+        - "Gridlock holds Garage; watch Fork and the Cargo stairs."
+        - "Expect a late vertical re-contest from 2F; keep a player up there."
+    common_mistakes:
+      - "Ignoring 2F."
+    uncertain:
+      - "Sources disagree on which side of the Control rotate is Fork-blind."
+      - "Window plan is siegestrats.com's write-up of Garfieldisdoc (Jul 2026); spawn and full drone paths not stated."
+      - "Defenders keep a 2F hatch to Games as a rotate; whether attackers should use it is not stated."
   - id: tank_assembly
     name: "B Tank / B Assembly"
-    aliases: ["B Assembly / B Tank", "Tank", "Assembly", "Basement"]
+    aliases: ["B Assembly / B Tank", "Basement Tank / Assembly", "Tank", "Assembly", "Basement"]
     floor: basement
     defender:
-      reinforce: ["Hatches above basement", "Tank walls"]
-      rotates: ["Tank to Assembly connection"]
-      anchor_spots: ["Tank area corners", "Assembly behind machines"]
-      roam_areas: ["1F above", "Basement stairs"]
-      key_utility: ["Deny hatches", "Traps on stairs"]
-      recommended_ops: ["Mute", "Kaid", "Bandit", "Echo", "Goyo"]
-      plan_summary: "Deny hatches and hold Tank and Assembly with a crossfire and a stairs roamer."
+      reinforce:
+        - "Both outside walls (main breach)."
+        - "Animus wall with feet holes."
+        - "Exo hatch."
+        - "Cargo hatch at top of Cargo stairs."
+        - "Animus hatch, reinforced from 1F."
+        - "Nano hallway wall, left panel."
+        - "Cargo wall with feet holes."
+        - "Left Exo wall with head holes."
+      rotates:
+        - "Right half of Nano for the C4 lob."
+        - "Top-right Nano single-wall hole."
+        - "Animus and Cargo feet holes."
+        - "Floor hole beside Exo hatch."
+      anchor_spots:
+        - "Site with Kaid."
+        - "Bottom of Exo (Tubarão)."
+      roam_areas:
+        - "Storage holes above plant (Warden)."
+        - "Hatches, 90 and Games (Castle)."
+      key_utility:
+        - "Kaid claws outside walls, C4 through Nano."
+        - "Tubarão freeze charges."
+        - "Lesion Gu on Fork, Mud, Garage."
+      recommended_ops: ["Kaid", "Tubarão", "Warden", "Lesion", "Castle", "Mira", "Echo"]
+      plan_summary: "Seal three outside walls and three hatches, deny plants with C4 through Nano."
+      setups:
+        - name: "Bunker and C4 lobs"
+          ops: ["Kaid", "Tubarão", "Warden", "Lesion", "Castle"]
+          how: "Kaid claws outside walls, Tubarão holds Exo, Warden verts from Storage, Lesion traps, Castle roams."
+      counters_to_watch:
+        - "Animus hatch plant: top-right Nano hole."
+        - "Window hops: floor hole by Exo hatch."
+      retake_tips:
+        - "Lob C4 through Nano."
     attacker:
-      recommended_spawns: ["Park"]
-      drone_paths: ["Drone down stairs"]
-      entry_points: ["Stairs", "Hatches"]
-      hard_breach_targets: ["Hatches", "Tank walls"]
-      plant_spots: ["Under opened hatch"]
-      recommended_ops: ["Hibana", "Thermite", "Thatcher", "Buck", "Ace"]
-      utility_priorities: ["Take 1F", "Open hatches", "Smoke plant"]
-      plan_summary: "Take 1F, open hatches and plant with vertical cover."
-    common_mistakes: ["Rushing stairs without utility"]
-    uncertain: []
+      recommended_spawns: ["Park", "Generator"]
+      drone_paths:
+        - "Drone the 1F rooms above Tank first: Storage for the Warden on the holes, and Control."
+        - "Drone the outside walls for Kaid claws and Nano for the C4 player."
+        - "Drone Fork, Mud and Garage for Lesion Gu mines."
+        - "Solid Snake scans and sends a drone down the Cargo stairs."
+      entry_points:
+        - "1F above Tank, for vertical (Buck)."
+        - "Animus hatch and Cargo hatch, dropped from 1F."
+        - "Outside walls (main breach)."
+        - "Exo."
+        - "Cargo stairs."
+      hard_breach_targets:
+        - "Animus hatch, reinforced from 1F."
+        - "Cargo hatch at the top of the Cargo stairs."
+        - "Exo hatch."
+        - "Both outside walls (Kaid claws): Kali lances, Thermite burns."
+      plant_spots:
+        - "Tight in the Tank corner."
+        - "Under the Animus hatch."
+        - "Tank."
+      recommended_ops: ["Nomad", "Buck", "Capitao", "Solid Snake", "Grim", "Thermite", "Hibana", "Kali", "Thatcher"]
+      utility_priorities:
+        - "Kill the Warden in Storage before playing vertical from 1F."
+        - "Open the Animus and Cargo hatches."
+        - "Buck opens three vertical lines over Tank; Capitao fires both Tank doorways."
+        - "Nomad Airjabs the flanks; clear Lesion mines on Fork, Mud and Garage."
+        - "Kali lances outside-wall claws if you go through the walls."
+      plan_summary: "Take 1F above, open the floor over Tank and the hatches, fire the doorways, then drop and plant tight in the Tank corner."
+      executes:
+        - name: "Tank vert hatch drop"
+          ops: ["Nomad", "Buck", "Capitao", "Solid Snake", "Grim"]
+          how: "Buck opens three lines over Tank, Capitao fires both doorways; Grim opens Animus and Cargo hatches; Nomad drops and plants the Tank corner."
+        - name: "Animus hatch plant"
+          ops: ["Hibana", "Thatcher", "Buck", "Ash", "Iana"]
+          how: "Win the rooms over site, Hibana burns the Animus hatch, plant under it from above while Buck verts."
+        - name: "Outside wall burn"
+          ops: ["Thermite", "Kali", "Buck", "Nomad", "Iana"]
+          how: "Kali lances the claws, Thermite burns an outside wall; Buck verts from 1F to cover the plant."
+      key_kills:
+        - "Warden on the Storage holes above the plant."
+        - "Tubarão at the bottom of Exo: clear before using Exo."
+        - "Castle roaming the hatches, 90 and Games."
+        - "Kaid anchoring site; he lobs C4 through Nano."
+      post_plant:
+        - "Plant tight in the Tank corner; hold from the vertical lines above."
+        - "Grim holds Storage; watch Cargo stairs and Exo."
+        - "Deny Nano C4 lobs: keep someone on the Nano side."
+    common_mistakes:
+      - "Forgetting Nano C4 lobs."
+    uncertain:
+      - "Fett lists two optional reinforcements not named in sources."
+      - "Tank vert plan is siegestrats.com's read of alyttleton (Apr 2026); it says 'vertical from Control' and a 'west side' spawn, unmapped."
+      - "Which 1F room sits over the Tank corner (Control or Storage) is not clear; drone it in a custom."
+      - "Source credits Grim with breaching the Animus and Cargo hatches; check his current gadget set."
 general:
-  attack: ["Five stairs connect floors; expect flanks", "Many breakable walls reward hard breachers"]
-  defense: ["Runout hatch outside Meeting Room is a surprise route", "Do not get comfortable; flanks everywhere"]
+  attack:
+    - "Five stairs connect floors (including CC Stairs and Fish stairs); assign a flank watcher on every execute."
+    - "IT exterior wall is the default 2F breach; bring Thatcher plus Kali, since disruptor only stops batteries about 15 s."
+    - "HQ and R&D Lab are common roam spots; drone them on the way in."
+    - "Many breakable walls reward hard breachers; Lobby wall for Cafeteria, outside walls for Tank."
+  defense:
+    - "Mute only jams remote devices since Y10S4; use Kaid or Bandit to stop Thermite."
+    - "For 1F Control/Storage, hold 2F like a Servers setup until about 1:30, then drop."
+    - "The outside Freezer hatch and runout spots near Meeting are surprise routes; reinforce or watch them."
+    - "Mozzie in Meeting steals drones for the whole 2F site."

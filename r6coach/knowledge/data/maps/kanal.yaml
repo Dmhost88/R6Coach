@@ -2,106 +2,390 @@ id: kanal
 name: Kanal
 aliases: ["Kanal", "KANAL", "Canal"]
 floors: [basement, 1F, 2F, roof]
+# Layout: June 2026 visual/destructible update did not change the layout. Checked against Y11S3.2 guides.
 attacker_spawns:
   - name: "Floating Dock"
-    notes: "Water side. Approach toward Coast Guard building."
+    notes: "Water side toward the Coast Guard building. Default for Coast Guard/Lounge and Kayaks/Supply. Watch long water-side lines."
   - name: "Sailboats"
-    notes: "Sailboats side. Toward the bridges and Control building."
+    notes: "Toward the bridges and the Control/office building. Used for Server/Radar and Security/Maps via Skybridge."
   - name: "Construction Site"
-    notes: "Construction side. Good for the land approach and basement."
+    notes: "Land side. Good for the basement and 1F of the office building."
 sites:
   - id: server_room_radar_room
     name: "2F Server Room / 2F Radar Room"
-    aliases: ["2F Radar Room / 2F Server Room", "Server", "Radar"]
+    aliases: ["2F Radar Room / 2F Server Room", "Server Room / Radar Room", "Server", "Radar"]
     floor: 2F
     defender:
-      reinforce: ["Server and Radar outer walls"]
-      rotates: ["Server to Radar connection"]
-      anchor_spots: ["Server racks", "Radar corners"]
-      roam_areas: ["Bridges between buildings", "1F below"]
-      key_utility: ["Window denial", "Anti-breach on main walls"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Valkyrie", "Melusi"]
-      plan_summary: "Hold Server and Radar with reinforced walls. Contest the bridges early to slow rotations."
+      reinforce:
+        - "Both halves of the outside Server wall (main breach); claw it."
+        - "Walls facing the 90 windows."
+        - "Contest-hole wall facing the Red door."
+        - "Wall opposite the site rotate."
+      rotates:
+        - "Left-side site rotate."
+        - "Feet holes onto Skybridge for Wamai and Kaid."
+      anchor_spots:
+        - "Left side of site behind the Mira."
+        - "Feet holes watching Skybridge."
+      roam_areas:
+        - "Skybridge."
+        - "Red and Green stairs."
+      key_utility:
+        - "Kaid claws on the outside Server wall."
+        - "Melusi Banshees on Red and Green stairs."
+        - "Wamai Mag-NETs on Skybridge."
+        - "Smoke wire on the stairs and late gas."
+      recommended_ops: ["Kaid", "Mira", "Wamai", "Melusi", "Smoke", "Bandit", "Mute"]
+      plan_summary: "Double-deny the Server wall, trap Red and Green stairs, hold Skybridge and anchor behind a Mira."
+      setups:
+        - name: "Main wall lock, Skybridge hold"
+          ops: ["Kaid", "Mira", "Wamai", "Melusi", "Smoke"]
+          how: "Kaid claws the Server wall, Wamai holds Skybridge from feet holes, Melusi traps Red/Green stairs, Mira anchors the left side."
+      counters_to_watch:
+        - "Maverick or EMP on the main breach: keep Smoke gas and Mira ready."
+        - "Ace on the Server wall: re-claw."
+        - "Skybridge, Red or Green take: hold Skybridge with Wamai."
+      retake_tips:
+        - "Retake from Skybridge and Red stairs together."
+        - "Smoke gas on plant."
     attacker:
       recommended_spawns: ["Sailboats", "Construction Site"]
-      drone_paths: ["Drone across bridges", "Drone through 2F windows"]
-      entry_points: ["Bridges", "Windows and roof"]
-      hard_breach_targets: ["Reinforced Server or Radar wall"]
-      plant_spots: ["Server after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
-      utility_priorities: ["Control bridges", "Open wall", "Smoke plant"]
-      plan_summary: "Take bridges and 2F control, breach the site wall and plant."
-    common_mistakes: ["Crossing bridges into crossfires"]
-    uncertain: []
+      drone_paths:
+        - "Drone Skybridge from the Sailboats side to find the Skybridge holder (often Wamai) and the feet holes."
+        - "Drone up Red and Green stairs for Banshees and Smoke wire before anyone walks them."
+        - "Drone the outside Server main wall for Kaid claws; Nomad keeps a drone there for Thermite."
+        - "Drone the 90 to see whether the walls facing the 90 windows are closed."
+      entry_points:
+        - "Skybridge, after the holder is concussed or traded."
+        - "Red stairs: Ying candelas the top, then hops and holds the 90."
+        - "Green stairs, as the alternative to Skybridge."
+        - "90 windows."
+        - "Main wall breach from outside once burned."
+      hard_breach_targets:
+        - "The outside Server main wall, both halves: Thatcher EMPs as Thermite places, Ace or Maverick as backup."
+      plant_spots:
+        - "Behind the desk by the Green-side wall, away from the left-side Mira anchor."
+        - "Server Room just inside the main wall breach."
+        - "Radar Room."
+      recommended_ops: ["Thermite", "Thatcher", "Ying", "Zofia", "Nomad", "Maverick", "Ace", "Kali", "Buck", "Iana"]
+      utility_priorities:
+        - "Thatcher EMP on the main wall timed with the charge; E.G.S. only disables claws about 15 s."
+        - "Second Thatcher EMP on top Red for wire and Banshees."
+        - "Zofia concussion on the Skybridge holder before crossing."
+        - "Nomad Airjabs on the flank stairs while the burn goes in."
+      plan_summary: "Take one stairwell and Skybridge, EMP and burn the main wall, hop the 90 and plant behind the desk."
+      executes:
+        - name: "Main wall burn, hop 90"
+          ops: ["Thermite", "Thatcher", "Ying", "Zofia", "Nomad"]
+          how: "Thatcher EMPs, Thermite burns the main wall; Ying candelas Red and holds 90; Zofia takes Skybridge or Green; plant behind the desk."
+        - name: "Server wall"
+          ops: ["Ace", "Thatcher", "Ash", "Buck", "Iana"]
+          how: "Thatcher disables claws, Ace opens the Server wall from outside inside that window; Buck and Ash take Red."
+        - name: "Skybridge take"
+          ops: ["Maverick", "Kali", "Zofia", "Nomad", "Gridlock"]
+          how: "Win Skybridge, Kali lances the claws, Maverick torches the main wall; Gridlock Trax the stairs."
+      key_kills:
+        - "Skybridge holder (Wamai) from the Sailboats-side bridge, after a Zofia concussion."
+        - "Feet-hole players watching Skybridge: drone them, then trade through the feet holes."
+        - "Red and Green stair roamers (Melusi, Smoke) before the burn."
+        - "Left-side Mira anchor: hit it from the main wall breach and the 90 at once."
+      post_plant:
+        - "Plant behind the desk by the Green-side wall; hold from the 90 and Skybridge."
+        - "Plant by the main wall; one player holds Red, one Green, one outside the breach."
+        - "Expect the retake from Skybridge and Red together and Smoke gas on the defuser; save a smoke and a frag."
+    common_mistakes:
+      - "Ignoring Skybridge."
+      - "Burning the main wall after the E.G.S. window closes; claws come back on."
+    uncertain:
+      - "One source says Thermite burns the main wall 'into the Killbox'; how Killbox relates to Server is unclear."
+      - "Attack detail is from siegestrats.com's 'Main wall burn' plan (built from Fett, Athieno, SAS5Y, alyttleton); not checked in a custom."
   - id: security_room_map_room
     name: "1F Security Room / 1F Map Room"
-    aliases: ["1F Map Room / 1F Security Room", "Security", "Map Room", "Maps"]
+    aliases: ["1F Map Room / 1F Security Room", "1F Security Room / 1F Maps Room", "Security Room / Maps Room", "Security", "Map Room", "Maps", "Maps Room"]
     floor: 1F
     defender:
-      reinforce: ["Security and Map Room outer walls", "Floor above where reinforceable"]
-      rotates: ["Security to Map Room connection"]
-      anchor_spots: ["Map Room corners", "Security behind desks"]
-      roam_areas: ["2F above", "Bridges"]
-      key_utility: ["Traps on entries", "Shields at doors"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Echo", "Castle"]
-      plan_summary: "Hold Security and Map Room with vertical denial from 2F and traps on entries."
+      reinforce:
+        - "Both Killbox outside wall panels."
+        - "Killbox site hatch on 2F."
+        - "Radar site hatch on 2F."
+        - "Kitchen hatch on 2F."
+        - "Maps projector-corner single wall."
+        - "Triple-wall panel with head holes on both sides."
+        - "Both wall panels to Green."
+        - "Security vestibule to corridor wall."
+      rotates:
+        - "Security/Maps head hole and crouch rotate."
+        - "Kitchen wall corner rotate."
+        - "Feet holes to bottom Green."
+        - "Old Bridge barricade punched twice."
+      anchor_spots:
+        - "Maps (Mute)."
+        - "Model, watching hatch drops (Maestro)."
+      roam_areas:
+        - "2F above site until 1:30."
+        - "Skybridge (Melusi)."
+        - "Top Green (Pulse)."
+      key_utility:
+        - "Bandit batteries on the Killbox wall."
+        - "Mute jammers on Maps doors."
+        - "Maestro Evil Eyes."
+      recommended_ops: ["Maestro", "Mute", "Melusi", "Pulse", "Bandit", "Kaid"]
+      plan_summary: "Hold 2F above site until 1:30, then fold into Model and Maps."
+      setups:
+        - name: "Hold top until 1:30, then play Model"
+          ops: ["Maestro", "Mute", "Melusi", "Pulse", "Bandit"]
+          how: "Contest 2F lightly, Bandit on Killbox wall, then fall back to Model and Maps at 1:30."
+      counters_to_watch:
+        - "Dokkaebi, Deimos, Snake: Mute counters their gadgets."
+        - "Skybridge push: Melusi."
+        - "Vertical through hatches: reinforced."
+      retake_tips:
+        - "Retake from Model and Maps."
     attacker:
-      recommended_spawns: ["Floating Dock", "Construction Site"]
-      drone_paths: ["Drone ground floor doors", "Drone from 2F"]
-      entry_points: ["Exterior doors", "Vertical from 2F"]
-      hard_breach_targets: ["Reinforced outer walls"]
-      plant_spots: ["Map Room after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Zofia"]
-      utility_priorities: ["Vertical from above", "Open wall", "Smoke plant"]
-      plan_summary: "Take 2F for vertical, open the outer wall and plant under smoke."
-    common_mistakes: ["Ignoring 2F defenders"]
-    uncertain: []
+      recommended_spawns: ["Sailboats", "Construction Site"]
+      drone_paths:
+        - "Drone 2F above site first: the Kitchen, the Killbox and top Green, where Pulse often sits."
+        - "Iana's Gemini crosses Skybridge into Green, then Museum, to clear the roamers."
+        - "Drone Model and the Maps doors for the Maestro anchor and his Evil Eyes before any hatch drop."
+        - "Check whether the hatches are reinforced; sources split on it."
+      entry_points:
+        - "Take 2F from three sides: Skybridge, top Red and top Green."
+        - "Kitchen hatch drop into site."
+        - "Killbox site hatch drop."
+        - "Killbox outside wall breach."
+        - "Buck vertical over the Kitchen tables."
+      hard_breach_targets:
+        - "Killbox outside wall, both panels (Bandit batteries): Thatcher EMPs, Ace opens."
+        - "Kitchen hatch on 2F."
+        - "Killbox site hatch on 2F."
+        - "Radar site hatch on 2F."
+      plant_spots:
+        - "Maps Room corner by the Kitchen door, off the Kitchen hatch drop."
+        - "Security Room."
+        - "Map Room."
+      recommended_ops: ["Ace", "Thatcher", "Buck", "Iana", "Gridlock", "Hibana", "Sledge", "Kali"]
+      utility_priorities:
+        - "Thatcher EMP the Killbox wall so Bandit batteries are off when Ace charges."
+        - "Open the Kitchen and site hatches before anyone drops."
+        - "Shoot Maestro Evil Eyes and Mute jammers before dropping."
+        - "Gridlock Trax on Printer stairs, top Red and top Green for flanks."
+      plan_summary: "Take 2F from three sides, open the Killbox wall and hatches, verticals over Kitchen, drop the Kitchen hatch and plant."
+      executes:
+        - name: "Top take, Kitchen drop"
+          ops: ["Ace", "Thatcher", "Buck", "Iana", "Gridlock"]
+          how: "Win 2F from three sides; Ace opens Killbox wall, Kitchen and site hatches; Buck verts over Kitchen; Thatcher drops Kitchen and plants Maps corner."
+        - name: "Top take, Hibana hatches"
+          ops: ["Hibana", "Thatcher", "Buck", "Sledge", "Ash"]
+          how: "Take 2F, Hibana burns the reinforced hatches, Buck and Sledge open the floor, drop on the open hatch."
+      key_kills:
+        - "Pulse on top Green: clear him with Iana's Gemini from Skybridge."
+        - "Melusi on Skybridge: drone it before crossing."
+        - "2F roamers holding until 1:30: trade them before opening hatches."
+        - "Maestro on Model watching hatch drops: kill him or his cameras from the open hatch first."
+        - "Mute in Maps after the drop."
+      post_plant:
+        - "Plant the Maps corner by the Kitchen door; hold from the Kitchen hatch and 2F floor holes."
+        - "Watch Model, the front of site, bottom Red and Museum; retakes come from there."
+    common_mistakes:
+      - "Over-staying 2F."
+    uncertain:
+      - "Sources split on reinforcing hatches vs leaving open."
+      - "In-game wording may be 'Map Room' or 'Maps Room'."
+      - "The Maps corner plant by the Kitchen door is siegestrats.com's reading of creator spots; confirm in a custom."
+      - "Museum is a creator callout used in one source; exact room not confirmed."
   - id: coast_guard_meeting_lounge
     name: "1F Coast Guard Meeting Room / 1F Lounge"
-    aliases: ["1F Lounge / 1F Coast Guard Meeting Room", "Coast Guard", "Lounge", "Meeting Room"]
+    aliases: ["1F Lounge / 1F Coast Guard Meeting Room", "Coast Guard Meeting Room / Lounge", "Coast Guard", "Lounge", "Meeting Room"]
     floor: 1F
     defender:
-      reinforce: ["Coast Guard Meeting outer walls"]
-      rotates: ["Meeting to Lounge connection"]
-      anchor_spots: ["Meeting Room corners", "Lounge behind cover"]
-      roam_areas: ["2F above", "Water side approach"]
-      key_utility: ["Traps on entries", "Anti-breach on walls"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Mira", "Lesion"]
-      plan_summary: "Hold the Coast Guard building with a crossfire and reinforced walls, players above to stop vertical."
+      reinforce:
+        - "Coast Guard to Printer wall, both panels."
+        - "Lounge wall on the rappel-window side."
+        - "Lounge back wall, rotate half."
+        - "Radio Room wall, both panels."
+        - "Wall beside the bottom Printer stairs rotate."
+        - "Coast Guard floor hatch."
+      rotates:
+        - "Lounge floor hatch to Lockers."
+        - "Far-right Lounge back-wall rotate."
+        - "Bottom Printer stairs rotate."
+      anchor_spots:
+        - "Long Lounge angles (Aruni)."
+        - "Coast Guard corner (Castle)."
+      roam_areas:
+        - "Top Printer stairs (Caveira)."
+        - "Basement under site (Frost)."
+      key_utility:
+        - "Castle panels on Lounge windows."
+        - "Aruni gates on both doors."
+        - "Wamai Mag-NETs."
+      recommended_ops: ["Aruni", "Castle", "Wamai", "Frost", "Caveira"]
+      plan_summary: "Seal Coast Guard and Radio, hold long Lounge angles, and keep one player under the site."
+      setups:
+        - name: "Printer holes, basement layer"
+          ops: ["Aruni", "Castle", "Wamai", "Frost", "Caveira"]
+          how: "Castle panels Lounge windows, Aruni holds Lounge, Frost under site, Caveira on Printer stairs."
+      counters_to_watch:
+        - "Radio take: reinforce Radio walls."
+        - "Upstairs wallbangs: single wall."
+      retake_tips:
+        - "Retake via Lockers hatch and Printer stairs."
     attacker:
       recommended_spawns: ["Floating Dock"]
-      drone_paths: ["Drone through Coast Guard doors", "Drone from 2F"]
-      entry_points: ["Water side doors", "Vertical from 2F"]
-      hard_breach_targets: ["Reinforced Meeting Room wall"]
-      plant_spots: ["Meeting Room after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ash", "Ace"]
-      utility_priorities: ["Vertical from above", "Open wall", "Smoke plant"]
-      plan_summary: "Take 2F of Coast Guard building, breach and plant with flank watch on bridges."
-    common_mistakes: ["Ignoring bridge flanks"]
-    uncertain: []
+      drone_paths:
+        - "Drone the Scuba side of the basement and Lockers; that is where the under-site player and C4 come from."
+        - "Zero rappels the Radio window and puts cameras on Radio and the site."
+        - "Drone the Printer hallway for feet holes and the Caveira on top Printer stairs."
+        - "Drone Lounge windows for Castle panels and Aruni gates on the doors."
+      entry_points:
+        - "Radio window on rappel."
+        - "Basement Scuba side, to shoot up under Radio."
+        - "Skybridge or the Printer window (flank player)."
+        - "Lounge windows once Castle panels are broken."
+        - "Printer stairs."
+      hard_breach_targets:
+        - "The reinforced back wall reached from Radio: Kali lances, Ace opens it."
+        - "Radio Room wall, both panels."
+        - "Coast Guard to Printer wall."
+      plant_spots:
+        - "On the bomb chassis just behind the back-wall breach."
+        - "Coast Guard Meeting Room."
+        - "Lounge."
+      recommended_ops: ["Buck", "Ace", "Kali", "Zero", "Nomad", "Thermite", "Thatcher", "Hibana"]
+      utility_priorities:
+        - "Kali lances the gadgets on the back wall before Ace charges."
+        - "Break Castle panels on the Lounge windows."
+        - "Clear Aruni gates on both doors and Wamai Mag-NETs."
+        - "Nomad Airjabs on Printer stairs to stop the flank."
+      plan_summary: "Take the basement Scuba side, clear Radio from below, open the back wall, plant on the chassis and watch Printer stairs."
+      executes:
+        - name: "Radio take from below"
+          ops: ["Buck", "Ace", "Kali", "Zero", "Nomad"]
+          how: "Zero rappels Radio, team takes basement Scuba, Buck clears Radio from below, Kali lances and Ace opens the back wall; plant chassis."
+        - name: "Radio take, Thermite on Coast Guard"
+          ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
+          how: "Take Radio from the window, Thatcher EMPs and Thermite burns into Coast Guard; Iana clears Printer stairs."
+      key_kills:
+        - "Radio player: Buck shoots up from the basement."
+        - "Caveira on top Printer stairs: drone and trade from Skybridge or the Printer window."
+        - "Frost under site in the basement: clear Scuba and Lockers first."
+        - "Aruni on long Lounge angles: smoke them or hit from the Lounge windows."
+      post_plant:
+        - "Plant the chassis behind the breach; only an open hatch or a long C4 lob from Lockers reaches it, so hold Lockers."
+        - "Keep one rappeller at a site window and one player with utility for the defuse."
+        - "Watch the Lockers hatch and Printer stairs; retakes come from there."
+    common_mistakes:
+      - "Ignoring the player under site."
+    uncertain:
+      - "Least-played Kanal site; little pro data (siege.gg shows about two competitive rounds)."
+      - "Attack plan is a low-confidence siegestrats.com read of Garfieldisdoc (Jul 2026); try it in a custom."
+      - "Which panel the 'back wall' is, and which bomb sits behind it, is not stated in the source."
   - id: kayaks_supply_room
     name: "B Kayaks / B Supply Room"
-    aliases: ["B Supply Room / B Kayaks", "Kayaks", "Supply Room", "Basement"]
+    aliases: ["B Supply Room / B Kayaks", "Basement Supply Room / Kayaks", "Kayaks", "Supply Room", "Basement"]
     floor: basement
     defender:
-      reinforce: ["Hatches above basement", "Supply Room walls"]
-      rotates: ["Kayaks to Supply connection"]
-      anchor_spots: ["Supply Room shelves", "Kayaks corners"]
-      roam_areas: ["1F above", "Exterior basement entries"]
-      key_utility: ["Deny hatches", "Traps on stairs"]
-      recommended_ops: ["Mute", "Kaid", "Bandit", "Echo", "Goyo"]
-      plan_summary: "Deny hatches and hold Kayaks and Supply with a crossfire and a stairs roamer."
+      reinforce:
+        - "Pipes wall facing Trench, solid."
+        - "Coast Guard site hatch."
+        - "Lounge hatch."
+        - "Left shelf wall, head holes above."
+        - "One middle Kayaks/Supply wall."
+        - "Wall beside the crouch rotate."
+        - "Diving wall, stairs-side half."
+        - "Right half facing Main stairs."
+        - "1F Radio hallway wall."
+      rotates:
+        - "Kayaks/Supply crouch rotate."
+        - "Soft half of the Diving wall."
+        - "Head hole toward Main stairs."
+        - "Soft wall toward Yellow stairs."
+      anchor_spots:
+        - "Pipes (Mute)."
+        - "Trench door (Jäger)."
+        - "Diving (Frost)."
+      roam_areas:
+        - "1F until 1:30 (Caveira)."
+        - "Coast Guard (Valkyrie)."
+      key_utility:
+        - "Mute jammers on Pipes and Diving walls."
+        - "Frost mats on Lockers and Diving windows."
+        - "Valkyrie cams and C4 on Pipes."
+      recommended_ops: ["Mute", "Jäger", "Frost", "Valkyrie", "Caveira", "Maestro", "Fenrir"]
+      plan_summary: "Seal Pipes and both hatches, cam Coast Guard, roam 1F until 1:30."
+      setups:
+        - name: "Sealed Pipes, both hatches"
+          ops: ["Mute", "Jäger", "Frost", "Valkyrie", "Caveira"]
+          how: "Place hatches first (45 s prep), Mute on Pipes, Frost on Diving, Caveira roams 1F."
+      counters_to_watch:
+        - "Pipes breach: Mute jammers."
+        - "Hatch vertical from Coast Guard or Lounge."
+      retake_tips:
+        - "Retake via Diving and Main stairs."
     attacker:
-      recommended_spawns: ["Construction Site"]
-      drone_paths: ["Drone down stairs", "Drone basement entries"]
-      entry_points: ["Stairs", "Hatches", "Exterior basement doors"]
-      hard_breach_targets: ["Hatches", "Supply Room walls"]
-      plant_spots: ["Under opened hatch"]
-      recommended_ops: ["Hibana", "Thermite", "Thatcher", "Buck", "Ace"]
-      utility_priorities: ["Take 1F above", "Open hatches", "Smoke plant"]
-      plan_summary: "Take 1F, open hatches for vertical and plant under cover."
-    common_mistakes: ["Rushing basement without hatch control"]
-    uncertain: []
+      recommended_spawns: ["Floating Dock", "Construction Site"]
+      drone_paths:
+        - "Open and drone Trench early; check the Trench door for Jäger."
+        - "Drone Pipes and Diving for Mute jammers and Frost mats on the Lockers and Diving windows."
+        - "Drone Main stairs and Yellow stairs before the split."
+        - "Spot Valkyrie cams around Pipes and Coast Guard and shoot them."
+      entry_points:
+        - "1F first: Reception, Archives, top White stairs and a rappel through the Radio window."
+        - "Coast Guard site hatch and Lounge hatch from 1F."
+        - "Floor over site, opened by Buck."
+        - "Trench."
+        - "Yellow stairs."
+        - "Main stairs, only after an Airjab; do not rush it."
+      hard_breach_targets:
+        - "Coast Guard site hatch."
+        - "Lounge hatch."
+        - "Pipes wall facing Trench (Mute jammers; solid)."
+        - "Floor over site (Buck soft breach)."
+      plant_spots:
+        - "Tucked beside the bomb chassis, covered by Buck from above."
+        - "Kayaks corner."
+        - "Supply Room."
+      recommended_ops: ["Hibana", "Buck", "Zofia", "Nomad", "Capitao", "Thermite", "Thatcher", "Kali", "Blitz"]
+      utility_priorities:
+        - "Win 1F before touching hatches; Caveira roams it until 1:30."
+        - "Hibana burns both reinforced hatches."
+        - "Shoot Mute jammers so drones and remote gadgets work."
+        - "Smoke the double doors and the Lockers door for the plant."
+        - "Nomad Airjabs on Main stairs; watch Printer and Scuba."
+      plan_summary: "Take 1F, burn both hatches, open the floor, then split Trench and Yellow and plant tucked by the chassis."
+      executes:
+        - name: "1F take, hatch burn split"
+          ops: ["Hibana", "Buck", "Zofia", "Nomad", "Capitao"]
+          how: "Take Reception and Archives, Capitao clears Radio from the window; Hibana burns both hatches, Buck opens the floor; split Trench and Yellow."
+        - name: "Hatch drop with Trench pressure"
+          ops: ["Hibana", "Blitz", "Buck", "Thatcher", "Nomad"]
+          how: "Drop through the Coast Guard and Lounge hatches while Blitz pushes Trench, so site is hit from three sides."
+        - name: "Pipes breach"
+          ops: ["Thermite", "Thatcher", "Kali", "Buck", "Iana"]
+          how: "Take Trench, Thatcher EMPs or Kali lances the Pipes wall, Thermite opens; Buck verts from 1F."
+      key_kills:
+        - "Caveira roaming 1F: clear Reception and Archives with drones first."
+        - "Valkyrie in Coast Guard above site: kill her before the hatch burn."
+        - "Radio player: Capitao bolts or a rappel through the Radio window."
+        - "Jäger at the Trench door and Frost on Diving: trade them from Trench and Yellow."
+      post_plant:
+        - "Plant tucked by the chassis; Buck holds it from above through the floor."
+        - "Hold Trench and Yellow stairs; Nomad watches White stairs and the lower bridge."
+        - "Retakes come via Diving and Main stairs; keep an eye on both."
+    common_mistakes:
+      - "Rushing Main stairs."
+    uncertain:
+      - "Creators name walls by facing direction, not room."
+      - "Attack plan is siegestrats.com's write-up of Garfieldisdoc, BeastModPlayer and Athieno; the hatch-drop-plus-Trench variant is Athieno's."
+      - "White stairs, Archives, Scuba are creator callouts; in-game names may differ."
 general:
-  attack: ["Bridges connect buildings; deny rotations", "Water side gives long sightlines"]
-  defense: ["Long exterior sightlines make spawn peeks common", "Roam bridges carefully"]
+  attack:
+    - "Two buildings linked by bridges; Skybridge controls 2F Server/Radar and the top of Security/Maps."
+    - "Red, Green, Yellow and Printer stairs are the main vertical links; trap-clear them before using."
+    - "Water side gives long sightlines from Coast Guard windows; smoke crossings from Floating Dock."
+    - "Reception has metal detectors that make noise; don't route through it silently expecting stealth."
+  defense:
+    - "Long exterior sightlines make spawn peeks common; peek Skybridge windows once and leave."
+    - "Prep is short (45 s): reinforce hatches first on basement and 1F sites."
+    - "Holding 2F above Security/Maps until about 1:30, then folding, is the standard delay."
+    - "Mute counters Dokkaebi uploads, Deimos and Snake gadgets on Kanal executes."

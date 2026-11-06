@@ -2,108 +2,412 @@ id: lair
 name: Lair
 aliases: ["Lair", "LAIR"]
 floors: [basement, 1F, 2F, roof]
+# Layout: Y10S3 visual update added destructible props but kept the layout. Checked against Y11S3.2 guides (siegestrats.com, R6Mint/Fett/Athieno setups).
 attacker_spawns:
   - name: "Shooting Range"
-    notes: "Exterior range side."
+    notes: "Range side. Feeds the basement Armory Range door and 1F Armory. Name matches Liquipedia's spawn list (spawn 1)."
   - name: "Gate"
-    notes: "Front gate approach."
+    notes: "Front gate approach. Name matches Liquipedia's spawn list (spawn 2)."
   - name: "Lift"
-    notes: "Lift side approach."
+    notes: "Lift side approach; siegestrats.com uses it for the Server-side 2F attack. Liquipedia spawn 3."
   - name: "Dock"
-    notes: "Sea dock approach, good for lower floors."
+    notes: "Sea dock approach, good for lower floors. Name matches Liquipedia's spawn list (spawn 4)."
 sites:
   - id: master_office_r6_room
     name: "2F Master Office / 2F R6 Room"
-    aliases: ["2F R6 Room / 2F Master Office", "Master Office", "R6 Room"]
+    aliases: ["2F R6 Room / 2F Master Office", "Master Office / R6 Room", "Master Office", "R6 Room"]
     floor: 2F
     defender:
-      reinforce: ["Master Office and R6 Room outer walls"]
-      rotates: ["Master Office to R6 Room connection"]
-      anchor_spots: ["Master Office behind desk", "R6 Room corners"]
-      roam_areas: ["1F below", "Roof approaches"]
-      key_utility: ["Window and roof denial", "Anti-breach on main walls"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Valkyrie", "Azami"]
-      plan_summary: "Hold Master Office and R6 Room with reinforced walls and a crossfire. Delay roof entries."
+      reinforce:
+        - "Both inner Mask Room walls (Bandit batteries)."
+        - "Both outer Mask Room walls."
+        - "Operations wall, left panel."
+        - "Both Bathroom walls toward Main Stairs."
+        - "R6 Room to Storage, right panel."
+        - "R6 Hall wall by the Storage door."
+        - "Pocket: last Storage panel on fallback."
+      rotates:
+        - "Display to Server rotate."
+        - "Storage door as the fallback lane."
+      anchor_spots:
+        - "Master Office desk behind Azami Kiba."
+        - "Server, smoking the plant (Smoke)."
+        - "Storage (Goyo)."
+      roam_areas:
+        - "Operations, stalling with Kiba barriers."
+        - "Main Stairs (Smoke)."
+        - "Skybridge, killing drones (Goyo)."
+      key_utility:
+        - "Bandit batteries on the inner Mask walls, C4 on Operations."
+        - "Fenrir mines on Bathroom and Display windows."
+        - "Goyo Volcán on the bridge."
+      recommended_ops: ["Azami", "Smoke", "Fenrir", "Goyo", "Bandit", "Mira", "Warden", "Tachanka"]
+      plan_summary: "Layer the top floor: stall Operations, deny the Mask walls, trap windows, then fall back to the desk and Storage."
+      setups:
+        - name: "Top-floor layers"
+          ops: ["Azami", "Smoke", "Fenrir", "Goyo", "Bandit"]
+          how: "Azami stalls Operations then retreats to the desk; Bandit denies Mask walls; Fenrir traps Bathroom/Display windows; Goyo holds Storage."
+        - name: "Boss Up: Mira windows on Masks"
+          ops: ["Tachanka", "Warden", "Jäger", "Azami", "Mira"]
+          how: "Three Mira windows watch Mask Room; Warden owns the stairs; Tachanka denies plants."
+      counters_to_watch:
+        - "Mask Room breach: Bandit on both inner walls; re-check after Thatcher (E.G.S. only disables batteries ~15 s)."
+        - "Window entries at Bathroom and Display: Fenrir mines."
+        - "Main Stairs push: Smoke wire."
+      retake_tips:
+        - "Retake from Storage and Server together."
+        - "Volcán or Smoke gas on Mask-side plants."
     attacker:
-      recommended_spawns: ["Gate", "Lift"]
-      drone_paths: ["Drone from roof", "Drone up stairs"]
-      entry_points: ["Roof and windows", "Stairs"]
-      hard_breach_targets: ["Reinforced site walls"]
-      plant_spots: ["Master Office after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
-      utility_priorities: ["Take roof and hallway", "Open wall", "Smoke plant"]
-      plan_summary: "Take 2F control, breach the site wall and plant under smoke."
-    common_mistakes: ["Ignoring stairs flank"]
-    uncertain: ["Modernized in Y10S3; callouts not re-verified"]
+      recommended_spawns: ["Lift", "Gate"]
+      drone_paths:
+        - "Drone Operations and Mask Room first; Azami Kibas and the Operations roamer sit there."
+        - "From the R6 side, drone or Osa-Talon the Server for the Smoke, Warden and Cork players."
+        - "Drone Skybridge and Main Stairs for roamers; Goyo kills drones on the bridge."
+        - "Check Bathroom and Display windows for Fenrir mines and a Banshee before rappelling."
+      entry_points:
+        - "Operations, then swing Masks."
+        - "Mask Room."
+        - "Server from the R6 side."
+        - "Bathroom and Display windows."
+        - "Bridge and Skybridge."
+        - "Main Stairs."
+      hard_breach_targets:
+        - "Both inner Mask Room walls into Master Office (Bandit batteries)."
+        - "Outer Mask Room walls (Masks north wall), opened by Ace from Operations."
+        - "The wall between Operations and Mezzanine."
+        - "The Server wall, burned from the Server side."
+        - "Operations wall, left panel."
+      plant_spots:
+        - "Against the Cork wall, facing the Display door."
+        - "Master Office through the Masks breach."
+        - "Master Office by the inner Mask wall."
+        - "R6 Room by Storage."
+      recommended_ops: ["Thermite", "Thatcher", "Ace", "Osa", "Capitao", "Gridlock", "Blackbeard", "Ying", "Flores", "Kali", "Hibana"]
+      utility_priorities:
+        - "Thatcher EMP on the Mask or Server wall timed with the charge; batteries return after about 15 s."
+        - "Flores or Thatcher clears the Volcán in the north hall and the Banshee in the Bathroom."
+        - "Clear Fenrir mines at the windows and Azami Kibas in Operations."
+        - "Capitao fires Cork through the Display window and smokes the plant."
+        - "Gridlock Trax the flank; hold the R6 single door."
+      plan_summary: "Win Operations or the Server, open a Mask or Server wall with Thatcher cover, and plant against Cork or through Masks."
+      executes:
+        - name: "Server burn, Cork plant"
+          ops: ["Thermite", "Thatcher", "Osa", "Capitao", "Gridlock"]
+          how: "From Lift, take Server from the R6 side, Thatcher EMPs, Thermite burns the Server wall; Capitao fires Cork from Display; plant on Cork."
+        - name: "Top Split"
+          ops: ["Ace", "Blackbeard", "Ying", "Flores", "Deimos"]
+          how: "Blackbeard takes Operations and swings Masks; Ace opens Masks and the Operations-Mezzanine wall; Ying holds Display; Deimos lurks Blue Stairs; plant through Masks."
+        - name: "Mask Room breach"
+          ops: ["Thermite", "Thatcher", "Ash", "Buck", "Iana"]
+          how: "Take Mask Room, Thatcher EMPs the inner walls, Thermite opens into Master Office in that window."
+      key_kills:
+        - "Operations roamer (Azami): clear before swinging Masks."
+        - "Server players (Smoke, Warden) and the Cork anchor: Osa grenades Cork from behind."
+        - "Goyo on Skybridge: drone and trade from the Bridge."
+        - "Main Stairs player (Smoke wire)."
+      post_plant:
+        - "Plant against Cork facing Display; Capitao smokes the angles, Gridlock holds the R6 single door."
+        - "Plant Master Office by the Mask wall; hold from Mask Room and Operations."
+        - "Expect retakes from Storage and Server together; keep a player on each."
+    common_mistakes:
+      - "Leaving one Mask wall soft (older guides)."
+    uncertain:
+      - "Older launch-era guides left one Mask wall soft; current pro setups reinforce both."
+      - "Mask Room, Operations, Display are creator callouts; in-game wording may differ."
+      - "Cork, Pebbles, Masks north wall are creator callouts from siegestrats.com plans; exact rooms not confirmed."
+      - "Top Split is a low-confidence read of iFrozen's public Lair deck; Server burn is marked 'just for fun' by siegestrats.com."
+      - "Spawn-to-site pairings (Lift for 2F) come from one plan; not checked in game."
   - id: bunks_briefing
     name: "1F Bunks / 1F Briefing"
-    aliases: ["1F Briefing / 1F Bunks", "Bunks", "Briefing"]
+    aliases: ["1F Briefing / 1F Bunks", "Bunks / Briefing", "Bunks", "Briefing"]
     floor: 1F
     defender:
-      reinforce: ["Bunks and Briefing outer walls", "Floor above where reinforceable"]
-      rotates: ["Bunks to Briefing connection"]
-      anchor_spots: ["Bunks beds", "Briefing corners"]
-      roam_areas: ["2F above", "Basement below"]
-      key_utility: ["Traps on entries", "Shields at doors"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Echo", "Mira"]
-      plan_summary: "Hold Bunks and Briefing with vertical denial from 2F and traps on doors."
+      reinforce:
+        - "Security Terrace outside wall."
+        - "Briefing wall at the bottom (Yellow)."
+        - "Both Green-pillar walls."
+        - "Operations wall left panel and outer Mask panels on 2F."
+        - "Server wall on the Operations side."
+        - "Both Bridge-side walls by Storage."
+      rotates:
+        - "High Bunks/Briefing crouch rotate."
+        - "R6 Room site hatch kept open."
+        - "R6 Room Storage floor holes."
+        - "Server/Bridge rotates and Storage feet holes."
+      anchor_spots:
+        - "Rotate between Bunks and Briefing (Kaid)."
+        - "Stone hall behind Warden shield."
+      roam_areas:
+        - "2F R6 Room over Bunks."
+        - "Bridge side, falling back to Storage."
+        - "Operations."
+      key_utility:
+        - "Kaid claws on the breach and Briefing."
+        - "Warden shield in Stone hall, vert through R6 Room holes."
+        - "Lesion Gu on Bathroom side and Display hallway."
+      recommended_ops: ["Kaid", "Warden", "Clash", "Azami", "Lesion", "Jäger", "Smoke"]
+      plan_summary: "Four on 2F deny plants from above through the R6 Room holes; one anchors Bunks/Briefing."
+      setups:
+        - name: "Four up, one down"
+          ops: ["Kaid", "Warden", "Clash", "Azami", "Lesion"]
+          how: "Kaid anchors Bunks; Warden verts from R6 Room; Clash delays Bridge; Azami stalls Operations; Lesion traps Bathroom side."
+        - name: "Lisbon: Jäger guards Briefing"
+          ops: ["Jäger", "Smoke", "Goyo", "Solis", "Warden"]
+          how: "Jäger holds Briefing, four play Bunks from above."
+      counters_to_watch:
+        - "Security Terrace breach: Kaid claws."
+        - "Attackers taking 2F above: hold Operations and Bridge."
+      retake_tips:
+        - "Every plant can be denied from above; use R6 Room holes."
     attacker:
-      recommended_spawns: ["Gate", "Shooting Range"]
-      drone_paths: ["Drone ground doors", "Drone from 2F"]
-      entry_points: ["Exterior doors", "Vertical from 2F"]
-      hard_breach_targets: ["Reinforced outer walls"]
-      plant_spots: ["Bunks after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Sledge", "Ace"]
-      utility_priorities: ["Vertical from above", "Open wall", "Smoke plant"]
-      plan_summary: "Take 2F above site, open the wall and plant under smoke."
-    common_mistakes: ["Fighting without vertical control"]
-    uncertain: []
+      recommended_spawns: ["Gate", "Dock"]
+      drone_paths:
+        - "Drone 2F first: R6 Room for the vert players and Operations for Azami."
+        - "Drone Skybridge and the Bridge side for Clash before crossing."
+        - "Drone the Bathroom side and Display hallway for Lesion Gu mines."
+        - "Drone Stone hall and Briefing for the Warden shield and the Kaid anchor."
+      entry_points:
+        - "2F from three sides: Operations, Display window, Skybridge."
+        - "R6 Room hatch drop into site."
+        - "R6 Room floor opened over the site."
+        - "Security Terrace."
+        - "Stone hall."
+        - "Green stairs (flank watch)."
+      hard_breach_targets:
+        - "Outer Mask Room wall (Ace): forces defenders out of Operations."
+        - "R6 Room hatch, dropped after Operations is clear."
+        - "R6 Room floor over Bunks (Ram)."
+        - "Security Terrace outside wall (Kaid claws)."
+        - "Briefing wall at the bottom (Yellow)."
+      plant_spots:
+        - "Beside the R6 Room hatch drop, by the lockers."
+        - "Bunks by the Green pillar."
+        - "Briefing by the breach."
+      recommended_ops: ["Ace", "Zofia", "Ying", "Ram", "Gridlock", "Thermite", "Thatcher", "Kali", "Buck"]
+      utility_priorities:
+        - "Win 2F first; every 1F plant can be denied from the R6 Room holes."
+        - "Ram or Buck opens the R6 Room floor so the vert players lose their spots."
+        - "Kali lances Kaid claws on the Security Terrace wall."
+        - "Ying candelas the Server and Cork side from the Display window."
+        - "Gridlock Trax Skybridge and Green stairs."
+      plan_summary: "Take 2F from three sides, open the outer Mask wall and R6 Room floor, drop the R6 Room hatch and plant below."
+      executes:
+        - name: "Top-down hatch plant"
+          ops: ["Ace", "Zofia", "Ying", "Ram", "Gridlock"]
+          how: "Ace opens the outer Mask wall, Zofia clears Operations, Ying hops Display, Ram opens the R6 Room floor; Zofia drops the hatch and plants."
+        - name: "Top clear, terrace breach"
+          ops: ["Thermite", "Kali", "Buck", "Ash", "Iana"]
+          how: "Clear R6 Room and Operations, Buck verts from above, Kali lances claws, Thermite opens Security Terrace."
+      key_kills:
+        - "Warden and the R6 Room vert players: drone and trade from Operations."
+        - "Azami in Operations: Ace's Mask breach pushes her out."
+        - "Clash on the Bridge side: flank her from Skybridge."
+        - "Kaid anchor rotating between Bunks and Briefing."
+      post_plant:
+        - "Plant by the R6 Room hatch; hold the plant from 2F through the open floor."
+        - "Keep one player on Green stairs and one on Stone hall for the low retake."
+        - "Plant Bunks by the Green pillar only if 2F is yours."
+    common_mistakes:
+      - "Planting without clearing 2F."
+    uncertain:
+      - "Walls named by facing direction; check in custom."
+      - "Top-down plan is siegestrats.com's write-up of Garfieldisdoc, Gamer Studio, HardBaguette, R6Mint, Fett; wall names follow siegestrats.com's own defense pages."
+      - "Source says the strat needs four but lists five jobs; it also mentions the Server wall without saying who opens it."
   - id: armory_weapon_maintenance
     name: "1F Armory / 1F Weapon Maintenance"
-    aliases: ["1F Weapon Maintenance / 1F Armory", "Armory", "Weapon Maintenance"]
+    aliases: ["1F Weapon Maintenance / 1F Armory", "Armory / Weapon Maintenance", "Armory", "Weapon Maintenance"]
     floor: 1F
     defender:
-      reinforce: ["Armory outer walls"]
-      rotates: ["Armory to Weapon Maintenance connection"]
-      anchor_spots: ["Armory racks", "Weapon Maintenance benches"]
-      roam_areas: ["2F above", "Exterior approaches"]
-      key_utility: ["Anti-breach on walls", "Traps on doors"]
-      recommended_ops: ["Mute", "Kaid", "Smoke", "Castle", "Lesion"]
-      plan_summary: "Hold Armory and Weapon Maintenance with reinforced walls and vertical denial above."
+      reinforce:
+        - "Range Exit wall, one panel."
+        - "Armory/Weapon Maintenance triple wall, middle panel."
+        - "Wall at bottom Blue stairs."
+        - "Medical wall, left panel."
+        - "Back wall to the Filtration-stairs hall."
+        - "Mezzanine wall by Rocket stairs."
+        - "Both outer Mask wall panels."
+        - "Operations hatch into site."
+      rotates:
+        - "Range Exit rotate behind boxes."
+        - "Head holes in the triple wall left panel."
+        - "Medical rotate, right half."
+        - "Armory to Filtration hall rotate."
+      anchor_spots:
+        - "Armory (Tachanka)."
+        - "Lobby behind Echo shield."
+      roam_areas:
+        - "Operations above site."
+        - "Mezzanine (Denari)."
+        - "Filtration back hall (Smoke)."
+      key_utility:
+        - "Tachanka Shumikha on plants."
+        - "Echo Yokai."
+        - "Denari tripwires on Rocket side."
+      recommended_ops: ["Tachanka", "Smoke", "Echo", "Azami", "Denari", "Noor", "Fenrir"]
+      plan_summary: "Three crossfire Range below; Operations and Mezzanine deny plants from above."
+      setups:
+        - name: "Three below, two above"
+          ops: ["Tachanka", "Smoke", "Echo", "Azami", "Denari"]
+          how: "Tachanka in Armory, Echo in Lobby, Smoke on Filtration hall; Azami and Denari deny from above."
+      counters_to_watch:
+        - "Hatch drop from Operations: reinforce."
+        - "Corner plant: deny from Operations holes."
+      retake_tips:
+        - "Use Operations floor holes over the plant."
     attacker:
-      recommended_spawns: ["Shooting Range", "Lift"]
-      drone_paths: ["Drone exterior doors", "Drone from 2F"]
-      entry_points: ["Exterior doors", "Vertical from 2F"]
-      hard_breach_targets: ["Armory reinforced wall"]
-      plant_spots: ["Armory after breach"]
-      recommended_ops: ["Thermite", "Thatcher", "Buck", "Ash", "Zofia"]
-      utility_priorities: ["Vertical from above", "Open wall", "Smoke plant"]
-      plan_summary: "Take 2F, open Armory and plant with flank watch."
-    common_mistakes: ["Over-committing one door"]
-    uncertain: []
+      recommended_spawns: ["Shooting Range"]
+      drone_paths:
+        - "Drone Operations and Mezzanine for Azami and Denari before going up."
+        - "Drone Range and the Range Exit for the Tachanka and Shumikha on the plants."
+        - "Drone Medical and the Lobby for the Echo shield and Yokai."
+        - "Drone the Filtration back hall for the Smoke roamer; Rocket side has Denari tripwires."
+      entry_points:
+        - "Operations, to go vertical over site."
+        - "Operations hatch drop."
+        - "Range and the Range Exit breach."
+        - "Medical."
+      hard_breach_targets:
+        - "Range Exit wall panel (Thermite burns, plant on the hard wall inside)."
+        - "Operations hatch into site."
+        - "Operations floor over site (Buck)."
+        - "Armory/Weapon Maintenance triple wall, middle panel."
+      plant_spots:
+        - "On the hard wall just inside the Range Exit breach, away from the rotate."
+        - "Armory corner."
+        - "Weapon Maintenance doorway."
+      recommended_ops: ["Thermite", "Sens", "Buck", "Zofia", "Gridlock", "Hibana", "Thatcher", "Sledge"]
+      utility_priorities:
+        - "Win Operations first; two defenders deny plants from above."
+        - "Buck opens the Operations floor and holds the rotate from above."
+        - "Sens R.O.U. screens the rotate on the Range push."
+        - "Gridlock Trax the 2F hall and Rocket side; clear Denari tripwires."
+        - "Shoot Shumikha and Yokai before the plant."
+      plan_summary: "Win Operations for verticals, then Thermite burns the Range Exit and the team plants on the hard wall."
+      executes:
+        - name: "Operations vert, Range burn"
+          ops: ["Thermite", "Sens", "Buck", "Zofia", "Gridlock"]
+          how: "Zofia clears Operations and Mezzanine, Buck opens the floor; Sens takes Range and screens the rotate; Thermite burns Range Exit and plants."
+        - name: "Operations drop"
+          ops: ["Hibana", "Thatcher", "Buck", "Ash", "Iana"]
+          how: "Take Operations, Hibana burns the reinforced hatch, drop and plant the Armory corner while Buck holds above."
+      key_kills:
+        - "Azami in Operations: drone and trade from Mask Room."
+        - "Denari on Mezzanine: Zofia clears it, then watches Master Office."
+        - "Smoke in the Filtration back hall: flank risk on the Range push."
+        - "Tachanka in Armory and the Echo in Lobby: vertical from Operations."
+      post_plant:
+        - "Plant on the hard wall inside Range Exit; Buck holds the rotate from above."
+        - "Gridlock covers Range and Rocket; one player keeps Operations so no one re-takes the floor holes."
+    common_mistakes:
+      - "Building your own vertical too early."
+    uncertain:
+      - "Very little pro data (~40 rounds)."
+      - "Range plan is siegestrats.com's write-up of Garfieldisdoc, Gamer Studio, HardBaguette, Fett; Fett may also open the Range Exit door, window and side door."
   - id: lab_lab_support
     name: "B Lab / B Lab Support"
-    aliases: ["B Lab Support / B Lab", "Lab", "Lab Support", "Basement"]
+    aliases: ["B Lab Support / B Lab", "Basement Lab / Lab Support", "Lab", "Lab Support", "Basement"]
     floor: basement
     defender:
-      reinforce: ["Hatches above basement", "Lab walls"]
-      rotates: ["Lab to Lab Support connection"]
-      anchor_spots: ["Lab corners", "Lab Support behind equipment"]
-      roam_areas: ["1F above", "Dock-side entries"]
-      key_utility: ["Deny hatches", "Traps on stairs"]
-      recommended_ops: ["Mute", "Kaid", "Bandit", "Echo", "Goyo"]
-      plan_summary: "Deny hatches and hold Lab and Lab Support with a crossfire and a stairs roamer."
+      reinforce:
+        - "Lockers wall, left panel."
+        - "Missile wall."
+        - "Lab/Lockers site wall."
+        - "Purple wall, Lockers-door panel."
+        - "Lab Exit wall, one panel."
+        - "Reception hatch."
+        - "1F Armory walls 1-3."
+      rotates:
+        - "Lab Exit rotate."
+      anchor_spots:
+        - "Lockers long angles (Kaid)."
+        - "Missile."
+      roam_areas:
+        - "Armory Range door (Azami)."
+        - "Filtration stairs (Smoke)."
+        - "Warehouse (Valkyrie)."
+      key_utility:
+        - "Kaid claw on Missile wall."
+        - "Goyo Volcáns in Stock, Filtration, Missile, Lockers doors."
+        - "Azami Kiba on Armory Range door."
+      recommended_ops: ["Azami", "Smoke", "Goyo", "Kaid", "Valkyrie", "Mira", "Mute", "Castle"]
+      plan_summary: "Two roam Armory and Filtration, three crossfire below, with a vert through Lockers from Security."
+      setups:
+        - name: "Two up, three down"
+          ops: ["Azami", "Smoke", "Goyo", "Kaid", "Valkyrie"]
+          how: "Azami holds Armory Range door, Smoke Filtration stairs, Kaid Lockers, Goyo fire on doors."
+        - name: "Sun Tzu: Castle panels basement doors"
+          ops: ["Mira", "Mute", "Fenrir", "Castle", "Azami"]
+          how: "Castle panels basement doors, Azami and Mute hold Armory."
+      counters_to_watch:
+        - "Vertical takes: fallback plan."
+        - "Warehouse and Garage push."
+      retake_tips:
+        - "Retake via Lab Exit."
     attacker:
-      recommended_spawns: ["Dock"]
-      drone_paths: ["Drone down stairs", "Drone dock entries"]
-      entry_points: ["Stairs", "Hatches", "Dock-side entries"]
-      hard_breach_targets: ["Hatches", "Lab walls"]
-      plant_spots: ["Under opened hatch"]
-      recommended_ops: ["Hibana", "Thermite", "Thatcher", "Buck", "Ace"]
-      utility_priorities: ["Take 1F", "Open hatches", "Smoke plant"]
-      plan_summary: "Take 1F, open hatches and plant with vertical cover."
-    common_mistakes: ["Rushing basement stairs"]
-    uncertain: []
+      recommended_spawns: ["Shooting Range", "Dock"]
+      drone_paths:
+        - "Drone Range and Filtration first (Lion scans there); Azami often holds the Armory Range door."
+        - "Drone the Filtration stairs for the Smoke roamer and Goyo Volcáns on the doors."
+        - "Twitch shock-drones through Lockers into the Lab."
+        - "Drone Warehouse for a Valkyrie roam and cams."
+      entry_points:
+        - "Armory, then down the Filtration stairs."
+        - "Hatch from 1F into the Lab, plus Buck's floor from 1F Security."
+        - "Armory Range door."
+        - "Missile toward Purple, and Stock toward the Lab."
+        - "Warehouse and Garage side."
+        - "Yellow stairs (flank watch)."
+      hard_breach_targets:
+        - "The hatch over the Lab from 1F (Hibana)."
+        - "Lab Exit wall, one panel."
+        - "Missile wall (Kaid claw)."
+        - "Lockers wall, left panel."
+        - "Garage wall (Ying hard breach in the H Split)."
+      plant_spots:
+        - "Filing cabinet beside the Filtration door."
+        - "South side of the Lab behind smokes, reached from Purple."
+        - "Lab Support."
+      recommended_ops: ["Hibana", "Buck", "Zofia", "Lion", "Gridlock", "Thermite", "Sledge", "Blitz", "Twitch", "Kali"]
+      utility_priorities:
+        - "Kill the Armory and Filtration roamers before going down; this is a two-up setup."
+        - "Shoot or EMP Goyo Volcáns on the Stock, Filtration, Missile and Lockers doors."
+        - "Kali lances the Kaid claw on the Missile wall before Thermite."
+        - "Gridlock Trax on the Yellow stairs to stop the flank."
+        - "Smoke the plant from the south of Lab."
+      plan_summary: "Win Armory and Security on 1F, open the hatch and Security floor, walk Filtration and plant by the Filtration door."
+      executes:
+        - name: "Filtration back-door plant"
+          ops: ["Hibana", "Buck", "Zofia", "Lion", "Gridlock"]
+          how: "Clear Armory, Hibana opens the hatch and Lab Exit, Buck opens the Security floor; Zofia leads Filtration stairs; plant the Filtration-door cabinet."
+        - name: "H Split"
+          ops: ["Sledge", "Blitz", "Twitch", "Ying", "Dokkaebi"]
+          how: "Ying breaches Garage, Twitch shocks the Lab via Lockers, Blitz pushes Missile to Purple; Dokkaebi watches 1F Security; Sledge plants Lab south."
+        - name: "Filtration push, Missile wall"
+          ops: ["Thermite", "Kali", "Ash", "Buck", "Iana"]
+          how: "Clear Armory, push Filtration, Kali lances the claw and Thermite opens the Missile wall."
+      key_kills:
+        - "Azami at the Armory Range door: drone and trade before Filtration."
+        - "Smoke on the Filtration stairs."
+        - "Valkyrie roaming Warehouse."
+        - "Kaid on long Lockers angles: clear with Twitch or flash from Stock."
+      post_plant:
+        - "Plant the Filtration-door cabinet; one player on the rotate from above, one on the Lab Exit holes, one on the Stock door."
+        - "Keep Gridlock on the Yellow stairs for the late flank."
+    common_mistakes:
+      - "Ignoring 1F roamers."
+    uncertain:
+      - "Some guides reinforce Warehouse and Garage instead of roaming."
+      - "Attack sources call the hatch over the Lab the 'Armory hatch'; defender lists name a 'Reception hatch'. May be the same hatch; check in a custom."
+      - "H Split and Basement Rush (Ram north walls, Sledge Electrical wall, Blitz via Missile) are low-confidence reads of iFrozen's deck."
+      - "Stock, Purple, Barrels walls are creator callouts; exact panels not confirmed."
 general:
-  attack: ["Every floor has exterior entries; split pressure", "Drone early for roamers"]
-  defense: ["Watch exterior entry points for spawn peeks", "Lair has many flanks; roam with info"]
+  attack:
+    - "Every floor has exterior entries; split pressure between a window/terrace and an interior stair."
+    - "Armory Hall is the common defender flank route; leave a Gridlock or claymore there during executes."
+    - "Clear Operations early on 2F: it sits over Armory/Weapon Maintenance and connects to Mask Room."
+    - "Skybridge is a drone-kill and roam spot; drone it before crossing."
+  defense:
+    - "Most setups roam Operations with Azami Kibas; leave when Mask Room opens."
+    - "For 1F sites, plants can be denied from 2F holes (R6 Room, Operations); keep at least two players above."
+    - "Lair has many flanks; roam with cams. Armory and Filtration are the basement roams."
+    - "Sources name walls by facing direction; drone-check panels in a custom before trusting the list."
