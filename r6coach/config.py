@@ -74,11 +74,13 @@ class OperatorPool(BaseModel):
 
 
 class VoiceCfg(BaseModel):
-    # kokoro (local neural voice, no key) | openai | elevenlabs | sapi (robotic Windows voice).
-    # Whatever is chosen, failures fall back to kokoro, then sapi.
-    provider: str = "kokoro"
-    local_voice: str = "am_michael"          # Kokoro voice id, see `python -m r6coach.voice.tts --voices`
-    local_model: str = "kokoro-v1.0.int8.onnx"
+    # piper (local neural voice, no key, default) | kokoro (local, more natural, slower) |
+    # openai | elevenlabs | sapi (robotic Windows voice).
+    # Whatever is chosen, failures fall back to the local piper voice, then sapi.
+    provider: str = "piper"
+    local_voice: str = "en_GB-alan-medium"   # Piper voice, see `python -m r6coach.voice.tts --voices`
+    kokoro_voice: str = "am_michael"
+    kokoro_model: str = "kokoro-v1.0.onnx"   # fp32; the int8 file is ~7x slower on CPU
     local_device: str = "cpu"                # cpu | cuda (needs onnxruntime-gpu; cpu leaves the GPU to the game)
     local_threads: int = 4                   # CPU threads for the local voice (0 = onnxruntime default)
     speed: float = 1.05

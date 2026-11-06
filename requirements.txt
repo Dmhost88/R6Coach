@@ -17,3 +17,7 @@ pyttsx3
 rapidocr_onnxruntime
 pystray
 pytest
+kokoro-onnx>=0.6.1        # brings phonemizer + espeakng-loader (espeak-ng) used by the local voices
+phonemizer>=3.4
+espeakng-loader
+onnxruntime

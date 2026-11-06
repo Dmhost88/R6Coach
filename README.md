@@ -18,7 +18,7 @@ It is designed not to be a cheat. It reads only menus and the HUD from your own 
 
 2. Copy `.env.example` to `.env` and add your keys:
    - `ANTHROPIC_API_KEY`: reads screens and writes advice.
-   - `OPENAI_API_KEY` or `ELEVENLABS_API_KEY`: the coach's voice. Without one, the offline Windows voice is used.
+   - `OPENAI_API_KEY` or `ELEVENLABS_API_KEY` (optional): a cloud voice. Without one, the coach uses a local neural voice (below).
 3. Copy `config.example.yaml` to `config.yaml`. Set your operator pool and a push-to-talk key that Siege doesn't use. A spare mouse side button works well: `mouse_x1` or `mouse_x2`.
 4. Check the setup:
 
@@ -68,6 +68,18 @@ Run the unit tests (no network needed):
 ```bash
 .venv/Scripts/python -m pytest -q
 ```
+
+## Voice
+
+The default voice is local and needs no key: Piper `en_GB-alan-medium` on the CPU, about 0.2 s per line. The model (63 MB) downloads to `data/models/piper/` on first use; the log says "Downloading voice model … (one time, please wait)".
+
+- **Other voices:** list them with `python -m r6coach.voice.tts --voices`, then set `voice.local_voice`. Any voice from huggingface.co/rhasspy/piper-voices works.
+- **Pace:** `voice.speed`, default 1.05.
+- **Kokoro (optional):** more natural, but about 1.5 s per line on CPU. Set `voice.provider: kokoro`; it downloads about 350 MB to `data/models/kokoro/`. With `voice.local_device: cuda` it takes about 0.25 s, but that needs `onnxruntime-gpu`, which replaces the package the HUD reader uses, so test it first.
+- **Cloud voices:** OpenAI and ElevenLabs still work when their key is in `.env`.
+- **Fallbacks:** if a voice fails, the coach falls to Piper, then to the Windows voice.
+- **Samples:** compare voices in `data/voice_samples/`.
+- **Licences:** voice data has its own licence. Check it before sharing the app.
 
 ## Live rounds: the local HUD reader
 

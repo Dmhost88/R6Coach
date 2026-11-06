@@ -50,7 +50,17 @@ operator_pool:                     # your comfort picks, best first
 not_owned: []                      # operators you don't own
 
 voice:
-  provider: openai                 # openai | elevenlabs | sapi (offline Windows voice)
+  # piper: local neural voice, no key, ~0.2 s per line on CPU (default)
+  # kokoro: local, more natural, ~1.5 s per line on CPU (good with local_device: cuda)
+  # openai | elevenlabs: cloud, need a key in .env | sapi: robotic Windows voice
+  # Any failure (or a missing key) falls back to piper, then sapi.
+  provider: piper
+  local_voice: en_GB-alan-medium   # Piper voice; list with: python -m r6coach.voice.tts --voices
+  kokoro_voice: am_michael
+  kokoro_model: kokoro-v1.0.onnx
+  local_device: cpu                # cpu | cuda (cuda needs onnxruntime-gpu; cpu leaves the GPU to the game)
+  local_threads: 4                 # CPU threads for the local voice
+  speed: 1.05                      # 1.0 = normal pace
   openai_voice: onyx
   openai_model: gpt-4o-mini-tts
   elevenlabs_voice_id: ""
