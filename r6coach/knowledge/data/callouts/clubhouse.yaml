@@ -1,0 +1,129 @@
+# Callouts for Clubhouse. Grounds exact location names for the coach.
+# Built 2026-11-06 (Y11S3). Walls/hatches are listed only when a source names them;
+# where a source names the wall/hatch but not both rooms, it is under `uncertain` instead.
+map: clubhouse
+version_note: "Layout of the 2018 (Para Bellum) interior rework plus the Crystal Guard minor rework; Ubisoft lists 'Map reworked: Siege X - June 2025' (guides describe it as visual/destructible modernisation). The official blueprint zip was re-uploaded 2026-07-08, but no Y11S2/Y11S3 patch note found mentions a Clubhouse layout change, and Y11S3 guides report no structural change. Names checked against Y11S3 guides."
+rooms:
+  B:
+    - "Church"
+    - "Arsenal Room"
+    - "Memorial"
+    - "Escape Tunnel"
+    - "Oil Pit"
+    - "Central Stairs"
+  1F:
+    - "Bar"
+    - "Stock Room"
+    - "Stage"
+    - "Strip Club"
+    - "Kitchen"
+    - "Lounge"
+    - "Garage"
+    - "Central Stairs"
+  2F:
+    - "Gym"
+    - "Bedroom"
+    - "Bathroom"
+    - "Logistic Office"
+    - "CCTV Room"
+    - "Cash Room"
+    - "Server Room"
+    - "Construction"
+    - "Garage (Rafters)"
+  EXT:
+    - "Construction Site"
+    - "Main Gate"
+    - "Shipping Dock"
+    - "Warehouse"
+walls:
+  - between: ["Church", "Memorial"]
+    floor: B
+    notes: "'Church -> Memorial wall, all 3' panels; the Memorial-side Church wall is the default hard-breach target for the Church / Arsenal site. r6prep: all three Church walls reinforced."
+  - between: ["CCTV Room", "Cash Room"]
+    floor: 2F
+    notes: "The 'Cash-CCTV wall' between the two 2F sites; a Mira window spot in CCTV holds."
+  - between: ["Cash Room", "Construction"]
+    floor: 2F
+    notes: "'Cash -> Construction Connector, both panels' (Breaching Siege 2020 default); guides call it the soft wall from Cash into Construction. 'Construction Connector' is the passage between them."
+  - between: ["Server Room", "Garage (Rafters)"]
+    floor: 2F
+    notes: "'Server panel facing Garage Rafters' / 'Server-rafters panel'; reinforced in the CCTV / Cash default."
+  - between: ["Gym", "Bedroom"]
+    floor: 2F
+    notes: "The Bedroom-Gym wall: feet holes along it and a vault rotate mid-wall in Gym / Bedroom holds."
+hatches:
+  - in: "Roof"
+    above: "Logistic Office"
+    notes: "The 'Logistics hatch'. Ubisoft's Y10S4 addendum calls it the '2F Logistic Office hatch' (rooftop access). Attackers drop it with Grim/Kawan pressure on Gym / Bedroom."
+  - in: "Kitchen"
+    above: "Church / Arsenal Room site (which room is below is contested)"
+    notes: "The 'Kitchen hatch'. Main vertical threat on the basement site; denied (reinforced) in standard Church holds. One siegestrats strat says Hibana 'shoot[s] down into Arsenal' through it, another guide says it is above Church."
+stairs:
+  - name: "Central Stairs (guides also say Main Stairs)"
+    connects: ["B", "1F", "2F (not verified for the 2F flight)"]
+  - name: "Garage Stairs"
+    connects: ["1F Garage", "2F (CCTV / Cash side)"]
+  - name: "Eastern Stairs"
+    connects: ["1F", "2F CCTV Room side (floors not verified)"]
+  - name: "Blue Stairs"
+    connects: ["B (Blue, slang)", "1F"]
+windows_and_doors:
+  - name: "CCTV window"
+    room: "CCTV Room"
+    faces: "Garage Rafters; attackers who take Rafters can jump it"
+  - name: "Gym windows"
+    room: "Gym"
+    faces: "exterior (south); opened by Hibana / Sledge on Gym attacks"
+  - name: "Master window"
+    room: "Bedroom ('Master' is slang for Bedroom)"
+    faces: "exterior"
+  - name: "Strip window"
+    room: "Strip Club"
+    faces: "exterior; Castle / Smoke gas on Bar holds"
+  - name: "Construction window"
+    room: "Construction (2F)"
+    faces: "down onto the Bar area (vertical play on 1F Bar)"
+  - name: "Bar door and window"
+    room: "Bar"
+    faces: "exterior"
+  - name: "Lounge double door"
+    room: "Lounge"
+    faces: "interior, toward Bar / Stock"
+  - name: "Kitchen door"
+    room: "Kitchen"
+    faces: "interior, held in Bar / Stock Room holds"
+  - name: "Stock door"
+    room: "Stock Room"
+    faces: "interior"
+  - name: "Garage door (four panels)"
+    room: "Garage"
+    faces: "reinforced in the CCTV / Cash default"
+sources:
+  - "https://siegestrats.com/maps/clubhouse/ and https://siegestrats.com/maps/clubhouse/callouts"
+  - "https://siegestrats.com/strats/clubhouse-church-wall-lock-with-kitchen-hatch-denial"
+  - "https://siegestrats.com/strats/clubhouse-three-lane-basement-hit-memorial-breach"
+  - "https://siegestrats.com/strats/clubhouse-cctv-wall-trick-with-garage-rafters-lock"
+  - "https://siegestrats.com/strats/clubhouse-logistics-drop-and-jacuzzi-wall-gym-plant"
+  - "https://siegestrats.com/strats/clubhouse-gym-feet-holes-con-mirror-and-a-cash-extension"
+  - "https://siegestrats.com/strats/clubhouse-take-gym-above-burn-the-stock-wall-plant"
+  - "https://siegestrats.com/strats/clubhouse-strip-extension-with-a-gym-vertical-lid"
+  - "https://siegestrats.com/strats/clubhouse-garage-floor-first-main-wall-second-tucked"
+  - "https://siegestrats.com/strats/clubhouse-bar-fish-fake-bar-then-drop-the-hatches-into"
+  - "other siegestrats Clubhouse strat pages (slide-derived; walls only by number, little used)"
+  - "https://www.r6prep.com/defender/site-setups/clubhouse"
+  - "https://www.ubisoft.com/en-ca/game/rainbow-six/siege/game-info/maps/clubhouse"
+  - "https://www.ubisoft.com/en-us/game/rainbow-six/siege/news-updates/7Ev8Ec9hPvcCC8Qn7zlotD/y10s4-patch-notes-addendum (2F Logistic Office hatch)"
+  - "https://rainbowsix.fandom.com/wiki/Clubhouse (via API; sites, spawns, '7 Hatches')"
+  - "https://alviran.net/blog/r6-clubhouse-callouts-guide-2026/"
+  - "https://timesaver.gg/blog/rainbow-six-siege-clubhouse-callouts-y11s3 (low-confidence; used only for version claims)"
+  - "patched.gg copies of Y11S2.2 / Y11S3 / Y11S3 mid-season patch notes (no Clubhouse layout items)"
+  - "https://ubistatic-a.ubisoft.com/0106/gamesites/rainbow6/blueprints/r6-maps-clubhouse-blueprints.zip (Last-Modified 2026-07-08; no room labels)"
+uncertain:
+  - "2026 update: the blueprint zip was re-uploaded 2026-07-08 but no Ubisoft patch note, season page or guide found describes a 2026 Clubhouse layout change (Y11S2 season page, Y11S2.2, Y11S3 launch, Y11S3 addendum and mid-season notes checked). Y11S3 guides say 'no structural changes in Y11S3'. siegestrats marks one Gym strat '(Old Layout)' without saying what changed. Treat the layout as Siege X (June 2025) until confirmed."
+  - "Site names: siegestrats lists '1F Bar / Stock Room' and notes 'Ubisoft labels it both Bar/Stock Room and Bar/Stage'; the wiki says 'Bar and Stage'. Other sites: '2F Gym / Bedroom', '2F CCTV Room / Cash Room', 'B Church / Arsenal Room'."
+  - "Exact in-game spellings not confirmed for: 'Memorial' (may be 'Memorial Room'), 'Construction' (may be 'Construction Room'), 'Server Room' (guides say Server), 'Garage (Rafters)' (guides say Rafters / Garage Rafters / Catwalk), 'Central Stairs' vs 'Main Stairs', 'Oil Pit', 'Escape Tunnel', 'Lounge'. EXT spawns (Main Gate, Shipping Dock, Warehouse, Construction Site) are from the wiki."
+  - "Hatches named without both rooms: 'Bar hatch', 'Stock Room hatch' and 'Moto hatch' (all denied in Church / Arsenal holds, so they drop into the basement; room below not stated); 2F hatches over Bar / Stage: 'Gym-side hatch' and '2F hatch away from Gym' (guides disagree on opening the Gym one). An older siege.gg rework article says the Gym hatch and the Server Room roof hatch were removed, which conflicts with current guides naming a 'Gym-side hatch' and 'two Server roof panels'. Wiki says 7 hatches in total."
+  - "Walls named without both rooms: 'Escape Tunnel entrance, both panels' (B), 'Arsenal hallway, panel nearest Central Stairs' (B), 'Church panel behind Blue generator' and 'the Blue wall', 'two Dirt walls', 'middle wall' (B), 'CCTV exterior wall' / 'main wall' (2F; one guide says it faces Garage), 'Trash wall -> Construction Connector' (2F), 'Jacuzzi wall(s)' (2F exterior near Gym / Bedroom), 'Bathroom wall' (2F, reinforced in Gym holds), 'Con wall' / 'Con rotate' and 'Logistics single wall' (2F), 'Rafters wall' (2F), 'middle wall under Red' (2F), 'Stock wall' (1F, opened from outside), 'both Stage walls', 'both Kitchen-hallway walls', 'both outer Strip Club walls', 'Strip -> site rotate' (1F). A low-quality guide claims a Kitchen soft wall into Bar."
+  - "Slang spots used by guides (not in-game callouts): Blue, Dirt / Dirt Tunnel, Moto / Bike, Box 3, Pillar (B); Plat, Tub, Highway, Chain, Cage hallway (1F/mixed); Master (= Bedroom), Logi (= Logistic Office), Con (= Construction), Gold, Red / top Red, Trash, Rafters, Catwalk, Jacuzzi (2F)."
+  - "Doktor's Curse 2026 (Oct 14 - Nov 2) used a modified Clubhouse ('Doktor's Lab') with different sites; that event layout is not described here."
+  - "Liquipedia was not used (rate-limited / bot check), so its Clubhouse balance-change log was not cross-checked."

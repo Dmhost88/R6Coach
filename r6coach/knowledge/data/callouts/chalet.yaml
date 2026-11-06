@@ -1,0 +1,109 @@
+# Callouts for Chalet. Grounds exact location names for the coach.
+# Built 2026-11-06 (Y11S3). Walls/hatches are listed only when a source names them;
+# where a source names the wall/hatch but not both rooms, it is under `uncertain` instead.
+map: chalet
+version_note: "Layout of the Y5S3 (Operation Shadow Legacy, 2020) rework. Wall/hatch names checked against Y11S3 guides (siegestrats, r6prep 'verified for Y11S3'). Most siegestrats Chalet strats flag their own room names as approximate, so wall/hatch confidence is lower than on Oregon."
+rooms:
+  B:
+    - "Wine Cellar"
+    - "Wine Stock"
+    - "Snowmobile Garage"
+  1F:
+    - "Bar"
+    - "Bar Stock"
+    - "Gaming Room"
+    - "Gaming Room Hallway"
+    - "Dining Room"
+    - "Kitchen"
+    - "Fireplace"
+  2F:
+    - "Master Bedroom"
+    - "Master Bathroom"
+    - "Office"
+    - "Library"
+    - "Library Stairs"
+    - "Piano Room"
+    - "Solarium"
+    - "Mezzanine"
+    - "Bedroom Hallway"
+  EXT:
+    - "Campfire"
+    - "Cliffside"
+    - "Lakeside"
+    - "Front Yard"
+    - "Backyard"
+walls:
+  - between: ["Dining Room", "Fireplace"]
+    floor: 1F
+    notes: "Two panels ('Dining -> Fireplace, first/second panel'). Bandit tricks both in a siegestrats Kitchen/Dining strat; guides also reinforce a 'third wall in the row' next to them."
+  - between: ["Bar", "Fireplace"]
+    floor: 1F
+    notes: "'Bar -> Fireplace side, two panels', reinforced in a Bar/Gaming hold (siegestrats; panel choice is the strat author's reading of the reworked site)."
+  - between: ["Office", "Library"]
+    floor: 2F
+    notes: "'Office -> Library, first panel'; Kaid claws it and Noor lances through it in a Master/Office strat. Guides call the Office side a half-wall position."
+  - between: ["Wine Cellar", "Snowmobile Garage"]
+    floor: B
+    notes: "'Wine -> Snowmobile, two panels' with a Mira window (siegestrats). r6prep: 'Both Snowmobile walls ... are reinforced' for the basement site."
+  - between: ["Snowmobile Garage", "exterior"]
+    floor: B
+    notes: "'Snowmobile exterior wall, both panels'; Bandit trick spot for the basement site. Ubisoft's rework notes added a window above the Snowmobile Garage door."
+  - between: ["Gaming Room", "exterior"]
+    floor: 1F
+    notes: "'Gaming exterior walls, two panels', reinforced in Bar/Gaming holds; r6prep also reinforces the left Bar Stock wall against the Games window."
+hatches:
+  - in: "Bar"
+    above: "Snowmobile Garage"
+    notes: "The 'Bar hatch'. Two siegestrats strats reinforce it ('Bar hatch -> Snowmobile Garage'); one says the hatch is from general map knowledge of reworked Chalet, so the room below is lower confidence."
+stairs:
+  - name: "Main Stairs"
+    connects: ["B", "1F", "2F (exact floors not verified)"]
+  - name: "Library Stairs"
+    connects: ["1F", "2F Library"]
+  - name: "Basement stairs"
+    connects: ["B", "1F (exact rooms not verified)"]
+windows_and_doors:
+  - name: "Big Window"
+    room: "2F (Master Bedroom / Office side, not verified)"
+    faces: "exterior; attackers swing it on Master/Office; Smoke gasses it on a Solarium hit"
+  - name: "Bathroom window"
+    room: "Master Bathroom"
+    faces: "exterior; r6prep reinforces two Closet walls to protect against it"
+  - name: "Games window"
+    room: "Gaming Room"
+    faces: "exterior"
+  - name: "Garage door"
+    room: "Snowmobile Garage"
+    faces: "exterior; a window above it is a defender pick spot"
+  - name: "Office door"
+    room: "Office"
+    faces: "interior; Kanine attackers play near it"
+sources:
+  - "https://siegestrats.com/maps/chalet/"
+  - "https://siegestrats.com/maps/chalet/callouts"
+  - "https://siegestrats.com/strats/chalet-snowmobile-wall-trick-with-wine-cellar-windows"
+  - "https://siegestrats.com/strats/chalet-bar-and-gaming-hold-with-mezzanine-control"
+  - "https://siegestrats.com/strats/chalet-double-library-wall-ivy-holes-and-top-solarium"
+  - "https://siegestrats.com/strats/chalet-fireplace-wall-tricked-2f-office-vert-over-the"
+  - "https://siegestrats.com/strats/chalet-big-chungus-give-them-kitchen-retake-from-above"
+  - "https://siegestrats.com/strats/chalet-furia-denari-lasers-the-kitchen-mira-and-wamai"
+  - "https://siegestrats.com/strats/chalet-snail-kaid-bunkers-the-kitchen-everyone-stacks"
+  - "https://siegestrats.com/strats/chalet-battlebots-press-library-counter-press-solar"
+  - "https://siegestrats.com/strats/chalet-double-double-warden-alone-in-bar-four-push"
+  - "https://siegestrats.com/strats/chalet-fat-albert-mira-anchors-bar-three-extend-into"
+  - "https://siegestrats.com/strats/chalet-cover-2-mira-in-bar-warden-aruni-wamai-and"
+  - "https://siegestrats.com/strats/chalet-bingus-deter-the-library-direct-trench-shield"
+  - "https://siegestrats.com/strats/chalet-grumpy-cat-warden-and-smoke-in-the-basement-goyo"
+  - "https://siegestrats.com/strats/chalet-cntro-special-echo-anchors-master-denari-and"
+  - "https://siegestrats.com/strats/chalet-hydraulics-when-solar-hits-gas-big-window-and"
+  - "https://siegestrats.com/strats/chalet-jagerbomb-warden-in-bar-azami-and-frost-hold"
+  - "https://www.r6prep.com/defender/site-setups/chalet"
+  - "https://rainbowsix.fandom.com/wiki/Chalet (site list, camera locations, spawns, '6 Hatches')"
+  - "https://alviran.net/blog/r6-chalet-callouts-guide-2026/ (community names only)"
+uncertain:
+  - "Hatches named without both rooms: 'Gaming Room ceiling hatch' (2F room above Gaming not named), 'Kitchen hatch' (siegestrats: 'Kitchen hatch, or soft; never open'; unclear if it is in Kitchen or above it), 'Library hatch' (kept open in a Master/Office strat; room below not named), 'Dining' and 'Connector' hatches (r6prep reinforces them for the basement site; rooms below not named). The wiki says the map has 6 hatches."
+  - "Walls named without both rooms: 'Solarium wall' and 'Mezzanine wall' (r6prep, Master/Office), 'Office wall on the Ivy side' (Ivy is a hallway nickname), two 'Closet walls', 'Trophy wall' and 'Two Dining walls' (Kitchen/Dining), 'left Stock wall' (Bar/Gaming), 'Wine -> Main Stairs/Blue' (B), 'Kitchen stairs wall', 'West Main wall', 'Heaven walls', 'Library single wall', 'Library wall facing rappel windows', '1F wall under Master', 'breach wall' and a reinforced 'Stock wall' at the bottom of the Main stairs (basement site), 'Boiler' (r6prep)."
+  - "Room names not confirmed as in-game text or floor: 'Trophy Room' (guides say Trophy; floor not verified), 'Mudroom', 'Great Room' (may be another name for Fireplace), 'Basement Corridor', 'Connector', 'Lobby' / 'Main Entrance', 'Master Closet' / 'Closet', 'Kitchen Hallway', '45 Hallway'. 'Gaming Room Hallway', 'Bar Stock' and 'Bedroom Hallway' come from siegestrats plan text, not a verified in-game list."
+  - "Slang spots used by guides (not in-game callouts): Kanine, Heaven, Mez, Box, Ivy / Ivy Hallway, Big window, Trophy, Solar, Dark / Dark Corner, Tub, Blue / Blue stairs, West Main, Pickle / Pickle Door, Trench, Short, Half Wall, Vault-up."
+  - "Stairs: guides name Main stairs, West Main, Blue stairs, Kitchen stairs, Library Stairs and Basement stairs; which floors and rooms each joins is not verified, so only floor-level connections are given."
+  - "Liquipedia was not used (rate-limited / told not to proceed). The Gfinity rework guide returned 403."

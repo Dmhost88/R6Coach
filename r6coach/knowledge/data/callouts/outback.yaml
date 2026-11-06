@@ -1,0 +1,135 @@
+# Callouts for Outback. Grounds exact location names for the coach.
+# Built 2026-11-06 (Y11S3). Walls/hatches are listed only when a source names them;
+# where a source names the wall/hatch but not both rooms, it is under `uncertain` instead.
+map: outback
+version_note: "Layout of the Y6S4 (Nov 2021, High Calibre) rework: Garage side rebuilt into 1F Bike Repair / Mechanic Shop, 1F Mechanic Shop shares a site with 1F Kitchen, Terrace made internal, Piano Room site replaces Games Room, Piano hatch into the new Closet. No newer structural rework found; Y11S3.1 changed Thermite damage only."
+rooms:
+  1F:
+    - "Mechanic Shop"
+    - "Bike Repair"
+    - "Garage"
+    - "Kitchen"
+    - "Restaurant"
+    - "Shark"
+    - "Waiting Room"
+    - "Green Bedroom"
+    - "Red Bedroom"
+    - "Bathroom"
+    - "Closet"
+    - "Reptile Hallway"
+    - "Back Entrance"
+  2F:
+    - "Office"
+    - "Party Room"
+    - "Office Supplies"
+    - "Garage Lounge"
+    - "Mechanical Bull"
+    - "Mezzanine"
+    - "Games Room"
+    - "Piano Room"
+    - "Laundry"
+    - "Dorms"
+    - "Showers"
+    - "Bathroom"
+    - "Motel Hallway"
+  EXT:
+    - "Fuel Pumps"
+    - "Storage Yard"
+    - "Camping"
+walls:
+  - between: ["Mechanic Shop", "Kitchen"]
+    floor: 1F
+    notes: "The shared site wall; 'Mechanic/Kitchen wall: middle only' reinforced, crouch rotates cut at both ends."
+  - between: ["Mechanic Shop", "Waiting Room"]
+    floor: 1F
+    notes: "'Mechanic Shop to Waiting', walls 1 and 2; clawed (Kaid) in Mechanic / Kitchen holds. Guides say 'Waiting'; in-game spelling not confirmed."
+  - between: ["Kitchen", "Waiting Room"]
+    floor: 1F
+    notes: "'Kitchen to Waiting crouch rotate' (kept open as a rotate rather than reinforced)."
+  - between: ["Red Bedroom", "Green Bedroom"]
+    floor: 1F
+    notes: "Wiki: since the rework the wall connecting the bedrooms is entirely destructible; r6prep: 'A rotation links the two sites'."
+  - between: ["Red Bedroom", "Yellow Stairs"]
+    floor: 1F
+    notes: "'Red Bedroom to Yellow Stairs: both' reinforced in bedroom holds."
+  - between: ["Red Bedroom", "Reptile Hallway"]
+    floor: 1F
+    notes: "'Red Bedroom to Reptile Hallway: both' reinforced. Attackers burn the 'Reptile wall' (Thermite) after taking Dorms vertical; Bandit/Kaid devices on it get shot from above."
+  - between: ["Closet", "Reptile Hallway"]
+    floor: 1F
+    notes: "'Closet to Reptile Hallway: both walls' reinforced (Bandit). Closet is the new closet under the Piano hatch, in Green Bedroom."
+  - between: ["Laundry", "Piano Room"]
+    floor: 2F
+    notes: "The shared site wall; 'small middle rotate Laundry to Piano' cut in the middle of it (r6prep: rotation on the right, covered from Bull and Shark stairs)."
+  - between: ["Party Room", "Mechanical Bull"]
+    floor: 2F
+    notes: "'Party to Bull: middle two walls' reinforced; outer Party walls left soft for Bull peeks."
+  - between: ["Party Room", "Office"]
+    floor: 2F
+    notes: "'Party/Office quad: one wall' reinforced; rotate between sites. Wiki: the old door was removed and the walls are now wood."
+  - between: ["Mechanical Bull", "Games Room"]
+    floor: 2F
+    notes: "'Bull to Games Room: both walls' reinforced in Party / Office holds."
+  - between: ["Office Supplies", "Garage Lounge"]
+    floor: 2F
+    notes: "'Supply to Garage Lounge: right wall' reinforced; wiki lists it as one of Office Supplies' two soft walls."
+  - between: ["Office Supplies", "exterior"]
+    floor: 2F
+    notes: "The 'Office Supplies breach' (both walls reinforced, Kaid). Wiki: Office Supplies has a soft wall facing outside. Attackers burn Supply; since Y11S3.1 Thermite's charge kills anyone behind the Supply wall."
+  - between: ["Office", "Garage Stairs"]
+    floor: 2F
+    notes: "Wiki: boxes on the 2F Garage Stairs lead onto the Office soft walls facing the stairs."
+  - between: ["Dorms", "exterior"]
+    floor: 2F
+    notes: "The 'Dorms breach' (walls 1 and 2): wiki says Dorms has a destructible wall to the outside on the south. Attackers burn it (Thermite/Kali) for Piano / Laundry and to take vertical over the bedrooms."
+hatches:
+  - in: "Piano Room"
+    above: "Closet"
+    notes: "The 'Piano hatch'. Wiki: the old Piano stairs were replaced by a new Closet (in 1F Green Bedroom) and a hatch from 2F Piano Room into it. Kept open as a drop/escape in Piano holds and bedroom holds; r6prep reinforces it and the two walls under it."
+stairs:
+  - name: "Garage Stairs"
+    connects: ["1F Garage", "2F (Office / Garage Lounge side)"]
+  - name: "Shark Stairs (Restaurant Stairs)"
+    connects: ["1F Restaurant / Shark", "2F Mezzanine / Bull side"]
+  - name: "Yellow Stairs (Motel Stairs, Laundry Stairs)"
+    connects: ["1F Motel (by Red Bedroom)", "2F (by Laundry)"]
+  - name: "Garage ladder"
+    connects: ["1F Garage", "2F Garage Lounge"]
+windows_and_doors:
+  - name: "Bathroom window"
+    room: "Bathroom (1F, between the bedrooms)"
+    faces: "exterior; Banshee/alarm spot in bedroom holds"
+  - name: "Games Room windows"
+    room: "Games Room"
+    faces: "south exterior window, plus a north window/balcony over Motel Hallway (wiki)"
+  - name: "Garage windows"
+    room: "Garage side (2F)"
+    faces: "exterior; attackers claymore them"
+  - name: "Bull windows"
+    room: "Mechanical Bull"
+    faces: "exterior"
+  - name: "Dorms balcony"
+    room: "Dorms"
+    faces: "south exterior; attacker staging for the bedroom vertical"
+  - name: "Vending/Coffee door"
+    room: "not verified"
+    faces: "not verified"
+sources:
+  - "https://siegestrats.com/maps/outback/callouts"
+  - "https://siegestrats.com/strats/outback-yellow-lock-trap-the-stairs-rotate-through-the"
+  - "https://siegestrats.com/strats/outback-dorms-first-win-upstairs-vert-the-bedrooms-then"
+  - "https://siegestrats.com/strats/outback-castle-turtle-above-the-bedrooms"
+  - "https://siegestrats.com/strats/outback-dorms-burn-gridlock-picnic-cut"
+  - "https://siegestrats.com/strats/outback-ten-wall-garage-lock-with-soft-bull-peeks"
+  - "https://siegestrats.com/strats/outback-office-lid-two-hold-the-floor-above-three"
+  - "https://siegestrats.com/strats/outback-garage-squeeze-burn-supply-flash-garage-lurk"
+  - "https://www.r6prep.com/defender/site-setups/outback"
+  - "https://rainbowsix.fandom.com/wiki/Outback (MediaWiki API; objective list and detailed rework section)"
+uncertain:
+  - "Bomb sites: 2F Piano Room / 2F Laundry, 2F Party Room / 2F Office, 1F Green Bedroom / 1F Red Bedroom, 1F Mechanic Shop / 1F Kitchen (wiki, siegestrats and r6prep agree)."
+  - "Hatches named without both rooms: the 'hatch above site' for Mechanic / Kitchen (the 'Office lid' strat holds 2F Office above the site with this hatch open as the way down; room above it is implied as Office but not stated), Valkyrie's 'hatch pipes' cam (Party / Office), the bedroom 'site hatch' (probably the Piano hatch into Closet, not confirmed). Wiki counts 3 hatches."
+  - "Walls named without both rooms: 'Restaurant wall behind the bar', 'Lower Garage walls 1/2' (1F under Party / Office), 'Laundry bomb-side single wall', 'Piano wall beside the bomb', 'Bathroom right side' (2F), 'Picnic walls 1/2', 'Games vault wall' and 'Games second wall', 'Bull long-angle wall', 'Both upstairs Dorms outer walls', r6prep's 'Both Electrical walls' (Electrical Room was removed in the rework per the wiki, so this probably means Office Supplies), 'two reinforcements in Bunks', the bedrooms 'main wall' / 'bottom wall'. Wiki also says soft walls look over the 1F Restaurant Stairs and the internal Terrace links Mezzanine, Piano Room and Games Room via destructible walls; not tied to a specific pair."
+  - "Siegestrats lists '1F Convenience Store', but the wiki's rework notes say Convenience Store, Compressor Room, Gear Store and Beer Fridge were merged into Bike Repair and Mechanic Shop in 2021; treated as outdated and left out of rooms."
+  - "Exact in-game spellings not confirmed for: 'Waiting Room' (guides: Waiting), 'Shark', 'Reptile Hallway', 'Back Entrance', 'Bathroom' (1F and 2F), 'Closet', 'Showers', 'Motel Hallway', 'Yellow Stairs' vs 'Motel Stairs' vs 'Laundry Stairs', 'Shark Stairs' vs 'Restaurant Stairs'. 'Green Bedroom' / 'Red Bedroom' were previously Nature Room / Bushranger Room (wiki)."
+  - "Slang spots used by guides (not in-game callouts): Bull (Mechanical Bull), Supply (Office Supplies), Picnic, Connector, Bunks, Reptile wall, Party/Office quad, Office lid."
+  - "Liquipedia not used (rate-limited and asked not to proceed)."

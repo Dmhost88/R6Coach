@@ -117,6 +117,8 @@ class Coach:
         self.current_state = current_state      # () -> GameState
         self.current_jpeg = current_jpeg        # () -> Optional[bytes]
         self.memory = None                      # MatchMemory, set by the app
+        self._rooms_map: Optional[str] = None
+        self._rooms_cache: list[str] = []
         self.pool = ThreadPoolExecutor(max_workers=2, thread_name_prefix="coach")
         self._lock = threading.Lock()
         self._done: set[str] = set()            # advice keys already given this match
@@ -140,6 +142,7 @@ class Coach:
         with self._lock:
             self._done.clear()
             self._recommended = None
+            self._rooms_map = None          # re-read rooms seen for the new match's map
         self.profile.match_started(ev.data["match_id"])
 
     def _on_match_ended(self, ev: Event) -> None:
@@ -293,7 +296,12 @@ class Coach:
         """System blocks, most stable first, each cached: the brief, the operator database, and the
         current map's dossier."""
         brief = SYSTEM + "\n\n" + SKILL_HINTS.get(self.cfg.coach.skill_level, SKILL_HINTS["intermediate"])
-        return [brief, self.kb.operators_dossier(), self.kb.map_dossier(map_name or self.current_state().map)]
+        m = map_name or self.current_state().map
+        # Rooms seen are refreshed once per match (not per call) so the cached dossier stays stable.
+        if m != self._rooms_map:
+            self._rooms_map = m
+            self._rooms_cache = self.profile.rooms_seen(m) if hasattr(self.profile, "rooms_seen") else []
+        return [brief, self.kb.operators_dossier(), self.kb.map_dossier(m, self._rooms_cache)]
 
     @staticmethod
     def _focus(s: GameState) -> str:

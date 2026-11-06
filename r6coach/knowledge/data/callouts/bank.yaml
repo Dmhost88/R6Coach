@@ -1,0 +1,238 @@
+# Callouts for Bank. Grounds exact location names for the coach.
+# Built 2026-11-06 (Y11S3). Walls/hatches are listed only when a source names them;
+# where a source names the wall/hatch but not both rooms, it is under `uncertain` instead.
+map: bank
+version_note: "Layout of the Y6S3 (Sept 2021, Crystal Guard) rebuild. Strat sources checked are dated 2024 to Aug 2026; wiki room prose partly predates 2021 and is used only where it agrees with the rebuild (e.g. Lobby hatch now drops into B Vault)."
+rooms:
+  B:
+    - "Garage"
+    - "Vault Lobby"
+    - "Vault Entrance"
+    - "Vault"
+    - "Gold Vault"
+    - "Red Hallway"
+    - "Lockers Hallway"
+    - "Lockers"
+    - "CCTV Room"
+    - "Server Room"
+    - "Server Stairs"
+    - "Tunnel"
+    - "Elevators"
+  1F:
+    - "ATMs"
+    - "Lobby"
+    - "Loan Office"
+    - "Office Hallway"
+    - "Elevators"
+    - "Main Stairs"
+    - "Open Area"
+    - "Admin Office"
+    - "Printer Room"
+    - "Staff Room"
+    - "Skylight Stairwell"
+    - "Electrical Room"
+    - "Archives"
+    - "Tellers' Office"
+    - "Tellers"
+  2F:
+    - "Meeting Hallway"
+    - "Stock Hallway"
+    - "Elevators"
+    - "Stock Trading Room"
+    - "Janitor Closet"
+    - "Skylight Stairwell"
+    - "CEO Office"
+    - "Executive Lounge"
+    - "Conference Room"
+    - "Banana"
+    - "Front Desk"
+    - "Executive Hallway"
+    - "Terrace"
+  EXT:
+    - "Boulevard"
+    - "Jewelry Front"
+    - "Alley"
+    - "Side Alley"
+    - "Plaza"
+    - "Garage Ramp"
+    - "Parking"
+    - "Garage Roof"
+    - "Low Roof"
+    - "High Roof"
+    - "Main Entrance"
+walls:
+  - between: ["CCTV Room", "Server Room"]
+    floor: B
+    notes: "The 'Server wall' / 'CCTV-Server wall' (two panels). Main hard breach into CCTV from Server; defenders claw both panels. Attackers plant tight to it."
+  - between: ["Red Hallway", "CCTV Room"]
+    floor: B
+    notes: "'Red Hallway, CCTV side'; common Mira window panel looking from CCTV into Red Hallway."
+  - between: ["Red Hallway", "Lockers"]
+    floor: B
+    notes: "'Red Hallway, Lockers side'. One Red Hallway panel is called the '4' wall in team slides (which side not stated)."
+  - between: ["Lockers", "Vault Lobby"]
+    floor: B
+    notes: "'Lockers south wall'; Mira window panel in some setups. Wiki: destructible southern walls plus a door to Vault Lobby."
+  - between: ["Lockers", "Vault Entrance"]
+    floor: B
+    notes: "Wiki only: destructible walls on the Vault Entrance side of Lockers."
+  - between: ["Garage", "Lockers Hallway"]
+    floor: B
+    notes: "'Loading Dock to Lockers Hallway wall'. The dock is the north end of the Garage (guides say Loading Dock)."
+  - between: ["Staff Room", "Skylight Stairwell"]
+    floor: 1F
+    notes: "The 'Square wall' (four panels). Defenders reinforce three of four (claw on panel 1); attackers burn it from Bottom Square after taking Stock. Head holes above it stop C4."
+  - between: ["Staff Room", "Electrical Room"]
+    floor: 1F
+    notes: "'Staff wall facing Electrical'; reinforced in Open Area / Staff Room holds."
+  - between: ["Staff Room", "Printer Room"]
+    floor: 1F
+    notes: "'Printer panels'; one is in line with the Printer window. Feet holes here stop the Printer window hop."
+  - between: ["Open Area", "Staff Room"]
+    floor: 1F
+    notes: "'Open Area/Staff panel beside rotate'; the Open Area/Staff crouch or standing rotate is cut here."
+  - between: ["Open Area", "Office Hallway"]
+    floor: 1F
+    notes: "'Open Area wall by hallway door'. Siegestrats does not name the hallway; the wiki names the room west of Open Area as Open Space (Office) Hallway."
+  - between: ["Admin Office", "Archives"]
+    floor: 1F
+    notes: "'Admin walls into Archives'; Archives to Admin to Open Area rotate. Drone vent from Archives into Admin."
+  - between: ["Admin Office", "Staff Room"]
+    floor: 1F
+    notes: "Wiki: destructible walls north/east of Admin toward Kitchen (Staff Room). Guides call it the 'Admin wall' flex reinforcement."
+  - between: ["Tellers' Office", "Lobby"]
+    floor: 1F
+    notes: "'Lobby-side Tellers' Office wall'; Ace opens it from Lobby in the Tellers' Office / Archives attack. Defenders cut a head hole."
+  - between: ["Tellers' Office", "Office Hallway"]
+    floor: 1F
+    notes: "Wiki: destructible walls on the south side of Tellers' Office."
+  - between: ["Tellers' Office", "Archives"]
+    floor: 1F
+    notes: "Wiki: door plus destructible walls between them."
+  - between: ["Tellers' Office", "Tellers"]
+    floor: 1F
+    notes: "Wiki: a door and two destructible walls."
+  - between: ["Lobby", "Loan Office"]
+    floor: 1F
+    notes: "Wiki: double door with destructible walls either side."
+  - between: ["Loan Office", "Office Hallway"]
+    floor: 1F
+    notes: "Wiki: destructible walls on the east side of Loan Office."
+  - between: ["CEO Office", "Skylight Stairwell"]
+    floor: 2F
+    notes: "The 'Skylight wall' / 'CEO wall to Top Square' (two panels). Clawed in the CEO denial setup; attackers open it from Top Square for the bookshelf plant. Some pro teams leave it open for sightlines."
+  - between: ["CEO Office", "Executive Lounge"]
+    floor: 2F
+    notes: "'Lounge to CEO' wall; Mira window panel watching CEO from Lounge."
+  - between: ["CEO Office", "Janitor Closet"]
+    floor: 2F
+    notes: "'CEO wall to Janitor'; drone vent from Janitor into CEO."
+  - between: ["Executive Lounge", "Front Desk"]
+    floor: 2F
+    notes: "'Lounge-Front Desk' walls; reinforced in CEO setups."
+  - between: ["Conference Room", "Meeting Hallway"]
+    floor: 2F
+    notes: "'Conference to hallway' Mira window panel. Wiki calls the hallway Meeting Hallway."
+  - between: ["Conference Room", "Janitor Closet"]
+    floor: 2F
+    notes: "Wiki: destructible east wall of Conference (Meeting). Guides list 'Janitor walls x2' in CEO setups."
+  - between: ["Conference Room", "Front Desk"]
+    floor: 2F
+    notes: "Wiki: destructible west wall of Conference."
+  - between: ["Front Desk", "Meeting Hallway"]
+    floor: 2F
+    notes: "Wiki: destructible south wall of Front Desk."
+  - between: ["Stock Trading Room", "Stock Hallway"]
+    floor: 2F
+    notes: "Wiki: door plus destructible walls. Likely the 'Stock-side walls x2' in CEO setups (not confirmed)."
+hatches:
+  - in: "Lobby"
+    above: "Vault"
+    notes: "The 'Lobby hatch', in front of the Tellers' Office door. Since the 2021 rebuild it drops into B Vault; usually left open and watched."
+  - in: "Admin Office"
+    above: "CCTV Room"
+    notes: "The 'Admin hatch' / 'CCTV hatch'. Attackers open it while breaching the Server wall. Clawed or reinforced in CCTV/Lockers setups; one pro team leaves it soft for 20 s."
+  - in: "Skylight Stairwell"
+    above: "Server Room"
+    notes: "The 'Square hatch', centre of Bottom Square."
+  - in: "Open Area"
+    above: "Lockers Hallway"
+    notes: "The 'Open Area hatch' in the north-west corner of Open Area; reinforced for B sites."
+  - in: "Stock Trading Room"
+    above: "Open Area"
+    notes: "The 'Stock hatch'. Reinforced for Open Area / Staff; Ram/Buck open the Stock floor around it."
+  - in: "Janitor Closet"
+    above: "Admin Office"
+    notes: "The 'Janitor hatch'. Reinforced for Open Area and Archives holds; 'Janitor Closet floor hatch'."
+  - in: "Elevators (1F)"
+    above: "Elevators (B)"
+    notes: "The 'Elevator hatch' in the east 1F elevator; reinforced for B sites. Guides call the elevators E1/E2/E3."
+  - in: "Elevators (2F)"
+    above: "Elevators (1F)"
+    notes: "Wiki: floor hatch in the open west 2F elevator."
+stairs:
+  - name: "Main Stairs"
+    connects: ["B Vault Lobby / Garage dock", "1F Office Hallway", "2F Meeting Hallway"]
+  - name: "Lobby Stairs"
+    connects: ["1F Lobby", "2F Banana / Meeting Hallway"]
+  - name: "Square Stairs (Skylight Stairwell)"
+    connects: ["1F Skylight Stairwell (Bottom Square)", "2F Skylight Stairwell (Top Square)"]
+  - name: "Server Stairs (Blue Stairs)"
+    connects: ["B Server Room", "1F Skylight Stairwell"]
+  - name: "Tunnel ladder (Sewer)"
+    connects: ["EXT Jewelry Front manhole", "B Tunnel (into Server Room)"]
+windows_and_doors:
+  - name: "CEO window"
+    room: "CEO Office"
+    faces: "north, over Plaza; attackers rappel on it"
+  - name: "Executive Hallway window"
+    room: "Executive Hallway"
+    faces: "north, over Plaza"
+  - name: "Top Square windows"
+    room: "Skylight Stairwell (2F)"
+    faces: "north, over Plaza"
+  - name: "Terrace door"
+    room: "Skylight Stairwell (2F)"
+    faces: "south, onto Terrace"
+  - name: "Stock doors"
+    room: "Stock Trading Room"
+    faces: "onto Terrace (Alley side)"
+  - name: "Printer window"
+    room: "Printer Room"
+    faces: "east, onto Alley; window hop into Open Area side"
+  - name: "Electrical door"
+    room: "Electrical Room"
+    faces: "exterior door onto Alley"
+  - name: "Loan windows"
+    room: "Loan Office"
+    faces: "south, onto Garage Roof"
+  - name: "Main Entrance"
+    room: "ATMs"
+    faces: "north, onto Boulevard / Plaza"
+  - name: "Banana windows"
+    room: "Banana"
+    faces: "interior; overlook the 1F teller windows and Lobby"
+sources:
+  - "https://siegestrats.com/maps/bank/"
+  - "https://siegestrats.com/maps/bank/callouts"
+  - "https://siegestrats.com/strats/bank-win-stock-and-top-square-ram-the-floor-burn-the"
+  - "https://siegestrats.com/strats/bank-lobby-take-with-executive-lounge-vertical-and-a"
+  - "https://siegestrats.com/strats/bank-hatches-shut-square-wall-clawed-archives-roamer"
+  - "https://siegestrats.com/strats/bank-server-wall-claw-with-red-hallway-mira"
+  - "https://siegestrats.com/strats/bank-server-take-into-cctv-wall-admin-hatch-split"
+  - "https://siegestrats.com/strats/bank-skylight-wall-deny-with-janitor-anchor"
+  - "https://siegestrats.com/strats/bank-stock-from-below-top-square-wall-bookshelf-plant"
+  - "https://siegestrats.com/strats/bank-dz-tachanka-holds-lockers-three-players-deny-from"
+  - "https://siegestrats.com/strats/bank-ocean-man-denari-lasers-wrap-ceo-clash-holds-the"
+  - "https://siegestrats.com/strats/bank-lasagna-echo-below-vigil-fakes-long-desk-mute-eats"
+  - "https://siegestrats.com/strats/bank-beacon-tachanka-in-kanzen-stops-every-plant"
+  - "https://siegestrats.com/strats/bank-own-the-floor-above-ceo-vertical-with-lobby-and"
+  - "https://www.r6prep.com/defender/site-setups/bank"
+  - "https://rainbowsix.fandom.com/wiki/Bank (MediaWiki API wikitext, room-by-room prose and Update section)"
+uncertain:
+  - "Exact in-game spellings not confirmed (guides and wiki vary): 'Office Hallway' (wiki: Open Space Hallway), 'Skylight Stairwell' (guides: Square, Top/Bottom Square), 'Server Room' vs 'Server', 'Janitor Closet' vs 'Janitor', 'Stock Trading Room' vs 'Stock', 'Conference Room' vs 'Meeting', 'Front Desk' vs 'Front Office', 'Admin Office' vs 'Admin', 'Red Hallway' (wiki: Secure Hallway; camera list says Vault Hallway), 'Server Stairs' vs 'Blue Stairs'. Bomb-site callouts are confirmed: B Lockers / B CCTV Room, 1F Open Area / 1F Staff Room, 1F Tellers' Office / 1F Archives, 2F Executive Lounge / 2F CEO Office."
+  - "Walls named without both rooms: 'E3 wall' / 'E3 elevator-wall' (2F, near CEO hallway), 'Janitor door wall' and 'Right wall by Janitor' (2F), 'Top-right walls', 'Banana outside walls' and 'Banana-side walls' (2F), 'Kanzen wall' x2 (1F), 'Printer walls' feet holes (1F, Printer vs Open Area or Staff Room not stated), 'Site south wall' (B Lockers/CCTV setups), '2F roam walls', 'lobby desk wall' (1F), 'back Kitchen wall' (r6prep; probably the Staff Room / Skylight Stairwell or Electrical wall), 'Long wall'."
+  - "Wiki-only walls (Lockers/Vault Entrance, Lobby/Loan, Loan/Office Hallway, Tellers' Office/Office Hallway/Archives/Tellers, Conference/Janitor/Front Desk, Front Desk/Meeting Hallway, Stock/Stock Hallway) come from prose that may predate the 2021 rebuild; not re-verified in a Y11 guide."
+  - "Slang spots used by guides (not in-game callouts): Square / Top Square / Bottom Square, Banana, Sewer, E1/E2/E3 (elevators), Kanzen, Long Desk, Marble, Herds, Quad windows (probably the Top Square or CEO north windows; not verified), Trump, Ebox."
+  - "Siegestrats lists 'Electrical' among 1F rooms and also 'Ebox'; the wiki places Electrical Room on 1F east of Staff Room with an Alley door. No basement Electrical room confirmed."
+  - "Liquipedia not used (rate-limited and asked not to proceed)."

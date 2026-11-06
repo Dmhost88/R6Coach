@@ -164,9 +164,10 @@ class Knowledge:
 
     # ------------------------------------------------------------------ cached prompt blocks
     # These render the same text every time for the same data, so the API can cache them.
-    def map_dossier(self, map_name: Optional[str]) -> str:
+    def map_dossier(self, map_name: Optional[str], rooms_seen: Optional[list[str]] = None) -> str:
         """Everything known about one map: every site for both sides, spawns, map-wide tips, the
-        room callouts with wall/hatch adjacency, and the player's own notes."""
+        room callouts with wall/hatch adjacency, rooms read off the player's own HUD, and the
+        player's own notes."""
         m = self.find_map(map_name)
         if not m:
             return (f"MAP DOSSIER: no local data for '{map_name or 'unknown map'}'. Use your own expert "
@@ -182,6 +183,13 @@ class Knowledge:
             out.append(yaml.safe_dump({k: c.get(k) for k in ("rooms", "walls", "hatches", "stairs",
                                                               "windows_and_doors") if c.get(k)},
                                       sort_keys=False, allow_unicode=True, width=140))
+            if c.get("uncertain"):
+                out.append("Unverified callouts (refer to these by their common name; don't claim which "
+                           "rooms they connect):")
+                out.append(yaml.safe_dump(c["uncertain"], sort_keys=False, allow_unicode=True, width=140))
+        if rooms_seen:
+            out.append("Room names read off the player's own HUD on this map (the game's exact wording; "
+                       "prefer these spellings): " + ", ".join(rooms_seen))
         notes = self.notes(m.get("id"))
         if notes:
             out.append(f"Player's own notes for {m.get('name')} (trust these over the database):\n{notes}")

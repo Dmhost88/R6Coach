@@ -1,0 +1,111 @@
+# Callouts for Fortress. Grounds exact location names for the coach.
+# Built 2026-11-06 (Y11S3). Walls/hatches are listed only when a source names them;
+# where a source names the wall/hatch but not both rooms, it is under `uncertain` instead.
+map: fortress
+version_note: "Layout of the Y10S4 (Operation Tenfold Pursuit, December 2025) full rework: Courtyard is now an exterior zone (defenders are detected there), shorter corridors, extra entries into sites; Bedroom no longer plantable. Sites: 2F Commander's Office / Bathroom, 2F Dormitory / Games Room, 1F Waiting Room / Cafeteria, 1F Hammam / Sitting Room. All walls/hatches below come from post-rework guides checked on Y11S3.2. Pre-rework (2018) prose, including the fandom wiki, was not used for walls."
+rooms:
+  1F:
+    - "Hammam"
+    - "Sitting Room"
+    - "Waiting Room"
+    - "Cafeteria"
+    - "Kitchen"
+    - "Infirmary"
+    - "Dining Room"
+    - "Showers"
+    - "Gun Room"
+    - "Laundry"
+  2F:
+    - "Commander's Office"
+    - "Bathroom"
+    - "Dormitory"
+    - "Games Room"
+    - "Briefing Room"
+    - "Master Bedroom"
+    - "Museum"
+    - "Old Tower"
+    - "Courtyard Corridor"
+  EXT:
+    - "Courtyard"
+    - "Old Roof"
+walls:
+  - between: ["Bathroom", "Briefing Room"]
+    floor: 2F
+    notes: "'Bathroom -> Briefing wall', two or three panels; reinforced in Commander's, Dorms and even 1F Waiting/Cafeteria setups (it sits over the 1F site). Bandit batteries it. One deck calls it 'Bathroom-Flag' (Flag/Meeting = Briefing) and keeps the top panel open."
+  - between: ["Briefing Room", "Dormitory"]
+    floor: 2F
+    notes: "'Briefing -> Dormitory wall', two panels. Sources disagree for the Dorms site: reinforce one panel vs keep fully soft; one plan reinforces only the right panel."
+  - between: ["Commander's Office", "Museum"]
+    floor: 2F
+    notes: "'Commander's -> Horse wall' / 'Command-Horse panel'. Horse is the guides' slang for Museum (the source states Horse = Museum)."
+  - between: ["Showers", "Hammam"]
+    floor: 1F
+    notes: "'Showers -> Hammam wall', two panels, reinforced for Hammam / Sitting Room; Thorn holds Showers."
+  - between: ["Sitting Room", "exterior"]
+    floor: 1F
+    notes: "'Sitting Room outside wall', two panels; Tubarao freezes it ('Freeze the Sitting outside wall'). Keeping it shut is the Hammam win condition. A hallway rotate beside it stays open."
+  - between: ["Waiting Room", "Infirmary"]
+    floor: 1F
+    notes: "'Waiting/Infirmary wall'. Sources disagree: alyttleton keeps it soft with head holes, R6Mint reinforces it."
+  - between: ["Cafeteria", "Infirmary"]
+    floor: 1F
+    notes: "The 'Infirmary wall' r6prep opens ('Cafeteria/Infirmary gap, head holes') so attackers who take Infirmary still have to walk into Cafeteria or breach Waiting."
+  - between: ["Kitchen", "Waiting Room"]
+    floor: 1F
+    notes: "'Kitchen -> Waiting crouch rotate', kept open; a reinforced 'Waiting wall beside Kitchen rotate' sits next to it."
+hatches:
+  - in: "Briefing Room"
+    above: "Waiting Room"
+    notes: "The 'Briefing hatch'. Kept open; Melusi holds it over Waiting and drops late; covers the Waiting plant. Also called the Meeting hatch in one deck."
+stairs:
+  - name: "Central stairs (White / Eagle stairs)"
+    connects: ["1F", "2F (near Commander's Office)"]
+  - name: "Main stairs"
+    connects: ["1F", "2F ('Top Main' near Dormitory / Twin)"]
+  - name: "Laundry stairs"
+    connects: ["1F Laundry", "2F"]
+  - name: "Old Tower"
+    connects: ["1F", "2F (Old Tower rotate into Dorms / Commander's)"]
+  - name: "New Tower (Renovation stairs)"
+    connects: ["1F", "2F (floors not verified)"]
+windows_and_doors:
+  - name: "Vending window"
+    room: "2F near Games Room (Vending hallway, slang)"
+    faces: "exterior; Azami Kibas it; attackers hop in"
+  - name: "Hammam windows"
+    room: "Hammam"
+    faces: "exterior; Thorn traps them"
+  - name: "Showers windows"
+    room: "Showers"
+    faces: "exterior"
+  - name: "Lobby door"
+    room: "1F Lobby (under the Commander's side)"
+    faces: "interior; r6prep opens floor holes above it from 2F"
+  - name: "Front door"
+    room: "1F (room not verified)"
+    faces: "exterior"
+  - name: "Main hallway window"
+    room: "1F main hallway"
+    faces: "exterior (not verified)"
+sources:
+  - "https://siegestrats.com/maps/fortress/"
+  - "https://siegestrats.com/maps/fortress/callouts"
+  - "https://siegestrats.com/strats/fortress-extend-both-towers-then-fold-back-into"
+  - "https://siegestrats.com/strats/fortress-beach-aruni-gates-the-command-doors-fenrir"
+  - "https://siegestrats.com/strats/fortress-elvis-extension-azami-and-fenrir-push-the"
+  - "https://siegestrats.com/strats/fortress-blt-kaid-holds-star-behind-the-dining-walls"
+  - "https://siegestrats.com/strats/fortress-scooby-doo-fenrir-anchors-cafe-while-azami"
+  - "https://siegestrats.com/strats/fortress-hold-vending-early-keep-the-dorms-breach-shut"
+  - "https://siegestrats.com/strats/fortress-contest-infirmary-seal-oven-hold-the-briefing"
+  - "https://siegestrats.com/strats/fortress-keep-the-sitting-wall-shut-own-gun-room"
+  - "https://www.r6prep.com/defender/site-setups/fortress"
+  - "https://news.ubisoft.com/en-us/article/15ujU0PtY10X8CW1uq7AL8/rainbow-six-siege-operation-tenfold-pursuit-operator-remaster-new-weapon-and-10th-anniversary-event (rework announced; no room detail)"
+  - "https://siege.gg/su/fortress-to-be-reworked-in-rainbow-six-siege-x-operation-tenfold-pursuit"
+  - "https://rainbowsix.fandom.com/wiki/Fortress (confirms Tenfold Pursuit rework; room names in trivia are pre-rework)"
+uncertain:
+  - "The task brief assumed Fortress was unchanged; it was fully reworked in Y10S4 (Tenfold Pursuit, December 2025). Room list is from post-rework guides and Ubisoft patch-note names (Courtyard Corridor, Old Roof); several names may have changed from the 2018 map and were not checked against an in-game list."
+  - "Hatches named without both rooms: 'Bathroom hatch' (2F Bathroom, drops into 'Star', a deck nickname on the 1F Waiting/Cafeteria site), 'Meeting hatch' (drops into 'Flu'; may be the Briefing hatch), 'Horse hatch' (in Museum, 'vertical over Music'; 1F room below not verified), 'Old Tower hatch', 'Laundry hatch', 'Star hatch' and 'Flu hatch' (1F-side names of the Bathroom/Meeting hatches)."
+  - "Walls named without both rooms: 'Commander's back wall', 'Master Bedroom wall' (Commander's setup), 'Dormitory breach' (two panels), 'Games -> Vending wall', 'Single wall facing Old Tower', 'Oven triple wall' (Oven = Kitchen slang; three panels, Waiting/Cafeteria), 'Hammam wall (Fountain/Oven)' (two panels), 'Dining wall' (three panels, Cafeteria setups), 'Cafeteria -> main hallway wall', 'Site/Lobby-side wall' and 'Hallway wall with long plant angle' (Hammam), 'Single wall -> main hallway', 'Office wall' / r6prep 'Meeting wall stays soft'."
+  - "Room names not confirmed as in-game text or floor: 'Briefing Room' vs 'Briefing' vs 'Meeting', 'Museum' (guides: Horse), 'Music Room' (floor not verified), 'Lobby', 'Prep', 'Old Tower' vs 'Old Tower stairs', 'Showers', 'Gun Room', 'Laundry'. siegestrats lists 'Hammam (Fountain)', i.e. some guides call Hammam 'Fountain'; the 'Main Gate' and 'Parking' spawns are from a pre-rework list."
+  - "Slang spots used by guides (not in-game callouts): Horse (Museum), Eagle (Central stairs), Oven (Kitchen), Cafe, Med, Mint, Star, Flu, Limbo, Shrine, Paper, Green, Vending / Vending hallway, Twin, Tub, Flag, Meeting, Books, Glow, Radio, Tiles, Bunks, Fire, Closet, Clock, Douche, Top White, Top Main, 90 hall, Dagger, Sandwich."
+  - "Stairs: guides use Central stairs (White), Eagle stairs (Central / Lobby stairs), Main stairs, Laundry stairs, Old Tower and New Tower (Renovation stairs); some may be the same flight. Exact top/bottom rooms not verified."

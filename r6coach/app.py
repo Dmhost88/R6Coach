@@ -37,6 +37,8 @@ class App:
         self.claude = Claude(self.bus)
         self.claude.budget = cfg.coach.budget_per_match
         self.bus.subscribe("match.started", lambda ev: setattr(self.claude, "match_cost", 0.0))
+        self._last_room: Optional[str] = None
+        self.bus.subscribe("state.updated", self._record_room)
         self.knowledge = Knowledge(notes_dir=data / "notes")
         self.profile = Profile(data / "profile.sqlite")
         self.frames = FrameStore(data, cfg.storage.keep_frames_days)
@@ -73,6 +75,14 @@ class App:
         self.bus.subscribe("ptt.ready", lambda ev: setattr(self, "ptt_ready", True))
         self.bus.subscribe("error", lambda ev: log.warning("%s: %s", ev.data.get("source"), ev.data.get("message")))
         self.stopped = threading.Event()
+
+    def _record_room(self, ev) -> None:
+        """Log each new room callout from the HUD, per map, to build a verified room list."""
+        st = ev.data.get("state") or {}
+        room, m = st.get("my_location"), st.get("map")
+        if room and m and room != self._last_room and st.get("screen") in ("prep_phase", "action_phase"):
+            self._last_room = room
+            self.profile.room_seen(m, room)
 
     def toggle_mute(self) -> None:
         muted = not self.speaker.muted

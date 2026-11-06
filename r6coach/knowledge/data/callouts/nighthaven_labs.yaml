@@ -1,0 +1,122 @@
+# Callouts for Nighthaven Labs. Grounds exact location names for the coach.
+# Built 2026-11-06 (Y11S3). Walls/hatches are listed only when a source names them;
+# where a source names the wall/hatch but not both rooms, it is under `uncertain` instead.
+map: nighthaven_labs
+version_note: "Launch layout (Operation Solar Raid, Dec 2022; official blueprints dated 2022-12-06). Y10S3 (Sept 2025) modernisation reported by guides as visual plus destructible props. The snowy Nighthaven of the March-April 2026 Metal Gear event was a limited-time variant. No later layout change found. Wall/hatch names checked against Y11S3 guides."
+rooms:
+  B:
+    - "Tank"
+    - "Assembly"
+    - "Animus"
+    - "Exo"
+    - "Nano hallway"
+  1F:
+    - "Kitchen"
+    - "Cafeteria"
+    - "Control Room"
+    - "Storage"
+    - "Garage"
+    - "Games"
+    - "Lobby"
+    - "Break"
+    - "Freezer"
+    - "Fork"
+    - "Mud"
+  2F:
+    - "Command Center"
+    - "Servers"
+    - "IT"
+    - "Rafters"
+    - "Electrical"
+    - "Connector"
+    - "Meeting"
+    - "Mezzanine"
+    - "Aqua hallway"
+walls:
+  - between: ["Command Center", "Servers"]
+    floor: 2F
+    notes: "'Command-Servers wall by the rotate': reinforced next to a rotate, with head holes between the two 2F site rooms."
+  - between: ["Servers", "Connector"]
+    floor: 2F
+    notes: "'Server/Connector wall', panels 1 and 2; both reinforced in Command / Servers and Control / Storage holds (2F delay)."
+  - between: ["Rafters", "Electrical"]
+    floor: 2F
+    notes: "'Wall beside Rafters rotate -> E-box' / 'Wall by Rafters rotate, facing Electrical'; reinforced. Guides call the room E-box."
+  - between: ["Control Room", "Storage"]
+    floor: 1F
+    notes: "Kept open as the 'Storage/Control rotate' in Control Room / Storage holds."
+  - between: ["Control Room", "Cargo"]
+    floor: 1F
+    notes: "'Control -> Cargo rotate, right side'; r6prep: rotations connect Control with Cargo and Storage. Cargo is the area at the Cargo stairs out of Garage (name not verified)."
+  - between: ["Storage", "Games"]
+    floor: 1F
+    notes: "'Games -> Storage wall' reinforced in Kitchen / Cafeteria holds; 'Storage -> Games head holes' kept in Control / Storage holds."
+  - between: ["Cafeteria", "Lobby"]
+    floor: 1F
+    notes: "'Lobby wall (Cafeteria)', two panels, reinforced; it is the Lobby breach into the Kitchen / Cafeteria site."
+hatches: []
+stairs:
+  - name: "Aqua Stairs (also Fish / Water stairs)"
+    connects: ["1F Fork", "2F Aqua hallway"]
+  - name: "Lobby Stairs"
+    connects: ["1F Lobby", "2F Mezzanine"]
+  - name: "Exo Stairs"
+    connects: ["1F Break", "B Exo"]
+  - name: "Cargo Stairs"
+    connects: ["1F Garage", "B"]
+  - name: "Rafters Stairs"
+    connects: ["1F Garage", "2F Rafters (not verified)"]
+  - name: "CC Stairs"
+    connects: ["1F", "2F Command Center side (Ubisoft patch-note name; floors not verified)"]
+windows_and_doors:
+  - name: "Kitchen window"
+    room: "Kitchen"
+    faces: "exterior; the window jump on Kitchen / Cafeteria, covered from the Cafeteria corner and Freezer knee holes"
+  - name: "Storage window"
+    room: "Storage"
+    faces: "exterior; watched late from Garage"
+  - name: "Fork window"
+    room: "Fork"
+    faces: "exterior; sees part of Control Room"
+  - name: "90 window"
+    room: "Games side ('90' is slang)"
+    faces: "exterior"
+  - name: "Rafters window"
+    room: "Rafters"
+    faces: "exterior"
+  - name: "E-box window"
+    room: "Electrical"
+    faces: "exterior (east)"
+  - name: "Mud door"
+    room: "Mud"
+    faces: "interior; barricaded in Control / Storage holds"
+  - name: "Aqua door"
+    room: "Aqua hallway"
+    faces: "interior, toward Command Center"
+  - name: "E-box door"
+    room: "Electrical"
+    faces: "interior"
+  - name: "Mezz door"
+    room: "Mezzanine"
+    faces: "top of the Lobby stairs"
+sources:
+  - "https://siegestrats.com/maps/nighthaven/ and https://siegestrats.com/maps/nighthaven/callouts (slug is 'nighthaven', not 'nighthaven-labs')"
+  - "https://siegestrats.com/strats/nighthaven-three-outside-walls-all-three-hatches-and-a"
+  - "https://siegestrats.com/strats/nighthaven-battle-for-it-keep-the-it-breach-shut-layer"
+  - "https://siegestrats.com/strats/nighthaven-cafeteria-corner-break-knee-holes-and-a"
+  - "https://siegestrats.com/strats/nighthaven-hold-2f-like-servers-for-90-seconds-then"
+  - "https://siegestrats.com/strats/nighthaven-c418-bandit-shocks-the-rafters-wall-tachanka"
+  - "https://siegestrats.com/strats/nighthaven-1984-smoke-anchors-storage-while-mute-shoots"
+  - "https://siegestrats.com/strats/nighthaven-infinity-war-goyo-burns-the-basement-doors"
+  - "https://siegestrats.com/strats/nighthaven-end-game-echo-on-site-two-mira-windows-watch"
+  - "https://www.r6prep.com/defender/site-setups/nighthaven-labs"
+  - "https://rainbowsix.fandom.com/wiki/Nighthaven_Labs (via API; stub)"
+  - "https://siege.gg/news/ubisoft-to-modernize-consulate-lair-and-nighthaven-labs-with-rainbow-six-siege-year-10-season-3"
+  - "https://patched.gg/games/rainbow-six-siege/infiltration-begins-with-redacted (snowy Nighthaven event, Mar 2026)"
+  - "https://ubistatic-a.ubisoft.com/0106/gamesites/rainbow6/blueprints/r6-maps-nighthavenlabs-blueprints.zip (Last-Modified 2022-12-06; no room labels)"
+uncertain:
+  - "Site names: '2F Command Center / Servers', '1F Kitchen / Cafeteria', '1F Control Room / Storage', 'B Tank / Assembly'. siegestrats places Command Center as the west site room and Servers as the east room with the angled server stack, but says 'The two site-room names could be swapped'; it says the same for Tank / Assembly (Tank = oval-tank room in the west, Assembly = under 1F Storage, Animus = under Garage, Exo = east room with the stairs)."
+  - "Hatches named without both rooms (none qualified for the hatches list): basement-site hatches 'Exo hatch' (1F, by the Exo stairs), 'Cargo hatch, top of Cargo stairs' and 'Animus hatch from 1F' (r6prep: all hatches reinforced for Tank / Assembly; the 1F rooms they sit in are not named); 'Garage hatch' (1F); 'Freezer hatch' (reinforced from outside at the end of prep on Kitchen / Cafeteria); 'Servers hatch' (2F, opened as a roam route); '2F hatch -> Games' (2F room not named)."
+  - "Walls named without both rooms: 'IT exterior / outside wall' (2F, two panels, the most contested walls on the map), 'Rafters triple wall' (2F, rotate on the third panel), 'Aqua hallway wall' (2F, feet holes), 'Connector outer walls' (2F), 'Command west wall' (2F), 'Mezzanine walls 1-2' (2F), 'Garage outside walls' and '1F Garage wall by Storage' (1F), 'Freezer wall' with knee holes (1F), 'Wall beside Games rotate' (1F), '1F Fork-Control wall' (Fork is slang), '1F wall by Exo stairs', 'Animus outside wall', 'Assembly outside wall', 'Animus wall' with feet holes, 'Nano hallway wall', 'Cargo wall', 'Left Exo wall' (B)."
+  - "Exact in-game spellings not confirmed for: 'IT' (vs IT Room), 'Electrical' (guides say E-box), 'Games' (also 'Lounge'), 'Meeting', 'Break', 'Fork', 'Mud', 'Cargo', 'Nano hallway' (also 'Nanotech hall'), 'Aqua hallway' (also 'Water hallway'), 'Exo' (also 'Exosuit'). Cargo appears both as a 1F rotate target and a basement wall, so its floor is not verified and it is not listed under rooms."
+  - "Slang spots used by guides (not in-game callouts): 90 / 90 hall, Pillar, Tetris, Server stack, Back Cargo, Fish stairs. Ubisoft marketing names 'HQ' and 'R&D Lab' are areas, not single rooms."

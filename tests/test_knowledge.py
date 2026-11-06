@@ -28,6 +28,16 @@ def test_real_data_loads_with_aliases():
     assert "Thatcher" in real.operators_dossier()
 
 
+def test_rooms_seen_feed_the_dossier(tmp_path, kb):
+    from r6coach.profile import Profile
+    p = Profile(tmp_path / "p.sqlite")
+    for _ in range(3):
+        p.room_seen("Bank", "B CCTV Room")
+    p.room_seen("Bank", "one tice")          # single read: treated as an OCR slip
+    assert p.rooms_seen("bank") == ["B CCTV Room"]
+    assert "B CCTV Room" in kb.map_dossier("Bank", p.rooms_seen("Bank"))
+
+
 def test_context_is_side_specific_and_includes_notes(kb):
     kb.save_notes("bank", "I like CCTV anchor.")
     ctx = kb.context_for("Bank", "B Lockers / B CCTV Room", "defense")

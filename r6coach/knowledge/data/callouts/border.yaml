@@ -1,0 +1,106 @@
+# Callouts for Border. Grounds exact location names for the coach.
+# Built 2026-11-06 (Y11S3). Walls/hatches are listed only when a source names them;
+# where a source names the wall/hatch but not both rooms, it is under `uncertain` instead.
+map: border
+version_note: "Layout of the Y6S1 (Operation Crimson Heist, 2021) rework: Bathroom extended along Tellers (shared wall between the two sites), Supply Room moved, Passport Check -> Customs Inspection soft walls cut from four to two, Archives extended into Offices, interior balcony joining Break Room and East Stairs. No basement. Wall/hatch names checked against Y11S3 guides; two siegestrats strats are marked 'old layout'."
+rooms:
+  1F:
+    - "Main Lobby"
+    - "Customs Desk"
+    - "Customs Inspection"
+    - "Passport Check"
+    - "Supply Room"
+    - "Waiting Room"
+    - "Tellers"
+    - "Bathroom"
+    - "Workshop"
+    - "Ventilation Room"
+    - "Detention"
+  2F:
+    - "Armory Lockers"
+    - "Archives"
+    - "Offices"
+    - "Security Room"
+    - "Break Room"
+    - "East Stairs"
+  EXT:
+    - "West Balcony"
+    - "East Balcony"
+walls:
+  - between: ["Passport Check", "Customs Inspection"]
+    floor: 1F
+    notes: "'Passport wall -> Customs', two panels; Bandit batteries them for Customs/Supply. The rework cut this line from four soft walls to two."
+  - between: ["Tellers", "Bathroom"]
+    floor: 1F
+    notes: "Shared wall created by the rework (Bathroom extended along Tellers). Guides keep a 'Tellers/Bathroom vault rotate' in it."
+  - between: ["Tellers", "Detention"]
+    floor: 1F
+    notes: "'Tellers wall facing Detention'; reinforced in Tellers/Bathroom setups."
+  - between: ["Workshop", "Ventilation Room"]
+    floor: 1F
+    notes: "Kept open as the 'Workshop/Ventilation vault rotate'."
+  - between: ["Workshop", "exterior"]
+    floor: 1F
+    notes: "'Workshop exterior wall', main panel and second panel; Kaid claws the main one. Guides note the main breach panel should be checked in a custom game."
+  - between: ["Armory Lockers", "West Balcony"]
+    floor: 2F
+    notes: "'Armory -> West Balcony walls, both'; Mute jams them and Maestro Evil Eyes cover them."
+  - between: ["Archives", "Fountain"]
+    floor: 2F
+    notes: "'Archives -> Fountain, two panels'. 'Fountain' is the guides' name for the 2F area next to Archives; that it is the exact in-game callout is not verified."
+hatches:
+  - in: "Security Room"
+    above: "Customs Inspection"
+    notes: "One of the two 'CC hatches' (Security Room = CC). Valkyrie opens both and holds CC over them in a Customs/Supply strat; reinforce them if nobody plays CC."
+  - in: "Security Room"
+    above: "Customs Desk"
+    notes: "The second CC hatch. siegestrats callouts: Customs Desk has a 'hatch from 2F Security Room above'."
+stairs:
+  - name: "East Stairs"
+    connects: ["1F", "2F (interior balcony to Break Room after the rework)"]
+  - name: "West Stairs"
+    connects: ["1F", "2F"]
+  - name: "Metal Stairs"
+    connects: ["1F (bottom rotate into Customs/Supply)", "2F"]
+windows_and_doors:
+  - name: "Site window"
+    room: "Tellers"
+    faces: "exterior; Bandit tricks the wall around it"
+  - name: "Offices double door"
+    room: "Offices"
+    faces: "interior"
+  - name: "Metal Stairs door"
+    room: "Workshop side (1F), not verified"
+    faces: "interior; Castle panels it for Workshop/Ventilation"
+  - name: "Fountain door"
+    room: "Fountain (2F)"
+    faces: "interior; Mute jams it for Armory/Archives"
+  - name: "East Balcony doors"
+    room: "East Balcony"
+    faces: "exterior to 2F; Smoke gasses them from back Archives"
+sources:
+  - "https://siegestrats.com/maps/border/"
+  - "https://siegestrats.com/maps/border/callouts"
+  - "https://siegestrats.com/strats/border-west-balcony-deny-with-armory-desk-crossfire"
+  - "https://siegestrats.com/strats/border-zeus-clash-shows-east-then-falls-back-to"
+  - "https://siegestrats.com/strats/border-pitbull-mira-below-four-upstairs-play-for-nitros"
+  - "https://siegestrats.com/strats/border-vertical-is-the-win-condition-2f-hold-over"
+  - "https://siegestrats.com/strats/border-passport-walls-tricked-cc-held-over-open-hatches"
+  - "https://siegestrats.com/strats/border-smoke-shield-site-bathroom-hatch-vert-and"
+  - "https://siegestrats.com/strats/border-bed-wars-sentry-and-melusi-hold-armory-denari"
+  - "https://siegestrats.com/strats/border-rumble-castle-panels-everything-smoke-and-goyo"
+  - "https://siegestrats.com/strats/border-da-baby-goyo-holds-tellers-the-rest-fight-hard"
+  - "https://siegestrats.com/strats/border-propaganda-warden-opens-holes-over-vents-solis"
+  - "https://siegestrats.com/strats/border-furia-warden-opens-holes-over-vents-castle-and"
+  - "https://siegestrats.com/strats/border-mr-worldwide-smoke-alone-in-tellers-mute-jams-2f"
+  - "https://siegestrats.com/strats/border-full-court-press-mira-wamai-jager-and-mute-stack"
+  - "https://siegestrats.com/strats/border-da-minion-smoke-in-vents-fenrir-and-valkyrie"
+  - "https://siegestrats.com/strats/border-the-sky-is-falling-solis-below-four-hold-2f-over"
+  - "https://www.r6prep.com/defender/site-setups/border"
+  - "https://rainbowsix.fandom.com/wiki/Border (sites, '5 Hatches', rework change list)"
+uncertain:
+  - "Hatches named without both rooms: 'Workshop hatch' (above Workshop; 2F room it sits in not named; guides reinforce it for ranked), 'Archives hatch' (in Archives; Kaid claws it to 'vert over Bathroom', room below not stated), '2F Bathroom hatch' (above Bathroom; 2F room not named; may be the same as the Archives hatch). r6prep: 'Hatches drop from 2F straight into the 1F sites'. The wiki counts 5 hatches."
+  - "Walls named without both rooms: 'Detention wall' (two panels, in both Workshop and Customs setups; source says where Detention meets site needs checking), 'Security Room (CC) wall' (two panels, Customs setup), 'Armory -> Security corridor', 'Fountain west walls', 'Triple wall' (2F Armory, 'the aggressive seat'), 'Break walls', 'Closet wall in site' (Customs), 'Back Archives wall', 'Bathroom wall' (two panels), 'Luggage-side wall', 'Long-angle Tellers wall (quad)', '2F Armory wall', '1F Tellers stairs wall', 'Customs wall, site side', 'Site wall facing Tellers door', 'Vents outer walls'. Many strats use compass labels (north-west, middle) from slides, not room names."
+  - "Room names not confirmed as in-game text: 'Fountain' (2F), 'West Stairs', 'Metal Stairs' and 'Central stairs' (may be names for the same flight), 'Detention', 'Armory Desk' (spot in Armory Lockers), 'Luggage', 'Rafters', 'Offices' vs 'Office' (the wiki uses both)."
+  - "Slang spots used by guides (not in-game callouts): CC (= Security Room), Vents (= Ventilation Room), Customs, West, East, Break, Pipe, Holes over Vents, Half wall, Triple wall, quad wall, AC window, sandwich window."
+  - "The siegestrats strat 'The Sky is Falling' is tagged 'Old layout'; nothing from it was used. Most other Border strats use slide compass labels, so few of their walls could be tied to rooms."

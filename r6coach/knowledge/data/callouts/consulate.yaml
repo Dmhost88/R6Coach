@@ -1,0 +1,154 @@
+# Callouts for Consulate. Grounds exact location names for the coach.
+# Built 2026-11-06 (Y11S3). Walls/hatches are listed only when a source names them;
+# where a source names the wall/hatch but not both rooms, it is under `uncertain` instead.
+map: consulate
+version_note: "Layout of the Y8S2 (May 2023, Dread Factor) full rebuild. Y11S3.1 (Sept 2026) patch only fixed a compass label (2F Manager's Office from 2F Administration Office showed 2F Break Room). Wiki room/hatch lists predate 2023 and are not used for walls or hatches."
+rooms:
+  B:
+    - "Garage"
+    - "Cafeteria"
+    - "Servers"
+    - "Electrical Room"
+    - "Storage"
+    - "Security Room"
+    - "Kitchen"
+    - "Construction"
+    - "Locker Hallway"
+    - "Server Stairs"
+  1F:
+    - "Piano Room"
+    - "Exposition Room"
+    - "Lounge"
+    - "Lobby"
+    - "Visa Office"
+    - "Tellers"
+    - "Yellow Stairs"
+    - "Spiral Stairs"
+  2F:
+    - "Consul Office"
+    - "Meeting Room"
+    - "Administration Office"
+    - "Manager's Office"
+    - "Break Room"
+    - "Bathroom"
+    - "Balcony"
+    - "Yellow Stairs"
+    - "Spiral Stairs"
+  EXT:
+    - "Riot Barricade"
+    - "Police Line"
+    - "Gas Station"
+    - "Garage Way"
+    - "Front Alley"
+walls:
+  - between: ["Consul Office", "Meeting Room"]
+    floor: 2F
+    notes: "'Consul to Meeting' wall; the Connector-window half is reinforced in Meeting / Consul holds."
+  - between: ["Break Room", "Administration Office"]
+    floor: 2F
+    notes: "'Break-Admin walls 1 and 2' / 'Break Room to Admin, middle section'. Pro teams extend into Admin on every top-floor setup; attackers open it from Admin."
+  - between: ["Break Room", "Manager's Office"]
+    floor: 2F
+    notes: "'Break Room to Managers, right half'; reinforced in the Meeting power-spot setup."
+  - between: ["Break Room", "Coffin"]
+    floor: 2F
+    notes: "'Break-Coffin wall' / 'Break wall protecting Coffin'; a Break-Coffin rotate is also cut. 'Coffin' is player slang for a small room off Break Room, not a confirmed in-game callout."
+  - between: ["Consul Office", "Connector"]
+    floor: 2F
+    notes: "'Connector-CO wall'. 'Connector' is player slang for the passage between Consul Office, Meeting Room and Yellow Stairs; not a confirmed in-game callout."
+  - between: ["Meeting Room", "Connector"]
+    floor: 2F
+    notes: "'2F Connector-Meeting wall'; 'Meeting holes to Connector'. Connector is slang (see above)."
+  - between: ["Yellow Stairs", "Connector"]
+    floor: 2F
+    notes: "'Top Yellow / Connector wall' ('2F Top Yellow wall'); reinforced in Meeting / Consul and Piano / Expo setups."
+  - between: ["Exposition Room", "Lounge"]
+    floor: 1F
+    notes: "'Expo-Lounge double wall'; clawed and Mira'd. Attackers open it (S.E.L.M.A., Lance) and plant in the breach corner."
+  - between: ["Lounge", "Visa Office"]
+    floor: 1F
+    notes: "'Lounge-Visa double wall'; reinforced for Piano / Expo; Lobby takes come through the Lounge double wall."
+  - between: ["Piano Room", "Yellow Stairs"]
+    floor: 1F
+    notes: "'Piano wall to top Yellow (mirror)'. 'Top Yellow' here is read as the 1F landing of Yellow Stairs; not verified."
+  - between: ["Tellers", "Lounge"]
+    floor: 1F
+    notes: "'Both back-of-Tellers walls to Lounge'; reinforced in the Tellers / Servers hold."
+  - between: ["Garage", "Cafeteria"]
+    floor: B
+    notes: "'Garage-Cafe wall, Mira window'."
+  - between: ["Construction", "Cafeteria"]
+    floor: B
+    notes: "'Both Construction to Cafe end walls'; reinforced in the Servers hold."
+  - between: ["Storage", "Cafeteria hallway"]
+    floor: B
+    notes: "'Storage to Cafe hallway wall' / 'Storage to outside Cafeteria wall'."
+  - between: ["Electrical Room", "Servers"]
+    floor: B
+    notes: "'Electrical wall into Servers'; attackers open it (EMP, S.E.L.M.A.) after taking Garage to Electrical and plant under the Visa hatch. Source says check the panel in a custom game."
+hatches:
+  - in: "Visa Office"
+    above: "Servers"
+    notes: "The 'Visa hatch' / 'Visa corner hatch' (opposite the Visa door). Attackers plant under it in the Tellers / Servers attack; one setup reinforces only this one and leaves the other Visa/Tellers hatches soft."
+stairs:
+  - name: "Yellow Stairs"
+    connects: ["B", "1F", "2F (Top Yellow, by Connector)"]
+  - name: "Spiral Stairs"
+    connects: ["1F", "2F (Bathroom side)"]
+  - name: "Server Stairs"
+    connects: ["B Servers", "1F (room not verified)"]
+  - name: "Visa Stairs"
+    connects: ["1F Visa Office side (bottom Visa)", "2F (Top Visa hall)"]
+windows_and_doors:
+  - name: "Consul Office window"
+    room: "Consul Office"
+    faces: "exterior; rappel plant spot (CO window); a Volcan or camera is often placed on it"
+  - name: "Consul Office west window"
+    room: "Consul Office"
+    faces: "west exterior; Nomad window-direct entry"
+  - name: "Bathroom window"
+    room: "Bathroom (2F)"
+    faces: "exterior; Bathroom jump into the 2F site"
+  - name: "Visa window"
+    room: "Visa Office"
+    faces: "exterior; attacker entry for Lobby / Visa takes"
+  - name: "Benches window"
+    room: "Exposition Room side (1F)"
+    faces: "exterior, Benches side"
+  - name: "Garage doors"
+    room: "Garage"
+    faces: "exterior, Garage Way"
+  - name: "Meeting diagonal door"
+    room: "Meeting Room"
+    faces: "interior"
+  - name: "Tellers door and window"
+    room: "Tellers"
+    faces: "interior; defenders below cut holes under them"
+sources:
+  - "https://siegestrats.com/maps/consulate/"
+  - "https://siegestrats.com/maps/consulate/callouts"
+  - "https://siegestrats.com/strats/consulate-basement-squeeze-garage-to-electrical-plant"
+  - "https://siegestrats.com/strats/consulate-lockdown-azami-seals-admin-denari-wires"
+  - "https://siegestrats.com/strats/consulate-pillar-anchor-piano-lid"
+  - "https://siegestrats.com/strats/consulate-two-up-three-down-lounge-wall-lock-with"
+  - "https://siegestrats.com/strats/consulate-admin-over-vertical-then-lounge-wall-plant"
+  - "https://siegestrats.com/strats/consulate-hold-below-c4-above-servers-bunker-under"
+  - "https://siegestrats.com/strats/consulate-garage-wall-hit-thermite-burns-sens-walls-off"
+  - "https://siegestrats.com/strats/consulate-window-direct-nomad-takes-the-consul-office"
+  - "https://siegestrats.com/strats/consulate-meeting-power-spot-vending-shield"
+  - "https://siegestrats.com/strats/consulate-microwave-warden-in-coffin-castle-in-break"
+  - "https://siegestrats.com/strats/consulate-free-willy-mira-and-kaid-lock-garage-two-roam"
+  - "https://siegestrats.com/strats/consulate-stalactite-hold-2f-over-piano-traps-stall-the"
+  - "https://siegestrats.com/strats/consulate-blacklist-pulse-under-piano-denari-locks-the"
+  - "https://siegestrats.com/strats/consulate-chaos-theory-echo-and-kaid-below-pulse-nitros"
+  - "https://siegestrats.com/strats/consulate-admin-over-visa-vert-vending-clear"
+  - "https://www.r6prep.com/defender/site-setups/consulate"
+  - "https://mp1st.com/title-updates-and-patches/rainbow-six-siege-y11s3-1-update-september-22-patch-3-49-1-000154 (Y11S3.1 compass fix naming 2F Manager's Office, 2F Administration Office, 2F Break Room)"
+  - "https://rainbowsix.fandom.com/wiki/Consulate (MediaWiki API; only pre-2023 hatch list, not used for hatches)"
+uncertain:
+  - "Bomb-site naming conflict: siegestrats lists sites 2F Meeting Room / Consul Office, 1F Piano Room / Exposition Room, B Cafeteria / Garage and 'Tellers / B Servers'; one of its pages also writes 'B Archives / 1F Tellers' (the pre-2023 name). r6prep lists 2F Consul Office / 2F Meeting Room, 1F Exposition Room / 1F Piano Room, B Cafeteria / B Garage. Whether the fourth site's basement room is in-game 'Servers' or 'Archives' is not confirmed."
+  - "Hatches named without both rooms: 'Piano hatch' (attackers drop it from 2F into 1F Piano Room; 2F room above not named), 'Computer hatch' and 'hatch above Lockers' (r6prep, Garage / Cafeteria), '1F hatch to basement' / 'site hatch' / '1F hatches 1-3' (over Garage / Cafeteria), 'Hatch under Coffin' (2F into 1F, room below not named), 'Break/Visa hatches', 'other two Visa/Tellers hatches'. The wiki's 9-hatch list (e.g. Meeting Room > Lobby, Public Bathroom > Garage) is from the original pre-2023 map."
+  - "Walls named without both rooms: 'Garage outer walls 1/2' / 'Garage breach wall' (exterior to Garage), 'Cafeteria east/west/south walls', 'Wall north of Cafeteria', 'Security wall, left half', '1F top Electrical wall', '1F Yellow-side walls' (over Garage site), 'Wall behind Pillar', 'Backside wall', 'Secret wall' / 'Secret single wall' (2F, used to impact onto the Break rappel), 'Brick wall', 'Catering wall', 'Meeting balcony wall', 'Meeting north/east/interior/outside breach walls', 'CO east wall', 'CO wall by window corner', 'Break Room west wall', 'Hallway to Break Room wall', 'Projector wall', 'Whiteboard wall', 'Bathroom wall', 'Expo north walls', 'Expo left wall to Benches window', 'Benches hallway wall', 'Right closet wall outside Piano', '1F Lobby walls 1/2', 'Top of Server stairs wall', r6prep's 'CEO walls' and 'left Bathroom wall' and 'wall into the Locker hallway'."
+  - "Exact in-game spellings not confirmed for: 'Exposition Room' (guides say Expo), 'Electrical Room' (guides say Electrical), 'Security Room', 'Storage', 'Kitchen', 'Construction', 'Locker Hallway', 'Servers', 'Spiral Stairs', 'Yellow Stairs', 'Server Stairs', 'Visa Stairs', 'Bathroom', 'Balcony'. Confirmed by Ubisoft patch text: 2F Manager's Office, 2F Administration Office, 2F Break Room."
+  - "Slang spots used by guides (not in-game callouts): Connector, Coffin, Secret, Top Yellow, Top Visa hall, Files, Oreo, Vending, Long Desk, Benches, Pillar, Catering, CO (Consul Office), Expo, Admin."
+  - "Liquipedia not used (rate-limited and asked not to proceed)."

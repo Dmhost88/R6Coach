@@ -1,0 +1,165 @@
+# Callouts for Kafe Dostoyevsky. Grounds exact location names for the coach.
+# Built 2026-11-06 (Y11S3). Walls/hatches are listed only when a source names them;
+# where a source names the wall/hatch but not both rooms, it is under `uncertain` instead.
+map: kafe_dostoyevsky
+version_note: "Layout of the Y4S2 (June 2019, Phantom Sight) rework; the wiki text says March 2019, which conflicts with the Phantom Sight release. No newer structural rework found; guide sources dated Dec 2024 to Aug 2026. Siege X rappel changes are mentioned by guides but not layout changes. Kafe has no basement: floors are 1F, 2F, 3F plus roof."
+rooms:
+  1F:
+    - "Kitchen Cooking"
+    - "Kitchen Service"
+    - "Bakery"
+    - "Prep Room"
+    - "Freezer"
+    - "Coat Check"
+    - "Reception"
+    - "Garage"
+    - "Whiskey Bar"
+    - "Main Stairs"
+    - "Red Stairs"
+    - "White Stairs"
+  2F:
+    - "Mining Room"
+    - "Train Museum"
+    - "Fireplace Hall"
+    - "Reading Room"
+    - "Laundry Room"
+    - "Dining Room"
+    - "Red Stairs"
+    - "White Stairs"
+  3F:
+    - "Cocktail Lounge"
+    - "Bar"
+    - "Bar Freezer"
+    - "Cigar Lounge"
+    - "Cigar Balcony"
+    - "Bathroom"
+    - "Red Stairs"
+    - "White Stairs"
+  EXT:
+    - "River Docks"
+    - "Christmas Market"
+    - "Park"
+    - "Roof"
+    - "Skylight"
+    - "Terrace"
+walls:
+  - between: ["Kitchen Cooking", "Kitchen Service"]
+    floor: 1F
+    notes: "'Cooking/Service wall'; reinforced in the default Kitchen hold."
+  - between: ["Bakery", "Kitchen Cooking"]
+    floor: 1F
+    notes: "'Bakery/Cooking wall'. Guides also say 'Kitchen wall facing Bakery' / 'Both Kitchen walls to Bakery'. Main attacker pressure point; Mute jams it, Ace opens it after Small Bake."
+  - between: ["Prep Room", "Bakery"]
+    floor: 1F
+    notes: "'Prep wall facing Bakery' / 'Lower Bakery wall, Prep side'. Reinforced so a second player can hold Prep; attackers Ace it after clearing the counter player."
+  - between: ["Bakery", "Small Bake"]
+    floor: 1F
+    notes: "'Bakery/Small Bake wall' / 'Small Bake (Christmas) single wall'. 'Small Bake' is player slang for the small room on the Christmas Market side of Bakery, not a confirmed callout. Attackers S.E.L.M.A. it first."
+  - between: ["Freezer", "VIP"]
+    floor: 1F
+    notes: "'Freezer wall behind VIP'; VIP feet holes into Freezer. 'VIP' is the guides' name for the room beside Freezer; in-game spelling not confirmed."
+  - between: ["Kitchen site", "White Stairs"]
+    floor: 1F
+    notes: "'Both walls to bottom White'; reinforced in Kitchen holds. Which kitchen room the walls belong to is not stated."
+  - between: ["Kitchen site", "Red Stairs"]
+    floor: 1F
+    notes: "'Bottom-Red wall, left side' reinforced; right side kept with holes while Coat Check is held."
+  - between: ["Kitchen site", "Whiskey Bar"]
+    floor: 1F
+    notes: "'Whiskey single wall' plus a rotate into Whiskey Bar (r6prep: 'a rotation into Whiskey Bar covers plants from the far side')."
+  - between: ["Mining Room", "Train Museum"]
+    floor: 2F
+    notes: "'2F Mining/Train wall'; reinforced (sometimes Mira'd) in Fireplace / Mining and Reading / Fireplace holds. Kaid C4s from Train Museum."
+  - between: ["Reading Room", "Pillar"]
+    floor: 2F
+    notes: "'Reading to Pillar walls' (clawed). 'Pillar' is slang for the pillared room next to Reading (probably the 2F dining area); not verified."
+  - between: ["Bar", "Cocktail Lounge"]
+    floor: 3F
+    notes: "'Upper Bar/Cocktail wall'; reinforced in 2F holds to stop 3F takes."
+  - between: ["Bar Freezer", "Bar Storage"]
+    floor: 3F
+    notes: "'3F Freezer/Bar Storage walls #1 and #2'. 'Bar Storage' spelling not confirmed in-game."
+  - between: ["Bar Storage", "Bathroom"]
+    floor: 3F
+    notes: "'Storage/Bathroom wall' and 'Piano-side Storage, Bathroom walls'. Bathroom is reinforced on the left without Mira (r6prep)."
+  - between: ["Bar Storage", "Cocktail Lounge"]
+    floor: 3F
+    notes: "'Storage wall to Cocktail Entrance' (Cocktail Entrance = the doorway area of Cocktail Lounge)."
+  - between: ["Piano", "Red Stairs"]
+    floor: 3F
+    notes: "'Piano to Top Red' wall, left and right halves ('Top Red wall into Piano'); both reinforced in Piano holds, opened by attackers walking up Red. 'Piano' is the guides' name for the 3F piano room; in-game name not confirmed."
+  - between: ["Cocktail Lounge", "White Stairs"]
+    floor: 3F
+    notes: "'Cocktail to Top White, left half'; reinforced in Cocktail / Bar holds."
+hatches:
+  - in: "Train Museum"
+    above: "Kitchen site (Kitchen Service / Kitchen Cooking; exact room not stated)"
+    notes: "The 'Train hatch' / '2F hatch above site'. Reinforced in Kitchen holds (Valkyrie in Train Museum)."
+  - in: "Roof (Cafe Rooftop)"
+    above: "Cigar Balcony"
+    notes: "Siegestrats: Cigar Balcony is '3F, under the Cafe Rooftop hatch'."
+stairs:
+  - name: "Red Stairs"
+    connects: ["1F (bottom Red, by Coat Check)", "2F (Red Hall)", "3F (Top Red, by Piano)"]
+  - name: "White Stairs"
+    connects: ["1F (bottom White, by Kitchen)", "2F", "3F (Top White, by Cocktail)"]
+  - name: "Main Stairs"
+    connects: ["1F", "2F (wiki: main stairs do not reach 3F)"]
+  - name: "Wood stairs"
+    connects: ["not verified"]
+windows_and_doors:
+  - name: "Cocktail windows"
+    room: "Cocktail Lounge"
+    faces: "exterior; rappel entries (one guides call 'C3'); Cocktail sits over the Reading door"
+  - name: "Freezer window ('Cryo')"
+    room: "Bar Freezer (3F)"
+    faces: "exterior; roof-side entry"
+  - name: "White stairs window"
+    room: "White Stairs"
+    faces: "exterior; Nomad Airjab spot"
+  - name: "Snow window"
+    room: "not verified"
+    faces: "exterior"
+  - name: "Prep window"
+    room: "Prep Room"
+    faces: "exterior; attackers hold it in Kitchen attacks"
+  - name: "Train Museum window"
+    room: "Train Museum"
+    faces: "exterior; jump-in spot defenders shotgun from below"
+  - name: "AC window"
+    room: "White hallway (2F)"
+    faces: "exterior"
+  - name: "Reading door"
+    room: "Reading Room"
+    faces: "interior; attackers vert it from Cocktail above"
+  - name: "Pixel door"
+    room: "near Reading Room (2F)"
+    faces: "interior; barricaded in Reading holds"
+  - name: "Train Museum double door"
+    room: "Train Museum"
+    faces: "interior, toward Mining Room"
+sources:
+  - "https://siegestrats.com/maps/kafe/callouts"
+  - "https://siegestrats.com/strats/kafe-castle-lid-own-the-cocktail-vert"
+  - "https://siegestrats.com/strats/kafe-three-floor-hold-piano-lid-site-pair-c4-from-below"
+  - "https://siegestrats.com/strats/kafe-roof-down-take-cocktail-vert-the-reading-door"
+  - "https://siegestrats.com/strats/kafe-kaid-claw-swap-stop-bakery-first-then-lock-the-vert"
+  - "https://siegestrats.com/strats/kafe-bakery-delay-coat-check-rule-roam-above"
+  - "https://siegestrats.com/strats/kafe-fluxo-kaid-rings-mining-with-holes-thorn-and-azami"
+  - "https://siegestrats.com/strats/kafe-clear-train-ace-small-bake-tucked-plant-behind-the"
+  - "https://siegestrats.com/strats/kafe-piano-lockdown-azami-barriers-valk-floor-c4"
+  - "https://siegestrats.com/strats/kafe-ram-ranch-fake-the-top-clear-everyone-hits-bakery"
+  - "https://siegestrats.com/strats/kafe-icbm-three-hold-cocktail-above-the-site-kaid"
+  - "https://siegestrats.com/strats/kafe-art-of-war-hold-cigar-shop-and-the-freezer-side"
+  - "https://siegestrats.com/strats/kafe-g2-smoke-in-bakery-aruni-in-bottom-bar-two-play-2f"
+  - "https://siegestrats.com/strats/kafe-cocktail-nuke-five-angles-blow-up-3f-cocktail"
+  - "https://siegestrats.com/strats/kafe-take-piano-and-cigar-vert-the-train-side-walk-up"
+  - "https://www.r6prep.com/defender/site-setups/kafe-dostoyevsky"
+  - "https://rainbowsix.fandom.com/wiki/Kafe_Dostoyevsky (MediaWiki API; objective list and rework summary)"
+uncertain:
+  - "Bomb sites: 3F Cocktail Lounge / 3F Bar, 2F Mining Room / 2F Fireplace Hall, 2F Reading Room / 2F Fireplace Hall, 1F Kitchen Service / 1F Kitchen Cooking (wiki and r6prep agree; siegestrats calls the Mining site 'Fireplace Hall / Mining Room')."
+  - "Hatches named without both rooms: 'Freezer hatch' / 'Freezer ceiling hatch' (2F room above 1F Freezer not named; 'Freezer to New Hatch corridor'), 'Piano floor hatch' (3F, over the 2F Mining / Fireplace area; room below not stated), '3F Cocktail hatch' (likely above Reading Room since 'Cocktail sits over the Reading door'; not stated), 'roof hatches' / 'two roof hatches' (into 3F, rooms not stated), 'Bakery roof hatches', 'Red Hatch', 'Laundry Hatch', 'New Hatch'. Wiki says the map has 6 hatches."
+  - "Walls named without both rooms: 'Dark walls 1/2' (1F, reached from Coat Check), 'Outer Garage wall' / 'double Garage walls', 'Red Hall walls', 'inside Freezer walls', 'Service-wall head holes', 'Mining back walls', 'Mining north wall', 'Big window wall', 'White double wall (both panels)', '2F Fireplace east wall upper/lower', '2F Fireplace north wall', '2F Reading north wall', '2F Red stairs wall', 'Storage west/east wall', 'Bathroom west wall', 'Cocktail wall by the hatches', 'Cocktail Trash-side wall', 'both top Red walls' (probably Piano / Red Stairs), r6prep's 'C1 wall', 'Stacks walls', 'Ticket walls', '2F hallway wall toward Cave', 'Bakery wall'."
+  - "Exact in-game spellings not confirmed for: 'Prep Room', 'Freezer' (1F), 'Coat Check', 'Reception', 'Whiskey Bar', 'Laundry Room', 'Dining Room', 'Bar Storage', 'Bathroom' (3F), 'Garage'. Confirmed by wiki objective list: Kitchen Cooking, Kitchen Service, Mining Room, Train Museum, Fireplace Hall, Reading Room, Cocktail Lounge, Bar, Bar Freezer, Cigar Lounge."
+  - "Slang spots used by guides (not in-game callouts): Small Bake, VIP, Pillar, Piano, Top/Bottom Red, Top/Bottom White, Red Hall, Cave, Stacks, Ticket, C1, C3, Cryo, Pixel, Trash, Gold Double, Cocktail Entrance, Cigar Shop, Heaven, Snow window, AC window."
+  - "Liquipedia not used (rate-limited and asked not to proceed)."

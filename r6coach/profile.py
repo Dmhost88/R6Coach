@@ -24,6 +24,9 @@ CREATE TABLE IF NOT EXISTS rounds (
 CREATE TABLE IF NOT EXISTS coach_lines (
     id INTEGER PRIMARY KEY AUTOINCREMENT, match_id TEXT, ts REAL, phase TEXT, text TEXT
 );
+CREATE TABLE IF NOT EXISTS room_sightings (
+    map TEXT, room TEXT, seen INTEGER, last REAL, PRIMARY KEY (map, room)
+);
 """
 
 
@@ -69,6 +72,25 @@ class Profile:
     def log_line(self, match_id: Optional[str], phase: str, text: str) -> None:
         self._exec("INSERT INTO coach_lines (match_id, ts, phase, text) VALUES (?,?,?,?)",
                    (match_id, time.time(), phase, text))
+
+    # ------------------------------------------------------------------ room names seen in game
+    def room_seen(self, map_name: Optional[str], room: Optional[str]) -> None:
+        """Record a room callout read off the player's own HUD: the game's exact wording."""
+        if not map_name or not room:
+            return
+        self._exec(
+            "INSERT INTO room_sightings (map, room, seen, last) VALUES (lower(?), ?, 1, ?) "
+            "ON CONFLICT(map, room) DO UPDATE SET seen = seen + 1, last = excluded.last",
+            (map_name, room, time.time()),
+        )
+
+    def rooms_seen(self, map_name: Optional[str], min_seen: int = 2) -> list[str]:
+        """Room names read at least `min_seen` times on this map (one-off reads may be OCR slips)."""
+        if not map_name:
+            return []
+        rows = self._query("SELECT room FROM room_sightings WHERE map = lower(?) AND seen >= ? ORDER BY room",
+                           (map_name, min_seen))
+        return [r[0] for r in rows]
 
     # ------------------------------------------------------------------ summaries for prompts
     def map_record(self, map_name: Optional[str]) -> str:

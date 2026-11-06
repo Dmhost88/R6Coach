@@ -1,0 +1,110 @@
+# Callouts for Kanal. Grounds exact location names for the coach.
+# Built 2026-11-06 (Y11S3). Walls/hatches are listed only when a source names them;
+# where a source names the wall/hatch but not both rooms, it is under `uncertain` instead.
+map: kanal
+version_note: "Layout of the Y4S3 (Sept 2019, Ember Rise) rework: new bridge and stairs, colour-coded stairwells, Security Room / Map Room site, Lounge site, and the basement Supply Room / Kayaks site. No newer structural rework found; guide sources dated 2024 to Aug 2026."
+rooms:
+  B:
+    - "Supply Room"
+    - "Kayaks"
+    - "Diving Room"
+    - "Lockers"
+    - "Showers"
+  1F:
+    - "Security Room"
+    - "Map Room"
+    - "Coast Guard Meeting Room"
+    - "Lounge"
+    - "Radio Room"
+    - "Kitchen"
+    - "Reception"
+    - "Printer Hallway"
+    - "Radio Hallway"
+  2F:
+    - "Server Room"
+    - "Radar Room"
+    - "Control Room"
+    - "Skybridge"
+  EXT:
+    - "Floating Dock"
+    - "Old Bridge"
+walls:
+  - between: ["Kayaks", "Supply Room"]
+    floor: B
+    notes: "'Middle Kayaks/Supply wall'; one panel reinforced, a crouch rotation kept open between the two site rooms (r6prep puts the rotation on the left with a reinforcement beside it)."
+  - between: ["Supply Room / Kayaks site", "Diving Room"]
+    floor: B
+    notes: "'Diving wall': stairs-side half reinforced, the other half soft with head holes covering Yellow stairs and the hatch drop (r6prep: 'Of the two walls leading into Scuba, the left is reinforced'). Guides call Diving Room 'Scuba'. Which site room the wall belongs to is not stated."
+  - between: ["Security Room", "Map Room"]
+    floor: 1F
+    notes: "'Security/Maps' wall with a head hole and a crouch rotate between the two site rooms."
+  - between: ["Coast Guard Meeting Room", "Printer Hallway"]
+    floor: 1F
+    notes: "'Coast Guard to Printer wall', panels 1 and 2, reinforced; feet holes along the Printer hallway. Source says 'Printer'; read as Printer Hallway (not verified)."
+hatches:
+  - in: "Lounge"
+    above: "Lockers"
+    notes: "'Lounge floor hatch to Lockers'. Kept soft in Coast Guard / Lounge holds so a basement player can C4 through it; reinforced in Supply / Kayaks holds ('both hatches'), though some pros leave it soft so a roamer can drop back in."
+  - in: "Coast Guard Meeting Room"
+    above: "Supply Room / Kayaks site (exact room not stated)"
+    notes: "The 'Coast Guard site hatch' / 'Coast Guard floor hatch'. One of 'both hatches' attackers burn (Hibana) for the basement site; reinforced in Supply / Kayaks and Coast Guard holds."
+  - in: "Radar Room"
+    above: "Security Room / Map Room site (exact room not stated)"
+    notes: "'Radar site hatch (2F)'. Reinforced or left open depending on whether defenders hold 2F above Security / Maps."
+stairs:
+  - name: "Main Stairs"
+    connects: ["B (by Supply / Kayaks)", "1F", "2F (not verified)"]
+  - name: "Green Stairs"
+    connects: ["1F (bottom Green, by Security / Maps)", "2F (top Green, by Server / Radar)"]
+  - name: "Red Stairs"
+    connects: ["1F (bottom Red)", "2F (top Red, by Server Room)"]
+  - name: "Yellow Stairs"
+    connects: ["B (by Diving Room)", "1F"]
+  - name: "White Stairs"
+    connects: ["1F", "2F (top White)"]
+  - name: "Printer Stairs"
+    connects: ["B (Diving / Scuba side)", "1F Printer Hallway", "2F (top Printer stairs)"]
+windows_and_doors:
+  - name: "90 windows"
+    room: "2F, beside Server Room (the '90' area)"
+    faces: "exterior; attackers hop 90 to enter 2F; defenders close walls against them"
+  - name: "Printer window"
+    room: "Printer Hallway (1F)"
+    faces: "exterior; attacker entry"
+  - name: "Radio window"
+    room: "Radio Room"
+    faces: "exterior; rappel entry"
+  - name: "Lounge windows"
+    room: "Lounge"
+    faces: "exterior; Castle-panelled in Lounge holds; one Lounge wall is on the rappel-window side"
+  - name: "Diving windows (Scuba window)"
+    room: "Diving Room"
+    faces: "exterior; Frost mats them"
+  - name: "Trench Door"
+    room: "Basement, by Pipes"
+    faces: "basement entry; Pipes wall faces it"
+  - name: "Red door"
+    room: "2F, by Server Room"
+    faces: "interior; contest-hole wall faces it"
+  - name: "Old Bridge barricade"
+    room: "1F, by Security / Maps"
+    faces: "bridge between buildings"
+sources:
+  - "https://siegestrats.com/maps/kanal/callouts"
+  - "https://siegestrats.com/strats/kanal-sealed-pipes-both-hatches-valkyrie-over-coast"
+  - "https://siegestrats.com/strats/kanal-printer-feet-holes-lounge-long-angles-a-player"
+  - "https://siegestrats.com/strats/kanal-take-1f-burn-both-hatches-split-trench-and-yellow"
+  - "https://siegestrats.com/strats/kanal-take-the-top-drop-the-hatches-plant-off-the"
+  - "https://siegestrats.com/strats/kanal-main-wall-lock-and-skybridge-hold"
+  - "https://siegestrats.com/strats/kanal-hold-the-top-until-1-30-then-play-model"
+  - "https://siegestrats.com/strats/kanal-burn-the-main-wall-hop-90-take-one-stairwell"
+  - "https://siegestrats.com/strats/kanal-radio-take-from-below-open-the-back-wall-chassis"
+  - "https://www.r6prep.com/defender/site-setups/kanal"
+  - "https://rainbowsix.fandom.com/wiki/Kanal (MediaWiki API; objective list and rework summary)"
+uncertain:
+  - "Bomb sites: 2F Server Room / 2F Radar Room, 1F Security Room / 1F Map Room, 1F Coast Guard Meeting Room / 1F Lounge, B Supply Room / B Kayaks. Spelling conflict: wiki and some siegestrats pages say 'Maps Room', siegestrats callouts and r6prep say 'Map Room'."
+  - "Hatches named without both rooms: 'Killbox site hatch (2F)' and 'Kitchen hatch (2F)' (both over the 1F Security / Map Room side; attackers drop the Kitchen hatch and plant in the Maps corner by the Kitchen door; 2F rooms they sit in are not named). The wiki counts 5 hatches, which matches Coast Guard, Lounge, Radar, Killbox and Kitchen."
+  - "Walls named without both rooms: 'Main wall' / 'Outside Server wall' (2F, double-reinforced; attackers burn it 'into Killbox'), 'Walls facing the 90 windows', 'Contest-hole wall facing Red door', 'Wall opposite site rotate' (2F), 'Killbox outside wall' panels 1-2 (2F above Security), 'Maps projector-corner single wall', 'Triple-wall panel', 'Wall to Green' panels 1-2, 'Security vestibule to corridor wall', 'Kitchen wall corner rotate' (1F), 'Lounge wall (rappel-window side)', 'Lounge back wall' and its rotate, 'Radio Room wall' panels 1-2 and the 'back wall' attackers open from Radio (which site room is behind it is not stated), 'Single wall to stairs', 'Wall beside bottom Printer stairs rotation' (1F), 'Pipes wall facing Trench', 'Left shelf wall', 'Right half facing Main stairs', 'soft wall to Yellow stairs' (B), '1F Radio hallway wall'."
+  - "Exact in-game spellings not confirmed for: 'Diving Room' (guides: Scuba), 'Lockers', 'Showers', 'Printer Hallway', 'Radio Hallway', 'Control Room' (guides: Control), 'Skybridge', 'Printer Stairs', 'White Stairs'. Main / Green / Red / Yellow stairs are colour-coded in-game per the wiki's rework note."
+  - "Slang spots used by guides (not in-game callouts): Killbox, 90 / 90 Hall, Model, Museum, Pipes, Trench, Chassis, Scuba, Top/Bottom Red, Top/Bottom Green."
+  - "Liquipedia not used (rate-limited and asked not to proceed)."

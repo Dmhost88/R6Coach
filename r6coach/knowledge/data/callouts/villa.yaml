@@ -1,0 +1,99 @@
+# Callouts for Villa. Grounds exact location names for the coach.
+# Built 2026-11-06 (Y11S3). Walls/hatches are listed only when a source names them;
+# where a source names the wall/hatch but not both rooms, it is under `uncertain` instead.
+map: villa
+version_note: "Layout after the Y11S3 targeted map update (reported live 2026-09-01): the 1F Living Room / Library site was replaced by a basement site, B Art Storage / Old Office; the Garage is now interior; the old soft wall between Kitchen Stairs and Garage is now a door; a 1F hallway hatch into the new site replaced the old Living Room hatch. 1F and 2F were reported unchanged. Sites: 2F Aviator Room / Games Room, 2F Trophy Room / Statuary Room, 1F Dining Room / Kitchen, B Art Storage / Old Office. Basement content is new and thin."
+rooms:
+  B:
+    - "Art Storage"
+    - "Old Office"
+    - "Garage"
+    - "Wine Cellar"
+    - "Crypt"
+  1F:
+    - "Dining Room"
+    - "Kitchen"
+    - "Pantry"
+    - "Living Room"
+    - "Library"
+    - "Piano Room"
+    - "Kitchen Stairs"
+  2F:
+    - "Aviator Room"
+    - "Games Room"
+    - "Trophy Room"
+    - "Statuary Room"
+    - "Study"
+    - "Master Bedroom"
+    - "Astronomy Room"
+    - "Bathroom"
+    - "Classical Hall"
+  EXT:
+    - "Main Entrance"
+    - "Fountain"
+    - "Ruins"
+walls:
+  - between: ["Old Office", "Garage"]
+    floor: B
+    notes: "'Old Office -> Garage: both walls'. r6prep: 'The two Old Office walls into Garage are the strongest on the site.' Mira mirrors one facing Garage."
+  - between: ["Garage", "exterior"]
+    floor: B
+    notes: "'Both Garage exterior walls' reinforced for Art Storage / Old Office (r6prep: 'Both outside Garage walls are reinforced'). Since Y11S3 the Garage is interior and one former open lane is a reinforceable soft wall."
+  - between: ["Pantry", "Kitchen"]
+    floor: 1F
+    notes: "'Pantry -> Kitchen wall'; Kaid claws it in a Dining/Kitchen hold. Pulse plays the 2F Bathroom above Pantry."
+  - between: ["Aviator Room", "Games Room"]
+    floor: 2F
+    notes: "'Aviator -> Games wall: right side' reinforced; vault and crouch rotates elsewhere on the site. r6prep: main walls into Games are double reinforced with footholes."
+  - between: ["Bathroom", "Master Bedroom"]
+    floor: 2F
+    notes: "'Bathroom -> Master wall' reinforced for Trophy/Statuary; a Bathroom head hole watches the Master window. r6prep: reinforced Bathroom and closet walls let a defender contest the Master window."
+hatches: []
+stairs:
+  - name: "Main Stairs"
+    connects: ["1F", "2F ('Top Main' next to the Aviator/Games site)"]
+  - name: "Red Stairs"
+    connects: ["1F (Red Hall)", "2F (Red 90 side); basement link not verified"]
+  - name: "Pantry Stairs"
+    connects: ["1F Pantry", "B (toward Garage; the old soft wall to it is gone)"]
+  - name: "Kitchen Stairs"
+    connects: ["1F Kitchen side", "B Garage (now through a door)"]
+  - name: "Astro stairs"
+    connects: ["2F Astronomy Room", "other floor not verified"]
+windows_and_doors:
+  - name: "Kitchen Stairs door to Garage"
+    room: "Garage"
+    faces: "interior; was a soft wall before Y11S3"
+  - name: "Garage door"
+    room: "Garage"
+    faces: "exterior / basement approach; Fenrir traps it"
+  - name: "Master window"
+    room: "Master Bedroom"
+    faces: "exterior; contested from Bathroom and Closet on Trophy/Statuary"
+  - name: "Closet window"
+    room: "Closet (2F, off Master Bedroom; not verified)"
+    faces: "exterior"
+  - name: "90 rappel window"
+    room: "90 Hall (2F)"
+    faces: "exterior; a wall facing it is reinforced for Aviator/Games"
+  - name: "Astro windows"
+    room: "Astronomy Room"
+    faces: "exterior"
+sources:
+  - "https://siegestrats.com/maps/villa/"
+  - "https://siegestrats.com/maps/villa/callouts"
+  - "https://siegestrats.com/strats/villa-triple-wall-shut-closet-shield-astro-rotate"
+  - "https://siegestrats.com/strats/villa-clawed-pantry-mira-on-china-two-players-upstairs"
+  - "https://siegestrats.com/strats/villa-top-main-shield-and-study-denial"
+  - "https://siegestrats.com/strats/villa-garage-first-hatches-shut-layered-basement-bunker"
+  - "https://www.r6prep.com/defender/site-setups/villa"
+  - "https://timesaver.gg/blog/rainbow-six-siege-villa-callouts-y11s3"
+  - "https://www.dtgre.com/2026/09/rainbow-six-siege-villa-rework-guide.html"
+  - "https://rainbowsix.fandom.com/wiki/Villa (pre-update site list, spawns, hostage rooms, '6 Hatches')"
+  - "https://mobalytics.gg/gamebase/guides/rainbow-six-siege-y11s3-map-changes (403; content seen only as a search summary)"
+uncertain:
+  - "No hatch could be tied to both rooms. Named hatches: 'Pantry hatch' (in Pantry, 'down toward the basement'; basement room not named, and timesaver contradicts itself on where it leads), 'Hall hatch' / 'Hallway Hatch' / 'Red Hall hatch' (1F hallway into the new basement site; mobalytics says a hatch above Art Storage was added, siegestrats says the Red Hall/Living Room hatch cuts off Art Hallway), 'Reading Room hatch' (basement site), 'Laundry hatch' (kept open for Dining/Kitchen, 'never reinforce'; rooms not named). siegestrats notes basement hatch names 'may not match final in-game callouts'. The wiki's '6 Hatches' predates the Y11S3 update."
+  - "Walls named without both rooms: 'Statuary triple wall' ('decides the site'; right and middle reinforced, left head holes), 'Both Closet walls', 'Deer walls' and 'Boar wall' (creator callouts), 'Study wall', 'Bar wall' (double), 'Main wall' (Aviator/Games, double with feet holes), 'Astro wall', 'Memo walls' (doubled), 'Laundry wall', 'Middle China wall', 'Bikes wall', 'Both Trophy walls', 'Site double wall' and 'Single wall beside site rotate' (basement), 'Garage-side wall'."
+  - "Room names not confirmed as in-game text or floor: 'Red Hall', 'Gallery' (timesaver lists both a 1F and a lower Gallery), 'Art Hallway', 'Laundry', 'China Room', 'Closet', 'Vault', '90 Hall', 'Lobby', 'Reading Room', 'Astronomy Room' vs 'Astro'. siegestrats places Garage, Wine Cellar and Crypt in the basement; timesaver also lists Garage under ground/exterior."
+  - "Slang spots used by guides (not in-game callouts): Astro, Bricks, Bikes, Memo, Bar, Deer, Boar, Red / Red 90, Top Main, Triple Wall, Vault Wall, Barrels, Study Balcony, White stairs (r6prep)."
+  - "siegestrats marks the 1F and 2F strats 'May predate this season's map update' and says the 2F layout was not changed; the basement strat is low confidence (site live since 2026-09-01). No primary Ubisoft Y11S3 patch note was read; the change list comes from third-party guides that partly disagree on the Garage."

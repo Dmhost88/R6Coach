@@ -1,0 +1,136 @@
+# Callouts for Lair. Grounds exact location names for the coach.
+# Built 2026-11-06 (Y11S3). Walls/hatches are listed only when a source names them;
+# where a source names the wall/hatch but not both rooms, it is under `uncertain` instead.
+map: lair
+version_note: "Launch layout (Operation Deep Freeze, Dec 2023; official blueprints dated 2023-12-06). Y10S3 (Sept 2025) modernisation reported by guides as visual plus destructible props, not a layout change. No later Lair layout change found in Y11 patch notes. Wall/hatch names checked against Y11S3 guides."
+rooms:
+  B:
+    - "Lab"
+    - "Lab Support"
+    - "Lockers"
+    - "Missile"
+    - "Warehouse"
+    - "Electrical"
+    - "Stock"
+    - "Garage"
+    - "Connector"
+    - "Lab Exit"
+  1F:
+    - "Bunks"
+    - "Briefing"
+    - "Armory"
+    - "Weapon Maintenance"
+    - "Armory Hall"
+    - "Security"
+    - "Security Terrace"
+    - "Lobby"
+    - "Medical"
+    - "Range"
+  2F:
+    - "Master Office"
+    - "R6 Room"
+    - "Mask Room"
+    - "Operations"
+    - "Server"
+    - "Display"
+    - "Storage"
+    - "Bathroom"
+    - "Mezzanine"
+    - "Bridge"
+walls:
+  - between: ["Lab", "Lockers"]
+    floor: B
+    notes: "'Lab/Lockers site wall' / 'B Lab-Lockers wall'; reinforced in Lab / Lab Support holds."
+  - between: ["Electrical", "Lockers"]
+    floor: B
+    notes: "'B Electrical-Lockers wall' (guides also say Ebox); reinforced in Lab holds."
+  - between: ["Bunks", "Briefing"]
+    floor: 1F
+    notes: "Wall between the two 1F site rooms: kept open as a high crouch rotate with head holes ('Briefing-Bunks rotate', 'three head holes in the Briefing-Bunks wall')."
+  - between: ["Armory", "Weapon Maintenance"]
+    floor: 1F
+    notes: "The 'Armory/Weapon Maintenance triple wall': middle panel reinforced, head holes in the left panel (guides call it the 'Triple wall (Armory rotate)')."
+  - between: ["Operations", "Mask Room"]
+    floor: 2F
+    notes: "'Operations-Masks wall'; reinforced with a Mira window in Master Office / R6 Room holds."
+  - between: ["Operations", "Mezzanine"]
+    floor: 2F
+    notes: "'Operations-Mezzanine wall'; reinforced in Master Office holds."
+  - between: ["Server", "Display"]
+    floor: 2F
+    notes: "'Server-Display wall'; reinforced (often with a Mira window); a 'Display-Server rotate' is also used."
+  - between: ["Server", "Master Office"]
+    floor: 2F
+    notes: "r6prep: head holes from Servers into Master Office stop the plant there from cover."
+  - between: ["Server", "Mezzanine"]
+    floor: 2F
+    notes: "'Mezzanine-Server rotates' kept open in Master Office holds."
+  - between: ["Storage", "R6 Room"]
+    floor: 2F
+    notes: "'Storage-R6 wall' / 'R6 Room -> Storage': reinforced (right panel); Storage rotates and floor holes are kept for vertical play on Bunks."
+  - between: ["Bathroom", "Main Stairs"]
+    floor: 2F
+    notes: "'Bathroom -> Main Stairs wall' 1 and 2 (probably the same as the 'Bathroom west wall'); r6prep: both Bathroom walls reinforced so a trap player can seal it."
+hatches:
+  - in: "Operations"
+    above: "Armory / Weapon Maintenance site (which of the two rooms is not stated)"
+    notes: "'Operations hatch into site'; guides describe 'Operations above, a hatch drop and a corner plant' and reinforce it in Armory / Weapon Maintenance holds."
+  - in: "R6 Room"
+    above: "Bunks / Briefing site (which of the two rooms is not stated)"
+    notes: "'R6 Room site hatch', kept open in Bunks holds so a Warden can shoot plants from the R6 Room."
+stairs:
+  - name: "Main Stairs (guides also say Rocket Stairs)"
+    connects: ["1F", "2F (toward Operations and the Bathroom side)"]
+  - name: "Yellow Stairs"
+    connects: ["B Warehouse", "1F (top of Yellow is a 1F defender spot)"]
+  - name: "Filtration Stairs (Filter stairs)"
+    connects: ["B Stock side", "1F Armory"]
+  - name: "Green Stairs"
+    connects: ["1F hall", "2F Green Stairs corridor"]
+  - name: "Blue Stairs"
+    connects: ["B", "1F (floors not verified)"]
+windows_and_doors:
+  - name: "Lockers door"
+    room: "Lockers"
+    faces: "interior; watched from Security above through floor holes"
+  - name: "Security door"
+    room: "Security"
+    faces: "interior, near the Bunks / Briefing breach"
+  - name: "Range door (Armory Range door)"
+    room: "Range"
+    faces: "interior, toward Armory"
+  - name: "Storage door"
+    room: "Storage"
+    faces: "R6 hallway"
+  - name: "Master Office double door"
+    room: "Master Office"
+    faces: "interior"
+  - name: "Bathroom / Display windows"
+    room: "Bathroom / Display"
+    faces: "exterior; trapped in Master Office holds"
+  - name: "Green window"
+    room: "1F (near Green Stairs, room not verified)"
+    faces: "exterior"
+sources:
+  - "https://siegestrats.com/maps/lair/ and https://siegestrats.com/maps/lair/callouts"
+  - "https://siegestrats.com/strats/lair-top-floor-layers-bleed-time-in-operations-lock-the"
+  - "https://siegestrats.com/strats/lair-two-up-three-down-armory-power-spot-plus-the"
+  - "https://siegestrats.com/strats/lair-boss-up-three-mira-windows-watch-masks-warden-owns"
+  - "https://siegestrats.com/strats/lair-four-up-one-down-win-bunks-from-the-r6-room-floor"
+  - "https://siegestrats.com/strats/lair-rio-all-five-upstairs-three-verts-over-bunks"
+  - "https://siegestrats.com/strats/lair-lisbon-jager-guards-briefing-four-play-bunks-from"
+  - "https://siegestrats.com/strats/lair-three-below-two-above-operations-over-the-plants"
+  - "https://siegestrats.com/strats/lair-nobunaga-echo-in-the-lab-warden-in-missile"
+  - "https://siegestrats.com/strats/lair-not-guilty-bandit-shocks-masks-aruni-gates-can"
+  - "https://siegestrats.com/strats/lair-time-torch-volcans-and-fenrir-mines-burn-time-at"
+  - "https://www.r6prep.com/defender/site-setups/lair"
+  - "https://rainbowsix.fandom.com/wiki/Lair (via API; stub, room names in trivia only)"
+  - "https://siege.gg/news/ubisoft-to-modernize-consulate-lair-and-nighthaven-labs-with-rainbow-six-siege-year-10-season-3"
+  - "https://ubistatic-a.ubisoft.com/0106/gamesites/rainbow6/blueprints/r6-maps-lair-blueprints.zip (Last-Modified 2023-12-06; no room labels)"
+uncertain:
+  - "Site names: '2F Master Office / R6 Room', '1F Bunks / Briefing', '1F Armory / Weapon Maintenance', 'B Lab / Lab Support'. One callout map used by a creator calls Briefing 'Meeting'."
+  - "Exact in-game spellings not confirmed for: 'Mask Room' (guides say Masks), 'Operations' (one plan says 'Operational'), 'Server' (vs Server Room / Servers), 'Display', 'Missile' (vs Missile Room), 'Electrical' (guides say Ebox), 'Bridge' (guides also say Skybridge), 'Connector', 'Lab Exit' (slang 'Loaf'), 'Security Terrace', 'Medical'. Floor of Filtration is between B and 1F."
+  - "Hatches named without both rooms: 'Reception hatch' (reinforced in Lab holds), '1F Armory hatch' and '1F Lobby hatch' (reinforced in Lab holds; room below not stated). r6prep says Missile (B) and Armory above it 'can't be attacked through the floor', which conflicts with a reinforced '1F Armory hatch'."
+  - "Walls named without both rooms: 'Missile wall' (B, kept shut), 'Lockers wall', 'Purple wall: Lockers-door panel', 'Lab Exit wall', 'B Gen/Boiler-Connector wall' (Gen/Boiler is slang), 'B Garage door wall', 'B Missile east wall' (B); '1F Armory wall 1-3' (Armory reinforced on three sides), 'Range Exit wall', 'Medical wall', 'Wall at bottom Blue stairs', 'Back wall -> Filtration-stairs hall', 'Briefing wall at bottom Yellow', 'Briefing north wall', 'Green-pillar walls', 'Bunks-CC Balcony wall', 'Security Terrace outside wall' (1F); 'inner / outer Mask walls', 'Masks north / south wall', 'Operations wall, left panel', 'Server wall, Operations side', 'Server west wall', 'Master east wall', 'Bridge-side walls by Storage', 'R6 Hall wall by Storage door', 'Mezzanine wall by Rocket stairs' (2F)."
+  - "Slang spots used by guides (not in-game callouts): Gen/Boiler, Purple, Barrels, Toxin, Loaf (B); Green pillar, CC Balcony, Stone hall, Blue Hall, Med (1F); Cork (R6 Room corner), Masks, Skybridge, gun / boards / tetris verts (2F)."
+  - "Several siegestrats Lair plans are read from slide drawings ('Room placement is approximate'), and their walls are named by what they face."

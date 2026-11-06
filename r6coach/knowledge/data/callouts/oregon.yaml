@@ -1,0 +1,136 @@
+# Callouts for Oregon. Grounds exact location names for the coach.
+# Built 2026-11-06 (Y11S3). Walls/hatches are listed only when a source names them;
+# where a source names the wall/hatch but not both rooms, it is under `uncertain` instead.
+map: oregon
+version_note: "Layout of the 2020 (Void Edge) rework; Y11S1 (March 2026) update reported as visual/modernisation only. Wall/hatch names checked against Y11S3 guides."
+rooms:
+  B:
+    - "Laundry Room"
+    - "Supply Room"
+    - "Freezer"
+    - "Electric Room"
+    - "Blue Bunker"
+    - "Laundry Stairs"
+    - "Freezer Stairs"
+    - "Tower Stairs"
+  1F:
+    - "Kitchen"
+    - "Dining Hall"
+    - "Meeting Hall"
+    - "Rear Stage"
+    - "Security"
+    - "Showers"
+    - "Small Tower"
+    - "Lobby"
+    - "Garage"
+    - "Big Tower"
+    - "White Stairs"
+    - "Main Stairs"
+  2F:
+    - "Kids' Dorms"
+    - "Dorms Main Hall"
+    - "Trophy Room"
+    - "Master Bedroom"
+    - "Armory"
+    - "Attic"
+    - "Closet"
+    - "Big Tower"
+    - "Small Tower"
+  3F:
+    - "Big Tower"
+  EXT:
+    - "Junkyard"
+    - "Street"
+    - "Construction Site"
+    - "Big Window"
+walls:
+  - between: ["Kitchen", "Meeting Hall"]
+    floor: 1F
+    notes: "Site wall of Meeting Hall / Kitchen. Guides call the hatch-side half 'hatch-side Kitchen/Meeting wall' and use a crouch rotate on the box side."
+  - between: ["Rear Stage", "Meeting Hall"]
+    floor: 1F
+    notes: "Called the 'Stage wall' (two panels); both panels reinforced in standard Meeting/Kitchen setups; main hard-breach target from Stage."
+  - between: ["Meeting Hall", "Garage"]
+    floor: 1F
+    notes: "Called the 'Meeting Garage wall'; reinforced for Meeting/Kitchen."
+  - between: ["Kitchen", "Z corridor"]
+    floor: 1F
+    notes: "'Z-corridor wall, Kitchen side'. 'Z' is player slang for the zig-zag corridor next to Kitchen, not an in-game callout."
+  - between: ["Dining Hall", "Small Tower"]
+    floor: 1F
+    notes: "Called the 'Small Tower wall' (two panels). Thermite from Small Tower is the main threat to Kitchen / Dining; head holes from Dining watch the Small Tower plant."
+  - between: ["Dining Hall", "Showers"]
+    floor: 1F
+    notes: "'Showers wall': usually reinforced on the right half, left half kept soft with foot holes as the Showers rotate."
+  - between: ["Master Bedroom", "Dorms Main Hall"]
+    floor: 2F
+    notes: "'Master breach wall' (left and right halves): the main hard breach into the 2F site."
+  - between: ["Attic", "Big Tower"]
+    floor: 2F
+    notes: "Two halves; reinforce both so Big Tower cannot open Attic for free."
+  - between: ["Master Bedroom", "Attic"]
+    floor: 2F
+    notes: "'Master/Attic wall'; reinforced in Dorms setups."
+  - between: ["Electric Room", "Blue Bunker"]
+    floor: B
+    notes: "Guides call the room 'Electrical' / 'E-box'. Right half is a common Mira spot watching Blue Bunker."
+  - between: ["Supply Room", "Laundry/Freezer corridor"]
+    floor: B
+    notes: "Right half commonly reinforced for Laundry / Supply."
+hatches:
+  - in: "Kids' Dorms"
+    above: "Kitchen"
+    notes: "The 'Kids hatch'. Vertical threat on Kitchen sites; defenders disagree on reinforcing it vs leaving it open as a drop/rotate."
+  - in: "Attic"
+    above: "Meeting Hall"
+    notes: "The 'Meeting hatch'. Defenders often hold it from upstairs during Meeting/Kitchen."
+  - in: "Rear Stage"
+    above: "Basement (room not verified)"
+    notes: "The 'Stage hatch'. Leads down into the basement; which basement room is below is not confirmed (possibly the Electric Room hatch)."
+stairs:
+  - name: "Laundry Stairs"
+    connects: ["B Laundry Room", "1F"]
+  - name: "Freezer Stairs"
+    connects: ["B Freezer", "1F (continues up as White Stairs)"]
+  - name: "White Stairs"
+    connects: ["1F", "2F Dorms side"]
+  - name: "Tower Stairs (Big Tower)"
+    connects: ["B", "1F Big Tower", "2F Big Tower", "3F Big Tower (ladder to the top)"]
+  - name: "Main Stairs"
+    connects: ["1F Lobby", "2F"]
+windows_and_doors:
+  - name: "Big Window"
+    room: "Kids' Dorms side (2F)"
+    faces: "exterior (side not verified)"
+  - name: "Small Tower window"
+    room: "Small Tower"
+    faces: "exterior; used as a jump-out by roamers"
+  - name: "Master door"
+    room: "Master Bedroom"
+    faces: "interior; one of the three main 2F entries with Big Window and Attic"
+  - name: "Blue door"
+    room: "Blue Bunker"
+    faces: "basement entry from outside the Blue Bunker"
+  - name: "Freezer door"
+    room: "Freezer"
+    faces: "interior; barricaded in Kitchen / Dining holds"
+  - name: "Split door"
+    room: "Split (1F, slang)"
+    faces: "interior; barricaded in Meeting/Kitchen holds"
+sources:
+  - "https://siegestrats.com/maps/oregon/callouts"
+  - "https://siegestrats.com/strats/oregon-stage-and-split-shut-two-players-upstairs-on-the"
+  - "https://siegestrats.com/strats/oregon-attic-prox-big-window-feet"
+  - "https://siegestrats.com/strats/oregon-mirror-bunker-pillar-elbow-hold"
+  - "https://siegestrats.com/strats/oregon-fight-small-tower-own-showers-and-shoot-the"
+  - "https://www.r6prep.com/defender/site-setups/oregon"
+  - "https://news.ubisoft.com/en-ca/article/7jpjTlTV0IuZAhvGXnYgDW/rainbow-six-siege-operation-void-edge-operator-and-map-guide"
+  - "https://static2.cdn.ubi.com/gamesites/rainbow6/blueprints/r6-maps-oregon-blueprints.zip (official blueprints, March 2020; no room labels)"
+uncertain:
+  - "Basement hatches named by guides: 'Laundry hatch' (into Laundry Room), 'Freezer hatch' (into Freezer), 'Electrical hatch' (into Electric Room). The 1F room each sits in is not verified, so they are not listed under hatches. The Stage hatch may be the same as the Electrical hatch."
+  - "Exact in-game spellings not confirmed for: 'Electric Room' (guides say Electrical / E-box), 'Security' (may be 'Security Room'), 'Closet' (may be 'Walk-In'), 'Blue Bunker' (some guides say Bunker)."
+  - "Freezer Stairs vs White Stairs: Ubisoft says the Kids' dorm stairs were extended down to the new Freezer section; guides use 'Freezer Stairs' for the lower flight and 'White Stairs' for the upper one."
+  - "Walls named without both rooms: 'Split wall' (left/right, 1F, Meeting/Kitchen setups), 'Green wall' (1F), 'Pillar wall' (two panels, B), 'Box wall' and 'Elbow' walls (B), 'walls toward Blue Tarps' (B), 'Armory wall' (2F), 'Kids rotate wall toward Big Window' (2F), 'Pit' and 'Closet' walls (2F), 'Wall beside Security' (1F rotates into Security)."
+  - "Slang spots used by guides (not in-game callouts): Pillar, Elbow, Barrels, Box, Blue Tarps (B); Z, Split, Green corridor (1F); Pit, Bunks/Games (2F)."
+  - "A March 2026 (Y11S1) Oregon update is reported by guide sites as visual only; no primary patch note checked. Official blueprint zip still dates from March 2020."
+  - "Liquipedia was not usable (API rate-limited this session), so its callout maps were not cross-checked."

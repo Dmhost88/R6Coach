@@ -1,0 +1,104 @@
+# Callouts for Coastline. Grounds exact location names for the coach.
+# Built 2026-11-06 (Y11S3). Walls/hatches are listed only when a source names them;
+# where a source names the wall/hatch but not both rooms, it is under `uncertain` instead.
+map: coastline
+version_note: "Layout after the Y6S3 (Operation Crystal Guard, 2021) minor rework: VIP Lounge exterior window replaced by a breakable/reinforceable wall, 2F windows and Kitchen windows/doors made barricadable. No basement. Wall/hatch names checked against Y11S3 guides."
+rooms:
+  1F:
+    - "Blue Bar"
+    - "Sunrise Bar"
+    - "Kitchen"
+    - "Service Entrance"
+    - "Main Stairs"
+  2F:
+    - "Theater"
+    - "Penthouse"
+    - "Penthouse Bathroom"
+    - "VIP Lounge"
+    - "Hookah Lounge"
+    - "Billiards Room"
+    - "Aquarium"
+    - "Hall of Fame"
+  EXT:
+    - "Main Entrance"
+    - "Pool Side"
+    - "Ruins"
+    - "DJ Booth"
+    - "Courtyard"
+walls:
+  - between: ["Hookah Lounge", "Billiards Room"]
+    floor: 2F
+    notes: "The Hookah/Billiards wall. Guides reinforce the 'non-rotate half' and keep the other half as the Hookah-Billiards rotate; used in both the 2F Hookah/Billiards and 1F Blue/Sunrise setups."
+  - between: ["Sunrise Bar", "Blue Bar"]
+    floor: 1F
+    notes: "'Sunrise <-> Blue, non-rotate half' reinforced; the other half is the Blue rotate for the Sunrise anchor."
+  - between: ["Kitchen", "Service Entrance"]
+    floor: 1F
+    notes: "'Kitchen <-> Service, half by the rotate' / 'the Service-Kitchen wall'; reinforced in Kitchen/Service setups with a rotate on the other half."
+  - between: ["Penthouse", "VIP Lounge"]
+    floor: 2F
+    notes: "'Penthouse <-> VIP middle'; reinforced from upstairs during Kitchen/Service so attackers cannot take the floor above."
+  - between: ["Theater", "Main Stairs"]
+    floor: 2F
+    notes: "'Theater -> Top Main Stairs, right half'; Kaid claws it in a Theater/Penthouse hold."
+  - between: ["VIP Lounge", "exterior"]
+    floor: 2F
+    notes: "VIP outer walls (two panels). Crystal Guard turned the old VIP window into a breakable wall; r6prep: 'The VIP walls matter most' on Theater/Penthouse and are reinforced for Kitchen/Service too. Attackers can rappel to it from the DJ Booth side."
+hatches:
+  - in: "Hookah Lounge"
+    above: "Sunrise Bar"
+    notes: "The 'Hookah hatch into site', kept open for Blue/Sunrise so the upstairs player can watch 'onto the Sunrise door'. Source says 'into site' and 'Sunrise door'; that it drops into Sunrise Bar itself (not Blue Bar) is my own map knowledge, fairly confident."
+stairs:
+  - name: "Main Stairs"
+    connects: ["1F", "2F (top of Main Stairs next to Theater)"]
+  - name: "Second staircase (name not verified)"
+    connects: ["1F", "2F"]
+windows_and_doors:
+  - name: "Blue Bar window"
+    room: "Blue Bar"
+    faces: "exterior; attackers open it early, Castle panels it; the reason Blue Bar is 'all about the retake'"
+  - name: "Sunrise door"
+    room: "Sunrise Bar"
+    faces: "interior; watched through the Hookah hatch"
+  - name: "Sunrise window"
+    room: "Sunrise Bar"
+    faces: "exterior"
+  - name: "Kitchen door"
+    room: "Kitchen"
+    faces: "exterior (barricadable since Crystal Guard)"
+  - name: "Kitchen window"
+    room: "Kitchen"
+    faces: "exterior; defenders make vertical onto it from above"
+  - name: "Service door"
+    room: "Service Entrance"
+    faces: "exterior"
+  - name: "Hookah Window"
+    room: "Hookah Lounge"
+    faces: "exterior; Azami barriers it"
+  - name: "Hookah Door"
+    room: "Hookah Lounge"
+    faces: "interior/balcony (not verified)"
+  - name: "Billiards Double Window"
+    room: "Billiards Room"
+    faces: "exterior"
+  - name: "Theater door"
+    room: "Theater"
+    faces: "interior; exposed to wallbangs if the 90 wall is soft"
+sources:
+  - "https://siegestrats.com/maps/coastline/"
+  - "https://siegestrats.com/maps/coastline/callouts"
+  - "https://siegestrats.com/strats/coastline-vip-mute-billiards-barriers"
+  - "https://siegestrats.com/strats/coastline-theater-crossfire-on-the-90"
+  - "https://siegestrats.com/strats/coastline-last-call-smoke-anchors-sunrise-blue-is-a"
+  - "https://siegestrats.com/strats/coastline-ceiling-control-own-the-floor-above-goyo"
+  - "https://www.r6prep.com/defender/site-setups/coastline"
+  - "https://rainbowsix.fandom.com/wiki/Coastline (sites, spawns, '5 Hatches', two staircases, no basement)"
+  - "https://esports.gg/news/rainbow-six-siege/crystal-guard-rainbow-six-siege-debut/ (Crystal Guard Coastline changes, via search summary)"
+  - "https://www.ubisoft.com/en-us/game/rainbow-six/siege/news-updates/seasons/crystalguard (partial text only)"
+uncertain:
+  - "Hatch named without the room above: 'the hatch open to drop to the bathroom' (Kitchen/Service setup; the 1F Bathroom is below, the 2F room it sits in is not named). The wiki counts 5 hatches; only one is confirmed here."
+  - "Walls named without both rooms: 'Pink Bar quad wall' (4 panels, Hookah/Billiards site), 'Hookah door wall' (two halves), 'Hookah triple wall, Billiards section', 'VIP side wall -> Billiards side' (possibly VIP Lounge / Billiards Room), 'Blue Bar main wall' and 'second Blue Bar wall' (soft with foot holes), 'Couch-corner wall', 'Kitchen wall #1/#2', 'Back Barrels wall' x2, 'Security-side wall', 'Corridor wall' (2F Theater), 'Penthouse wall' (two panels), 'the 90 wall' (Theater), 'three Service walls and a Bathroom wall' (r6prep, against wallbangs from outside)."
+  - "Room names not confirmed as in-game text or floor: 'Office' and 'Security' (1F, roamed during Blue/Sunrise), 'Bathroom' (1F, next to Kitchen/Service), 'Lobby' / 'Main Lobby', 'Pink Bar', 'Luggage', 'Terrace', 'Hookah Balcony', 'Aqua Balcony'. The wiki spells the secure-area room 'Billards Room' once (typo); 'Billiards Room' is used elsewhere."
+  - "Slang spots used by guides (not in-game callouts): Aqua, 902, Cool Vibes, the 90 / 90 hole, Back Barrels, Bookshelf, Top White, Big Window, quad wall."
+  - "Second staircase: the wiki says only two staircases join the floors; the name of the one that is not Main Stairs is not confirmed."
+  - "The Crystal Guard change list was read only through search summaries (Ubisoft pages returned partial text, realsport101 404). Liquipedia was not used."

@@ -1,0 +1,149 @@
+# Callouts for Calypso Casino. Grounds exact location names for the coach.
+# Built 2026-11-06 (Y11S3). Walls/hatches are listed only when a source names them;
+# where a source names the wall/hatch but not both rooms, it is under `uncertain` instead.
+map: calypso_casino
+version_note: "New map, launched with Operation System Override (Y11S2, 2 June 2026); official blueprints dated 2026-05-19. No layout change found in Y11S2.x or Y11S3 patch notes. Ubisoft publishes no room labels; names come from Y11S3 guides (siegestrats, r6prep, stratbook) checked to agree on the four sites."
+rooms:
+  B:
+    - "CCTV"
+    - "Vault Checkpoint"
+    - "Vault"
+    - "Servers"
+    - "Manager's Office"
+    - "Lockers"
+    - "Cash Counting"
+  1F:
+    - "Bar"
+    - "Betting"
+    - "Blackjack"
+    - "Poker"
+    - "Roulette"
+    - "Bathroom"
+    - "Secret"
+    - "Janitor"
+    - "Wine Stock"
+    - "Lobby"
+  2F:
+    - "Cigar Room"
+    - "Pool"
+    - "Barista"
+    - "Kitchen"
+    - "Aqua"
+    - "Humidor"
+  EXT:
+    - "Crane"
+    - "Basement spawn"
+walls:
+  - between: ["Blackjack", "Poker"]
+    floor: 1F
+    notes: "Wall between the two 1F site rooms: r6prep keeps high holes here for a C4 on the deep plant."
+  - between: ["Blackjack", "Secret"]
+    floor: 1F
+    notes: "'Blackjack/Secret wall: one half' reinforced; r6prep puts a rotation into Secret so attackers can't take it for free."
+  - between: ["Blackjack", "Bathroom"]
+    floor: 1F
+    notes: "'Bathroom -> Blackjack wall', panels 1 and 2, reinforced in Bar / Betting holds; also a Mira spot."
+  - between: ["Roulette", "Bathroom"]
+    floor: 1F
+    notes: "'Roulette/Bathroom wall: right side' reinforced in Blackjack / Poker holds."
+  - between: ["Bar", "Janitor"]
+    floor: 1F
+    notes: "'Bar/Janitor wall', left and right panels (r6prep: 'two walls toward Janitor'); the main breach into the Bar / Betting site. Thermite threat: nobody stands against it."
+  - between: ["Bar", "Betting"]
+    floor: 1F
+    notes: "Kept open as the 'Bar/Betting counter rotate' (the rotate between counters)."
+  - between: ["Betting", "Roulette"]
+    floor: 1F
+    notes: "'Betting -> Roulette rotate, head holes'; defenders extend into Roulette."
+  - between: ["Wine Stock", "Janitor"]
+    floor: 1F
+    notes: "'Wine Stock -> Janitor wall, right half' reinforced, with a Janitor-side Wine Stock rotate as a pocket."
+  - between: ["Cigar Room", "Pool"]
+    floor: 2F
+    notes: "'Cigar/Pool wall, one half' reinforced; 'Cigar/Pool rotate and high holes' kept open (r6prep: rotation plus high holes between the rooms)."
+  - between: ["Barista", "Pool"]
+    floor: 2F
+    notes: "'Barista/Pool wall, Pool bar half' reinforced; the small Barista/Pool rotate stays open."
+  - between: ["Pool", "Lobby"]
+    floor: 2F
+    notes: "'Pool -> Lobby wall', panels 1 and 2 (r6prep: 'double Lobby walls'), reinforced; also a Mira spot. Sources disagree on holing it."
+  - between: ["Kitchen", "Cigar Room"]
+    floor: 2F
+    notes: "'Kitchen/Cigar low holes' kept open; the Kitchen outside wall is the reinforced breach."
+  - between: ["Aqua", "Cigar Room"]
+    floor: 2F
+    notes: "r6prep: 'On the Aqua side, the right wall is reinforced with a rotation on the left and headholes into Cigar'."
+  - between: ["Vault Checkpoint", "Yellow Stairs"]
+    floor: B
+    notes: "'Vault Checkpoint/Yellow stairs wall: left half' reinforced; r6prep adds a rotation onto the Yellow stairs to waste time there."
+hatches:
+  - in: "Humidor"
+    above: "Blackjack"
+    notes: "The 'Humidor hatch' (one creator calls the room 'Shop'). Defenders vert Blackjack from Humidor; guides disagree on reinforcing it vs holding it open from above. Also reinforced in Cigar Room / Pool holds."
+stairs:
+  - name: "Yellow Stairs"
+    connects: ["B (by Vault Checkpoint)", "1F (top Yellow)"]
+  - name: "Green Stairs"
+    connects: ["B", "1F (bottom Green is at Break Room; floors not verified)"]
+  - name: "Janitor Stairs"
+    connects: ["1F Janitor", "other floor not verified"]
+  - name: "Lockers Stairs"
+    connects: ["B Lockers", "1F (not verified)"]
+  - name: "Aqua Stairs"
+    connects: ["2F Aqua", "other floor not verified"]
+  - name: "Tequila Stairs"
+    connects: ["1F (bottom Tequila)", "2F (Tequila door)"]
+windows_and_doors:
+  - name: "Wine Stock windows"
+    room: "Wine Stock"
+    faces: "exterior, toward the attacker spawn"
+  - name: "Tequila window"
+    room: "near Blackjack / Bathroom (1F)"
+    faces: "exterior"
+  - name: "Manager's window"
+    room: "Manager's Office"
+    faces: "basement; blocked by Castle / Azami in CCTV / Vault Checkpoint holds"
+  - name: "Lobby door"
+    room: "Lobby"
+    faces: "interior, toward Roulette"
+  - name: "Registration door"
+    room: "1F Registration hallway"
+    faces: "interior (spawn-peek spot)"
+  - name: "Tequila door"
+    room: "2F"
+    faces: "spawn-peek spot"
+  - name: "Rope door"
+    room: "2F"
+    faces: "spawn-peek spot"
+  - name: "Coat door"
+    room: "2F"
+    faces: "spawn-peek spot"
+  - name: "Heaven window"
+    room: "2F"
+    faces: "exterior"
+  - name: "Aquarium window"
+    room: "floor not stated"
+    faces: "exterior"
+  - name: "Mezza window"
+    room: "Mezzanine (floor not stated)"
+    faces: "exterior"
+sources:
+  - "https://siegestrats.com/maps/calypso-casino/ and https://siegestrats.com/maps/calypso-casino/callouts"
+  - "https://siegestrats.com/strats/calypso-casino-humidor-vert-over-blackjack-roulette"
+  - "https://siegestrats.com/strats/calypso-casino-basement-bunker-kaid-vault-wall-and"
+  - "https://siegestrats.com/strats/calypso-casino-stall-barista-and-aqua-fold-to-the-cigar"
+  - "https://siegestrats.com/strats/calypso-casino-wine-stock-janitor-stairs-and-a-roulette"
+  - "https://www.r6prep.com/defender/site-setups/calypso-casino"
+  - "https://stratbook.gg/maps/casino (site names only)"
+  - "https://peekaboor6.com/maps/calypso-casino (spawn-peek door / window names)"
+  - "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/calypso-casino"
+  - "https://www.ubisoft.com/en-us/game/rainbow-six/siege/news-updates/seasons/systemoverride"
+  - "https://rainbowsix.fandom.com/wiki/Calypso_Casino_(Siege) (via API; stub, no layout)"
+  - "https://ubistatic-a.ubisoft.com/0106/gamesites/rainbow6/blueprints/r6-maps-calypso-casino-blueprints.zip (Last-Modified 2026-05-19; no room labels)"
+uncertain:
+  - "Site names agree across siegestrats, r6prep and stratbook: '2F Cigar Room / Pool', '1F Blackjack / Poker', '1F Bar / Betting', 'B CCTV / Vault Checkpoint'. Ubisoft's own material names only the rooftop Crane, the vertical drone vents, the basement Vault and the basement spawn."
+  - "Non-site room names come from guide creators, not verified in-game text: Vault, Servers ('Server'), Manager's Office, Lockers, Cash Counting ('Cash'), Roulette, Bathroom, Secret, Janitor, Wine Stock ('Bar Stock'), Lobby, Barista, Kitchen, Aqua, Humidor ('Shop'). Floors were inferred from which site setup names them; Lobby is named from both 1F (Lobby door) and 2F (Pool -> Lobby wall), so it may be a two-storey atrium."
+  - "Other guide names with no floor stated: Tequila, Vending, ATMs, Weapon Cache, Break Room (bottom Green Stairs), Garden Ruins, Lockers, North / South Mezzanine, Yellow Hall, Registration hallway, Green Stairs, Aqua 90, Yellow 90."
+  - "Hatches named without both rooms: 'Bar hatch on 2F' (above Bar; 2F room not named), 'Weapon Cache hatch' (drop into the basement site; room below not named), r6prep 'both hatches' on CCTV / Vault Checkpoint, and a 'Bar-floor vert over Cash' (floor hole, not a hatch)."
+  - "Walls named without both rooms: 'Vault exterior wall' (r6prep: 'the two Vault walls matter most'), 'Manager's Office wall: both halves', 'key Locker wall', 'Lockers stairs -> Janitor double wall', 'Yellow 90 soft wall', 'Server' rotation and head holes, 'wall beside site desk' (B); 'Blackjack exterior breach' / 'two outside walls', 'Bathroom north double wall', 'Roulette double soft wall', 'Wine Stock -> Green wall', 'wall toward the Green stairs', 'Registration hallway wall', 'wall -> bottom Green stairs' (1F); 'Kitchen outside wall' (2F, two panels), 'Upstairs Kitchen walls', 'Aqua rotate'."
+  - "Slang spots used by guides (not in-game callouts): Green, Yellow 90, Aqua 90, Pool bar, Cigar desk, Bar pillar, Heaven, Mezza, 2F Bridge."
