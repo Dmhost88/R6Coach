@@ -4,339 +4,281 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>R6 Coach</title>
-<style>
-  /* Colour tokens from the R6 Coach design system (dark is primary). Use the names, never the hex. */
-  :root, :root[data-theme="dark"] {
-    color-scheme: dark;
-    --ground: #0c0e11; --surface: #14171c; --surface-raised: #1b1f26; --line: #272c34;
-    --control-border: #666e7a; --ink: #e8eaee; --ink-muted: #a0a7b1; --ink-faint: #737a85;
-    --signal: #f2a93b; --on-signal: #1a1204; --signal-ink: #f2a93b; --signal-soft: rgba(242, 169, 59, 0.14);
-    --team-us: #5aa2ea; --team-them: #f2774e; --good: #3fc1a5; --bad: #ff6b6b;
-    --focus-ring: var(--signal);
-    --mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
-  }
-  :root[data-theme="light"] {
-    color-scheme: light;
-    --ground: #f3f2ef; --surface: #ffffff; --surface-raised: #f8f7f5; --line: #dedbd5;
-    --control-border: #80868f; --ink: #14171c; --ink-muted: #565d67; --ink-faint: #7c838d;
-    --signal: #e8992a; --on-signal: #1a1204; --signal-ink: #8a5200; --signal-soft: rgba(232, 153, 42, 0.16);
-    --team-us: #1f6fc0; --team-them: #b8421c; --good: #1a7466; --bad: #c62f2f;
-    --focus-ring: var(--signal-ink);
-  }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--ground); color: var(--ink); font: 14px/1.45 "Segoe UI", system-ui, sans-serif; }
-  :focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
-  header { display: flex; align-items: center; gap: 16px; padding: 10px 16px; background: var(--surface); border-bottom: 1px solid var(--line); flex-wrap: wrap; }
-  header h1 { font-size: 15px; margin: 0; letter-spacing: .02em; }
-  .pill { padding: 2px 10px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); color: var(--ink-muted); font-size: 12px; }
-  .pill.on { color: var(--good); }
-  .pill.warn { color: var(--signal-ink); background: var(--signal-soft); }
-  .pill.live { color: var(--on-signal); background: var(--signal); border-color: var(--signal); }
-  .spacer { flex: 1; }
-  button { background: var(--surface-raised); color: var(--ink); border: 1px solid var(--line); border-radius: 6px; padding: 5px 12px; cursor: pointer; font: inherit; }
-  button:hover { border-color: var(--control-border); }
-  button.primary { background: var(--signal); color: var(--on-signal); border-color: var(--signal); font-weight: 600; }
-  nav { display: flex; gap: 2px; padding: 0 16px; background: var(--surface); border-bottom: 1px solid var(--line); overflow-x: auto; scrollbar-width: thin; }
-  nav button { white-space: nowrap; flex: none; border: 0; border-bottom: 2px solid transparent; border-radius: 0; background: none; color: var(--ink-muted); padding: 10px 14px; }
-  nav button:hover { color: var(--ink); }
-  nav button.active { color: var(--ink); border-bottom-color: var(--signal); }
-  main { padding: 16px; }
-  .tab { display: none; } .tab.active { display: block; }
-  .grid { display: grid; grid-template-columns: minmax(280px, 380px) 1fr; gap: 16px; }
-  @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
-  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px; }
-  .card h2 { margin: 0 0 10px; font-size: 12px; text-transform: none; color: var(--ink-muted); font-weight: 600; }
-  dl.state { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; margin: 0; }
-  dl.state dt { color: var(--ink-muted); }
-  dl.state dd { margin: 0; font-weight: 500; }
-  .score { font-family: var(--mono); font-size: 28px; font-weight: 600; font-variant-numeric: tabular-nums; }
-  .score .us { color: var(--team-us); } .score .them { color: var(--team-them); }
-  #feed { list-style: none; margin: 0; padding: 0; max-height: 62vh; overflow-y: auto; }
-  #feed li { padding: 8px; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 64px 1fr; gap: 10px; transition: background-color 4s ease-out; }
-  #feed li.fresh { background: var(--signal-soft); transition: none; }
-  #feed .t { color: var(--ink-muted); font-family: var(--mono); font-size: 12px; font-variant-numeric: tabular-nums; }
-  #feed .phase { color: var(--signal-ink); font-size: 12px; font-weight: 600; margin-right: 6px; }
-  #feed li.q .body { color: var(--team-us); }
-  #feed li.err .body { color: var(--bad); }
-  .ask { display: flex; gap: 8px; margin-top: 12px; }
-  input[type=text], textarea, select { background: var(--ground); color: var(--ink); border: 1px solid var(--control-border); border-radius: 6px; padding: 6px 10px; font: inherit; width: 100%; }
-  input::placeholder, textarea::placeholder { color: var(--ink-muted); }
-  input[type=range] { accent-color: var(--signal); }
-  textarea { min-height: 260px; font-family: var(--mono); font-size: 13px; }
-  .row { display: flex; gap: 12px; align-items: center; margin: 8px 0; }
-  .row label { min-width: 150px; color: var(--ink-muted); }
-  .row input[type=range] { flex: 1; }
-  .hint { color: var(--ink-muted); font-size: 12px; }
-  img#frame { width: 100%; border-radius: 8px; border: 1px solid var(--line); background: var(--ground); min-height: 120px; }
-  pre { font-family: var(--mono); font-size: 12px; white-space: pre-wrap; margin: 0; max-height: 50vh; overflow: auto; }
-  table { width: 100%; border-collapse: collapse; }
-  td, th { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); }
-  th { color: var(--ink-muted); font-weight: 500; }
-  .w { color: var(--good); } .l { color: var(--bad); }
-</style>
+<link rel="icon" href="/static/ds/assets/Logos/rc-app-icon.svg" type="image/svg+xml">
+<link rel="preload" href="/static/ds/fonts/MonaSans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/static/ds/tokens.css">
+<link rel="stylesheet" href="/static/ds/components/bundle.css">
+<link rel="stylesheet" href="/static/css/app.css">
+<script>
+  // Apply the remembered theme before first paint so the page doesn't flash.
+  try { if (localStorage.getItem("r6coach-theme") === "light") document.documentElement.dataset.theme = "light"; } catch (e) {}
+</script>
 </head>
-<body>
-<header>
-  <h1>R6 Coach</h1>
-  <span class="pill" id="capture">capture: …</span>
-  <span class="pill" id="screen">screen: …</span>
-  <span class="pill" id="cost">$0.00</span>
-  <span class="pill" id="ptt">push-to-talk: loading</span>
-  <span class="spacer"></span>
-  <button id="btn-mute">Mute</button>
-  <button id="btn-repeat">Repeat</button>
-  <button id="btn-skip">Skip</button>
-  <button id="btn-pause">Pause reading</button>
-  <button id="btn-theme">Light theme</button>
+<body class="rc-root">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="top">
+  <div class="top__brand">
+    <img class="logo logo--dark" src="/static/ds/assets/Logos/rc-lockup.svg" alt="R6 Coach" width="132" height="24">
+    <img class="logo logo--light" src="/static/ds/assets/Logos/rc-lockup-ink.svg" alt="R6 Coach" width="132" height="24">
+  </div>
+  <div class="top__pills" aria-live="polite">
+    <span class="rc-pill" id="pill-capture">capture: starting</span>
+    <span class="rc-pill" id="pill-screen">screen: none</span>
+    <span class="rc-pill" id="pill-ptt">push-to-talk: loading</span>
+    <span class="rc-pill" id="pill-voice">voice: on</span>
+    <span class="rc-pill rc-pill--plain" id="pill-cost">cost: $0.00</span>
+  </div>
+  <div class="top__controls">
+    <button class="rc-btn rc-btn--quiet" id="btn-mute" type="button">Mute</button>
+    <button class="rc-btn rc-btn--quiet" id="btn-repeat" type="button">Repeat</button>
+    <button class="rc-btn rc-btn--quiet" id="btn-skip" type="button">Skip</button>
+    <button class="rc-btn rc-btn--quiet" id="btn-pause" type="button">Pause reading</button>
+    <button class="rc-btn rc-btn--quiet" id="btn-theme" type="button">Light theme</button>
+  </div>
 </header>
-<nav>
-  <button data-tab="live" class="active">Live</button>
-  <button data-tab="detect">What the coach sees</button>
-  <button data-tab="settings">Settings</button>
-  <button data-tab="maps">Map notes</button>
-  <button data-tab="history">Matches</button>
+
+<nav class="rc-tabs tabs" role="tablist" aria-label="Dashboard sections">
+  <button role="tab" id="tab-btn-live" aria-controls="tab-live" aria-selected="true" data-tab="live">Live</button>
+  <button role="tab" id="tab-btn-sees" aria-controls="tab-sees" aria-selected="false" data-tab="sees" tabindex="-1">What the coach sees</button>
+  <button role="tab" id="tab-btn-settings" aria-controls="tab-settings" aria-selected="false" data-tab="settings" tabindex="-1">Settings</button>
+  <button role="tab" id="tab-btn-maps" aria-controls="tab-maps" aria-selected="false" data-tab="maps" tabindex="-1">Map notes</button>
+  <button role="tab" id="tab-btn-matches" aria-controls="tab-matches" aria-selected="false" data-tab="matches" tabindex="-1">Matches</button>
 </nav>
-<main>
-  <section class="tab active" id="tab-live">
-    <div class="grid">
-      <div>
-        <div class="card">
-          <h2>Match</h2>
-          <div class="score"><span class="us" id="s-us">0</span> – <span class="them" id="s-them">0</span></div>
-          <dl class="state" id="state"></dl>
-        </div>
+
+<main id="main">
+  <!-- ======================================================== Live -->
+  <section class="panel" id="tab-live" role="tabpanel" aria-labelledby="tab-btn-live">
+    <div class="layout">
+      <div class="col col--state">
+        <section class="rc-card" aria-labelledby="match-title">
+          <h2 class="rc-card__title" id="match-title">Match</h2>
+          <div class="rc-score" aria-label="Score">
+            <span class="rc-score__us" id="score-us">0</span>
+            <span class="rc-score__dash" aria-hidden="true">–</span>
+            <span class="rc-score__them" id="score-them">0</span>
+            <span class="rc-score__meta" id="score-meta">Waiting for a match</span>
+          </div>
+          <dl class="rc-state" id="state-list"></dl>
+          <p class="rc-card__hint">Only what your HUD and menus showed. The coach never looks for enemies.</p>
+        </section>
+
+        <section class="rc-card" aria-labelledby="rounds-title">
+          <h2 class="rc-card__title" id="rounds-title">Rounds</h2>
+          <div class="timeline" id="timeline" role="img" aria-label="No rounds yet"></div>
+          <p class="timeline__summary" id="timeline-summary">No rounds yet.</p>
+          <h3 class="subhead">Match memory</h3>
+          <ol class="memory" id="memory"></ol>
+          <p class="rc-card__hint">What the coach remembers this match: side, site, result and who got you.</p>
+        </section>
       </div>
-      <div class="card">
-        <h2>Coach</h2>
-        <ul id="feed"></ul>
-        <form class="ask" id="ask-form">
-          <input type="text" id="ask" placeholder="Type a question, or hold your push-to-talk key and ask" autocomplete="off">
-          <button class="primary" type="submit">Ask</button>
-        </form>
+
+      <div class="col col--feed">
+        <section class="rc-card coach" aria-labelledby="coach-title">
+          <div class="coach__head">
+            <h2 class="rc-card__title coach__title" id="coach-title"><span class="ic" data-icon="coach"></span>Coach</h2>
+            <span class="coach__status" id="coach-status" aria-live="polite"></span>
+          </div>
+          <div class="listening" id="listening" hidden>
+            <img src="/static/ds/assets/Illustrations/listening.svg" alt="" width="120" height="75">
+            <div>
+              <p class="listening__title"><span class="ic" data-icon="push-to-talk"></span>Listening</p>
+              <p class="listening__hint">Ask your question, then let go of the key.</p>
+            </div>
+          </div>
+          <div class="feed-wrap" id="feed-wrap">
+            <div class="empty" id="feed-empty">
+              <img src="/static/ds/assets/Illustrations/empty-waiting.svg" alt="" width="240" height="150">
+              <p class="empty__title">Waiting for a match</p>
+              <p class="empty__hint">Start a match in Siege. The coach reads your menus and HUD, and speaks when it has something worth saying.</p>
+            </div>
+            <ul class="rc-feed feed" id="feed" aria-label="What the coach said, newest first"></ul>
+          </div>
+          <form class="rc-ask ask" id="ask-form">
+            <label class="visually-hidden" for="ask-input">Question for the coach</label>
+            <input class="rc-input" type="text" id="ask-input" autocomplete="off"
+                   placeholder="Type a question, or hold your push-to-talk key and ask">
+            <button class="rc-btn rc-btn--primary" type="submit">Ask</button>
+          </form>
+        </section>
       </div>
     </div>
   </section>
 
-  <section class="tab" id="tab-detect">
-    <div class="grid">
-      <div class="card">
-        <h2>Last screen read</h2>
-        <pre id="last-read">Nothing read yet.</pre>
-        <div class="row"><button id="btn-force">Read screen now</button></div>
-        <p class="hint">The coach only reads menus and the HUD. It never looks for enemies in the game world.</p>
+  <!-- ======================================================== What the coach sees -->
+  <section class="panel" id="tab-sees" role="tabpanel" aria-labelledby="tab-btn-sees" hidden>
+    <div class="layout layout--wide-right">
+      <div class="col col--state">
+        <section class="rc-card" aria-labelledby="read-title">
+          <h2 class="rc-card__title" id="read-title"><span class="ic" data-icon="screen-read"></span>Last screen read</h2>
+          <p class="read-when" id="read-when">Nothing read yet. Cloud reads need a Claude API key.</p>
+          <dl class="rc-state" id="read-list"></dl>
+          <details class="raw">
+            <summary>Show raw read</summary>
+            <pre class="raw__pre" id="read-raw">Nothing read yet.</pre>
+          </details>
+          <div class="actions">
+            <button class="rc-btn rc-btn--primary" id="btn-force" type="button">Read screen now</button>
+          </div>
+          <p class="rc-card__hint">The coach only reads menus and the HUD. It never looks for enemies in the game world.</p>
+        </section>
+        <section class="rc-card" aria-labelledby="hud-title">
+          <h2 class="rc-card__title" id="hud-title">Local HUD reader</h2>
+          <p class="read-when" id="hud-when">Not running.</p>
+          <dl class="rc-state" id="hud-list"></dl>
+          <p class="rc-card__hint">Read on this PC about once a second, with no API calls: timer, score, players, room and health.</p>
+        </section>
       </div>
-      <div class="card">
-        <h2>Current frame</h2>
-        <img id="frame" alt="Latest captured frame">
-        <p class="hint">Refreshes every 3 seconds while this tab is open.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="tab" id="tab-settings">
-    <div class="grid">
-      <div class="card">
-        <h2>Operator pool (best first, comma separated)</h2>
-        <div class="row"><label>Attack</label><input type="text" id="pool-attack" list="ops"></div>
-        <div class="row"><label>Defense</label><input type="text" id="pool-defense" list="ops"></div>
-        <div class="row"><label>Not owned</label><input type="text" id="not-owned"></div>
-        <datalist id="ops"></datalist>
-        <h2 style="margin-top:18px">Coach</h2>
-        <div class="row"><label>Skill level</label>
-          <select id="skill"><option value="new">New</option><option value="intermediate">Intermediate</option><option value="advanced">Advanced</option></select>
-        </div>
-        <div class="row"><label>Volume</label><input type="range" id="volume" min="0" max="1" step="0.05"></div>
-        <p class="hint" id="models"></p>
-      </div>
-      <div class="card">
-        <h2>Chattiness per phase (0 silent, 3 detailed)</h2>
-        <div id="chat"></div>
-        <div class="row"><button class="primary" id="save-settings">Save settings</button><span class="hint" id="saved"></span></div>
+      <div class="col col--feed">
+        <section class="rc-card" aria-labelledby="frame-title">
+          <h2 class="rc-card__title" id="frame-title">Current frame</h2>
+          <div class="frame">
+            <img id="frame" alt="Latest captured frame of your screen" hidden>
+            <p class="frame__empty" id="frame-empty">No frame captured yet.</p>
+          </div>
+          <p class="rc-card__hint">Refreshes every 3 seconds while this tab is open.</p>
+        </section>
       </div>
     </div>
   </section>
 
-  <section class="tab" id="tab-maps">
-    <div class="grid">
-      <div class="card">
-        <h2>Map</h2>
-        <select id="map-select"></select>
-        <pre id="map-data" style="margin-top:12px"></pre>
+  <!-- ======================================================== Settings -->
+  <section class="panel" id="tab-settings" role="tabpanel" aria-labelledby="tab-btn-settings" hidden>
+    <div class="layout layout--even">
+      <div class="col">
+        <section class="rc-card" aria-labelledby="pool-title">
+          <h2 class="rc-card__title" id="pool-title">Operator pool</h2>
+          <p class="card-lede">Best first. The coach suggests from these when you pick.</p>
+          <div class="pool" data-pool="attack">
+            <h3 class="subhead">Attack</h3>
+            <ol class="pool__list" id="pool-attack" aria-label="Attack pool, best first"></ol>
+            <form class="pool__add" data-for="attack">
+              <label class="visually-hidden" for="add-attack">Add an attacker</label>
+              <input class="rc-input" id="add-attack" list="ops-attack" autocomplete="off" placeholder="Add an attacker">
+              <button class="rc-btn" type="submit">Add</button>
+            </form>
+            <p class="pool__msg" id="msg-attack" aria-live="polite"></p>
+          </div>
+          <div class="pool" data-pool="defense">
+            <h3 class="subhead">Defence</h3>
+            <ol class="pool__list" id="pool-defense" aria-label="Defence pool, best first"></ol>
+            <form class="pool__add" data-for="defense">
+              <label class="visually-hidden" for="add-defense">Add a defender</label>
+              <input class="rc-input" id="add-defense" list="ops-defense" autocomplete="off" placeholder="Add a defender">
+              <button class="rc-btn" type="submit">Add</button>
+            </form>
+            <p class="pool__msg" id="msg-defense" aria-live="polite"></p>
+          </div>
+          <div class="pool" data-pool="not_owned">
+            <h3 class="subhead">Not owned</h3>
+            <ul class="chips" id="pool-not_owned" aria-label="Operators you don't own"></ul>
+            <form class="pool__add" data-for="not_owned">
+              <label class="visually-hidden" for="add-not_owned">Add an operator you don't own</label>
+              <input class="rc-input" id="add-not_owned" list="ops-all" autocomplete="off" placeholder="Add an operator you don't own">
+              <button class="rc-btn" type="submit">Add</button>
+            </form>
+            <p class="pool__msg" id="msg-not_owned" aria-live="polite"></p>
+          </div>
+          <datalist id="ops-attack"></datalist>
+          <datalist id="ops-defense"></datalist>
+          <datalist id="ops-all"></datalist>
+          <p class="rc-card__hint">Drag a row by its handle, or use Up and Down. The coach won't suggest operators you don't own.</p>
+        </section>
       </div>
-      <div class="card">
-        <h2>Your notes (the coach trusts these over the database)</h2>
-        <textarea id="notes" placeholder="e.g. On Bank basement I like to anchor CCTV as Mute and jam the hatch."></textarea>
-        <div class="row"><button class="primary" id="save-notes">Save notes</button><span class="hint" id="notes-saved"></span></div>
+
+      <div class="col">
+        <section class="rc-card" aria-labelledby="coachset-title">
+          <h2 class="rc-card__title" id="coachset-title">Coach</h2>
+          <div class="rc-field">
+            <label class="rc-field__label" for="skill">Skill level</label>
+            <select class="rc-select" id="skill">
+              <option value="new">New to Siege</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
+          </div>
+          <h3 class="subhead">Chattiness</h3>
+          <p class="card-lede">0 is silent, 3 is detailed.</p>
+          <div id="chattiness"></div>
+          <p class="hint-sm" id="models"></p>
+        </section>
+
+        <section class="rc-card" aria-labelledby="voice-title">
+          <h2 class="rc-card__title" id="voice-title"><span class="ic" data-icon="coach"></span>Voice</h2>
+          <dl class="rc-state" id="voice-list"></dl>
+          <div class="rc-field">
+            <label class="rc-field__label" for="volume">Volume</label>
+            <input class="rc-range" type="range" id="volume" min="0" max="1" step="0.05">
+            <span class="rc-field__value" id="volume-value">0</span>
+          </div>
+          <div class="actions">
+            <button class="rc-btn" id="btn-test-voice" type="button"><span class="ic" data-icon="coach"></span>Test voice</button>
+            <span class="hint-sm" id="test-voice-msg" aria-live="polite"></span>
+          </div>
+          <p class="rc-card__hint">Volume applies after you save. Change the provider and voice in config.yaml.</p>
+        </section>
+
+        <section class="rc-card" aria-labelledby="setup-title">
+          <h2 class="rc-card__title" id="setup-title">Setup checklist</h2>
+          <ul class="checklist" id="checklist"></ul>
+          <p class="rc-card__hint">Keys live in .env. This page only shows whether each one is set.</p>
+        </section>
+      </div>
+    </div>
+    <div class="savebar">
+      <button class="rc-btn rc-btn--primary" id="btn-save-settings" type="button">Save settings</button>
+      <span class="hint-sm" id="settings-msg" aria-live="polite"></span>
+    </div>
+  </section>
+
+  <!-- ======================================================== Map notes -->
+  <section class="panel" id="tab-maps" role="tabpanel" aria-labelledby="tab-btn-maps" hidden>
+    <div class="layout">
+      <div class="col col--state">
+        <section class="rc-card" aria-labelledby="map-title">
+          <h2 class="rc-card__title" id="map-title"><span class="ic" data-icon="objective"></span>Map</h2>
+          <label class="visually-hidden" for="map-select">Map</label>
+          <select class="rc-select" id="map-select"></select>
+          <div class="sites" id="map-sites"></div>
+        </section>
+      </div>
+      <div class="col col--feed">
+        <section class="rc-card" aria-labelledby="notes-title">
+          <h2 class="rc-card__title" id="notes-title">Your notes</h2>
+          <p class="card-lede">The coach trusts these over its own map data.</p>
+          <label class="visually-hidden" for="notes">Notes for this map</label>
+          <textarea class="rc-input notes" id="notes" placeholder="On Bank basement I anchor CCTV as Mute and jam the hatch."></textarea>
+          <div class="actions">
+            <button class="rc-btn rc-btn--primary" id="btn-save-notes" type="button">Save notes</button>
+            <span class="hint-sm" id="notes-msg" aria-live="polite"></span>
+          </div>
+        </section>
       </div>
     </div>
   </section>
 
-  <section class="tab" id="tab-history">
-    <div class="card">
-      <h2>Recent matches</h2>
-      <table><thead><tr><th>When</th><th>Map</th><th>Score</th><th>Result</th></tr></thead><tbody id="matches"></tbody></table>
-    </div>
+  <!-- ======================================================== Matches -->
+  <section class="panel" id="tab-matches" role="tabpanel" aria-labelledby="tab-btn-matches" hidden>
+    <section class="rc-card report" aria-labelledby="report-title">
+      <div class="report__head">
+        <h2 class="rc-heading report__title" id="report-title">Recent form</h2>
+        <p class="report__summary" id="form-summary">No matches recorded yet.</p>
+      </div>
+      <div class="form-strip" id="form-strip" role="img" aria-label="No matches recorded yet"></div>
+      <p class="legend"><span class="key key--won"></span>Win <span class="key key--lost"></span>Loss <span class="key key--none"></span>No result</p>
+    </section>
+    <section class="rc-card" aria-labelledby="matches-title">
+      <h2 class="rc-card__title" id="matches-title"><span class="ic" data-icon="round-win"></span>Recent matches</h2>
+      <div class="table-wrap">
+        <table class="rc-table">
+          <thead><tr><th scope="col">When</th><th scope="col">Map</th><th scope="col">Score</th><th scope="col">Result</th></tr></thead>
+          <tbody id="matches"></tbody>
+        </table>
+      </div>
+    </section>
   </section>
 </main>
 
-<script>
-const $ = (id) => document.getElementById(id);
-const PHASES = { map_ban: "Map ban", operator_ban: "Operator ban", operator_select: "Operator select",
-                 prep_phase: "Prep phase", action_phase: "Action phase", between_rounds: "Between rounds" };
-let frameTimer = null;
-
-function esc(s) { return String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
-function hhmmss(ts) { return new Date(ts * 1000).toLocaleTimeString([], { hour12: false }); }
-async function api(path, opts = {}) {
-  const r = await fetch(path, { headers: { "Content-Type": "application/json" }, ...opts });
-  if (!r.ok) throw new Error(await r.text());
-  return r.json();
-}
-
-// ---------- tabs
-document.querySelectorAll("nav button").forEach((b) => b.addEventListener("click", () => {
-  document.querySelectorAll("nav button").forEach((x) => x.classList.toggle("active", x === b));
-  document.querySelectorAll(".tab").forEach((t) => t.classList.toggle("active", t.id === "tab-" + b.dataset.tab));
-  clearInterval(frameTimer);
-  if (b.dataset.tab === "detect") { refreshFrame(); frameTimer = setInterval(refreshFrame, 3000); }
-  if (b.dataset.tab === "history") loadMatches();
-}));
-
-// ---------- live state
-function renderState(s) {
-  $("s-us").textContent = s.score_us ?? 0;
-  $("s-them").textContent = s.score_them ?? 0;
-  const rows = [["Map", s.map], ["Side", s.side], ["Site", s.site], ["Spawn", s.spawn], ["Round", s.round_number],
-    ["You", s.my_operator], ["Team", (s.teammate_operators || []).join(", ")], ["Bans", (s.banned_operators || []).join(", ")],
-    ["Timer", s.timer_seconds != null ? s.timer_seconds + "s" : null],
-    ["Alive", s.alive_us != null ? `${s.alive_us} v ${s.alive_them ?? "?"}` : null],
-    ["Pinged", (s.pinged_enemies || []).map((p) => p.location + (p.operator ? ` (${p.operator})` : "")).join(", ")]];
-  $("state").innerHTML = rows.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v || "–")}</dd>`).join("");
-  $("screen").textContent = "screen: " + (s.screen || "?").replace(/_/g, " ");
-}
-function addFeed(ts, phase, text, cls = "", fresh = false) {
-  const li = document.createElement("li");
-  li.className = cls;
-  li.innerHTML = `<span class="t">${hhmmss(ts)}</span><span class="body">${phase ? `<span class="phase">${esc(PHASES[phase] || phase)}</span>` : ""}${esc(text)}</span>`;
-  const feed = $("feed");
-  feed.prepend(li);
-  while (feed.children.length > 200) feed.lastChild.remove();
-  if (fresh) {
-    // Newest line gets a signal-soft tint that fades over 4 seconds.
-    feed.querySelectorAll("li.fresh").forEach((x) => x.classList.remove("fresh"));
-    li.classList.add("fresh");
-    requestAnimationFrame(() => requestAnimationFrame(() => li.classList.remove("fresh")));
-  }
-}
-function renderStatus(st) {
-  $("capture").textContent = "capture: " + st.capture;
-  $("capture").className = "pill " + (st.capture.startsWith("capturing") || st.capture.startsWith("replay") ? "on" : "warn");
-  $("cost").textContent = `$${st.cost.toFixed(2)} · ${st.calls} calls`;
-  $("btn-mute").textContent = st.muted ? "Unmute" : "Mute";
-  $("btn-pause").textContent = st.paused ? "Resume reading" : "Pause reading";
-  $("ptt").textContent = "push-to-talk: " + st.ptt_key + (st.ptt_ready || st.ptt_key === "off" ? "" : " (loading)");
-  $("ptt").className = "pill " + (st.ptt_ready ? "on" : "");
-  if (st.state) renderState(st.state);
-}
-
-function handle(ev, live = true) {
-  const d = ev.data || {};
-  switch (ev.topic) {
-    case "state.updated": renderState(d.state); break;
-    case "coach.said": addFeed(ev.ts, d.phase, d.text, "", live); break;
-    case "error": addFeed(ev.ts, "", `${d.source}: ${d.message}`, "err"); break;
-    case "vision.read": $("last-read").textContent = JSON.stringify(d.read, null, 1); break;
-    case "llm.usage": $("cost").textContent = `$${d.total_cost.toFixed(2)}`; break;
-    case "ptt.ready": $("ptt").classList.add("on"); $("ptt").textContent = $("ptt").textContent.replace(" (loading)", ""); break;
-    case "ptt.listening": $("ptt").classList.add("live"); break;
-    case "ptt.question": $("ptt").classList.remove("live"); addFeed(ev.ts, "", "You: " + d.text, "q"); break;
-  }
-}
-
-function connect() {
-  const ws = new WebSocket(`ws://${location.host}/ws`);
-  ws.onmessage = (m) => handle(JSON.parse(m.data));
-  ws.onclose = () => setTimeout(connect, 2000);
-}
-
-async function boot() {
-  renderStatus(await api("/api/status"));
-  for (const ev of await api("/api/history")) if (ev.topic !== "state.updated") handle(ev, false);
-  connect();
-  setInterval(async () => { try { renderStatus(await api("/api/status")); } catch {} }, 5000);
-  loadSettings(); loadMaps();
-}
-
-// ---------- controls
-const control = async (a, body) => renderStatus(await api("/api/control/" + a, { method: "POST", body: JSON.stringify(body || {}) }));
-$("btn-mute").onclick = () => control("mute");
-$("btn-repeat").onclick = () => control("repeat");
-$("btn-skip").onclick = () => control("skip");
-$("btn-pause").onclick = () => control("pause");
-$("btn-force").onclick = () => control("force_read");
-
-// ---------- theme (dark is primary; the choice is remembered in this browser only)
-function setTheme(t) {
-  document.documentElement.dataset.theme = t;
-  $("btn-theme").textContent = t === "dark" ? "Light theme" : "Dark theme";
-  try { localStorage.setItem("r6coach-theme", t); } catch {}
-}
-try { const saved = localStorage.getItem("r6coach-theme"); if (saved === "light") setTheme("light"); } catch {}
-$("btn-theme").onclick = () => setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
-$("ask-form").onsubmit = (e) => { e.preventDefault(); const t = $("ask").value.trim(); if (t) { control("ask", { text: t }); $("ask").value = ""; } };
-
-function refreshFrame() { $("frame").src = "/api/frame.jpg?t=" + Date.now(); }
-
-// ---------- settings
-const list = (s) => s.split(",").map((x) => x.trim()).filter(Boolean);
-async function loadSettings() {
-  const s = await api("/api/settings");
-  $("pool-attack").value = s.operator_pool.attack.join(", ");
-  $("pool-defense").value = s.operator_pool.defense.join(", ");
-  $("not-owned").value = s.not_owned.join(", ");
-  $("skill").value = s.skill_level;
-  $("volume").value = s.volume;
-  $("models").textContent = `Coach model: ${s.coach_model} · Screen reading: ${s.vision_model} · edit config.yaml to change`;
-  $("ops").innerHTML = s.operators.map((o) => `<option value="${esc(o)}">`).join("");
-  $("chat").innerHTML = Object.entries(PHASES).map(([k, label]) =>
-    `<div class="row"><label>${label}</label><input type="range" min="0" max="3" step="1" data-k="${k}" value="${s.chattiness[k] ?? 1}"><span class="hint" data-v="${k}">${s.chattiness[k] ?? 1}</span></div>`).join("");
-  $("chat").querySelectorAll("input").forEach((i) => i.oninput = () => $("chat").querySelector(`[data-v=${i.dataset.k}]`).textContent = i.value);
-}
-$("save-settings").onclick = async () => {
-  const chattiness = {};
-  $("chat").querySelectorAll("input").forEach((i) => chattiness[i.dataset.k] = +i.value);
-  await api("/api/settings", { method: "POST", body: JSON.stringify({
-    operator_pool: { attack: list($("pool-attack").value), defense: list($("pool-defense").value) },
-    not_owned: list($("not-owned").value), chattiness, skill_level: $("skill").value, volume: +$("volume").value }) });
-  $("saved").textContent = "Saved."; setTimeout(() => $("saved").textContent = "", 2000);
-};
-
-// ---------- maps
-async function loadMaps() {
-  const maps = await api("/api/maps");
-  $("map-select").innerHTML = maps.map((m) => `<option value="${m.id}">${esc(m.name)}</option>`).join("");
-  if (maps.length) showMap(maps[0].id); else $("map-data").textContent = "No map data yet.";
-}
-async function showMap(id) {
-  const m = await api("/api/maps/" + id);
-  $("map-data").textContent = (m.data.sites || []).map((s) => `${s.name}\n  ${s.defender?.plan_summary || ""}\n  ${s.attacker?.plan_summary || ""}`).join("\n\n");
-  $("notes").value = m.notes;
-}
-$("map-select").onchange = (e) => showMap(e.target.value);
-$("save-notes").onclick = async () => {
-  await api(`/api/maps/${$("map-select").value}/notes`, { method: "POST", body: JSON.stringify({ notes: $("notes").value }) });
-  $("notes-saved").textContent = "Saved."; setTimeout(() => $("notes-saved").textContent = "", 2000);
-};
-
-// ---------- history
-async function loadMatches() {
-  const ms = await api("/api/matches");
-  $("matches").innerHTML = ms.map((m) => `<tr><td>${new Date(m.started * 1000).toLocaleString()}</td><td>${esc(m.map || "?")}</td>
-    <td>${m.score_us ?? "?"} – ${m.score_them ?? "?"}</td><td class="${m.won ? "w" : m.won === 0 ? "l" : ""}">${m.won == null ? "–" : m.won ? "Win" : "Loss"}</td></tr>`).join("")
-    || `<tr><td colspan="4" class="hint">No matches recorded yet.</td></tr>`;
-}
-
-boot();
-</script>
+<script src="/static/js/app.js" defer></script>
 </body>
 </html>

@@ -50,6 +50,7 @@ BANNER_SCALE = 0.5
 KILLFEED_SCALE = 0.75
 MIN_CONF = 0.6
 NAME_RE = re.compile(r"^[A-Za-z0-9._\-]{3,16}$")
+ROOM_RE = re.compile(r"^[A-Z][a-z'’]+(?:\s+[A-Z][a-z'’]+)+$")   # "Billiards Room", "Upper Hallway"
 
 
 def crop(img: np.ndarray, region: tuple[float, float, float, float]) -> np.ndarray:
@@ -287,8 +288,10 @@ class HudReader:
         if r.in_round:  # menus put unrelated text in these boxes
             t, c = self._rec(crop(img, ROOM))
             if c >= 0.5 and len(t.strip()) >= 4:
-                # OCR sometimes drops the floor prefix; keep the room name anyway.
-                r.room = pretty_place(t) or re.sub(r"\s+", " ", t).strip()
+                # OCR sometimes drops the floor prefix; keep the room name only if it still looks
+                # like a callout (Title Case words), which rejects menu text like "MAPSELECTED.".
+                r.room = pretty_place(t) or (re.sub(r"\s+", " ", t).strip()
+                                             if ROOM_RE.match(t.strip()) else None)
             t, c = self._rec(crop(img, HEALTH))
             if c >= MIN_CONF:
                 m = re.match(r"\s*(\d{1,3})\s*[/／]", t)

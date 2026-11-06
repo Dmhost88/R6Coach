@@ -3,20 +3,28 @@
 from __future__ import annotations
 
 import asyncio
+import dataclasses
 import json
 import logging
+import os
 import threading
+import time
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 from fastapi import Body, FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.responses import FileResponse, Response
+from fastapi.staticfiles import StaticFiles
 
+import yaml
+
+from .. import config as config_mod
 from ..bus import Event
-from ..config import save_config
+from ..config import DashboardCfg, save_config
 
 if TYPE_CHECKING:
     from ..app import App
+    from ..config import Config
 
 log = logging.getLogger(__name__)
 STATIC = Path(__file__).resolve().parent / "static"
@@ -24,27 +32,107 @@ STATIC = Path(__file__).resolve().parent / "static"
 # Events forwarded to the page. vision.read carries the full read, which the detection view uses.
 FORWARD = {"state.updated", "screen.changed", "coach.said", "coach.advice", "coach.thinking", "vision.read",
            "llm.usage", "error", "ptt.listening", "ptt.question", "ptt.ready", "match.started",
-           "round.ended", "match.ended", "status"}
+           "round.ended", "match.ended", "status", "killfeed", "player.died"}
+
+TEST_LINE = "Voice check. 3 v 2. They have to come to you."
 
 
 def _jsonable(ev: Event) -> str:
     return json.dumps({"topic": ev.topic, "ts": ev.ts, "data": ev.data}, default=str)
 
 
+def _has_env(name: str) -> bool:
+    return bool(os.environ.get(name))
+
+
+def _without_run_overrides(cfg: "Config") -> "Config":
+    """A copy of cfg to write to config.yaml, keeping the dashboard section as it is on disk.
+
+    --port and --no-browser change cfg.dashboard for one run only; saving settings from the page
+    must not make them permanent.
+    """
+    out = cfg.model_copy(deep=True)
+    for path in (config_mod.config_path(), config_mod.ROOT / "config.example.yaml"):
+        try:
+            with open(path, encoding="utf-8") as f:
+                data = yaml.safe_load(f) or {}
+        except OSError:
+            continue
+        except yaml.YAMLError:
+            break
+        out.dashboard = DashboardCfg.model_validate(data.get("dashboard") or {})
+        break
+    return out
+
+
+def setup_checklist(app: "App") -> list[dict[str, Any]]:
+    """What is configured, as booleans and plain labels. Never includes a key's value."""
+    c = app.cfg
+    items: list[dict[str, Any]] = [
+        {"id": "anthropic", "label": "Claude API key", "ok": _has_env("ANTHROPIC_API_KEY"),
+         "hint": "ANTHROPIC_API_KEY in .env. Without it the coach reads the HUD locally and stays quiet."},
+    ]
+    prov = c.voice.provider
+    if prov == "openai":
+        items.append({"id": "voice", "label": "OpenAI voice key", "ok": _has_env("OPENAI_API_KEY"),
+                      "hint": "OPENAI_API_KEY in .env. Without it the offline Windows voice is used."})
+    elif prov == "elevenlabs":
+        items.append({"id": "voice", "label": "ElevenLabs voice key and voice id",
+                      "ok": _has_env("ELEVENLABS_API_KEY") and bool(c.voice.elevenlabs_voice_id),
+                      "hint": "ELEVENLABS_API_KEY in .env and voice.elevenlabs_voice_id in config.yaml."})
+    else:
+        items.append({"id": "voice", "label": "Voice on this PC", "ok": True,
+                      "hint": f"Voice provider is {prov}; no key needed."})
+    items += [
+        {"id": "player", "label": "In-game name", "ok": bool(c.player_name),
+         "hint": "player_name in config.yaml, so the coach can tell your kills and deaths apart."},
+        {"id": "maps", "label": "Map data", "ok": len(app.knowledge.maps) > 0,
+         "hint": f"{len(app.knowledge.maps)} maps loaded."},
+        {"id": "operators", "label": "Operator data", "ok": len(app.knowledge.operators) > 0,
+         "hint": f"{len(app.knowledge.operators)} operators loaded."},
+        {"id": "pool", "label": "Operator pool", "ok": bool(c.operator_pool.attack and c.operator_pool.defense),
+         "hint": "At least one attacker and one defender in your operator pool."},
+        {"id": "ptt", "label": "Push-to-talk", "ok": bool(app.ptt) and bool(app.ptt_ready),
+         "hint": f"Hold {c.push_to_talk.key} to ask." if app.ptt else "Off for this run (--no-ptt)."},
+    ]
+    return items
+
+
 def build(app: "App") -> FastAPI:
     api = FastAPI(title="R6 Coach", docs_url=None, redoc_url=None)
     clients: set[asyncio.Queue] = set()
     loop_holder: dict[str, asyncio.AbstractEventLoop] = {}
+    speech = {"said": False, "started": False}
+
+    def send(msg: str) -> None:
+        loop = loop_holder.get("loop")
+        if loop is None:
+            return
+        for q in list(clients):
+            loop.call_soon_threadsafe(_put, q, msg)
 
     def on_event(ev: Event) -> None:
         if ev.topic not in FORWARD:
             return
-        loop = loop_holder.get("loop")
-        if loop is None:
-            return
-        msg = _jsonable(ev)
-        for q in list(clients):
-            loop.call_soon_threadsafe(_put, q, msg)
+        if ev.topic == "coach.said" and ev.data.get("audio"):
+            speech["said"] = True
+        send(_jsonable(ev))
+
+    def speaking() -> bool:
+        return bool(getattr(app.speaker, "_playing", False))
+
+    def watch_speech() -> None:
+        """Tell the page when a spoken line has finished, so it can drop the is-speaking state.
+
+        The speaker announces a line (coach.said) just before it plays and clears its playing flag
+        when playback ends. Watching that flag here keeps the voice code untouched. The event goes
+        to open pages only, not onto the bus.
+        """
+        while True:
+            time.sleep(0.15)
+            if speech["said"] and not speaking():
+                speech["said"] = False
+                send(json.dumps({"topic": "coach.done", "ts": time.time(), "data": {}}))
 
     def _put(q: asyncio.Queue, msg: str) -> None:
         try:
@@ -54,13 +142,43 @@ def build(app: "App") -> FastAPI:
 
     app.bus.subscribe("*", on_event)
 
+    @api.middleware("http")
+    async def revalidate(request, call_next):
+        # The page and its assets change with app updates; make the browser check instead of guessing.
+        resp = await call_next(request)
+        if request.url.path == "/" or request.url.path.startswith("/static/"):
+            resp.headers.setdefault("Cache-Control", "no-cache")
+        return resp
+
     @api.get("/")
     def index() -> FileResponse:
         return FileResponse(STATIC / "index.html")
 
+    def full_status() -> dict[str, Any]:
+        st = app.status()
+        st["speaking"] = speaking()
+        st["voice_provider"] = app.cfg.voice.provider
+        return st
+
     @api.get("/api/status")
     def status() -> dict[str, Any]:
-        return app.status()
+        return full_status()
+
+    @api.get("/api/setup")
+    def setup() -> list[dict[str, Any]]:
+        return setup_checklist(app)
+
+    @api.get("/api/memory")
+    def memory() -> dict[str, Any]:
+        mem = getattr(app, "memory", None)
+        if mem is None:
+            return {"rounds": [], "current": None, "killers_of_me": {}}
+        with mem._lock:
+            return {
+                "rounds": [dataclasses.asdict(r) for r in mem.rounds],
+                "current": dataclasses.asdict(mem.cur),
+                "killers_of_me": dict(mem.killers_of_me.most_common()),
+            }
 
     @api.get("/api/history")
     def history() -> list[dict[str, Any]]:
@@ -86,6 +204,19 @@ def build(app: "App") -> FastAPI:
             "vision_model": c.vision.model,
             "ptt_key": c.push_to_talk.key,
             "operators": sorted({o["name"] for o in app.knowledge.operators.values()}),
+            "operators_by_side": {
+                side: sorted({o["name"] for o in app.knowledge.operators.values() if o.get("side") == side})
+                for side in ("attack", "defense")
+            },
+            "voice": {
+                "provider": c.voice.provider,
+                "voice": {"openai": c.voice.openai_voice, "elevenlabs": c.voice.elevenlabs_voice_id,
+                          "kokoro": getattr(c.voice, "local_voice", "")}.get(c.voice.provider, ""),
+                "model": {"openai": c.voice.openai_model, "elevenlabs": c.voice.elevenlabs_model,
+                          "kokoro": getattr(c.voice, "local_model", "")}.get(c.voice.provider, ""),
+                "output_device": c.voice.output_device or "",
+            },
+            "player_name": c.player_name,
         }
 
     @api.post("/api/settings")
@@ -101,7 +232,7 @@ def build(app: "App") -> FastAPI:
             c.coach.skill_level = body["skill_level"]
         if "volume" in body:
             c.voice.volume = max(0.0, min(1.0, float(body["volume"])))
-        save_config(c)
+        save_config(_without_run_overrides(c))
         return {"ok": "saved"}
 
     @api.get("/api/maps")
@@ -133,16 +264,27 @@ def build(app: "App") -> FastAPI:
             text = str(body.get("text", "")).strip()
             if text:
                 app.bus.publish("ptt.question", text=text, typed=True)
+        elif action == "test_voice":
+            st = full_status()
+            if app.speaker.muted:
+                st["test_voice"] = "muted"
+            else:
+                app.speaker.say(TEST_LINE, priority=0, ttl=10.0, phase="test")
+                st["test_voice"] = "queued"
+            return st
         elif action in app.controls:
             app.controls[action]()
         else:
             raise HTTPException(404, f"unknown action {action}")
-        return app.status()
+        return full_status()
 
     @api.websocket("/ws")
     async def ws(sock: WebSocket) -> None:
         await sock.accept()
         loop_holder["loop"] = asyncio.get_running_loop()
+        if not speech["started"]:
+            speech["started"] = True
+            threading.Thread(target=watch_speech, name="dashboard-speech", daemon=True).start()
         q: asyncio.Queue = asyncio.Queue(maxsize=500)
         clients.add(q)
         try:
@@ -154,6 +296,8 @@ def build(app: "App") -> FastAPI:
         finally:
             clients.discard(q)
 
+    # Stylesheets, scripts, fonts and the design system's assets. Mounted last so the API routes win.
+    api.mount("/static", StaticFiles(directory=STATIC), name="static")
     return api
 
 

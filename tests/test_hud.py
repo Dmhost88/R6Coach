@@ -27,6 +27,9 @@ def test_parsers():
     assert parse_banners(["3VS 2"])[1] == {"alive_us": 3, "alive_them": 2}
     assert pretty_place("GYEXTFrontYard Patio") == "EXT Front Yard Patio"
     assert pretty_place("BWine Cellar") == "B Wine Cellar"
+    from r6coach.hud import ROOM_RE
+    assert ROOM_RE.match("Biliards Room") and ROOM_RE.match("Upper Hallway")
+    assert not ROOM_RE.match("MAPSELECTED.") and not ROOM_RE.match("one tice.")
     assert parse_banners(["PREPARATIONPHASE", "FORTIFYBOMBSITES"])[1]["side"] == "defense"
     assert parse_banners(["ACTION PHASE", "PLANT THE DEFUSER AT ANY BOMB SITE"])[1]["side"] == "attack"
 

@@ -56,8 +56,16 @@ def main() -> int:
     p.add_argument("--no-tray", action="store_true", help="run without the tray icon (Ctrl+C to quit)")
     p.add_argument("--no-ptt", action="store_true", help="disable push-to-talk and hotkeys")
     p.add_argument("--no-browser", action="store_true", help="don't open the dashboard automatically")
+    p.add_argument("--port", type=int, help="dashboard port (default from config.yaml, 8765)")
+    p.add_argument("--offline", action="store_true",
+                   help="never call Claude (testing): ignores ANTHROPIC_API_KEY in .env and the environment")
     p.add_argument("-v", "--verbose", action="store_true")
     args = p.parse_args()
+    if args.offline:
+        # An empty value (not a deleted one) stops load_env from reading the key from .env.
+        # Setting it to "" in a shell deletes it on Windows, so it has to happen here.
+        os.environ["ANTHROPIC_API_KEY"] = ""
+        os.environ["R6COACH_OFFLINE"] = "1"
 
     logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO,
                         format="%(asctime)s %(levelname)s %(name)s: %(message)s", datefmt="%H:%M:%S")
@@ -66,6 +74,8 @@ def main() -> int:
     cfg = load_config()
     if args.no_browser:
         cfg.dashboard.open_browser = False
+    if args.port:
+        cfg.dashboard.port = args.port
 
     if args.check:
         return check(cfg)

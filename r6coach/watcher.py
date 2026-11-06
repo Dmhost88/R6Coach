@@ -201,7 +201,7 @@ class Watcher:
                 s.score_them = h.score_them
             if h.reinforcements is not None:
                 s.team_reinforcements = h.reinforcements
-        if h.room:
+        if h.room and s.screen not in PRE_ROUND:   # menus that show the top bar can put junk in the room box
             s.my_location = h.room
         if h.health is not None:
             s.health = h.health

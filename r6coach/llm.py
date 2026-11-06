@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import base64
 import logging
+import os
 import threading
 import time
 from typing import Optional, TypeVar
@@ -281,7 +282,10 @@ class Claude:
             # The SDK raises TypeError before sending when no credentials are configured at all.
             if "authentication" not in str(e).lower():
                 raise
-            self._error(purpose, "No Anthropic API key: add ANTHROPIC_API_KEY to .env")
+            if os.environ.get("R6COACH_OFFLINE") == "1":
+                self._error(purpose, "Offline mode: Claude calls are off (started with --offline)")
+            else:
+                self._error(purpose, "No Anthropic API key: add ANTHROPIC_API_KEY to .env")
             return None
         except anthropic.RateLimitError:
             self._error(purpose, "Rate limited by the Anthropic API")
