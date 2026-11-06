@@ -1,0 +1,426 @@
+# Regression scenarios reconstructed from a REAL recorded Ranked match (tools/eval_real.py).
+#
+# Source: data/calibration/2026-11-06_005400/auto (353 frames, 3440x1440, named HHMMSS_NNNN).
+# Chalet, Ranked, won 4-1. Player: dmhost88. Rounds 1-3 attack, role swap, rounds 4-5 defense.
+#
+# How this was built: every frame was replayed through r6coach.hud.HudReader (timer, score,
+# room, banners, BOMBS FOUND site, N VS M, killfeed). Then each fact below was checked by eye
+# on contact sheets and crops: operator cards on the READY tab, ban icons under the top bar,
+# the BOMB SITES list on the ban screen, the kill-cam cards (killer operator and weapon) and the
+# enemy operator icons on the top bar. Operator icons that could not be identified with
+# confidence are left out rather than guessed. Fields the HUD did not read exactly (the timer at
+# the round 5 death fell between two frames) are marked "approx".
+#
+# Rounds hold the ground truth. Scenarios are the decision points: the GameState at that moment,
+# which coach method runs, and which frame is attached as the screenshot (ban, pick and death
+# attach one, exactly where the live coach would). Match history for a scenario is built from the
+# rounds before it (for between_rounds, including the round that just ended), replayed into
+# MatchMemory as bus events.
+
+match:
+  session: 2026-11-06_005400
+  map: Chalet
+  player: dmhost88
+  result: won 4-1
+  site_options: &sites
+    - 2F Master Bedroom / 2F Office
+    - 1F Bar / 1F Gaming Room
+    - 1F Kitchen / 1F Dining Room
+    - B Wine Cellar / B Snowmobile Garage
+
+rounds:
+  - n: 1
+    side: attack
+    site: 2F Master Bedroom / 2F Office      # BOMBS FOUND 005714_0037
+    operator: Thermite
+    spawn: Lakeside
+    team: [Fuze, Kali, Striker, Sledge, Thermite]
+    bans: [Mira, Ace]                        # ban splash 005604_0025: Mira (our ban), Ace (theirs)
+    enemy_ops: [Maestro, Goyo, Tachanka]     # top bar 005951_0086; one more icon not identified
+    won: true
+    planted: true                            # DEFUSER PLANTED 005951_0086 (1F Kitchen)
+    kills:                                   # killfeed in order, from the HUD reader
+      - [Mate_A, us, Enemy_A]
+      - [Mate_A, us, Enemy_B]
+      - [Mate_B, us, Enemy_C]
+      - [Mate_C, us, Enemy_D]
+      - [Enemy_E, them, dmhost88]
+      - [Mate_B, us, Enemy_E]
+    death:
+      killer: Enemy_E
+      killer_operator: Maestro
+      weapon: ACS12
+      room: 2F Library Hallway
+      timer: 77
+      alive_before: [5, 1]
+    frames:
+      ban: "005548_0023"
+      pick: "005616_0027"
+      prep_start: "005658_0032"
+      bombs_found: "005714_0037"
+      death: "005926_0078"
+      round_end: "005955_0087"
+    notes: >-
+      Team took 4 kills by 1:23 (5v1). The player then died alone in 2F Library Hallway at 5v1 to the
+      last defender, Enemy_E on Maestro (ACS12). Teammates planted in 1F Kitchen and Mate_B
+      killed Enemy_E.
+
+  - n: 2
+    side: attack
+    site: 2F Master Bedroom / 2F Office      # BOMBS FOUND 010125_0105
+    operator: Thermite
+    spawn: Cliffside
+    team: [Fuze, Brava, Striker, Jackal, Thermite]
+    bans: [Mira, Ace]
+    enemy_ops: [Maestro, Tachanka, Bandit]   # top bar 010356_0151; one more icon not identified
+    won: true
+    planted: false
+    kills:
+      - [Enemy_B, them_tk, Enemy_B]  # reverse friendly fire: enemy team killing itself
+      - [Enemy_A, them_tk, Enemy_C]
+      - [Enemy_D, them_tk, Enemy_A]
+      - [Enemy_E, them, Mate_A]
+      - [Enemy_E, them, Mate_B]
+      - [dmhost88, us, Enemy_D]
+      - [Mate_C, us, Enemy_E]
+    death: null
+    frames:
+      ban: "010010_0092"
+      pick: "010033_0095"
+      prep_start: "010106_0099"
+      bombs_found: "010125_0105"
+      round_end: "010359_0152"
+    notes: >-
+      The enemy team lost three players to their own friendly fire in the first 20 seconds (5v2 at
+      2:41). Enemy_E (Maestro) then killed Mate_A in 2F Office and Mate_B on 2F Library Stairs.
+      The player cleared through Front Yard and the 1F Gaming Room Hallway, then went up the 2F
+      Library Stairs, killed Enemy_D from 2F Library Entrance and survived. Won by elimination.
+
+  - n: 3
+    side: attack
+    site: B Wine Cellar / B Snowmobile Garage   # BOMBS FOUND 010536_0169
+    operator: Blitz
+    spawn: Lakeside
+    team: [Thermite, Hibana, Ram, Amaru, Blitz]
+    bans: [Mira, Caveira]                    # defender bans under the top bar 010441_0160 (+1 unidentified)
+    enemy_ops: [Maestro, Tachanka, Aruni, Thunderbird]   # top bar 010832_0223
+    won: false
+    planted: false                           # YOUR TEAM DROPPED THE DEFUSER 010714_0199
+    kills:
+      - [Enemy_C, them_tk, Enemy_B]
+      - [Mate_A, us, Enemy_C]
+      - [Enemy_E, them, Mate_A]
+      - [Enemy_A, them, Mate_C]
+      - [Enemy_E, them, dmhost88]
+      - [Mate_B, us, Enemy_D]
+      - [Mate_B, us, Enemy_A]
+      - [Enemy_E, them, Mate_B]
+    death:
+      killer: Enemy_E
+      killer_operator: Maestro
+      weapon: Evil Eye
+      room: B Snowmobile Garage
+      timer: 102
+      alive_before: [2, 3]
+      health_before: 25
+    frames:
+      ban: "010415_0157"
+      pick: "010441_0160"
+      prep_start: "010524_0165"
+      bombs_found: "010536_0169"
+      death: "010727_0203"
+      round_end: "010835_0224"
+    notes: >-
+      The player pushed EXT Snowmobiles into B Snowmobile Garage behind the Blitz shield and was worn
+      down from 110 to 25 health in the garage. The
+      defuser carrier Mate_C died at 1:53 and the defuser was dropped. The player was then
+      killed by Enemy_E's Maestro Evil Eye in B Snowmobile Garage at 2v3. Mate_B got two kills
+      but lost the 1v1 to Enemy_E in B Snowmobile Garage. Lost; Enemy_E (Maestro) has now killed
+      the player twice.
+
+  - n: 4
+    side: defense
+    site: 2F Master Bedroom / 2F Office      # objective location on the READY tab 010930_0233
+    operator: Lesion
+    team: [Thorn, Ela, Mira, Kapkan, Lesion]
+    bans: [Ace]                              # attacker ban under the top bar 010921_0232 (bans cleared at role swap)
+    enemy_ops: [Kali]                        # kill cam 011133_0265; other icons not identified
+    won: true
+    planted: false
+    kills:
+      - [Mate_B, us, Enemy_B]
+      - [Enemy_C, them, dmhost88]
+      - [Mate_C, us, Enemy_A]
+      - [Mate_D, us, Enemy_E]
+      - [Mate_D, us, Enemy_C]
+    death:
+      killer: Enemy_C
+      killer_operator: Kali
+      weapon: CSRX 300
+      room: 2F Piano Room
+      timer: 133
+      alive_before: [5, 4]
+      health_before: 35
+    frames:
+      ban: "010852_0229"
+      pick: "010921_0232"
+      prep_start: "011002_0236"
+      death: "011133_0265"
+      round_end: "011248_0286"
+    notes: >-
+      Team reinforced 2F Master Bedroom / 2F Office (9 reinforcements at prep start, 3 left by 0:20).
+      The player held 2F Office early, was shot down to 35 health at 2:35, moved to 2F Piano Room
+      and was killed there at 2:13 by Enemy_C on Kali with the CSRX 300 at 5v4. Mate_D
+      (Ela) closed the round with the last two kills from 2F Solarium. Won by elimination.
+
+  - n: 5
+    side: defense
+    site: B Wine Cellar / B Snowmobile Garage   # objective location on the READY tab 011353_0296
+    operator: Rook
+    team: [Bandit, Goyo, Aruni, Lesion, Rook]
+    bans: [Ace, Thermite]                    # attacker bans under the top bar 011353_0296
+    enemy_ops: [Fuze, Sledge]                # kill cam 011709_0333 and top bar 011722_0337
+    won: true
+    planted: false
+    kills:
+      - [Enemy_D, them, Mate_B]
+      - [Mate_A, us, Enemy_C]
+      - [Mate_D, us, Enemy_D]
+      - [Enemy_E, them, Mate_C]
+      - [Enemy_A, them, dmhost88]
+      - [Enemy_A, them, Mate_A]
+      - [Mate_D, us, Enemy_A]
+    death:
+      killer: Enemy_A
+      killer_operator: Fuze
+      weapon: AK-12 (headshot)
+      room: B Wine Cellar
+      timer: 85                              # approx: last HUD read 1:51 at 011640, kill cam at 011709
+      alive_before: [3, 2]
+    frames:
+      ban: "011307_0292"
+      pick: "011331_0295"
+      prep_start: "011450_0299"
+      death: "011709_0333"
+      round_end: "011725_0338"
+    notes: >-
+      Enemy_B left the match during prep (5v4). Enemies found the bombs at 0:32 of prep. The
+      player anchored B Wine Cellar the whole round. At 3v2 the player was headshot in B Wine Cellar
+      by Enemy_A on Fuze (AK-12), who then also killed Mate_A; Mate_D killed Enemy_A to
+      win the match 4-1.
+
+scenarios:
+  - name: r1_ban_attack
+    round: 1
+    method: ban
+    frame: "005548_0023"
+    state:
+      side: attack
+      round_number: 1
+      score_us: 0
+      score_them: 0
+      site_options: *sites
+
+  - name: r1_pick_thermite
+    round: 1
+    method: pick
+    frame: "005616_0027"
+    state:
+      side: attack
+      round_number: 1
+      score_us: 0
+      score_them: 0
+      site_options: *sites
+      banned_operators: [Mira, Ace]
+      spawn: Lakeside
+
+  - name: r1_death_library_hallway
+    round: 1
+    method: death
+    frame: "005926_0078"
+    state:
+      side: attack
+      site: 2F Master Bedroom / 2F Office
+      my_operator: Thermite
+      my_location: 2F Library Hallway
+      timer_seconds: 77
+      alive_us: 5
+      alive_them: 1
+      round_number: 1
+      score_us: 0
+      score_them: 0
+      teammate_operators: [Fuze, Kali, Striker, Sledge, Thermite]
+      enemy_operators: [Goyo, Tachanka]
+
+  - name: r2_prep_attack_office
+    round: 2
+    method: prep
+    frame: "010125_0105"
+    state:
+      side: attack
+      site: 2F Master Bedroom / 2F Office
+      site_options: *sites
+      my_operator: Thermite
+      my_location: 2F Library Hallway
+      spawn: Cliffside
+      round_number: 2
+      score_us: 1
+      score_them: 0
+      teammate_operators: [Fuze, Brava, Striker, Jackal, Thermite]
+      banned_operators: [Mira, Ace]
+
+  - name: r3_pick_attack
+    round: 3
+    method: pick
+    frame: "010441_0160"
+    state:
+      side: attack
+      round_number: 3
+      score_us: 2
+      score_them: 0
+      site_options: *sites
+      banned_operators: [Mira, Caveira]
+      teammate_operators: [Thermite]
+      spawn: Lakeside
+
+  - name: r3_prep_attack_cellar
+    round: 3
+    method: prep
+    frame: "010536_0169"
+    state:
+      side: attack
+      site: B Wine Cellar / B Snowmobile Garage
+      site_options: *sites
+      my_operator: Blitz
+      my_location: EXT Front Yard Patio
+      spawn: Lakeside
+      round_number: 3
+      score_us: 2
+      score_them: 0
+      teammate_operators: [Thermite, Hibana, Ram, Amaru, Blitz]
+      banned_operators: [Mira, Caveira]
+
+  - name: r3_death_snowmobile_garage
+    round: 3
+    method: death
+    frame: "010727_0203"
+    state:
+      side: attack
+      site: B Wine Cellar / B Snowmobile Garage
+      my_operator: Blitz
+      my_location: B Snowmobile Garage
+      timer_seconds: 102
+      alive_us: 2
+      alive_them: 3
+      health: 25
+      round_number: 3
+      score_us: 2
+      score_them: 0
+      teammate_operators: [Thermite, Hibana, Ram, Amaru, Blitz]
+      enemy_operators: [Tachanka, Aruni, Thunderbird]
+
+  - name: r3_debrief_lost
+    round: 3
+    method: between_rounds
+    won: false
+    frame: "010835_0224"
+    state:
+      side: attack
+      site: B Wine Cellar / B Snowmobile Garage
+      my_operator: Blitz
+      round_number: 3
+      score_us: 2
+      score_them: 1
+
+  - name: r4_ban_defense
+    round: 4
+    method: ban
+    frame: "010852_0229"
+    state:
+      side: defense
+      round_number: 4
+      score_us: 2
+      score_them: 1
+      site_options: *sites
+
+  - name: r4_pick_defense_office
+    round: 4
+    method: pick
+    frame: "010921_0232"
+    state:
+      side: defense
+      site: 2F Master Bedroom / 2F Office
+      site_options: *sites
+      round_number: 4
+      score_us: 2
+      score_them: 1
+      banned_operators: [Ace]
+      teammate_operators: [Mira]
+
+  - name: r4_prep_lesion
+    round: 4
+    method: prep
+    frame: "011002_0236"
+    state:
+      side: defense
+      site: 2F Master Bedroom / 2F Office
+      my_operator: Lesion
+      my_location: 2F Office
+      round_number: 4
+      score_us: 2
+      score_them: 1
+      teammate_operators: [Thorn, Ela, Mira, Kapkan, Lesion]
+      banned_operators: [Ace]
+      team_reinforcements: 9
+
+  - name: r4_death_piano_room
+    round: 4
+    method: death
+    frame: "011133_0265"
+    state:
+      side: defense
+      site: 2F Master Bedroom / 2F Office
+      my_operator: Lesion
+      my_location: 2F Piano Room
+      timer_seconds: 133
+      alive_us: 5
+      alive_them: 4
+      health: 35
+      round_number: 4
+      score_us: 2
+      score_them: 1
+      teammate_operators: [Thorn, Ela, Mira, Kapkan, Lesion]
+
+  - name: r5_prep_rook_cellar
+    round: 5
+    method: prep
+    frame: "011450_0299"
+    state:
+      side: defense
+      site: B Wine Cellar / B Snowmobile Garage
+      my_operator: Rook
+      my_location: B Storage Room
+      round_number: 5
+      score_us: 3
+      score_them: 1
+      teammate_operators: [Bandit, Goyo, Aruni, Lesion, Rook]
+      banned_operators: [Ace, Thermite]
+      team_reinforcements: 8
+
+  - name: r5_death_wine_cellar
+    round: 5
+    method: death
+    frame: "011709_0333"
+    state:
+      side: defense
+      site: B Wine Cellar / B Snowmobile Garage
+      my_operator: Rook
+      my_location: B Wine Cellar
+      timer_seconds: 85
+      alive_us: 3
+      alive_them: 2
+      round_number: 5
+      score_us: 3
+      score_them: 1
+      teammate_operators: [Bandit, Goyo, Aruni, Lesion, Rook]
+      enemy_operators: [Sledge]
