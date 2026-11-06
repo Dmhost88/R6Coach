@@ -82,6 +82,35 @@ def test_my_kill_waits_for_gunfight_and_my_death_blocks_clutch(bus):
     assert LINES["def_planted"] not in said                     # dead: the coach stays quiet
 
 
+def test_hud_alone_starts_new_rounds(bus):
+    """With no cloud reads at all, prep banners still reset per-round lines."""
+    w, live, said = make(bus, level=2)
+    for _ in range(2):
+        w.apply_hud(HudRead(ts=0, timer=44, events=["prep"], side="attack"))
+        w.apply_hud(HudRead(ts=0, timer=180, events=["action"]))
+        w.apply_hud(HudRead(ts=0, timer=44))
+        w.apply_hud(HudRead(ts=0, timer_hidden=True, events=["lost_round"]))
+    assert said.count(LINES["atk_45"]) == 2
+    assert w.state.player_alive is True
+
+
+def test_quick_cloud_reads_between_rounds(bus):
+    """After a death the screen stays 'spectating' (60s interval); once the HUD shows no round,
+    the watcher must read at the quick default rate so it catches the ban and pick screens."""
+    import numpy as np
+    w, live, said = make(bus)
+    start_round(w)
+    w.apply(ScreenRead(screen=Screen.spectating, confidence=0.9))
+    w.gate.mark_read(time.time() - 20, np.zeros((40, 96), np.float32))   # 20s > quick refresh, < 60s
+    w._hud_in_round_ts = time.time() - 30          # HUD hasn't seen a round for 30s
+    reads = []
+    w.claude = type("C", (), {"read_screen": lambda *a, **k: reads.append(1)})()
+    img = np.full((1440, 3440, 3), 128, np.uint8)
+    w.source = type("S", (), {"latest": lambda self: (time.time(), img)})()
+    w._tick()
+    assert reads == [1]
+
+
 def test_silent_at_level_zero(bus):
     w, live, said = make(bus, level=0)
     start_round(w)

@@ -1,0 +1,83 @@
+/* R6 Coach components. Load tokens.css first (it carries the @font-face rules for the bundled fonts). */
+.rc-display { font: 700 36px/40px var(--font-display); font-variation-settings: "wdth" 85; letter-spacing: 0.01em; }
+.rc-heading { font: 650 20px/26px var(--font-display); font-variation-settings: "wdth" 90; }
+.rc-root, body { background: var(--ground); color: var(--ink); font: 400 15px/22px var(--font-sans); }
+.rc-root *, .rc-root *::before, .rc-root *::after { box-sizing: border-box; }
+:where(.rc-btn, .rc-input, .rc-tabs button, .rc-range, .rc-select):focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+
+/* Button */
+.rc-btn { display: inline-flex; align-items: center; gap: var(--space-2); background: var(--surface-raised); color: var(--ink); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 6px var(--space-3); font: 500 14px/20px var(--font-sans); cursor: pointer; white-space: nowrap; }
+.rc-btn:hover { border-color: var(--control-border); }
+.rc-btn--primary { background: var(--signal); color: var(--on-signal); border-color: var(--signal); font-weight: 600; }
+.rc-btn--primary:hover { border-color: var(--on-signal); }
+.rc-btn--quiet { background: transparent; border-color: transparent; color: var(--ink-muted); }
+.rc-btn--quiet:hover { color: var(--ink); border-color: var(--line); }
+.rc-btn:disabled { color: var(--ink-faint); background: transparent; border-color: var(--line); cursor: not-allowed; }
+
+/* Status pill */
+.rc-pill { display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px; border-radius: var(--radius-full); background: var(--surface); border: 1px solid var(--line); color: var(--ink-muted); font: 500 12px/18px var(--font-mono); white-space: nowrap; }
+.rc-pill::before { content: ""; width: 6px; height: 6px; border-radius: var(--radius-full); background: var(--ink-faint); }
+.rc-pill--live { color: var(--good); }
+.rc-pill--live::before { background: var(--good); }
+.rc-pill--warn { color: var(--signal-ink); background: var(--signal-soft); }
+.rc-pill--warn::before { background: var(--signal); }
+.rc-pill--error { color: var(--bad); }
+.rc-pill--error::before { background: var(--bad); }
+.rc-pill--plain::before { display: none; }
+
+/* Tabs */
+.rc-tabs { display: flex; gap: 2px; padding: 0 var(--space-4); border-bottom: 1px solid var(--line); background: var(--surface); }
+.rc-tabs button { background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; color: var(--ink-muted); padding: 10px 14px; font: 500 14px/20px var(--font-sans); cursor: pointer; }
+.rc-tabs button:hover { color: var(--ink); }
+.rc-tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--signal); }
+
+/* Card */
+.rc-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: var(--space-4); }
+.rc-card__title { margin: 0 0 var(--space-3); font: 600 12px/16px var(--font-display); font-variation-settings: "wdth" 100; letter-spacing: 0.02em; color: var(--ink-muted); }
+.rc-card__hint { margin: var(--space-3) 0 0; font: 400 13px/18px var(--font-sans); color: var(--ink-muted); }
+
+/* Scoreline */
+.rc-score { display: flex; align-items: baseline; gap: var(--space-3); font: 600 36px/40px var(--font-mono); font-variant-numeric: tabular-nums; }
+.rc-score__us { color: var(--team-us); }
+.rc-score__them { color: var(--team-them); }
+.rc-score__dash { color: var(--ink-faint); font-weight: 400; }
+.rc-score__meta { margin-left: auto; align-self: center; font: 500 13px/18px var(--font-sans); color: var(--ink-muted); }
+
+/* State list */
+.rc-state { display: grid; grid-template-columns: auto 1fr; gap: 6px var(--space-4); margin: var(--space-3) 0 0; }
+.rc-state dt { color: var(--ink-muted); font: 400 14px/20px var(--font-sans); }
+.rc-state dd { margin: 0; font: 500 14px/20px var(--font-sans); }
+.rc-state dd.rc-num { font: 500 14px/20px var(--font-mono); font-variant-numeric: tabular-nums; }
+.rc-state .rc-empty { color: var(--ink-faint); }
+
+/* Coach feed */
+.rc-feed { list-style: none; margin: 0; padding: 0; }
+.rc-feed li { display: grid; grid-template-columns: 64px 1fr; gap: var(--space-3); padding: var(--space-2) var(--space-2); border-bottom: 1px solid var(--line); border-radius: var(--radius-sm); }
+.rc-feed__t { color: var(--ink-muted); font: 400 12px/24px var(--font-mono); font-variant-numeric: tabular-nums; }
+.rc-feed__body { font: 500 16px/24px var(--font-sans); }
+.rc-feed__phase { display: inline-block; margin-right: var(--space-2); padding: 0 6px; border-radius: var(--radius-sm); background: var(--surface-raised); color: var(--ink-muted); font: 600 12px/20px var(--font-display); vertical-align: 1px; }
+.rc-feed li.is-speaking { background: var(--signal-soft); }
+.rc-feed li.is-speaking .rc-feed__phase { background: var(--signal); color: var(--on-signal); }
+.rc-feed li.is-you .rc-feed__body { color: var(--team-us); font-weight: 400; }
+.rc-feed li.is-error .rc-feed__body { color: var(--bad); font-weight: 400; }
+
+/* Ask bar and inputs */
+.rc-ask { display: flex; gap: var(--space-2); }
+.rc-input, .rc-select { width: 100%; background: var(--ground); color: var(--ink); border: 1px solid var(--control-border); border-radius: var(--radius-md); padding: 6px 10px; font: 400 15px/22px var(--font-sans); }
+.rc-input::placeholder { color: var(--ink-muted); }
+.rc-input:disabled { color: var(--ink-faint); border-color: var(--line); }
+
+/* Slider row */
+.rc-field { display: flex; align-items: center; gap: var(--space-3); margin: var(--space-2) 0; }
+.rc-field__label { min-width: 140px; color: var(--ink-muted); font: 400 14px/20px var(--font-sans); }
+.rc-range { flex: 1; accent-color: var(--signal); }
+.rc-field__value { min-width: 2ch; text-align: right; font: 500 14px/20px var(--font-mono); color: var(--ink); }
+
+/* Match table */
+.rc-table { width: 100%; border-collapse: collapse; font: 400 14px/20px var(--font-sans); }
+.rc-table th, .rc-table td { text-align: left; padding: var(--space-2); border-bottom: 1px solid var(--line); }
+.rc-table th { color: var(--ink-muted); font: 600 12px/16px var(--font-display); letter-spacing: 0.02em; }
+.rc-table tbody tr:hover { background: var(--surface-raised); }
+.rc-table .rc-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.rc-win { color: var(--good); font-weight: 600; }
+.rc-loss { color: var(--bad); font-weight: 600; }

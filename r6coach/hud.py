@@ -241,6 +241,7 @@ class HudReader:
         self._last_kf_ts = 0.0
         self._last_banners: list[str] = []
         self._last_in_round_ts = 0.0
+        self._banner_found = False
         self._last_kills: list[Kill] = []
 
     # ------------------------------------------------------------------ OCR helpers
@@ -318,7 +319,9 @@ class HudReader:
         region = crop(img, BANNER)
         sig = white_text_pixels(region)
         changed = abs(sig - self._last_banner_sig) > max(40, 0.25 * max(self._last_banner_sig, 1))
-        due = sig > 25 and (changed or now - self._last_banner_ts > 2.5)
+        # Bright scenes (fog, snow, loading screens) look like banner text. Re-run an unchanged
+        # region only while it actually held banner text last time.
+        due = sig > 25 and (changed or (self._banner_found and now - self._last_banner_ts > 2.5))
         if not force and (not due or now - self._last_banner_ts < 1.0):
             r.banners = []
             return
@@ -328,6 +331,7 @@ class HudReader:
         lines = join_lines(items)
         r.banners = lines
         r.events, extras = parse_banners(lines)
+        self._banner_found = bool(r.events)
         r.alive_us = extras.get("alive_us")
         r.alive_them = extras.get("alive_them")
         r.site = extras.get("site")

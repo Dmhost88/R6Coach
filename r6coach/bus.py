@@ -22,6 +22,11 @@ class Event:
 Handler = Callable[[Event], None]
 
 
+# High-frequency topics (about once a second from the HUD reader) are delivered but not kept in
+# history, so they can't push errors and coach lines out of the dashboard's backlog.
+NOT_IN_HISTORY = {"state.updated", "live.event"}
+
+
 class Bus:
     def __init__(self, history: int = 300) -> None:
         self._subs: dict[str, list[Handler]] = defaultdict(list)
@@ -36,7 +41,8 @@ class Bus:
     def publish(self, topic: str, **data: Any) -> Event:
         ev = Event(topic, data)
         with self._lock:
-            self.history.append(ev)
+            if topic not in NOT_IN_HISTORY:
+                self.history.append(ev)
             handlers = list(self._subs.get(topic, [])) + list(self._subs.get("*", []))
         for h in handlers:
             try:

@@ -46,7 +46,10 @@ class HudCfg(BaseModel):
 
 class CoachCfg(BaseModel):
     model: str = "claude-opus-5-5"
-    effort: str = "medium"
+    effort: str = "medium"           # bans, picks, questions (short screens: must be quick)
+    deep_effort: str = "high"        # defense prep plan (made during pick) and round debriefs
+    live_effort: str = "low"         # in-round tactical calls (must land within seconds)
+    live_min_gap: float = 15.0       # seconds between in-round tactical calls
     skill_level: str = "intermediate"
     chattiness: dict[str, int] = Field(
         default_factory=lambda: {

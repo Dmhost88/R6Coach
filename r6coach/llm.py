@@ -17,7 +17,7 @@ import anthropic
 from pydantic import BaseModel, Field
 
 from .bus import Bus
-from .models import ScreenRead
+from .models import KillfeedEntry, PingedEnemy, Screen, ScreenRead
 
 log = logging.getLogger(__name__)
 
@@ -38,13 +38,78 @@ FALLBACK_MODELS = {"claude-fable-5-1", "claude-opus-5-5", "claude-opus-5", "clau
 
 
 class CoachLines(BaseModel):
-    """What the coach says. Each line is spoken separately, in order."""
+    """What the coach says. Each line is spoken separately, in order.
+    Every field is required (no optional/nullable fields): structured outputs reject schemas
+    with many optional parameters as "too complex"."""
 
     lines: list[str] = Field(description="Short spoken lines, most important first")
-    recommended_operator: Optional[str] = Field(
-        default=None, description="Operator name, only when recommending a pick"
-    )
-    recommended_bans: list[str] = Field(default_factory=list)
+    recommended_operator: str = Field(description="Operator name when recommending a pick, else empty")
+    recommended_bans: list[str] = Field(description="Recommended bans, else empty")
+
+
+# ---------------------------------------------------------------- screen-read wire format
+# The API rejected ScreenRead itself ("Schema is too complex": ~20 nullable fields). The wire
+# format is flat and fully required: "" = not visible, -1 = not visible / unknown.
+
+class WireKill(BaseModel):
+    killer_team: str = Field(description="'us', 'them' or ''")
+    killer_operator: str
+    victim_team: str = Field(description="'us', 'them' or ''")
+    victim_operator: str
+    headshot: int = Field(description="1 yes, 0 no, -1 unknown")
+
+
+class WirePing(BaseModel):
+    location: str
+    operator: str = Field(description="Operator name if the ping names one, else ''")
+
+
+class WireRead(BaseModel):
+    screen: Screen
+    map: str
+    side: str = Field(description="'attack', 'defense' or ''")
+    site: str
+    site_options: list[str]
+    spawn: str
+    my_location: str
+    my_operator: str
+    teammate_operators: list[str]
+    enemy_operators: list[str]
+    banned_operators: list[str]
+    map_ban_options: list[str]
+    score_us: int
+    score_them: int
+    round_number: int
+    timer_seconds: int
+    alive_us: int
+    alive_them: int
+    team_reinforcements: int
+    defuser_planted: int = Field(description="1 yes, 0 no, -1 unknown")
+    round_won: int = Field(description="1 won, 0 lost, -1 not a round result")
+    killfeed: list[WireKill]
+    pinged_enemies: list[WirePing]
+    confidence: float = Field(description="0-1")
+    notes: str
+
+    def to_read(self) -> ScreenRead:
+        s = lambda v: v.strip() or None  # noqa: E731
+        n = lambda v: None if v is None or v < 0 else v  # noqa: E731
+        b = lambda v: None if v < 0 else bool(v)  # noqa: E731
+        return ScreenRead(
+            screen=self.screen, map=s(self.map), side=s(self.side) if self.side in ("attack", "defense") else None,
+            site=s(self.site), site_options=self.site_options, spawn=s(self.spawn), my_location=s(self.my_location),
+            my_operator=s(self.my_operator), teammate_operators=self.teammate_operators,
+            enemy_operators=self.enemy_operators, banned_operators=self.banned_operators,
+            map_ban_options=self.map_ban_options, score_us=n(self.score_us), score_them=n(self.score_them),
+            round_number=n(self.round_number), timer_seconds=n(self.timer_seconds), alive_us=n(self.alive_us),
+            alive_them=n(self.alive_them), team_reinforcements=n(self.team_reinforcements),
+            defuser_planted=b(self.defuser_planted), round_won=b(self.round_won),
+            killfeed=[KillfeedEntry(killer_team=s(k.killer_team), killer_operator=s(k.killer_operator),
+                                    victim_team=s(k.victim_team), victim_operator=s(k.victim_operator),
+                                    headshot=b(k.headshot)) for k in self.killfeed],
+            pinged_enemies=[PingedEnemy(location=p.location, operator=s(p.operator)) for p in self.pinged_enemies],
+            confidence=self.confidence, notes=s(self.notes),
+        )
 
 
 VISION_SYSTEM = """You read screenshots of Rainbow Six Siege (PC, English client, often 21:9 ultrawide) \
@@ -54,7 +119,8 @@ the scoreboard, and enemy pings/markers the player's team has placed.
 Rules:
 - Never describe or infer enemy players visible in the 3D game world. If you notice one, ignore it. \
 Only report enemies that are marked by a team ping, drone or camera spot marker.
-- Use null for anything not clearly visible. Do not guess map, site or operators.
+- Every field is required. Use "" for text and -1 for numbers that are not clearly visible, and \
+empty lists when nothing applies. Do not guess map, site or operators.
 - "us" means the player's team. On the HUD the player's team is shown in blue/left and the \
 enemy in orange/right; trust the HUD colours over position if they disagree.
 - Screen types:
@@ -231,10 +297,11 @@ class Claude:
             {"type": "image", "source": {"type": "base64", "media_type": "image/jpeg", "data": b64}},
             {"type": "text", "text": text},
         ]
-        return self._parse(
+        wire = self._parse(
             model=model, effort=effort, system=VISION_SYSTEM, content=content,
-            schema=ScreenRead, purpose="vision", max_tokens=3000,
+            schema=WireRead, purpose="vision", max_tokens=3000,
         )
+        return wire.to_read() if wire else None
 
     def coach(
         self,

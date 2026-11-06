@@ -13,8 +13,8 @@ class FakeClaude:
 
     def coach(self, model, effort, system, prompt, purpose, image_jpeg=None):
         self.prompts.append((purpose, prompt, image_jpeg is not None))
-        return CoachLines(lines=[f"line for {purpose}"], recommended_operator="Mute"
-                          if purpose == "coach.operator_select" else None)
+        return CoachLines(lines=[f"line for {purpose}"], recommended_bans=[],
+                          recommended_operator="Mute" if purpose == "coach.operator_select" else "")
 
 
 class FakeSpeaker:
@@ -56,13 +56,16 @@ def test_pick_advice_once_per_round_and_waits_for_site(bus, kb, tmp_path):
     time.sleep(0.1)
     assert claude.prompts == []  # waited one read for the site
     push(bus, state, site="B Lockers / B CCTV Room")
-    assert wait(lambda: len(claude.prompts) == 1)
-    purpose, prompt, has_image = claude.prompts[0]
-    assert purpose == "coach.operator_select" and has_image
+    picks = lambda: [p for p in claude.prompts if p[0] == "coach.operator_select"]  # noqa: E731
+    assert wait(lambda: len(picks()) == 1)
+    purpose, prompt, has_image = picks()[0]
+    assert has_image
     assert "Hold basement." in prompt          # map knowledge included
+    assert wait(lambda: coach._recommended == "Mute")
     push(bus, state, teammate_operators=["Smoke"])
-    time.sleep(0.1)
-    assert len(claude.prompts) == 1             # no repeat in the same round
+    # Defense knows the site, so the prep plan is prepared in advance during the pick.
+    assert wait(lambda: any(p[0] == "coach.prep_phase" for p in claude.prompts))
+    assert len(picks()) == 1                    # no repeat in the same round
     assert wait(lambda: any(p == "operator_select" for p, _, _ in speaker.said))
 
 
@@ -86,7 +89,8 @@ def test_prep_advice_text_only_and_dropped_when_stale(bus, kb, tmp_path):
     # Advice that arrives after the screen moved on is not spoken.
     speaker.said.clear()
     state["s"] = state["s"].model_copy(update={"screen": Screen.action_phase})
-    coach._run("prep_phase", lambda s: CoachLines(lines=["late"]), state["s"])
+    coach._run("prep_phase", lambda s: CoachLines(lines=["late"], recommended_operator="",
+                                                  recommended_bans=[]), state["s"])
     assert speaker.said == []
 
 

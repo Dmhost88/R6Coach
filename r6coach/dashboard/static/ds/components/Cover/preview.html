@@ -1,0 +1,60 @@
+<!-- @dsCard height=320 -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>R6 Coach</title>
+<style>
+  html, body { margin:0; height:100%; }
+  body { background:var(--ground); color:var(--ink); font-family:var(--font-sans); overflow:hidden; }
+  .cover { position:relative; height:320px; overflow:hidden; }
+  .art { position:absolute; top:0; left:480px; width:480px; height:320px; overflow:hidden; }
+  .art svg { display:block; width:496px; height:320px; }
+  .sig { fill:var(--signal); }
+  .us { fill:var(--team-us); }
+  .them { fill:var(--team-them); }
+  .neutral { fill:var(--ink-faint); }
+  .blk { rx:var(--radius-lg); }
+  .bar { fill:var(--ground); rx:var(--radius-sm); }
+  .words { position:absolute; left:var(--space-8); bottom:var(--space-8); max-width:440px; }
+  .name { margin:0; font-family:var(--font-display); font-size:116px; line-height:.92; font-weight:800; font-variation-settings:"wdth" 80; letter-spacing:0; color:var(--ink); }
+  .tag { margin:var(--space-2) 0 0 4px; font-size:14px; line-height:20px; color:var(--ink-muted); }
+</style>
+</head>
+<body>
+<div class="cover">
+<div class="art" aria-hidden="true">
+<svg viewBox="0 0 496 320" width="496" height="320">
+<!--
+  blocks      signal 184x304 slab bled off the top (the coach, largest) · team-us 120x176 · team-them 144x104 bled off the right · ink-faint 144x56 strip for neutral relief; about 32% of 960x320
+  arrangement one tall amber slab with the two sides as satellites, bottoms on one line space-8 above the edge, space-4 gutters
+  pattern     voice bars, from "The voice is the product" and the four-bar mark: space-2-wide pills at a space-4 pitch, one waveform cut in ground colour across the slab, decaying into team-us
+  scales      sides in space-2 multiples; gutters space-4; pitch space-4; block corners radius-lg; bar rx radius-sm (half of space-2)
+-->
+<rect class="sig blk" x="16" y="-16" width="184" height="304" rx="8"/>
+<rect class="us blk" x="216" y="112" width="120" height="176" rx="8"/>
+<rect class="neutral blk" x="352" y="112" width="144" height="56" rx="8"/>
+<rect class="them blk" x="352" y="184" width="144" height="104" rx="8"/>
+<rect class="bar" x="32" y="192" width="8" height="16" rx="4"/>
+<rect class="bar" x="48" y="180" width="8" height="40" rx="4"/>
+<rect class="bar" x="64" y="156" width="8" height="88" rx="4"/>
+<rect class="bar" x="80" y="132" width="8" height="136" rx="4"/>
+<rect class="bar" x="96" y="168" width="8" height="64" rx="4"/>
+<rect class="bar" x="112" y="116" width="8" height="168" rx="4"/>
+<rect class="bar" x="128" y="144" width="8" height="112" rx="4"/>
+<rect class="bar" x="144" y="176" width="8" height="48" rx="4"/>
+<rect class="bar" x="160" y="188" width="8" height="24" rx="4"/>
+<rect class="bar" x="176" y="196" width="8" height="8" rx="4"/>
+<rect class="bar" x="232" y="172" width="8" height="56" rx="4"/>
+<rect class="bar" x="248" y="184" width="8" height="32" rx="4"/>
+<rect class="bar" x="264" y="192" width="8" height="16" rx="4"/>
+<rect class="bar" x="280" y="196" width="8" height="8" rx="4"/>
+</svg>
+</div>
+<div class="words">
+<h1 class="name">R6<br>Coach</h1>
+<p class="tag">A calm analyst in your ear. Reads your screen, never the game.</p>
+</div>
+</div>
+</body>
+</html>

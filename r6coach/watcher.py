@@ -33,6 +33,7 @@ STABLE_THRESHOLD = 6.0    # difference between consecutive samples to count as "
 REFRESH_FACTOR = 2.5      # refresh interval = min interval * factor, even without change
 MATCH_RESET_SCREENS = {Screen.main_menu, Screen.matchmaking, Screen.match_end}
 ROUND_START = {Screen.operator_ban, Screen.operator_select}
+IN_ROUND_SCREENS = {Screen.prep_phase, Screen.action_phase, Screen.spectating, Screen.round_end}
 
 
 def thumbnail(img: np.ndarray) -> np.ndarray:
@@ -94,6 +95,7 @@ class Watcher:
         self.kills = KillTracker(cfg.player_name)
         self._lock = threading.RLock()   # cloud reads and HUD reads merge from different threads
         self._last_timer: Optional[int] = None
+        self._hud_in_round_ts = 0.0      # last time the HUD saw a round in progress
 
     def start(self) -> None:
         self._thread = threading.Thread(target=self._run, name="watcher", daemon=True)
@@ -135,7 +137,13 @@ class Watcher:
         self._last_frame_ts = ts
         now = time.time()
         thumb = thumbnail(img)
-        if not self.gate.should_read(now, thumb, self.state.screen):
+        screen = self.state.screen
+        # Between rounds the last known screen can still be "spectating" or "action_phase", whose
+        # long intervals would miss the short ban and pick screens. Once the HUD no longer shows a
+        # round in progress, read at the default (quick) rate.
+        if screen in IN_ROUND_SCREENS and now - self._hud_in_round_ts > 4:
+            screen = Screen.other
+        if not self.gate.should_read(now, thumb, screen):
             return
         self.gate.mark_read(now, thumb)
         jpeg = encode_jpeg(downscale(img, self.cfg.capture.upload_width))
@@ -161,6 +169,8 @@ class Watcher:
             self._apply_hud(h)
 
     def _apply_hud(self, h: HudRead) -> None:
+        if h.timer is not None and not (self.state.screen in PRE_ROUND):
+            self._hud_in_round_ts = time.time()
         s = self.state
         prev_screen = s.screen
         live = lambda kind, **kw: self.bus.publish("live.event", kind=kind, **kw)  # noqa: E731
@@ -221,6 +231,23 @@ class Watcher:
             self.bus.publish("killfeed", entries=[{
                 "killer_operator": None, "killer_team": k.killer_team, "killer": k.killer,
                 "victim_team": k.victim_team, "victim": k.victim}])
+
+        # A prep banner straight after a round (no pre-round screen read by the cloud in between,
+        # e.g. no API key, or the read was missed) still starts a new round.
+        if new_screen == Screen.prep_phase and prev_screen not in PRE_ROUND | {Screen.prep_phase,
+                                                                              Screen.action_phase}:
+            s.alive_us = s.alive_them = None
+            s.defuser_planted = False
+            s.player_alive = True
+            s.health = None
+            s.team_reinforcements = None
+            s.pinged_enemies = []
+            if not h.site:
+                s.site = None
+            if not h.side:
+                s.side = None
+            self.kills.reset_round()
+            live("round_reset")
 
         if new_screen is not None and new_screen != prev_screen:
             s.screen = new_screen

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import os
 import threading
 import webbrowser
 from pathlib import Path
@@ -16,6 +17,8 @@ from .frames import FrameStore
 from .hud import HudThread
 from .knowledge import Knowledge
 from .live import LiveCoach
+from .memory import MatchMemory
+from .tactical import TacticalCoach
 from .llm import Claude
 from .profile import Profile
 from .voice.tts import Speaker
@@ -43,7 +46,13 @@ class App:
         self.watcher = Watcher(cfg, self.bus, self.source, self.claude, self.frames)
         self.coach = Coach(cfg, self.bus, self.claude, self.knowledge, self.speaker, self.profile,
                            current_state=lambda: self.watcher.state, current_jpeg=self.watcher.current_jpeg)
-        self.live = LiveCoach(cfg, self.bus, say=self.speaker.say, state=lambda: self.watcher.state)
+        self.memory = MatchMemory(self.bus, lambda: self.watcher.state, cfg.player_name)
+        self.coach.memory = self.memory
+        self.tactical = TacticalCoach(cfg, self.bus, self.claude, self.knowledge, self.speaker.say,
+                                      lambda: self.watcher.state, self.memory, self.coach._system)
+        has_key = lambda: bool(os.environ.get("ANTHROPIC_API_KEY"))  # noqa: E731
+        self.live = LiveCoach(cfg, self.bus, say=self.speaker.say, state=lambda: self.watcher.state,
+                              ai_live=lambda: has_key() and self.tactical.enabled())
         self.hud = HudThread(self.source, self.watcher.apply_hud, cfg.hud.period, cfg.player_name) \
             if cfg.hud.enabled else None
         self.controls = {

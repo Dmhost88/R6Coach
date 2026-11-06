@@ -42,6 +42,8 @@ RULES = {
     "advantage": (2, False), "disadvantage": (2, False), "clutch": (1, True), "my_kill": (2, False),
     "reinforce": (2, False), "found_bombs": (3, False),
 }
+# Generic lines that Claude's in-round calls replace with specific ones when they're available.
+AI_COVERED = {"advantage", "disadvantage", "atk_45", "my_kill"}
 COOLDOWN = 5.0     # seconds between non-urgent live lines
 GUNFIGHT_HOLD = 3.0  # wait this long after a kill before non-urgent lines
 
@@ -88,8 +90,10 @@ class KillTracker:
 
 
 class LiveCoach:
-    def __init__(self, cfg: Config, bus: Bus, say: Callable[..., None], state: Callable) -> None:
+    def __init__(self, cfg: Config, bus: Bus, say: Callable[..., None], state: Callable,
+                 ai_live: Callable[[], bool] = lambda: False) -> None:
         self.cfg = cfg
+        self.ai_live = ai_live    # True when Claude's in-round calls are running
         self.bus = bus
         self.say = say            # say(text, priority, ttl, phase)
         self.state = state        # () -> GameState
@@ -104,6 +108,8 @@ class LiveCoach:
         with self._lock:
             self._said_round.clear()
             self._balance = 0
+            self._last_line = 0.0
+            self._last_kill = 0.0
 
     def _level(self) -> int:
         return self.cfg.coach.level("action_phase")
@@ -114,6 +120,8 @@ class LiveCoach:
             return
         if not self.state().player_alive:
             return  # you're spectating: in-round instructions can't help any more
+        if key in AI_COVERED and self.ai_live():
+            return  # Claude gives a specific version of this call instead
         now = time.time()
         with self._lock:
             if once and key in self._said_round:
