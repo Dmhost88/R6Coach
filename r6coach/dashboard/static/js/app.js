@@ -668,8 +668,10 @@ async function loadMatches() {
     const when = m.started ? new Date(m.started * 1000).toLocaleString([], { dateStyle: "medium", timeStyle: "short" }) : "–";
     const score = m.score_us == null && m.score_them == null ? "–" : `${m.score_us ?? "–"} – ${m.score_them ?? "–"}`;
     return `<tr><td>${esc(when)}</td><td class="${m.map ? "" : "muted"}">${esc(m.map || "Unknown map")}</td>
-      <td class="rc-num">${esc(score)}</td><td class="${r === true ? "rc-win" : r === false ? "rc-loss" : "muted"}">${r === true ? "Win" : r === false ? "Loss" : "–"}</td></tr>`;
-  }).join("") || '<tr class="rc-empty-row"><td colspan="4">No matches recorded yet.</td></tr>';
+      <td class="rc-num">${esc(score)}</td><td class="${r === true ? "rc-win" : r === false ? "rc-loss" : "muted"}">${r === true ? "Win" : r === false ? "Loss" : "–"}</td>
+      <td><button class="rc-btn rc-btn--quiet" data-report="${esc(m.id)}">View report</button></td></tr>`;
+  }).join("") || '<tr class="rc-empty-row"><td colspan="5">No matches recorded yet.</td></tr>';
+  $("matches").querySelectorAll("[data-report]").forEach((b) => { b.onclick = () => showReport(b.dataset.report); });
 
   // Recent form: one bar per match, oldest on the left. Height follows the round margin.
   const old = ms.slice().reverse();
@@ -686,6 +688,33 @@ async function loadMatches() {
     ? `Last ${ms.length}: <span class="us">${w} won</span> · <span class="them">${l} lost</span>`
     : "No matches recorded yet.";
   $("form-strip").setAttribute("aria-label", ms.length ? `Last ${ms.length} matches: ${w} won, ${l} lost` : "No matches recorded yet");
+}
+
+async function showReport(id) {
+  let m;
+  try { m = await api(`/api/matches/${encodeURIComponent(id)}`); } catch (e) { return; }
+  const result = m.won == null ? "No result" : m.won ? "Win" : "Loss";
+  const score = m.score_us == null ? "–" : `${m.score_us} – ${m.score_them}`;
+  $("match-report-head").textContent = `${m.map || "Unknown map"} · ${score} · ${result}`;
+  $("match-report-takeaways").innerHTML = (m.takeaways || []).map((t) => `<li>${esc(t)}</li>`).join("")
+    || '<li class="muted">No takeaways for this match.</li>';
+  const side = (s) => (s === "attack" ? "Attack" : s === "defense" ? "Defence" : "–");
+  $("match-report-rounds").innerHTML = (m.rounds || []).map((r, i) => {
+    const how = [];
+    if (r.first_blood) how.push(`first blood ${r.first_blood === "us" ? "yours" : "theirs"}`);
+    if (r.my_kills != null) how.push(`${r.my_kills} kill${r.my_kills === 1 ? "" : "s"}`);
+    how.push(r.died_to ? `died to ${r.died_to}${r.died_in ? " in " + r.died_in : ""}` : "survived");
+    if (r.planted) how.push("defuser planted");
+    if ((r.enemy_ops || []).length) how.push(`they ran ${r.enemy_ops.join(", ")}`);
+    const res = r.won == null ? "–" : r.won ? "Won" : "Lost";
+    return `<tr><td class="rc-num">${esc(r.round_number || i + 1)}</td><td>${esc(side(r.side))} · ${esc(r.site || "site unknown")}</td>
+      <td>${esc(r.operator || "–")}</td><td class="${r.won ? "rc-win" : r.won === false ? "rc-loss" : "muted"}">${res}</td>
+      <td>${esc(how.join(", "))}</td></tr>`;
+  }).join("") || '<tr class="rc-empty-row"><td colspan="5">No rounds recorded for this match.</td></tr>';
+  const card = $("match-report");
+  card.hidden = false;
+  card.scrollIntoView({ block: "start", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  $("match-report-title").focus?.();
 }
 
 // ------------------------------------------------------------------ boot

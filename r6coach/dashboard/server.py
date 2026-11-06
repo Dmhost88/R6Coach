@@ -258,6 +258,13 @@ def build(app: "App") -> FastAPI:
     def matches() -> list[dict[str, Any]]:
         return app.profile.recent_matches()
 
+    @api.get("/api/matches/{match_id}")
+    def match_report(match_id: str) -> dict[str, Any]:
+        rep = app.profile.match_report(match_id)
+        if rep is None:
+            raise HTTPException(404, "no such match")
+        return rep
+
     @api.post("/api/control/{action}")
     def control(action: str, body: dict[str, Any] = Body(default={})) -> dict[str, Any]:
         if action == "ask":

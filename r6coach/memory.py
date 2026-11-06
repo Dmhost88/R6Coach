@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import threading
 from collections import Counter
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 from typing import Optional
 
 from .bus import Bus, Event
@@ -53,6 +53,7 @@ class RoundRecord:
 
 class MatchMemory:
     def __init__(self, bus: Bus, current_state, player_name: str = "") -> None:
+        self.bus = bus
         self.current_state = current_state
         self.player_name = player_name.lower()
         self._lock = threading.Lock()
@@ -109,6 +110,9 @@ class MatchMemory:
             r.enemy_ops = list(st.get("enemy_operators") or [])
             self.rounds.append(r)
             self.cur = RoundRecord(n=len(self.rounds) + 1)
+            record = asdict(r)
+        # Published after the record is complete, so the profile stores the full round.
+        self.bus.publish("memory.round", record=record, won=ev.data.get("won"), state=st)
 
     # ------------------------------------------------------------------ for prompts
     def text(self) -> str:

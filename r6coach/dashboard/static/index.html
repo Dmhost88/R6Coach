@@ -271,8 +271,21 @@
       <h2 class="rc-card__title" id="matches-title"><span class="ic" data-icon="round-win"></span>Recent matches</h2>
       <div class="table-wrap">
         <table class="rc-table">
-          <thead><tr><th scope="col">When</th><th scope="col">Map</th><th scope="col">Score</th><th scope="col">Result</th></tr></thead>
+          <thead><tr><th scope="col">When</th><th scope="col">Map</th><th scope="col">Score</th><th scope="col">Result</th><th scope="col"><span class="sr-only">Report</span></th></tr></thead>
           <tbody id="matches"></tbody>
+        </table>
+      </div>
+    </section>
+    <section class="rc-card" id="match-report" aria-labelledby="match-report-title" hidden>
+      <h2 class="rc-card__title" id="match-report-title"><span class="ic" data-icon="phase-recap"></span>Match report</h2>
+      <p class="rc-heading" id="match-report-head"></p>
+      <h3 class="rc-card__title">Takeaways</h3>
+      <ol class="takeaways" id="match-report-takeaways"></ol>
+      <h3 class="rc-card__title">Rounds</h3>
+      <div class="table-wrap">
+        <table class="rc-table">
+          <thead><tr><th scope="col">Round</th><th scope="col">Side · site</th><th scope="col">You</th><th scope="col">Result</th><th scope="col">How it went</th></tr></thead>
+          <tbody id="match-report-rounds"></tbody>
         </table>
       </div>
     </section>

@@ -24,7 +24,7 @@ log = logging.getLogger(__name__)
 
 LINES_FOR_LEVEL = {1: "1-2", 2: "2-4", 3: "3-5"}
 # Debriefs have a fixed shape (good / bad / fix), whatever the chattiness.
-FIXED_LINES = {"death": "3", "between_rounds": "2-3"}
+FIXED_LINES = {"death": "3", "between_rounds": "2-3", "match_end": "3"}
 
 # Screens on which advice for a phase is still worth saying when it arrives.
 STILL_RELEVANT = {
@@ -137,6 +137,7 @@ class Coach:
         bus.subscribe("ptt.question", self._on_question)
         bus.subscribe("coach.said", self._on_said)
         bus.subscribe("player.died", self._on_died)
+        bus.subscribe("memory.round", self._on_memory_round)
 
     # ------------------------------------------------------------------ event handlers
     def _on_match_started(self, ev: Event) -> None:
@@ -149,9 +150,19 @@ class Coach:
     def _on_match_ended(self, ev: Event) -> None:
         st = ev.data["state"]
         self.profile.match_ended(st.get("match_id"), st)
+        if self.memory is not None and self.memory.rounds and self._allowed("match_end"):
+            state = self.current_state().model_copy(deep=True)
+            self.pool.submit(self._run, "match_end", self._advise_match_end, state)
+
+    def _on_memory_round(self, ev: Event) -> None:
+        """MatchMemory finished a round: store it with its full detail."""
+        st = dict(ev.data.get("state") or {})
+        st.setdefault("match_id", self.current_state().match_id)
+        self.profile.round_ended(st, ev.data.get("won"), ev.data.get("record"))
 
     def _on_round_ended(self, ev: Event) -> None:
-        self.profile.round_ended(ev.data["state"], ev.data.get("won"))
+        if self.memory is None:   # no match memory: store the basic round directly
+            self.profile.round_ended(ev.data["state"], ev.data.get("won"))
         self.speaker.clear()
         if self.cfg.coach.level("between_rounds") and self.memory is not None and self._allowed("between_rounds"):
             # Give match memory a moment to record this round before the debrief reads it.
@@ -239,7 +250,7 @@ class Coach:
 
     # ------------------------------------------------------------------ dispatch
     # Under the per-match budget: 'tight' drops nice-to-haves, 'spent' keeps only bans and picks.
-    _BUDGET_KEEP = {"tight": {"map_ban", "operator_ban", "operator_select", "prep_phase", "question"},
+    _BUDGET_KEEP = {"tight": {"map_ban", "operator_ban", "operator_select", "prep_phase", "question", "match_end"},
                     "spent": {"map_ban", "operator_ban", "operator_select", "question"}}
 
     def _allowed(self, phase: str) -> bool:
@@ -268,7 +279,7 @@ class Coach:
     def _relevant(self, phase: str) -> bool:
         """Is advice for this phase still worth saying right now?"""
         now = self.current_state().screen
-        if phase == "between_rounds":
+        if phase in ("between_rounds", "match_end"):
             return now not in (Screen.prep_phase, Screen.action_phase)
         if phase == "death":
             # Still useful while spectating or between rounds; not once the next round's prep starts.
@@ -364,12 +375,15 @@ class Coach:
     def _advise_map_ban(self, s: GameState) -> Optional[CoachLines]:
         rates = self.profile.map_win_rates()
         record = ", ".join(f"{m}: {w}/{n} rounds won" for m, (w, n) in rates.items()) or "no history yet"
+        per_map = "\n".join(f"- {m}: {t}" for m in s.map_ban_options
+                            if (t := self.profile.stats_text(m).replace("\n", "; ")))
         prompt = (
             f"MAP BAN phase. Maps on screen: {', '.join(s.map_ban_options)}.\n"
             f"Player's round history by map: {record}\n"
-            f"Player's pools: attack {self.cfg.operator_pool.attack}, defense {self.cfg.operator_pool.defense}\n"
-            "Recommend which map to ban (and which to keep), with a one-line reason. Put the map to ban "
-            "in recommended_bans."
+            + (f"Detail for the maps on screen:\n{per_map}\n" if per_map else "")
+            + f"Player's pools: attack {self.cfg.operator_pool.attack}, defense {self.cfg.operator_pool.defense}\n"
+            "Recommend which map to ban (and which to keep), with a one-line reason grounded in the history "
+            "above when there is any. Put the map to ban in recommended_bans."
         )
         return self._ask("map_ban", prompt, image=True)
 
@@ -401,7 +415,7 @@ class Coach:
             f"{self._pool_text(s.side, s)}\n"
             f"{self._memory()}\n"
             f"{self._focus(s)}\n"
-            f"{self.profile.map_record(s.map)}\n"
+            f"{self._stats(s, s.side)}\n"
             "Pick the operator from the player's pool that fills what this team composition is missing for "
             "this site and counters what the enemy has shown (set recommended_operator). Then give their "
             "concrete job on the most likely site: the exact wall to breach or gadget placement, in what "
@@ -409,6 +423,23 @@ class Coach:
         )
         return self._ask("operator_select", prompt, image=True, map_name=s.map,
                          effort=self.cfg.coach.pick_effort)
+
+    def _stats(self, s: GameState, side: Optional[str] = None) -> str:
+        text = self.profile.stats_text(s.map, side) if hasattr(self.profile, "stats_text") else ""
+        return f"Player's own history (facts from past matches):\n{text}" if text else ""
+
+    def _advise_match_end(self, s: GameState) -> Optional[CoachLines]:
+        prompt = (
+            f"MATCH OVER on {s.map}, final score {s.score_us}-{s.score_them}.\n"
+            f"{self._memory()}\n{self._stats(s)}\n"
+            "Give the 3 takeaways from this match a coach would write on the whiteboard: one thing that "
+            "worked and should be repeated, the biggest recurring mistake (with the exact location or "
+            "decision), and one concrete thing to practise before the next match. Use only facts above."
+        )
+        out = self._ask("match_end", prompt, deep=True, map_name=s.map)
+        if out and out.lines:
+            self.profile.set_takeaways(s.match_id, out.lines)
+        return out
 
     def _advise_death(self, s: GameState, killer: Optional[str]) -> Optional[CoachLines]:
         prompt = (
@@ -464,6 +495,7 @@ class Coach:
             f"Teammates: {', '.join(s.teammate_operators) or 'unknown'}\n"
             f"Enemy operators revealed this round: {', '.join(s.enemy_operators) or 'none yet'}\n"
             f"{self._memory()}\n"
+            f"{self._stats(s, s.side)}\n"
             f"{self._focus(s)}"
         )
         return self._ask("prep_phase", prompt, deep=deep, map_name=s.map, live=live)
