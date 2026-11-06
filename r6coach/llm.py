@@ -13,6 +13,7 @@ import logging
 import os
 import threading
 import time
+import unicodedata
 from typing import Callable, Optional, TypeVar
 
 import anthropic
@@ -139,8 +140,10 @@ settings are other.
 - Top HUD bar: player's team on the left (blue), enemy on the right (red). The icon next to each \
 score shows the side: crossed swords = attack, tower = defense. "ROUND n" is under the timer. \
 A red defuser icon replacing the timer means the defuser is planted.
-- In Ranked the top bar shows operator icons: the player's team on the left (teammate_operators), \
-the enemy on the right. Enemy icons appear once revealed; "?" means unknown. Put revealed enemy \
+- In Ranked the top bar shows operator icons: the player's team on the left, the enemy on the \
+right. my_operator is the player's own operator (their highlighted card on the OPERATORS/READY \
+tabs, the loadout screen's operator, their own slot in the bar). teammate_operators is the other \
+four players only: never include the player's own operator there. Enemy icons appear once revealed; "?" means unknown. Put revealed enemy \
 operators in enemy_operators. A greyed or crossed-out icon is a dead player: count alive_us / \
 alive_them from the icons.
 - A large "N VS M" banner mid-round (e.g. "5 VS 2") is the alive count: alive_us=N, alive_them=M.
@@ -163,7 +166,7 @@ attackers know the site); "LOST ROUND n / YOUR TEAM HAS BEEN ELIMINATED" = round
 - The READY tab shows all five teammates' operator cards and the objective location: read both.
 - The Tab scoreboard lists both teams' players and the score ("YOUR TEAM 2 / ENEMY TEAM 0"): \
 use it for score_us / score_them.
-- The Ranked map vote screen is titled "MAP SELECTION": that is map_ban; list the map names in \
+- The Ranked map vote screen is titled "MAP BAN" (older versions "MAP SELECTION"): that is map_ban; list the map names in \
 map_ban_options.
 - Phase banners: attackers see "PREPARATION PHASE / SEARCH FOR BOMBS" then "ACTION PHASE"; \
 defenders see "PREPARATION PHASE / FORTIFY BOMB SITES" then "ACTION PHASE / DEFEND BOMB SITES". \
@@ -190,6 +193,176 @@ operator icon. A name on a BLUE background is the player's team ("us"); RED is t
 Identify operators from their icons where you can.
 - Point notifications like "+10 Camera Destroyed" are not the killfeed.
 - confidence: your overall certainty about screen type and key fields (0-1)."""
+
+
+# ---------------------------------------------------------------- pre-round detail reads
+# read_detail() uses these instead of WireRead: a short prompt and only the fields the four
+# pre-round menus show. Fewer output tokens and less to reason about = much faster reads.
+# Same wire conventions: flat, every field required, "" / -1 = not visible.
+
+DETAIL_SYSTEM = """You read one Rainbow Six Siege pre-round menu screenshot (PC, English client, \
+often 21:9) for a voice coach. Report only what is visibly on screen; never guess. Every field is \
+required: "" for text and -1 for numbers that are not clearly visible, [] when nothing applies.
+
+screen:
+- map_ban: "MAP BAN" / "MAP SELECTION": map cards to vote on.
+- operator_ban: "BAN AN ATTACKER" / "BAN A DEFENDER" grid, the ban result splash, or a \
+full-screen "ROUND n" / "BAN PHASE" / "ROLE SWAP" title card.
+- operator_select: the LOCATIONS / OPERATORS / READY tabs (spawn or objective vote, operator \
+grid, the five operator cards).
+- loadout: weapon and gadget choice for one operator (LOADOUT tab).
+- other: anything else.
+
+Fields:
+- Top bar: the player's team on the left (blue), enemy on the right (red), a score each. The \
+icon beside a score shows that team's side: crossed swords = attack, tower = defense. \
+"ROUND n" is under the timer.
+- side (the player's): from that icon, or "BAN A DEFENDER" = attack, "BAN AN ATTACKER" = \
+defense. A title card with neither: "".
+- map: the label at the top right ("RANKED / CHALET" = "Chalet"). On map_ban only the map \
+that has been picked, else "".
+- map_ban_options: every map name on the map vote.
+- my_operator: the player's own operator: the big operator name on the loadout screen, the \
+player's selected card on OPERATORS / READY.
+- teammate_operators: the other four players' operators only (top-bar icons, READY cards). \
+Never include my_operator. Skip "?" slots.
+- banned_operators: operators banned this round, only when named or clearly identifiable \
+(ban result splash, crossed-out ban icons). Not the operator merely highlighted on the grid.
+- site_options: the bomb site pairs listed ("BOMB SITES", or "Objective can be found in one \
+of these locations", the four LOCATIONS vote options), copied exactly as \
+"2F Master Bedroom / 2F Office". Never spawn names.
+- site: the defenders' objective only once clearly chosen or locked (e.g. the single \
+"OBJECTIVE LOCATION" on the READY tab: that goes in site, not site_options).
+- A map label only counts as text; never name the map from the scenery.
+- spawn: the attacker spawn selected on the LOCATIONS tab.
+- Operator names in official spelling (Jäger, Nøkk, Capitão, Tubarão).
+- confidence: 0-1, your certainty about the screen type and the key fields."""
+
+
+def _s(v: str) -> Optional[str]:
+    return v.strip() or None
+
+
+def _n(v: int) -> Optional[int]:
+    return None if v is None or v < 0 else v
+
+
+def _side(v: str) -> Optional[str]:
+    v = v.strip().lower()
+    return v if v in ("attack", "defense") else None
+
+
+def _norm_op(name: str) -> str:
+    n = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode("ascii")
+    return "".join(ch for ch in n.lower() if ch.isalnum())
+
+
+def _clean_ops(names: list[str]) -> list[str]:
+    """Drop blanks and '?' slots, de-duplicate (accent/case-insensitive), keep order."""
+    out, seen = [], set()
+    for name in names:
+        name = name.strip()
+        key = _norm_op(name)
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        out.append(name)
+    return out
+
+
+def _teammates(names: list[str], mine: Optional[str]) -> list[str]:
+    """Teammates without the player's own operator (models put it there despite the prompt)."""
+    ops = _clean_ops(names)
+    if mine:
+        own = _norm_op(mine)
+        ops = [o for o in ops if _norm_op(o) != own]
+    return ops
+
+
+class _DetailBase(BaseModel):
+    def to_read(self) -> ScreenRead:
+        g = lambda k, d: getattr(self, k, d)  # noqa: E731
+        mine = _s(g("my_operator", ""))
+        return ScreenRead(
+            screen=self.screen, map=_s(g("map", "")), side=_side(g("side", "")),
+            round_number=_n(g("round_number", -1)), score_us=_n(g("score_us", -1)),
+            score_them=_n(g("score_them", -1)), my_operator=mine,
+            teammate_operators=_teammates(g("teammate_operators", []), mine),
+            banned_operators=_clean_ops(g("banned_operators", [])),
+            site=_s(g("site", "")), site_options=[s.strip() for s in g("site_options", []) if s.strip()],
+            spawn=None if g("spawn", "").strip().lower() == "random" else _s(g("spawn", "")),
+            map_ban_options=[m.strip() for m in g("map_ban_options", []) if m.strip()],
+            confidence=self.confidence,
+        )
+
+
+class WireMapBan(_DetailBase):
+    screen: Screen
+    map_ban_options: list[str]
+    map: str
+    side: str = Field(description="'attack', 'defense' or ''")
+    confidence: float = Field(description="0-1")
+
+
+class WireOpBan(_DetailBase):
+    screen: Screen
+    map: str
+    side: str = Field(description="'attack', 'defense' or ''")
+    round_number: int
+    score_us: int
+    score_them: int
+    banned_operators: list[str]
+    site_options: list[str]
+    confidence: float = Field(description="0-1")
+
+
+class WireDetail(_DetailBase):
+    """Operator select and loadout (and the fallback for any other screen)."""
+    screen: Screen
+    map: str
+    side: str = Field(description="'attack', 'defense' or ''")
+    round_number: int
+    score_us: int
+    score_them: int
+    my_operator: str
+    teammate_operators: list[str] = Field(description="The other four players only, never my_operator")
+    banned_operators: list[str]
+    site: str
+    site_options: list[str]
+    spawn: str
+    confidence: float = Field(description="0-1")
+
+
+DETAIL_SCHEMAS: dict[Screen, type[_DetailBase]] = {
+    Screen.map_ban: WireMapBan,
+    Screen.operator_ban: WireOpBan,
+    Screen.operator_select: WireDetail,
+    Screen.loadout: WireDetail,
+}
+
+
+def _detail_effort(model: str, effort: str) -> tuple[str, Optional[dict]]:
+    """Map read_detail's effort to (output_config effort, thinking param or None).
+    "none" turns thinking off where the model allows it; Opus 5.5 can't, so it runs at low."""
+    if effort != "none":
+        return effort, None
+    if "haiku" in model:
+        return "low", {"type": "disabled"}
+    if "sonnet-5-5" in model:
+        return "low", {"type": "between_tools"}
+    return "low", None
+
+
+def _shrink_jpeg(jpeg: bytes, width: int, quality: int = 85) -> bytes:
+    import cv2
+    import numpy as np
+    img = cv2.imdecode(np.frombuffer(jpeg, np.uint8), cv2.IMREAD_COLOR)
+    if img is None or img.shape[1] <= width:
+        return jpeg
+    h, w = img.shape[:2]
+    img = cv2.resize(img, (width, int(h * width / w)), interpolation=cv2.INTER_AREA)
+    ok, buf = cv2.imencode(".jpg", img, [cv2.IMWRITE_JPEG_QUALITY, quality])
+    return buf.tobytes() if ok else jpeg
 
 
 class Claude:
@@ -290,8 +463,11 @@ class Claude:
         schema: type[T],
         purpose: str,
         max_tokens: int = 4000,
+        thinking: Optional[dict] = None,
     ) -> Optional[T]:
         kwargs = self._fallback_kwargs(model)
+        if thinking is not None:
+            kwargs["thinking"] = thinking
         system_param = self._system_param(system)
         started = time.time()
         try:
@@ -335,6 +511,37 @@ class Claude:
         )
         return wire.to_read() if wire else None
 
+    def read_detail(self, jpeg: bytes, screen: Screen, model: str, effort: str, hint: str = "",
+                    player_name: str = "", max_width: int = 0) -> Optional[ScreenRead]:
+        """Fast read of a pre-round menu (map ban, operator ban, operator select, loadout).
+
+        Same result type as read_screen, but with a short prompt and a small per-screen schema,
+        so it returns in a fraction of the time. `screen` is the locally detected screen type;
+        the model may still correct it (the returned read's `screen`). Fields the schema doesn't
+        cover stay at their ScreenRead defaults (None / empty).
+        effort: "low" | "medium" | ... as usual, or "none" = thinking off where the model allows
+        it (Haiku: disabled, Sonnet: between_tools; Opus can't, so it runs at "low").
+        max_width > 0 downscales the image to that width before sending."""
+        if max_width > 0:
+            jpeg = _shrink_jpeg(jpeg, max_width)
+        schema = DETAIL_SCHEMAS.get(screen, WireDetail)
+        effort, thinking = _detail_effort(model, effort)
+        b64 = base64.standard_b64encode(jpeg).decode("ascii")
+        text = f"Local detector says this is: {screen.value}. Read it."
+        if player_name:
+            text += f" The player's in-game name is {player_name}."
+        if hint:
+            text += f" Context from earlier screens (may be outdated): {hint}"
+        content = [
+            {"type": "image", "source": {"type": "base64", "media_type": "image/jpeg", "data": b64}},
+            {"type": "text", "text": text},
+        ]
+        wire = self._parse(
+            model=model, effort=effort, system=DETAIL_SYSTEM, content=content,
+            schema=schema, purpose="vision.detail", max_tokens=2000, thinking=thinking,
+        )
+        return wire.to_read() if wire else None
+
     def coach(
         self,
         model: str,
@@ -366,9 +573,11 @@ class Claude:
         purpose: str,
         image_jpeg: Optional[bytes] = None,
         on_line: Optional[Callable[[str], None]] = None,
+        cancelled: Optional[Callable[[], bool]] = None,
     ) -> Optional[CoachLines]:
         """Like coach(), but streams: each spoken line is handed to `on_line` the moment it's
-        complete, so the voice can start on line 1 while the rest is still being written."""
+        complete, so the voice can start on line 1 while the rest is still being written.
+        cancelled() returning True stops the stream (the state the advice was for changed)."""
         content: list[dict] = []
         if image_jpeg is not None:
             b64 = base64.standard_b64encode(image_jpeg).decode("ascii")
@@ -385,6 +594,10 @@ class Claude:
                 **self._fallback_kwargs(model),
             ) as stream:
                 for text in stream.text_stream:
+                    if cancelled is not None and cancelled():
+                        log.info("%s cancelled after %.1fs: the state it was for changed", purpose,
+                                 time.time() - started)
+                        return None   # leaving the with-block closes the connection
                     buf += text
                     while "\n" in buf:
                         raw, buf = buf.split("\n", 1)

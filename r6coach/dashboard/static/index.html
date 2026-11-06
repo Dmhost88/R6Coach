@@ -74,6 +74,19 @@
       </div>
 
       <div class="col col--feed">
+        <section class="rc-card livemap" aria-labelledby="map-title" id="livemap" hidden>
+          <div class="livemap__head">
+            <h2 class="rc-card__title" id="map-title"><span class="ic" data-icon="objective"></span>Map</h2>
+            <div class="livemap__floors" id="map-floors" role="group" aria-label="Floor"></div>
+          </div>
+          <div class="livemap__stage" id="map-stage">
+            <img id="map-img" alt="" decoding="async">
+            <svg class="livemap__svg" id="map-svg" viewBox="0 0 100 56.25" aria-hidden="true"></svg>
+          </div>
+          <p class="livemap__said" id="map-said" aria-live="polite"></p>
+          <p class="rc-card__hint">Rooms the coach names light up in order; the ring is your room from the HUD. Blueprints from Ubisoft; room positions are approximate.</p>
+        </section>
+
         <section class="rc-card coach" aria-labelledby="coach-title">
           <div class="coach__head">
             <h2 class="rc-card__title coach__title" id="coach-title"><span class="ic" data-icon="coach"></span>Coach</h2>

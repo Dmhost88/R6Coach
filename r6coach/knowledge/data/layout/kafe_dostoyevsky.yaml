@@ -1,0 +1,266 @@
+map: kafe_dostoyevsky
+source: Room boxes located by Claude on Ubisoft's official blueprints (grid percentages, x left->right, y top->bottom). Check against data/maps/<map>/preview/.
+floors:
+- floor: 1F
+  image: r6-maps-kafe-blueprint-1.jpg
+  size:
+  - 1600
+  - 900
+  notes: 'Fairly confident: first of four images, shows full exterior surroundings (river, street, market) with the ground floor interior, so
+    it is the in-game 1F; room placements inside are approximate.'
+  rooms:
+    Reception:
+      box:
+      - 63.0
+      - 47.0
+      - 69.0
+      - 51.0
+      confidence: 0.35
+    Coat Check:
+      box:
+      - 60.0
+      - 47.0
+      - 63.5
+      - 51.0
+      confidence: 0.3
+    Bakery:
+      box:
+      - 57.0
+      - 50.0
+      - 60.5
+      - 64.0
+      confidence: 0.4
+    Kitchen Cooking:
+      box:
+      - 60.0
+      - 52.0
+      - 64.0
+      - 60.0
+      confidence: 0.4
+    Kitchen Service:
+      box:
+      - 64.0
+      - 50.0
+      - 69.0
+      - 55.0
+      confidence: 0.4
+    Prep Room:
+      box:
+      - 64.0
+      - 55.0
+      - 68.0
+      - 60.0
+      confidence: 0.3
+    Freezer:
+      box:
+      - 63.0
+      - 60.0
+      - 66.0
+      - 64.0
+      confidence: 0.25
+    Garage:
+      box:
+      - 58.0
+      - 60.0
+      - 63.0
+      - 64.0
+      confidence: 0.2
+    Whiskey Bar:
+      box:
+      - 68.0
+      - 47.0
+      - 71.0
+      - 57.0
+      confidence: 0.2
+    Main Stairs:
+      box:
+      - 68.0
+      - 58.0
+      - 71.0
+      - 66.0
+      confidence: 0.3
+    Red Stairs:
+      box:
+      - 57.0
+      - 50.0
+      - 59.0
+      - 53.0
+      confidence: 0.2
+    White Stairs:
+      box:
+      - 66.0
+      - 60.0
+      - 68.0
+      - 64.0
+      confidence: 0.2
+    River Docks:
+      box:
+      - 61.0
+      - 27.0
+      - 70.0
+      - 35.0
+      confidence: 0.4
+    Christmas Market:
+      box:
+      - 40.0
+      - 46.0
+      - 56.0
+      - 70.0
+      confidence: 0.45
+    Park:
+      box:
+      - 55.0
+      - 67.0
+      - 75.0
+      - 85.0
+      confidence: 0.35
+- floor: 2F
+  image: r6-maps-kafe-blueprint-2.jpg
+  size:
+  - 1600
+  - 900
+  notes: Kafe has no basement, so image 2 of 4 should be Ubisoft's 1ST FLOOR, which is in-game 2F. The floor call is fairly confident, but the
+    room placement is a rough guess because the building is drawn very small.
+  rooms:
+    Train Museum:
+      box:
+      - 60.0
+      - 46.5
+      - 71.5
+      - 50.5
+      confidence: 0.3
+    Dining Room:
+      box:
+      - 60.0
+      - 50.5
+      - 64.0
+      - 64.5
+      confidence: 0.3
+    Fireplace Hall:
+      box:
+      - 64.0
+      - 50.5
+      - 69.0
+      - 60.0
+      confidence: 0.35
+    Mining Room:
+      box:
+      - 64.0
+      - 60.0
+      - 69.0
+      - 64.5
+      confidence: 0.25
+    Reading Room:
+      box:
+      - 69.0
+      - 50.5
+      - 71.5
+      - 55.0
+      confidence: 0.2
+    Red Stairs:
+      box:
+      - 69.5
+      - 55.0
+      - 71.5
+      - 58.0
+      confidence: 0.2
+    White Stairs:
+      box:
+      - 69.5
+      - 58.0
+      - 71.5
+      - 61.5
+      confidence: 0.2
+    Laundry Room:
+      box:
+      - 69.0
+      - 61.5
+      - 71.5
+      - 64.5
+      confidence: 0.2
+- floor: 3F
+  image: r6-maps-kafe-blueprint-3.jpg
+  size:
+  - 1600
+  - 900
+  notes: Image 3 of 4 for Kafe (Ground, 1st, 2nd, Roof) is the 2nd Floor file, which is 3F in-game. The small top-floor footprint fits that call.
+    Placement of individual rooms within the building is approximate.
+  rooms:
+    Cigar Lounge:
+      box:
+      - 60.5
+      - 46.5
+      - 65.0
+      - 51.0
+      confidence: 0.35
+    Cocktail Lounge:
+      box:
+      - 65.0
+      - 46.5
+      - 72.0
+      - 52.0
+      confidence: 0.35
+    Bar:
+      box:
+      - 64.0
+      - 52.0
+      - 70.0
+      - 60.0
+      confidence: 0.4
+    Bar Freezer:
+      box:
+      - 66.0
+      - 60.0
+      - 70.0
+      - 64.5
+      confidence: 0.25
+    Bathroom:
+      box:
+      - 60.5
+      - 56.0
+      - 64.0
+      - 64.5
+      confidence: 0.25
+    Red Stairs:
+      box:
+      - 61.0
+      - 50.5
+      - 64.0
+      - 56.0
+      confidence: 0.3
+    White Stairs:
+      box:
+      - 69.5
+      - 56.0
+      - 72.0
+      - 64.5
+      confidence: 0.3
+    Cigar Balcony:
+      box:
+      - 57.0
+      - 47.0
+      - 60.5
+      - 53.0
+      confidence: 0.2
+- floor: ROOF
+  image: r6-maps-kafe-blueprint-4.jpg
+  size:
+  - 1600
+  - 900
+  notes: Last of 4 images, showing a top-down satellite view with the red rooftop of the Kafe building, so this is clearly the roof level. Other
+    EXT areas are assigned to 1F.
+  rooms:
+    Roof:
+      box:
+      - 56.5
+      - 46.0
+      - 74.0
+      - 65.5
+      confidence: 0.85
+    Skylight:
+      box:
+      - 64.0
+      - 50.5
+      - 69.0
+      - 56.0
+      confidence: 0.35

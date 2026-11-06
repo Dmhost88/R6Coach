@@ -1,0 +1,244 @@
+map: lair
+source: Room boxes located by Claude on Ubisoft's official blueprints (grid percentages, x left->right, y top->bottom). Check against data/maps/<map>/preview/.
+floors:
+- floor: B
+  image: r6-maps-lair-blueprint-1.jpg
+  size:
+  - 1600
+  - 900
+  notes: Image 1 of 4 in floor order with a small outlined footprint dug into the rock, so this is the basement; room placements are rough guesses.
+  rooms:
+    Missile:
+      box:
+      - 75.5
+      - 44.0
+      - 79.5
+      - 70.0
+      confidence: 0.35
+    Lab:
+      box:
+      - 60.0
+      - 50.0
+      - 68.0
+      - 61.0
+      confidence: 0.3
+    Lab Support:
+      box:
+      - 64.0
+      - 51.0
+      - 69.0
+      - 62.0
+      confidence: 0.25
+    Lockers:
+      box:
+      - 52.5
+      - 44.0
+      - 57.0
+      - 52.0
+      confidence: 0.25
+    Stock:
+      box:
+      - 54.0
+      - 52.0
+      - 60.0
+      - 61.0
+      confidence: 0.25
+    Electrical:
+      box:
+      - 72.0
+      - 45.0
+      - 76.0
+      - 55.0
+      confidence: 0.2
+    Warehouse:
+      box:
+      - 70.0
+      - 55.0
+      - 76.0
+      - 68.0
+      confidence: 0.25
+    Connector:
+      box:
+      - 57.0
+      - 34.0
+      - 60.0
+      - 45.0
+      confidence: 0.3
+    Lab Exit:
+      box:
+      - 61.0
+      - 68.0
+      - 64.0
+      - 80.0
+      confidence: 0.3
+    Garage:
+      box:
+      - 35.0
+      - 50.0
+      - 50.0
+      - 68.0
+      confidence: 0.15
+- floor: 1F
+  image: r6-maps-lair-blueprint-2.jpg
+  size:
+  - 1600
+  - 900
+  notes: Image 2 of 4 for Lair (Basement, Ground, 1st, Roof) means this is the ground floor, in-game 1F; the floor call is fairly confident. Room
+    positions are rough guesses.
+  rooms:
+    Lobby:
+      box:
+      - 50.0
+      - 22.0
+      - 65.0
+      - 40.0
+      confidence: 0.3
+    Range:
+      box:
+      - 56.0
+      - 68.0
+      - 62.0
+      - 91.0
+      confidence: 0.3
+    Weapon Maintenance:
+      box:
+      - 52.0
+      - 68.0
+      - 58.0
+      - 78.0
+      confidence: 0.2
+    Armory Hall:
+      box:
+      - 53.0
+      - 62.0
+      - 63.0
+      - 66.0
+      confidence: 0.2
+    Armory:
+      box:
+      - 57.0
+      - 54.0
+      - 62.0
+      - 62.0
+      confidence: 0.25
+    Briefing:
+      box:
+      - 53.0
+      - 50.0
+      - 58.0
+      - 60.0
+      confidence: 0.2
+    Medical:
+      box:
+      - 50.0
+      - 55.0
+      - 56.0
+      - 63.0
+      confidence: 0.2
+    Security:
+      box:
+      - 57.0
+      - 44.0
+      - 63.0
+      - 52.0
+      confidence: 0.2
+    Security Terrace:
+      box:
+      - 46.0
+      - 48.0
+      - 50.0
+      - 58.0
+      confidence: 0.15
+    Bunks:
+      box:
+      - 63.0
+      - 45.0
+      - 68.0
+      - 60.0
+      confidence: 0.2
+- floor: 2F
+  image: r6-maps-lair-blueprint-3.jpg
+  size:
+  - 1600
+  - 900
+  notes: Image 3 of 4 for Lair (Basement, Ground, 1st Floor, Roof), so this is Ubisoft's 1st Floor, which is 2F in-game. The floor call is fairly
+    confident; the room placements are rough guesses.
+  rooms:
+    Display:
+      box:
+      - 44.0
+      - 39.0
+      - 50.0
+      - 50.0
+      confidence: 0.3
+    Storage:
+      box:
+      - 46.0
+      - 50.0
+      - 52.0
+      - 57.0
+      confidence: 0.25
+    R6 Room:
+      box:
+      - 52.0
+      - 44.0
+      - 57.0
+      - 53.0
+      confidence: 0.25
+    Server:
+      box:
+      - 56.0
+      - 43.0
+      - 60.0
+      - 52.0
+      confidence: 0.25
+    Mask Room:
+      box:
+      - 61.0
+      - 43.0
+      - 65.0
+      - 50.0
+      confidence: 0.2
+    Operations:
+      box:
+      - 64.0
+      - 44.0
+      - 69.0
+      - 52.0
+      confidence: 0.3
+    Master Office:
+      box:
+      - 64.0
+      - 52.0
+      - 70.0
+      - 66.0
+      confidence: 0.3
+    Bathroom:
+      box:
+      - 57.0
+      - 60.0
+      - 62.0
+      - 66.0
+      confidence: 0.25
+    Mezzanine:
+      box:
+      - 52.0
+      - 57.0
+      - 58.0
+      - 63.0
+      confidence: 0.3
+    Bridge:
+      box:
+      - 57.0
+      - 48.0
+      - 66.0
+      - 58.0
+      confidence: 0.3
+- floor: ROOF
+  image: r6-maps-lair-blueprint-4.jpg
+  size:
+  - 1600
+  - 900
+  notes: 'Fairly confident: image 4 of 4 for a three-level map (B, 1F, 2F) is a top-down exterior view of the building''s roof, so no listed callouts
+    belong here.'
+  rooms: {}

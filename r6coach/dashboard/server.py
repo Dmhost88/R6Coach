@@ -32,7 +32,7 @@ STATIC = Path(__file__).resolve().parent / "static"
 # Events forwarded to the page. vision.read carries the full read, which the detection view uses.
 FORWARD = {"state.updated", "screen.changed", "coach.said", "coach.advice", "coach.thinking", "vision.read",
            "llm.usage", "error", "ptt.listening", "ptt.question", "ptt.ready", "match.started",
-           "round.ended", "match.ended", "status", "killfeed", "player.died"}
+           "round.ended", "match.ended", "status", "killfeed", "player.died", "map.focus"}
 
 TEST_LINE = "Voice check. 3 v 2. They have to come to you."
 
@@ -253,6 +253,41 @@ def build(app: "App") -> FastAPI:
             raise HTTPException(404)
         app.knowledge.save_notes(map_id, body.get("notes", ""))
         return {"ok": "saved"}
+
+    @api.get("/api/layout")
+    def layout(map: str = "") -> dict[str, Any]:
+        """The current (or named) map's floors and room boxes, plus where the player is."""
+        if map:
+            m = app.knowledge.find_map(map)
+            mid = next((k for k, v in app.knowledge.maps.items() if v is m), None) if m else None
+        else:
+            mid = app.map_id()
+        lay = app.layouts.get(mid)
+        if not lay:
+            return {"map": mid, "floors": []}
+        floors = [{"floor": f["floor"], "size": f.get("size"), "rooms": f.get("rooms") or {},
+                   "url": f"/api/blueprint/{mid}/{f['image']}" if app.layouts.image_path(mid, f["image"]) else None}
+                  for f in lay["floors"]]
+        return {"map": mid, "floors": floors,
+                "you": app.layouts.locate(mid, app.watcher.state.my_location)}
+
+    @api.get("/api/blueprint/{map_id}/{image}")
+    def blueprint(map_id: str, image: str) -> Response:
+        """A blueprint floor image, scaled to 1600 px wide and cached as JPEG (Calypso's are 10 MB PNGs)."""
+        src = app.layouts.image_path(map_id, image)
+        if src is None:
+            raise HTTPException(404)
+        web = src.parent / "web" / (src.stem + ".jpg")
+        if not web.exists() or web.stat().st_mtime < src.stat().st_mtime:
+            import cv2
+            import numpy as np
+            img = cv2.imdecode(np.fromfile(str(src), np.uint8), cv2.IMREAD_COLOR)
+            h, w = img.shape[:2]
+            if w > 1600:
+                img = cv2.resize(img, (1600, round(h * 1600 / w)), interpolation=cv2.INTER_AREA)
+            web.parent.mkdir(exist_ok=True)
+            cv2.imencode(".jpg", img, [cv2.IMWRITE_JPEG_QUALITY, 85])[1].tofile(str(web))
+        return FileResponse(web, media_type="image/jpeg", headers={"Cache-Control": "max-age=86400"})
 
     @api.get("/api/matches")
     def matches() -> list[dict[str, Any]]:

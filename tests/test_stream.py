@@ -29,7 +29,8 @@ class StreamingClaude:
         self.calls.append(("coach", k.get("purpose")))
         return CoachLines(lines=["prepared"], recommended_operator="", recommended_bans=[])
 
-    def coach_stream(self, model, effort, system, prompt, purpose, image_jpeg=None, on_line=None):
+    def coach_stream(self, model, effort, system, prompt, purpose, image_jpeg=None, on_line=None,
+                     cancelled=None):
         self.calls.append(("stream", purpose))
         out = []
         for i, text in enumerate(["line one", "line two", "line three"]):

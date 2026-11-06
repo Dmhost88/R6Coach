@@ -1,0 +1,228 @@
+map: outback
+source: Room boxes located by Claude on Ubisoft's official blueprints (grid percentages, x left->right, y top->bottom). Check against data/maps/<map>/preview/.
+floors:
+- floor: 1F
+  image: r6-maps-outback-blueprint-1.jpg
+  size:
+  - 1600
+  - 900
+  notes: Outback has no basement, so image 1 of 3 is the ground floor (1F) with exterior; room placement is approximate.
+  rooms:
+    Bathroom:
+      box:
+      - 34.0
+      - 25.0
+      - 38.0
+      - 40.0
+      confidence: 0.35
+    Red Bedroom:
+      box:
+      - 38.0
+      - 25.0
+      - 44.0
+      - 40.0
+      confidence: 0.5
+    Green Bedroom:
+      box:
+      - 44.0
+      - 25.0
+      - 50.0
+      - 40.0
+      confidence: 0.5
+    Closet:
+      box:
+      - 40.0
+      - 21.0
+      - 46.0
+      - 28.0
+      confidence: 0.3
+    Reptile Hallway:
+      box:
+      - 40.0
+      - 40.0
+      - 50.0
+      - 49.0
+      confidence: 0.4
+    Waiting Room:
+      box:
+      - 48.0
+      - 45.0
+      - 53.0
+      - 62.0
+      confidence: 0.3
+    Back Entrance:
+      box:
+      - 53.0
+      - 26.0
+      - 63.0
+      - 37.0
+      confidence: 0.3
+    Restaurant:
+      box:
+      - 53.0
+      - 38.0
+      - 58.0
+      - 52.0
+      confidence: 0.45
+    Kitchen:
+      box:
+      - 58.0
+      - 38.0
+      - 64.0
+      - 52.0
+      confidence: 0.45
+    Shark:
+      box:
+      - 64.0
+      - 32.0
+      - 67.0
+      - 48.0
+      confidence: 0.3
+    Mechanic Shop:
+      box:
+      - 53.0
+      - 52.0
+      - 63.0
+      - 63.0
+      confidence: 0.4
+    Garage:
+      box:
+      - 53.0
+      - 63.0
+      - 64.0
+      - 70.0
+      confidence: 0.35
+    Bike Repair:
+      box:
+      - 54.0
+      - 70.0
+      - 64.0
+      - 80.0
+      confidence: 0.4
+    Fuel Pumps:
+      box:
+      - 45.0
+      - 82.0
+      - 70.0
+      - 96.0
+      confidence: 0.3
+    Storage Yard:
+      box:
+      - 50.0
+      - 2.0
+      - 80.0
+      - 20.0
+      confidence: 0.3
+    Camping:
+      box:
+      - 10.0
+      - 15.0
+      - 21.0
+      - 60.0
+      confidence: 0.35
+- floor: 2F
+  image: r6-maps-outback-blueprint-2.jpg
+  size:
+  - 1600
+  - 900
+  notes: Image 2 of 3 with dark roof surrounding the outlined interior points to the upper floor (2F); room placements are approximate.
+  rooms:
+    Dorms:
+      box:
+      - 34.5
+      - 29.0
+      - 40.5
+      - 44.0
+      confidence: 0.4
+    Laundry:
+      box:
+      - 34.5
+      - 24.0
+      - 47.0
+      - 29.0
+      confidence: 0.3
+    Showers:
+      box:
+      - 40.5
+      - 28.0
+      - 46.5
+      - 37.0
+      confidence: 0.35
+    Motel Hallway:
+      box:
+      - 40.5
+      - 37.0
+      - 49.0
+      - 44.0
+      confidence: 0.4
+    Bathroom:
+      box:
+      - 47.0
+      - 24.0
+      - 53.0
+      - 34.0
+      confidence: 0.3
+    Piano Room:
+      box:
+      - 49.0
+      - 34.0
+      - 54.0
+      - 47.0
+      confidence: 0.3
+    Games Room:
+      box:
+      - 53.5
+      - 27.0
+      - 58.0
+      - 39.0
+      confidence: 0.3
+    Party Room:
+      box:
+      - 58.0
+      - 25.0
+      - 65.0
+      - 39.0
+      confidence: 0.3
+    Mechanical Bull:
+      box:
+      - 58.0
+      - 39.0
+      - 64.0
+      - 48.0
+      confidence: 0.3
+    Mezzanine:
+      box:
+      - 54.0
+      - 39.0
+      - 58.0
+      - 52.0
+      confidence: 0.25
+    Office Supplies:
+      box:
+      - 58.0
+      - 46.0
+      - 66.0
+      - 53.0
+      confidence: 0.25
+    Office:
+      box:
+      - 54.0
+      - 53.0
+      - 66.0
+      - 60.0
+      confidence: 0.3
+    Garage Lounge:
+      box:
+      - 53.5
+      - 60.0
+      - 66.0
+      - 80.0
+      confidence: 0.3
+- floor: ROOF
+  image: r6-maps-outback-blueprint-3.jpg
+  size:
+  - 1600
+  - 900
+  notes: 'Confident: top-down roof view with no interior walls drawn, the third of three images; no listed callouts belong to the roof, and EXT
+    areas are assigned to the 1F image.'
+  rooms: {}

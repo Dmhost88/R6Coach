@@ -1,0 +1,209 @@
+map: nighthaven_labs
+source: Room boxes located by Claude on Ubisoft's official blueprints (grid percentages, x left->right, y top->bottom). Check against data/maps/<map>/preview/.
+floors:
+- floor: B
+  image: r6-maps-nighthavenlabs-blueprint-1.jpg
+  size:
+  - 1600
+  - 900
+  notes: Image 1 of 4 with only a small central interior is the basement (B); room placement within it is a best guess.
+  rooms:
+    Tank:
+      box:
+      - 49.5
+      - 53.5
+      - 53.5
+      - 60.0
+      confidence: 0.4
+    Assembly:
+      box:
+      - 54.5
+      - 50.0
+      - 59.5
+      - 58.0
+      confidence: 0.35
+    Animus:
+      box:
+      - 55.0
+      - 60.0
+      - 59.5
+      - 67.0
+      confidence: 0.35
+    Exo:
+      box:
+      - 60.0
+      - 47.0
+      - 65.5
+      - 59.0
+      confidence: 0.3
+    Nano hallway:
+      box:
+      - 50.5
+      - 44.5
+      - 59.5
+      - 50.0
+      confidence: 0.25
+- floor: 1F
+  image: r6-maps-nighthavenlabs-blueprint-2.jpg
+  size:
+  - 1600
+  - 900
+  notes: Image 2 of 4 in floor order (Basement, Ground, 1st, Roof) and the exterior is shown, so this is very likely the ground floor (1F). Room
+    placements are rough guesses.
+  rooms:
+    Kitchen:
+      box:
+      - 66.0
+      - 42.0
+      - 70.0
+      - 50.0
+      confidence: 0.4
+    Cafeteria:
+      box:
+      - 64.0
+      - 37.0
+      - 70.0
+      - 42.0
+      confidence: 0.35
+    Control Room:
+      box:
+      - 47.0
+      - 50.0
+      - 54.0
+      - 60.0
+      confidence: 0.35
+    Storage:
+      box:
+      - 54.0
+      - 55.0
+      - 60.0
+      - 66.0
+      confidence: 0.35
+    Garage:
+      box:
+      - 47.0
+      - 60.0
+      - 54.0
+      - 70.0
+      confidence: 0.25
+    Games:
+      box:
+      - 50.0
+      - 45.0
+      - 55.0
+      - 52.0
+      confidence: 0.2
+    Lobby:
+      box:
+      - 55.0
+      - 47.0
+      - 61.0
+      - 55.0
+      confidence: 0.25
+    Break:
+      box:
+      - 61.0
+      - 50.0
+      - 66.0
+      - 58.0
+      confidence: 0.2
+    Freezer:
+      box:
+      - 61.0
+      - 37.0
+      - 64.0
+      - 46.0
+      confidence: 0.2
+    Fork:
+      box:
+      - 53.0
+      - 43.0
+      - 61.0
+      - 47.0
+      confidence: 0.2
+    Mud:
+      box:
+      - 60.0
+      - 26.0
+      - 66.0
+      - 37.0
+      confidence: 0.2
+- floor: 2F
+  image: r6-maps-nighthavenlabs-blueprint-3.jpg
+  size:
+  - 1600
+  - 900
+  notes: Image 3 of 4 on a map with B, 1F, 2F and roof, so this should be 2F; the two objective markers fit the 2F Command Center/Servers site.
+    Room placements are rough guesses.
+  rooms:
+    Aqua hallway:
+      box:
+      - 47.0
+      - 41.0
+      - 56.0
+      - 46.0
+      confidence: 0.5
+    Servers:
+      box:
+      - 50.0
+      - 46.0
+      - 55.0
+      - 59.0
+      confidence: 0.45
+    Command Center:
+      box:
+      - 55.0
+      - 47.0
+      - 60.0
+      - 59.0
+      confidence: 0.45
+    Mezzanine:
+      box:
+      - 46.0
+      - 46.0
+      - 50.0
+      - 59.0
+      confidence: 0.3
+    IT:
+      box:
+      - 45.0
+      - 59.0
+      - 55.0
+      - 67.0
+      confidence: 0.3
+    Meeting:
+      box:
+      - 55.0
+      - 59.0
+      - 61.0
+      - 67.0
+      confidence: 0.3
+    Electrical:
+      box:
+      - 60.0
+      - 51.0
+      - 64.0
+      - 60.0
+      confidence: 0.3
+    Connector:
+      box:
+      - 58.0
+      - 42.0
+      - 63.0
+      - 51.0
+      confidence: 0.3
+    Rafters:
+      box:
+      - 62.0
+      - 35.0
+      - 67.0
+      - 46.0
+      confidence: 0.3
+- floor: ROOF
+  image: r6-maps-nighthavenlabs-blueprint-4.jpg
+  size:
+  - 1600
+  - 900
+  notes: Top-down roof render with no interior outlines, image 4 of 4 after B, 1F and 2F, so this is the roof; none of the listed callouts are
+    on it.
+  rooms: {}

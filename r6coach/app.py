@@ -17,6 +17,7 @@ from .frames import FrameStore
 from .hud import HudThread
 from .knowledge import Knowledge
 from .live import LiveCoach
+from .maplayout import MapLayouts
 from .memory import MatchMemory
 from .tactical import TacticalCoach
 from .llm import Claude
@@ -40,6 +41,8 @@ class App:
         self._last_room: Optional[str] = None
         self.bus.subscribe("state.updated", self._record_room)
         self.knowledge = Knowledge(notes_dir=data / "notes")
+        self.layouts = MapLayouts(self.knowledge.data_dir / "layout", data / "maps")
+        self.bus.subscribe("coach.said", self._map_focus)
         self.profile = Profile(data / "profile.sqlite")
         self.frames = FrameStore(data, cfg.storage.keep_frames_days)
         self.speaker = Speaker(cfg.voice, self.bus, data / "tts_cache")
@@ -48,6 +51,7 @@ class App:
         else:
             self.source = WindowCaptureSource(cfg.capture.window_title, cfg.capture.sample_fps)
         self.watcher = Watcher(cfg, self.bus, self.source, self.claude, self.frames)
+        self.watcher.async_reads = True
         self.coach = Coach(cfg, self.bus, self.claude, self.knowledge, self.speaker, self.profile,
                            current_state=lambda: self.watcher.state, current_jpeg=self.watcher.current_jpeg)
         self.memory = MatchMemory(self.bus, lambda: self.watcher.state, cfg.player_name)
@@ -75,6 +79,18 @@ class App:
         self.bus.subscribe("ptt.ready", lambda ev: setattr(self, "ptt_ready", True))
         self.bus.subscribe("error", lambda ev: log.warning("%s: %s", ev.data.get("source"), ev.data.get("message")))
         self.stopped = threading.Event()
+
+    def map_id(self) -> Optional[str]:
+        m = self.knowledge.find_map(self.watcher.state.map)
+        return next((mid for mid, v in self.knowledge.maps.items() if v is m), None) if m else None
+
+    def _map_focus(self, ev) -> None:
+        """Tell the dashboard map which rooms the line just spoken names, in order."""
+        mid = self.map_id()
+        you = self.layouts.locate(mid, self.watcher.state.my_location)
+        rooms = self.layouts.mentions(mid, ev.data.get("text", ""), you["floor"] if you else None)
+        if rooms:
+            self.bus.publish("map.focus", map=mid, rooms=rooms, text=ev.data.get("text", ""))
 
     def _record_room(self, ev) -> None:
         """Log each new room callout from the HUD, per map, to build a verified room list."""

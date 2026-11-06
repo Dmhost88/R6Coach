@@ -236,6 +236,21 @@ main { padding: var(--space-4); max-width: 1440px; margin: 0 auto; }
 .takeaways { margin: 0; padding-left: 1.4em; font: 500 16px/24px var(--font-sans); }
 .takeaways li + li { margin-top: var(--space-2); }
 
+/* ---------------------------------------------------------------- live map */
+.livemap__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2); }
+.livemap__floors { display: flex; gap: var(--space-1); }
+.livemap__floor { min-width: 44px; font-family: var(--font-mono); }
+.livemap__floor[aria-pressed="true"] { color: var(--on-signal); background: var(--signal); border-color: var(--signal); }
+.livemap__stage { position: relative; margin-top: var(--space-3); border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--line); background: var(--ground); }
+.livemap__stage img { display: block; width: 100%; height: auto; }
+.livemap__svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.livemap__room { fill: var(--signal); fill-opacity: 0.28; stroke: var(--signal); stroke-width: 0.35; vector-effect: non-scaling-stroke; }
+.livemap__route { fill: none; stroke: var(--signal); stroke-width: 3; stroke-dasharray: 8 6; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.livemap__you { fill: none; stroke: var(--team-us); stroke-width: 3; vector-effect: non-scaling-stroke; }
+.livemap__label { font: 600 2.2px/1 var(--font-sans); fill: #fff; paint-order: stroke; stroke: rgba(0, 0, 0, 0.85); stroke-width: 0.5px; transform-box: fill-box; }
+.livemap__label--you { fill: var(--team-us); }
+.livemap__said { min-height: 20px; margin: var(--space-2) 0 0; font: 500 14px/20px var(--font-sans); color: var(--ink-muted); }
+
 /* ---------------------------------------------------------------- reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }

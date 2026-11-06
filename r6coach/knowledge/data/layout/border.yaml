@@ -1,0 +1,160 @@
+map: border
+source: Room boxes located by Claude on Ubisoft's official blueprints (grid percentages, x left->right, y top->bottom). Check against data/maps/<map>/preview/.
+floors:
+- floor: 1F
+  image: r6-maps-border-blueprint-1.jpg
+  size:
+  - 1600
+  - 900
+  notes: 'Fairly confident: first of three images, with streets, vehicles and exterior visible around the building, so this is the ground floor
+    (1F). Border has no basement. Individual room placements are rough guesses.'
+  rooms:
+    Supply Room:
+      box:
+      - 32.0
+      - 20.0
+      - 39.0
+      - 40.0
+      confidence: 0.3
+    Workshop:
+      box:
+      - 40.0
+      - 20.0
+      - 56.0
+      - 42.0
+      confidence: 0.35
+    Bathroom:
+      box:
+      - 56.0
+      - 20.0
+      - 63.0
+      - 27.0
+      confidence: 0.35
+    Waiting Room:
+      box:
+      - 63.0
+      - 20.0
+      - 69.0
+      - 37.0
+      confidence: 0.25
+    Tellers:
+      box:
+      - 60.0
+      - 37.0
+      - 69.0
+      - 53.0
+      confidence: 0.3
+    Main Lobby:
+      box:
+      - 57.0
+      - 53.0
+      - 72.0
+      - 77.0
+      confidence: 0.35
+    Detention:
+      box:
+      - 50.0
+      - 59.0
+      - 57.0
+      - 77.0
+      confidence: 0.25
+    Customs Inspection:
+      box:
+      - 29.0
+      - 59.0
+      - 50.0
+      - 77.0
+      confidence: 0.3
+    Customs Desk:
+      box:
+      - 29.0
+      - 40.0
+      - 36.0
+      - 60.0
+      confidence: 0.3
+    Ventilation Room:
+      box:
+      - 36.0
+      - 50.0
+      - 46.0
+      - 59.0
+      confidence: 0.25
+    Passport Check:
+      box:
+      - 46.0
+      - 42.0
+      - 60.0
+      - 59.0
+      confidence: 0.25
+- floor: 2F
+  image: r6-maps-border-blueprint-2.jpg
+  size:
+  - 1600
+  - 900
+  notes: Second of three images (Border has no basement), with floor hatches and line-of-sight floor shown, so this is the upper floor (2F); room
+    placements are best guesses with moderate to low certainty.
+  rooms:
+    Armory Lockers:
+      box:
+      - 32.0
+      - 20.0
+      - 50.0
+      - 40.0
+      confidence: 0.4
+    Archives:
+      box:
+      - 50.0
+      - 14.0
+      - 62.0
+      - 35.0
+      confidence: 0.35
+    Offices:
+      box:
+      - 32.0
+      - 50.0
+      - 46.0
+      - 76.0
+      confidence: 0.4
+    Security Room:
+      box:
+      - 46.0
+      - 59.0
+      - 57.0
+      - 76.0
+      confidence: 0.35
+    Break Room:
+      box:
+      - 57.0
+      - 59.0
+      - 68.0
+      - 76.0
+      confidence: 0.35
+    East Stairs:
+      box:
+      - 67.0
+      - 53.0
+      - 73.0
+      - 77.0
+      confidence: 0.4
+    West Balcony:
+      box:
+      - 29.0
+      - 40.0
+      - 33.0
+      - 81.0
+      confidence: 0.3
+    East Balcony:
+      box:
+      - 59.0
+      - 14.0
+      - 70.0
+      - 20.0
+      confidence: 0.3
+- floor: ROOF
+  image: r6-maps-border-blueprint-3.jpg
+  size:
+  - 1600
+  - 900
+  notes: 'Very confident this is the roof: a top-down view of the rooftop with AC units, skylight domes and the surrounding exterior, and no interior
+    rooms drawn. None of the listed callouts are on the roof.'
+  rooms: {}

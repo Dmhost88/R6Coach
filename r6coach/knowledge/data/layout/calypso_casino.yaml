@@ -1,0 +1,168 @@
+map: calypso_casino
+source: Room boxes located by Claude on Ubisoft's official blueprints (grid percentages, x left->right, y top->bottom). Check against data/maps/<map>/preview/.
+floors:
+- floor: B
+  image: R6S_Maps_CalypsoCasino_1F.png
+  size:
+  - 1600
+  - 900
+  notes: Image 1 of 4 with floors B/1F/2F/ROOF in order, and the interior is many small rooms rather than an open casino floor, so likely basement;
+    room placements are rough guesses.
+  rooms:
+    Vault:
+      box:
+      - 66.0
+      - 40.0
+      - 73.0
+      - 58.0
+      confidence: 0.35
+    Vault Checkpoint:
+      box:
+      - 61.0
+      - 40.0
+      - 66.0
+      - 50.0
+      confidence: 0.25
+    CCTV:
+      box:
+      - 52.0
+      - 26.0
+      - 56.0
+      - 34.0
+      confidence: 0.2
+    Manager's Office:
+      box:
+      - 55.0
+      - 27.0
+      - 63.0
+      - 40.0
+      confidence: 0.25
+    Servers:
+      box:
+      - 52.0
+      - 51.0
+      - 57.0
+      - 62.0
+      confidence: 0.2
+    Lockers:
+      box:
+      - 50.0
+      - 42.0
+      - 56.0
+      - 50.0
+      confidence: 0.2
+    Cash Counting:
+      box:
+      - 61.0
+      - 51.0
+      - 67.0
+      - 60.0
+      confidence: 0.25
+- floor: 2F
+  image: R6S_Maps_CalypsoCasino_2F.png
+  size:
+  - 1600
+  - 900
+  notes: Rooftop terrace with outdoor pool and small red-floored interior suggests the upper floor (2F), despite being image 2 of 4; moderate
+    confidence.
+  rooms:
+    Pool:
+      box:
+      - 31.0
+      - 49.0
+      - 45.0
+      - 71.0
+      confidence: 0.5
+    Aqua:
+      box:
+      - 51.5
+      - 51.0
+      - 57.5
+      - 61.0
+      confidence: 0.35
+    Humidor:
+      box:
+      - 53.0
+      - 26.0
+      - 59.0
+      - 35.0
+      confidence: 0.3
+    Kitchen:
+      box:
+      - 57.5
+      - 36.0
+      - 62.0
+      - 42.0
+      confidence: 0.3
+    Cigar Room:
+      box:
+      - 62.0
+      - 41.0
+      - 66.0
+      - 51.0
+      confidence: 0.35
+    Barista:
+      box:
+      - 66.0
+      - 36.0
+      - 73.0
+      - 58.0
+      confidence: 0.25
+- floor: 2F
+  image: R6S_Maps_CalypsoCasino_Basement.png
+  size:
+  - 1600
+  - 900
+  notes: Image 3 of 4 with only a small upper-storey interior outlined and a rooftop pool deck, so this should be Ubisoft's 1ST FLOOR (in-game
+    2F); fairly confident. Room positions are mostly guesses, apart from Pool.
+  rooms:
+    Pool:
+      box:
+      - 30.0
+      - 48.0
+      - 46.0
+      - 72.0
+      confidence: 0.45
+    Kitchen:
+      box:
+      - 63.0
+      - 38.0
+      - 71.0
+      - 50.0
+      confidence: 0.3
+    Cigar Room:
+      box:
+      - 71.0
+      - 38.0
+      - 77.0
+      - 47.0
+      confidence: 0.3
+    Humidor:
+      box:
+      - 63.0
+      - 31.0
+      - 70.0
+      - 38.0
+      confidence: 0.25
+    Barista:
+      box:
+      - 58.0
+      - 50.0
+      - 71.0
+      - 64.0
+      confidence: 0.25
+    Aqua:
+      box:
+      - 53.0
+      - 24.0
+      - 63.0
+      - 38.0
+      confidence: 0.25
+- floor: ROOF
+  image: R6S_Maps_CalypsoCasino_Roof.png
+  size:
+  - 1600
+  - 900
+  notes: 'Fairly confident: this is the last of 4 images and shows the building top-down with rooftops, AC units and the open-air pool terrace.
+    None of the listed callouts belong to the roof level, so no rooms are mapped.'
+  rooms: {}

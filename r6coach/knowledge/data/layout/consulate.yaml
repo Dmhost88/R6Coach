@@ -1,0 +1,259 @@
+map: consulate
+source: Room boxes located by Claude on Ubisoft's official blueprints (grid percentages, x left->right, y top->bottom). Check against data/maps/<map>/preview/.
+floors:
+- floor: B
+  image: r6-maps-consulate-blueprint-1.jpg
+  size:
+  - 1600
+  - 900
+  notes: Image 1 of 4 with a small, compact footprint and the garage car visible on the west side, so this is very likely the basement; individual
+    room placements are rough.
+  rooms:
+    Garage:
+      box:
+      - 48.5
+      - 60.0
+      - 54.5
+      - 70.0
+      confidence: 0.55
+    Construction:
+      box:
+      - 51.0
+      - 51.5
+      - 56.0
+      - 60.0
+      confidence: 0.3
+    Server Stairs:
+      box:
+      - 54.5
+      - 60.0
+      - 56.5
+      - 70.0
+      confidence: 0.3
+    Locker Hallway:
+      box:
+      - 52.5
+      - 56.0
+      - 62.0
+      - 59.0
+      confidence: 0.25
+    Electrical Room:
+      box:
+      - 56.5
+      - 59.0
+      - 60.0
+      - 63.0
+      confidence: 0.3
+    Servers:
+      box:
+      - 56.5
+      - 63.0
+      - 60.0
+      - 70.0
+      confidence: 0.35
+    Security Room:
+      box:
+      - 60.0
+      - 59.0
+      - 62.5
+      - 63.5
+      confidence: 0.25
+    Storage:
+      box:
+      - 60.0
+      - 63.5
+      - 62.0
+      - 70.0
+      confidence: 0.25
+    Kitchen:
+      box:
+      - 62.0
+      - 59.0
+      - 65.5
+      - 66.0
+      confidence: 0.3
+    Cafeteria:
+      box:
+      - 65.0
+      - 56.0
+      - 71.5
+      - 67.0
+      confidence: 0.4
+- floor: 1F
+  image: r6-maps-consulate-blueprint-2.jpg
+  size:
+  - 1600
+  - 900
+  notes: Image 2 of 4 with the surrounding exterior drawn, so this is the ground floor (1F). Exterior and interior room positions are best guesses
+    from layout knowledge, so confidence is low.
+  rooms:
+    Lobby:
+      box:
+      - 58.0
+      - 57.0
+      - 62.0
+      - 75.0
+      confidence: 0.45
+    Spiral Stairs:
+      box:
+      - 58.0
+      - 48.0
+      - 62.0
+      - 56.0
+      confidence: 0.35
+    Tellers:
+      box:
+      - 62.0
+      - 56.0
+      - 66.0
+      - 70.0
+      confidence: 0.3
+    Visa Office:
+      box:
+      - 51.0
+      - 60.0
+      - 58.0
+      - 70.0
+      confidence: 0.3
+    Yellow Stairs:
+      box:
+      - 55.0
+      - 56.0
+      - 58.0
+      - 61.0
+      confidence: 0.25
+    Exposition Room:
+      box:
+      - 66.0
+      - 57.0
+      - 71.0
+      - 70.0
+      confidence: 0.3
+    Piano Room:
+      box:
+      - 67.0
+      - 51.0
+      - 70.0
+      - 57.0
+      confidence: 0.25
+    Lounge:
+      box:
+      - 51.0
+      - 51.0
+      - 55.0
+      - 58.0
+      confidence: 0.2
+    Gas Station:
+      box:
+      - 38.0
+      - 33.0
+      - 44.0
+      - 49.0
+      confidence: 0.4
+    Garage Way:
+      box:
+      - 38.0
+      - 52.0
+      - 50.0
+      - 70.0
+      confidence: 0.25
+    Riot Barricade:
+      box:
+      - 50.0
+      - 75.0
+      - 70.0
+      - 82.0
+      confidence: 0.25
+    Police Line:
+      box:
+      - 40.0
+      - 82.0
+      - 80.0
+      - 90.0
+      confidence: 0.2
+    Front Alley:
+      box:
+      - 71.0
+      - 50.0
+      - 80.0
+      - 75.0
+      confidence: 0.2
+- floor: 2F
+  image: r6-maps-consulate-blueprint-3.jpg
+  size:
+  - 1600
+  - 900
+  notes: Image 3 of 4 (B, 1F, 2F, Roof); the small top-floor footprint with a bay window and front balcony fits Consulate 2F. Floor call is fairly
+    confident; room placement is approximate.
+  rooms:
+    Consul Office:
+      box:
+      - 64.0
+      - 56.0
+      - 72.0
+      - 66.0
+      confidence: 0.45
+    Meeting Room:
+      box:
+      - 58.0
+      - 57.0
+      - 64.0
+      - 70.0
+      confidence: 0.35
+    Administration Office:
+      box:
+      - 51.0
+      - 60.0
+      - 58.0
+      - 71.0
+      confidence: 0.35
+    Manager's Office:
+      box:
+      - 64.0
+      - 65.0
+      - 70.0
+      - 71.0
+      confidence: 0.3
+    Break Room:
+      box:
+      - 51.0
+      - 51.0
+      - 55.0
+      - 58.0
+      confidence: 0.3
+    Bathroom:
+      box:
+      - 55.0
+      - 56.0
+      - 58.0
+      - 60.0
+      confidence: 0.25
+    Yellow Stairs:
+      box:
+      - 55.0
+      - 52.0
+      - 58.0
+      - 56.0
+      confidence: 0.3
+    Spiral Stairs:
+      box:
+      - 58.0
+      - 48.0
+      - 62.0
+      - 56.0
+      confidence: 0.3
+    Balcony:
+      box:
+      - 58.0
+      - 71.0
+      - 63.0
+      - 77.0
+      confidence: 0.35
+- floor: ROOF
+  image: r6-maps-consulate-blueprint-4.jpg
+  size:
+  - 1600
+  - 900
+  notes: 'Very confident this is the roof: the image shows the building''s rooftop with AC units, there is no interior layout, and it is the last
+    of 4 images. None of the listed callouts are roof rooms, and the EXT callouts belong to the 1F image, so no rooms are listed.'
+  rooms: {}

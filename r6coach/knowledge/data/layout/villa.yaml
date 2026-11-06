@@ -1,0 +1,225 @@
+map: villa
+source: Room boxes located by Claude on Ubisoft's official blueprints (grid percentages, x left->right, y top->bottom). Check against data/maps/<map>/preview/.
+floors:
+- floor: B
+  image: r6-maps-villa-blueprint-1.jpg
+  size:
+  - 1600
+  - 900
+  notes: First of five images in floor order with only a small outlined interior at the north of the villa, so this is almost certainly the basement;
+    individual room placements are low-confidence estimates.
+  rooms:
+    Garage:
+      box:
+      - 72.0
+      - 22.0
+      - 77.5
+      - 34.5
+      confidence: 0.45
+    Art Storage:
+      box:
+      - 65.5
+      - 22.0
+      - 70.0
+      - 29.5
+      confidence: 0.3
+    Wine Cellar:
+      box:
+      - 66.5
+      - 29.5
+      - 72.0
+      - 35.0
+      confidence: 0.35
+    Old Office:
+      box:
+      - 63.5
+      - 29.0
+      - 67.0
+      - 40.0
+      confidence: 0.3
+    Crypt:
+      box:
+      - 64.0
+      - 38.0
+      - 70.0
+      - 44.5
+      confidence: 0.3
+- floor: 1F
+  image: r6-maps-villa-blueprint-2.jpg
+  size:
+  - 1600
+  - 900
+  notes: Exterior overview with the building masked out; treated as ground-level (1F) exterior, low-moderate certainty since no interior rooms
+    are drawn.
+  rooms:
+    Main Entrance:
+      box:
+      - 55.0
+      - 14.0
+      - 78.0
+      - 22.0
+      confidence: 0.3
+    Fountain:
+      box:
+      - 50.0
+      - 50.0
+      - 56.0
+      - 63.0
+      confidence: 0.3
+    Ruins:
+      box:
+      - 61.0
+      - 66.0
+      - 71.0
+      - 78.0
+      confidence: 0.35
+- floor: 2F
+  image: r6-maps-villa-blueprint-3.jpg
+  size:
+  - 1600
+  - 900
+  notes: Image 3 of 5 on a map with B/1F/2F suggests Ubisoft's 1ST FLOOR (in-game 2F), and the visible floor traps support this. Fairly confident
+    in the floor; room placements are rough guesses.
+  rooms:
+    Master Bedroom:
+      box:
+      - 63.0
+      - 21.0
+      - 71.0
+      - 30.0
+      confidence: 0.3
+    Bathroom:
+      box:
+      - 71.0
+      - 21.0
+      - 77.0
+      - 30.0
+      confidence: 0.25
+    Astronomy Room:
+      box:
+      - 68.0
+      - 30.0
+      - 77.0
+      - 40.0
+      confidence: 0.25
+    Classical Hall:
+      box:
+      - 65.0
+      - 30.0
+      - 69.0
+      - 44.0
+      confidence: 0.25
+    Study:
+      box:
+      - 61.0
+      - 31.0
+      - 66.0
+      - 40.0
+      confidence: 0.25
+    Trophy Room:
+      box:
+      - 58.0
+      - 40.0
+      - 64.0
+      - 48.0
+      confidence: 0.25
+    Statuary Room:
+      box:
+      - 63.0
+      - 45.0
+      - 68.0
+      - 54.0
+      confidence: 0.25
+    Aviator Room:
+      box:
+      - 56.0
+      - 54.0
+      - 63.0
+      - 63.0
+      confidence: 0.25
+    Games Room:
+      box:
+      - 62.0
+      - 54.0
+      - 69.0
+      - 63.0
+      confidence: 0.25
+- floor: 2F
+  image: r6-maps-villa-blueprint-4.jpg
+  size:
+  - 1600
+  - 900
+  notes: Interior rooms with floor hatches drawn on the upper part of the house; reading this as Ubisoft's 1ST FLOOR (in-game 2F), though image
+    order 4 of 5 means it could also be the roof view. Moderate confidence.
+  rooms:
+    Astronomy Room:
+      box:
+      - 64.0
+      - 20.0
+      - 69.0
+      - 28.0
+      confidence: 0.3
+    Study:
+      box:
+      - 69.0
+      - 22.0
+      - 76.0
+      - 28.0
+      confidence: 0.3
+    Master Bedroom:
+      box:
+      - 71.0
+      - 27.0
+      - 76.0
+      - 36.0
+      confidence: 0.35
+    Bathroom:
+      box:
+      - 69.0
+      - 28.0
+      - 72.0
+      - 35.0
+      confidence: 0.25
+    Statuary Room:
+      box:
+      - 64.0
+      - 28.0
+      - 69.0
+      - 36.0
+      confidence: 0.3
+    Classical Hall:
+      box:
+      - 64.0
+      - 36.0
+      - 71.0
+      - 43.0
+      confidence: 0.3
+    Trophy Room:
+      box:
+      - 59.0
+      - 40.0
+      - 66.0
+      - 46.0
+      confidence: 0.3
+    Aviator Room:
+      box:
+      - 59.0
+      - 46.0
+      - 64.0
+      - 57.0
+      confidence: 0.3
+    Games Room:
+      box:
+      - 64.0
+      - 46.0
+      - 69.0
+      - 59.0
+      confidence: 0.3
+- floor: ROOF
+  image: r6-maps-villa-blueprint-5.jpg
+  size:
+  - 1600
+  - 900
+  notes: 'Very confident: this is the satellite-style top-down roof view (image 5 of 5) showing tiled rooftops and the surrounding terrain, with
+    no interior layout. No listed callouts are roof rooms, and EXT areas belong to the 1F image, so no rooms are mapped here.'
+  rooms: {}

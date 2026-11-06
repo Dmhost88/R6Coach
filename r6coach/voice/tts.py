@@ -424,7 +424,8 @@ class Speaker:
         self._cv = threading.Condition()
         self._stop = False
         self._playing = False
-        self._epoch = 0                    # bumped to cut off the line being played
+        self._playing_phase: Optional[str] = None
+        self._epoch = 0                   # bumped to cut off the line being played
         self._play_lock = threading.Lock()
         self._thread = threading.Thread(target=self._run, name="speaker", daemon=True)
 
@@ -460,6 +461,18 @@ class Speaker:
             self._heap = [i for i in self._heap if phase is not None and i.phase != phase]
             heapq.heapify(self._heap)
 
+    def cancel(self, *phases: str) -> None:
+        """Advice for these phases is out of date: drop it from the queue and cut off the line
+        playing now if it is one of them."""
+        with self._cv:
+            self._heap = [i for i in self._heap if i.phase not in phases]
+            heapq.heapify(self._heap)
+        with self._play_lock:
+            # Checked under the play lock, so a line that started in the meantime isn't cut by mistake.
+            if self._playing_phase in phases:
+                self._epoch += 1
+                sd.stop()
+
     def skip(self) -> None:
         self._interrupt()
 
@@ -487,6 +500,7 @@ class Speaker:
                     return
                 item = heapq.heappop(self._heap)
                 self._playing = True
+                self._playing_phase = item.phase
                 epoch = self._epoch
             try:
                 if time.time() > item.expires or self.muted:
@@ -496,6 +510,7 @@ class Speaker:
                 log.exception("playback failed")
             finally:
                 self._playing = False
+                self._playing_phase = None
 
     def _speak(self, item: _Item, epoch: int) -> None:
         chunks = split_sentences(item.text)

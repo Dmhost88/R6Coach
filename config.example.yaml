@@ -12,6 +12,11 @@ vision:
   model: claude-opus-5-5           # model that reads static screens (op select, bans, round end)
   effort: low
   local_screens: true              # recognise the screen type locally; cloud reads only for bans/picks/prep/scoreboard
+  # Fast reads of the map ban, operator ban, operator select and loadout screens (short prompt,
+  # small schema). Sonnet without thinking: ~2 s a read, as accurate as Opus here, half the cost.
+  detail_model: claude-sonnet-5-5
+  detail_effort: none              # none = thinking off (Haiku/Sonnet); or low, medium, ...
+  detail_width: 0                  # downscale detail frames to this width first (0 = as captured)
   # Minimum seconds between cloud screen reads, per detected screen. Live rounds are read
   # locally by the HUD reader, so they need few cloud reads.
   min_interval:
@@ -31,10 +36,13 @@ hud:
 coach:
   model: claude-opus-5-5           # model that writes advice and answers questions
   effort: low                      # bans, questions, live prep: ~9 s to the first line (medium ~19 s)
-  pick_effort: medium              # operator pick (op select gives ~30 s)
+  pick_effort: low                 # operator pick (medium thinks ~10 s longer)
   deep_effort: high                # defense prep plan (made during pick) and round debriefs
   live_effort: low                 # in-round tactical calls (must land within seconds)
-  live_min_gap: 15                 # seconds between in-round tactical calls
+  live_min_gap: 10                 # seconds between in-round tactical calls
+  live_checkin: 20                 # a call after this many quiet seconds alive in a round (0 = off)
+  fast_model: claude-sonnet-5-5    # bans, picks and in-round calls (short windows); set to `model` to turn off
+  preplan_bans: true               # think the next ban through at round end, ready when the ban screen opens
   budget_per_match: 3.0            # USD; at 80% live calls and debriefs pause, at 100% only bans/picks
   skill_level: intermediate        # new | intermediate | advanced
   # Chattiness per phase: 0 = silent, 1 = essentials only, 2 = normal, 3 = detailed

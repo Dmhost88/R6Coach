@@ -1,0 +1,202 @@
+map: chalet
+source: Room boxes located by Claude on Ubisoft's official blueprints (grid percentages, x left->right, y top->bottom). Check against data/maps/<map>/preview/.
+floors:
+- floor: B
+  image: r6-maps-chalet-blueprint-1.jpg
+  size:
+  - 1600
+  - 900
+  notes: 'First of four images in floor order, with a basement layout: snowmobile/boat garage, central cellar and lower garage, so this is the
+    Basement; room positions are moderately confident.'
+  rooms:
+    Snowmobile Garage:
+      box:
+      - 46.0
+      - 68.0
+      - 56.0
+      - 95.0
+      confidence: 0.6
+    Wine Cellar:
+      box:
+      - 54.0
+      - 51.0
+      - 67.0
+      - 76.0
+      confidence: 0.55
+    Wine Stock:
+      box:
+      - 56.0
+      - 76.0
+      - 62.0
+      - 90.0
+      confidence: 0.35
+- floor: 1F
+  image: r6-maps-chalet-blueprint-2.jpg
+  size:
+  - 1600
+  - 900
+  notes: Image 2 of 4 on Chalet is the ground floor; pool table (Gaming Room), dining table and double-height fireplace hatching confirm 1F.
+  rooms:
+    Gaming Room:
+      box:
+      - 34.0
+      - 74.0
+      - 43.0
+      - 90.0
+      confidence: 0.75
+    Bar:
+      box:
+      - 43.0
+      - 65.0
+      - 53.0
+      - 90.0
+      confidence: 0.55
+    Bar Stock:
+      box:
+      - 35.0
+      - 51.0
+      - 44.0
+      - 59.0
+      confidence: 0.45
+    Gaming Room Hallway:
+      box:
+      - 34.0
+      - 59.0
+      - 56.0
+      - 67.0
+      confidence: 0.45
+    Fireplace:
+      box:
+      - 53.0
+      - 64.0
+      - 62.0
+      - 90.0
+      confidence: 0.6
+    Dining Room:
+      box:
+      - 57.0
+      - 42.0
+      - 67.0
+      - 58.0
+      confidence: 0.65
+    Kitchen:
+      box:
+      - 62.0
+      - 20.0
+      - 70.0
+      - 42.0
+      confidence: 0.55
+    Front Yard:
+      box:
+      - 0.0
+      - 0.0
+      - 32.0
+      - 50.0
+      confidence: 0.35
+    Backyard:
+      box:
+      - 70.0
+      - 20.0
+      - 100.0
+      - 80.0
+      confidence: 0.3
+    Campfire:
+      box:
+      - 5.0
+      - 64.0
+      - 22.0
+      - 95.0
+      confidence: 0.25
+    Cliffside:
+      box:
+      - 30.0
+      - 0.0
+      - 80.0
+      - 12.0
+      confidence: 0.2
+    Lakeside:
+      box:
+      - 30.0
+      - 92.0
+      - 80.0
+      - 100.0
+      confidence: 0.2
+- floor: 2F
+  image: r6-maps-chalet-blueprint-3.jpg
+  size:
+  - 1600
+  - 900
+  notes: Image 3 of 4 on Chalet (basement, ground, 1st floor, roof) points to the Ubisoft 1st floor, which is in-game 2F; the double-height void
+    over the fireplace hall supports this. Room placements are rough guesses.
+  rooms:
+    Master Bedroom:
+      box:
+      - 52.0
+      - 76.0
+      - 62.0
+      - 97.0
+      confidence: 0.35
+    Master Bathroom:
+      box:
+      - 40.0
+      - 68.0
+      - 47.0
+      - 77.0
+      confidence: 0.25
+    Office:
+      box:
+      - 40.0
+      - 77.0
+      - 47.0
+      - 91.0
+      confidence: 0.25
+    Library:
+      box:
+      - 34.0
+      - 68.0
+      - 40.0
+      - 91.0
+      confidence: 0.25
+    Bedroom Hallway:
+      box:
+      - 47.0
+      - 60.0
+      - 62.0
+      - 76.0
+      confidence: 0.3
+    Mezzanine:
+      box:
+      - 50.0
+      - 35.0
+      - 57.0
+      - 60.0
+      confidence: 0.35
+    Piano Room:
+      box:
+      - 57.0
+      - 42.0
+      - 67.0
+      - 60.0
+      confidence: 0.25
+    Library Stairs:
+      box:
+      - 62.0
+      - 60.0
+      - 67.0
+      - 69.0
+      confidence: 0.2
+    Solarium:
+      box:
+      - 53.0
+      - 3.0
+      - 60.0
+      - 19.0
+      confidence: 0.2
+- floor: ROOF
+  image: r6-maps-chalet-blueprint-4.jpg
+  size:
+  - 1600
+  - 900
+  notes: Image 4 of 4 shows only rooftops and the snowy exterior, so this is clearly the roof. No listed callouts belong to this floor, since
+    EXT areas go with the 1F image.
+  rooms: {}

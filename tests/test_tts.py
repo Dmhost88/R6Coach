@@ -206,6 +206,20 @@ def test_priority_zero_interrupts_remaining_sentences(tmp_path, monkeypatch):
     sp.stop()
 
 
+def test_cancel_drops_a_phase_and_cuts_its_playing_line(tmp_path, monkeypatch):
+    sp, fake, bus, eng = make_speaker(tmp_path, monkeypatch, dur=1.0)
+    sp.say("Go Ace. Throw from cover. Then hold the stairs.", phase="operator_select")
+    sp.say("Take Ace's claymore.", phase="operator_select")
+    sp.say("Two down early.", phase="between_rounds")
+    time.sleep(0.3)                                   # first sentence of the pick line is playing
+    sp.cancel("operator_select", "prep_phase")
+    wait_idle(sp)
+    said = [kw["text"] for t, kw in bus.events if t == "coach.said"]
+    assert said[-1] == "Two down early." and "Take Ace's claymore." not in said
+    assert len(fake.played) == 2                      # 1 pick sentence, then the debrief line
+    sp.stop()
+
+
 def test_expired_lines_are_dropped(tmp_path, monkeypatch):
     sp, fake, bus, eng = make_speaker(tmp_path, monkeypatch, dur=0.6)
     sp.say("Check your flank.", priority=1)

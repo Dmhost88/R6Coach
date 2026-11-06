@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import logging
 import threading
+from concurrent.futures import ThreadPoolExecutor
 import time
 import uuid
 from typing import Optional
@@ -24,6 +25,7 @@ from .hud import HudRead
 from .live import KillTracker
 from .llm import Claude
 from .models import PRE_ROUND, GameState, Screen, ScreenRead
+from .rounds import first_side_from, side_for
 from .screens import LocalScreen
 
 log = logging.getLogger(__name__)
@@ -34,6 +36,9 @@ STABLE_THRESHOLD = 6.0    # difference between consecutive samples to count as "
 REFRESH_FACTOR = 2.5      # refresh interval = min interval * factor, even without change
 MATCH_RESET_SCREENS = {Screen.main_menu, Screen.matchmaking, Screen.match_end}
 ROUND_START = {Screen.operator_ban, Screen.operator_select}
+DETAIL_READ_SCREENS = {Screen.map_ban, Screen.operator_ban, Screen.operator_select, Screen.loadout}
+CARD_SCREENS = {Screen.operator_ban, Screen.operator_select, Screen.loadout}
+CARD_PERIOD = 0.8           # s between local operator-card reads (each costs ~30-200 ms)
 IN_ROUND_SCREENS = {Screen.prep_phase, Screen.action_phase, Screen.spectating, Screen.round_end}
 
 
@@ -149,9 +154,24 @@ class Watcher:
         self._local_since = 0.0                      # when the current local screen type first appeared
         self._last_cloud_screen: Optional[Screen] = None
         self._match_over = False         # a menu / match end was seen since the last match started
+        self._round_n = 0                # rounds started this match (corrected by "ROUND n" reads)
+        self._first_side: Optional[str] = None   # the side the player started the match on
         self._once_done: set[str] = set()   # sub-screens already read this round (see ROUND_KEYS)
         self._cloud_ok_ts = 0.0          # last successful cloud read
         self.cloud_skipped = 0           # cloud reads the local classifier made unnecessary
+        # Cloud reads take 3-5 s. Run them on their own thread (one at a time, so merges stay in
+        # order) and keep classifying screens locally meanwhile. Tests drive reads synchronously.
+        self.async_reads = False
+        # Local reader of the operator cards and ban splash (opcards.py): the player's lock and
+        # teammates' picks in ~30 ms instead of a 2-5 s cloud read. Built on first use.
+        self.cards = None
+        self._cards_failed = False
+        self._cards_ts = 0.0
+        self._op_local_round = -1        # round in which the local reader set my_operator
+        self._cards_prev_op: Optional[str] = None
+        self.last_cards = None
+        self._read_pool = ThreadPoolExecutor(max_workers=1, thread_name_prefix="vision")
+        self._read_busy = False
 
     def start(self) -> None:
         self._thread = threading.Thread(target=self._run, name="watcher", daemon=True)
@@ -197,6 +217,12 @@ class Watcher:
         if local is not None:
             with self._lock:
                 self._apply_local(local, now)
+            if (local.confident and local.screen in CARD_SCREENS and now - self._cards_ts >= CARD_PERIOD):
+                self._cards_ts = now
+                cards = self._read_cards(img, local.screen)
+                if cards is not None:
+                    with self._lock:
+                        self._apply_cards(cards)
         screen = self.state.screen
         # Between rounds the last known screen can still be "spectating" or "action_phase", whose
         # long intervals would miss the short ban and pick screens. Once the HUD no longer shows a
@@ -216,6 +242,8 @@ class Watcher:
             if self.gate.should_read(now, thumb, screen):
                 self.cloud_skipped += 1   # ticks where the plain gate would have read
             return
+        if self._read_busy:
+            return    # a read is in flight; the next tick after it lands decides again
         if policy == "once" and local.in_round:
             # First prep read of the round: the drone view never sits still, so don't wait to settle.
             self.gate.should_read(now, thumb, Screen.prep_phase, refresh=False)
@@ -238,17 +266,61 @@ class Watcher:
         self.gate.mark_read(now, thumb)
         jpeg = encode_jpeg(downscale(img, self.cfg.capture.upload_width))
         self.last_jpeg = jpeg
-        read = self.claude.read_screen(
-            jpeg, self.cfg.vision.model, self.cfg.vision.effort, hint=self.state.summary(),
-            player_name=self.cfg.player_name,
-        )
-        if read is None:
-            return
-        self._cloud_ok_ts = now
-        if policy == "gate" and read.confidence >= 0.35:
-            self._last_cloud_screen = read.screen
-        self.frames.maybe_save(read, jpeg, self.state)
-        self.apply(read)
+        local_at = local.screen if local is not None and local.confident else None
+        if self.async_reads:
+            self._read_busy = True
+            try:
+                self._read_pool.submit(self._cloud_read, jpeg, policy, now, local_at)
+            except Exception:
+                self._read_busy = False   # never leave reads switched off for the session
+                raise
+        else:
+            self._cloud_read(jpeg, policy, now, local_at)
+
+    def _cloud_read(self, jpeg: bytes, policy: str, now: float, local_at: Optional[Screen]) -> None:
+        try:
+            v = self.cfg.vision
+            if local_at in DETAIL_READ_SCREENS and v.detail_model and hasattr(self.claude, "read_detail"):
+                # Ban and pick menus: short prompt, small schema, fast model (~2 s instead of 3-5 s).
+                read = self.claude.read_detail(jpeg, local_at, v.detail_model, v.detail_effort,
+                                               hint=self.state.summary(), player_name=self.cfg.player_name,
+                                               max_width=v.detail_width)
+            else:
+                read = self.claude.read_screen(
+                    jpeg, v.model, v.effort, hint=self.state.summary(), player_name=self.cfg.player_name,
+                )
+            if read is None:
+                return
+            self._cloud_ok_ts = now
+            cur = self.local.screen if self.local is not None and self.local.confident else None
+            group = lambda sc: Screen.operator_select if sc == Screen.loadout else sc  # noqa: E731
+            if (self.async_reads and local_at is not None and cur is not None and group(cur) != group(local_at)
+                    and cur not in (Screen.other, Screen.loading)):
+                # The game moved on while this read was out (ban -> pick): it describes an old
+                # screen, and merging it whole would step the state backwards. Keep the facts that
+                # still hold: the bans and the round number from a ban-screen read.
+                log.info("discarding %s read: screen is now %s", read.screen.value, cur.value)
+                if local_at == Screen.operator_ban:
+                    with self._lock:
+                        s = self.state
+                        if read.banned_operators:
+                            s.banned_operators = list(dict.fromkeys(s.banned_operators + read.banned_operators))
+                        if read.round_number:
+                            self._round_n = read.round_number
+                            s.round_number = read.round_number
+                        self.bus.publish("state.updated", state=s.model_dump(mode="json"))
+                return
+            if policy == "gate" and read.confidence >= 0.35:
+                self._last_cloud_screen = read.screen
+            self.frames.maybe_save(read, jpeg, self.state)
+            self.apply(read)
+        except Exception:
+            if not self.async_reads:
+                raise
+            log.exception("cloud read failed")
+            self.bus.publish("error", source="watcher", message="Screen read failed; see log")
+        finally:
+            self._read_busy = False
 
     # ------------------------------------------------------------------ local screen classifier
     def _classify(self, img: np.ndarray, thumb: np.ndarray, now: float) -> Optional[LocalScreen]:
@@ -299,7 +371,14 @@ class Watcher:
             # the coach never sees e.g. operator_select with last round's side or bans without the
             # site list. Without working cloud reads (offline, no key) the local type still lands
             # after a grace period.
-            if (stable and now - self._local_since >= LOCAL_DETAIL_GRACE and now - self._cloud_ok_ts > 60
+            # Mid-match the ban and pick screens can land at once: the map is known, the side comes
+            # from the swap rule and bans carry over, so the coach starts thinking ~5 s sooner while
+            # the cloud read fills in the details.
+            mid_match = (s.map is not None and self._round_n >= 1 and not self._match_over
+                         and prev not in PRE_ROUND)
+            if stable and mid_match and local.screen in (Screen.operator_ban, Screen.operator_select):
+                target = local.screen
+            elif (stable and now - self._local_since >= LOCAL_DETAIL_GRACE and now - self._cloud_ok_ts > 60
                     and local.screen != Screen.scoreboard):
                 target = local.screen
         elif local.screen in (Screen.other, Screen.loading, Screen.round_end):
@@ -311,6 +390,8 @@ class Watcher:
             target = local.screen
         if target is not None and target != prev:
             s = self._enter_screen(prev, target)
+            if target == Screen.spectating and prev in (Screen.action_phase, Screen.prep_phase):
+                self._mark_dead(s, None, "spectating")
             s.screen = target
             self.bus.publish("screen.changed", previous=prev.value, screen=target.value,
                              state=s.model_dump(mode="json"), source="local")
@@ -333,18 +414,21 @@ class Watcher:
         )
         if new_match:
             self._match_over = False
+            self._round_n = 0
+            self._first_side = None
+            self._op_local_round = -1
             self.state = s = GameState(match_id=uuid.uuid4().hex[:10])
             self.bus.publish("match.started", match_id=s.match_id)
             if self.kills:
                 self.kills.reset_match()
 
         # Round boundary: the first pre-round screen (ban phase or op select) after anything else
-        # starts a new round and clears round-scoped info. Bans happen every round, so they reset too.
+        # starts a new round and clears round-scoped info. Bans are kept: an operator banned in an
+        # earlier round stays unavailable for the rest of the match (cleared with the match state).
         if screen in ROUND_START and prev not in PRE_ROUND:
             s.my_operator = None
             s.teammate_operators = []
             s.enemy_operators = []
-            s.banned_operators = []
             s.site = None
             s.site_options = []
             s.spawn = None
@@ -353,11 +437,102 @@ class Watcher:
             s.health = None
             s.player_alive = True
             s.defuser_planted = False
+            self._next_round(s)
             self.bus.publish("live.event", kind="round_reset")
             if self.kills:
                 self.kills.reset_round()
             s.pinged_enemies = []
         return s
+
+    # ------------------------------------------------------------------ local operator cards
+    def _read_cards(self, img: np.ndarray, screen: Screen):
+        if self._cards_failed:
+            return None
+        try:
+            if self.cards is None:
+                from .opcards import OperatorCardReader
+                ocr = getattr(self.screens, "ocr", None)   # same thread as the classifier: share it
+                if ocr is None:
+                    self._cards_failed = True     # no local OCR engine here (e.g. a stub classifier)
+                    return None
+                self.cards = OperatorCardReader(player_name=self.cfg.player_name, ocr=ocr)
+            cards = self.cards.read(img, screen=screen)
+            self.last_cards = cards
+            return cards
+        except Exception:
+            log.exception("local operator-card reader failed; turning it off")
+            self._cards_failed = True
+            return None
+
+    def _apply_cards(self, c) -> None:
+        """Merge a local card read. The cards and loadout heading are authoritative for the player's
+        own pick; the READY cards for teammates (cloud reads tend to list the player among them);
+        visible bans add to the match's bans. A hovered operator (source 'panel') is not a pick."""
+        s = self.state
+        changed = False
+        # One fuzzy OCR match (Ash/Ram) must not pin a wrong lock for the whole round: take it when
+        # the reader is sure, or when two reads in a row agree.
+        prev, self._cards_prev_op = self._cards_prev_op, c.my_operator
+        trusted = c.confidence >= 0.7 or (c.my_operator is not None and c.my_operator == prev)
+        if c.source in ("cards", "loadout") and c.my_operator and trusted:
+            self._op_local_round = self._round_n
+            if c.my_operator != s.my_operator:
+                log.info("local read: player locked %s (%.0f ms)", c.my_operator, c.ms)
+                s.my_operator = c.my_operator
+                changed = True
+        if c.source == "cards" and c.teammates:
+            mine = (s.my_operator or "").lower()
+            mates = [t for t in c.teammates if t.lower() != mine]
+            if mates != s.teammate_operators:
+                s.teammate_operators = mates
+                changed = True
+        if c.banned:
+            bans = list(dict.fromkeys(s.banned_operators + list(c.banned)))
+            if bans != s.banned_operators:
+                s.banned_operators = bans
+                changed = True
+        if changed:
+            self.bus.publish("state.updated", state=s.model_dump(mode="json"))
+
+    def _mark_dead(self, s: GameState, killer: Optional[str], source: str) -> None:
+        """The player died: from the killfeed (with the killer), or as a backstop when the screen
+        turns to spectating mid-round (killfeed name misread, or no player_name set)."""
+        if not s.player_alive:
+            return
+        s.player_alive = False
+        log.info("player died (%s, killer %s)", source, killer or "unknown")
+        self.bus.publish("player.died", killer=killer, source=source)
+        self.bus.publish("live.event", kind="player_died", killer=killer)
+
+    # ------------------------------------------------------------------ round arithmetic
+    def _predicted_side(self) -> Optional[str]:
+        if not self._first_side or self._round_n < 1:
+            return None
+        return side_for(self._round_n, self._first_side, self.cfg.swap_after)
+
+    def _next_round(self, s: GameState) -> None:
+        """A round starts: count it and work out the side from the swap rule (before any screen shows it)."""
+        self._round_n += 1
+        s.round_number = self._round_n
+        s.side = self._predicted_side()
+        s.side_source = "predicted" if s.side else None
+
+    def _observe_side(self, s: GameState, side: Optional[str], screen: Screen) -> None:
+        """Reconcile a side read off the screen with the swap rule."""
+        pred = self._predicted_side()
+        if side not in ("attack", "defense") or screen == Screen.map_ban:
+            if pred and s.side_source != "read":
+                s.side, s.side_source = pred, "predicted"
+            return
+        if screen == Screen.operator_ban and pred and side != pred:
+            # The ban screen shows no side; a read there is a guess (often last round's side).
+            log.info("ban-screen side read %s overruled by swap rule (%s, round %d)", side, pred, self._round_n)
+            s.side, s.side_source = pred, "predicted"
+            return
+        s.side = side
+        # A side seen on the ban screen that agrees with the rule is still only a guess.
+        s.side_source = "predicted" if screen == Screen.operator_ban else "read"
+        self._first_side = first_side_from(self._round_n, side, self.cfg.swap_after) or self._first_side
 
     # ------------------------------------------------------------------ state merge
     def apply(self, read: ScreenRead) -> None:
@@ -409,8 +584,8 @@ class Watcher:
             s.health = h.health
         if h.site and not s.site:
             s.site = h.site
-        if h.side:
-            s.side = h.side
+        if h.side:   # banner subtitles ("FORTIFY BOMB SITES") are reliable
+            self._observe_side(s, h.side, s.screen)
         if h.alive_us is not None:
             if (h.alive_us, h.alive_them) != (s.alive_us, s.alive_them):
                 s.alive_us, s.alive_them = h.alive_us, h.alive_them
@@ -426,8 +601,7 @@ class Watcher:
             mine = bool(me) and k.killer.lower() == me
             died = bool(me) and k.victim.lower() == me
             if died:
-                s.player_alive = False
-                self.bus.publish("player.died", killer=k.killer)
+                self._mark_dead(s, k.killer, "killfeed")
             live("kill", mine=mine, killer=k.killer, victim=k.victim,
                  killer_team=k.killer_team, victim_team=k.victim_team)
             self.bus.publish("killfeed", entries=[{
@@ -446,8 +620,9 @@ class Watcher:
             s.pinged_enemies = []
             if not h.site:
                 s.site = None
-            if not h.side:
-                s.side = None
+            self._next_round(s)
+            if h.side:
+                self._observe_side(s, h.side, new_screen)
             self.kills.reset_round()
             live("round_reset")
 
@@ -469,19 +644,28 @@ class Watcher:
         screen = read.screen
         s = self._enter_screen(prev_screen, screen)
 
-        for field in ("map", "side", "site", "spawn", "my_operator", "my_location", "round_number",
+        for field in ("map", "site", "spawn", "my_operator", "my_location", "round_number",
                       "timer_seconds", "alive_us", "alive_them", "team_reinforcements"):
             val = getattr(read, field)
+            if field == "my_operator" and self._op_local_round == self._round_n:
+                continue   # the local card reader saw the actual lock this round; it wins
             if val is not None:
                 setattr(s, field, val)
+        if read.round_number and screen in PRE_ROUND:
+            self._round_n = read.round_number      # "ROUND n" on the ban card beats our count
+        self._observe_side(s, read.side, screen)
         if read.teammate_operators:
             s.teammate_operators = read.teammate_operators
+        if s.my_operator:
+            # The top bar and READY tab include the player's own card; keep teammates to the other four.
+            mine = s.my_operator.lower()
+            s.teammate_operators = [op for op in s.teammate_operators if op.lower() != mine]
         if read.enemy_operators:  # reveals only grow during a round
             s.enemy_operators = list(dict.fromkeys(s.enemy_operators + read.enemy_operators))
         if read.site_options:
             s.site_options = read.site_options
-        if read.banned_operators:
-            s.banned_operators = read.banned_operators
+        if read.banned_operators:  # bans accumulate over the match
+            s.banned_operators = list(dict.fromkeys(s.banned_operators + read.banned_operators))
         if read.map_ban_options:
             s.map_ban_options = read.map_ban_options
         if read.score_us is not None:
@@ -492,6 +676,8 @@ class Watcher:
             s.defuser_planted = read.defuser_planted
         if screen in (Screen.prep_phase, Screen.action_phase, Screen.spectating):
             s.pinged_enemies = read.pinged_enemies
+        if screen == Screen.spectating and prev_screen in (Screen.action_phase, Screen.prep_phase):
+            self._mark_dead(s, None, "spectating")
         s.screen = screen
         s.last_read_ts = time.time()
 

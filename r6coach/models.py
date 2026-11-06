@@ -98,6 +98,7 @@ class GameState(BaseModel):
     match_id: Optional[str] = None
     map: Optional[str] = None
     side: Optional[str] = None
+    side_source: Optional[str] = None   # "read" (seen on screen) | "predicted" (swap rule)
     site: Optional[str] = None
     spawn: Optional[str] = None
     site_options: list[str] = Field(default_factory=list)

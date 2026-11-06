@@ -1,0 +1,224 @@
+map: clubhouse
+source: Room boxes located by Claude on Ubisoft's official blueprints (grid percentages, x left->right, y top->bottom). Check against data/maps/<map>/preview/.
+floors:
+- floor: B
+  image: r6-maps-clubhouse-blueprint-1.jpg
+  size:
+  - 1600
+  - 900
+  notes: 'Confident this is the basement: it is the first image, shows a small underground footprint, and has the long escape tunnel running south
+    to an exit.'
+  rooms:
+    Church:
+      box:
+      - 48.0
+      - 31.0
+      - 59.5
+      - 52.0
+      confidence: 0.75
+    Arsenal Room:
+      box:
+      - 47.5
+      - 13.0
+      - 60.0
+      - 27.0
+      confidence: 0.45
+    Oil Pit:
+      box:
+      - 42.0
+      - 14.0
+      - 47.5
+      - 33.0
+      confidence: 0.35
+    Memorial:
+      box:
+      - 60.0
+      - 16.0
+      - 68.0
+      - 38.0
+      confidence: 0.4
+    Central Stairs:
+      box:
+      - 42.0
+      - 42.0
+      - 51.0
+      - 53.0
+      confidence: 0.3
+    Escape Tunnel:
+      box:
+      - 60.0
+      - 38.0
+      - 69.0
+      - 80.0
+      confidence: 0.6
+- floor: 1F
+  image: r6-maps-clubhouse-blueprint-2.jpg
+  size:
+  - 1600
+  - 900
+  notes: 'Image 2 of 4 with outdoor surroundings, garage and stage spotlight visible: confident this is the ground floor (1F). Some room placements
+    and the EXT areas are best guesses.'
+  rooms:
+    Strip Club:
+      box:
+      - 24.0
+      - 46.0
+      - 37.0
+      - 70.0
+      confidence: 0.6
+    Stage:
+      box:
+      - 24.0
+      - 52.0
+      - 31.0
+      - 68.0
+      confidence: 0.5
+    Bar:
+      box:
+      - 40.0
+      - 32.0
+      - 60.0
+      - 52.0
+      confidence: 0.45
+    Kitchen:
+      box:
+      - 43.0
+      - 6.0
+      - 60.0
+      - 28.0
+      confidence: 0.4
+    Stock Room:
+      box:
+      - 21.0
+      - 69.0
+      - 37.0
+      - 77.0
+      confidence: 0.3
+    Lounge:
+      box:
+      - 61.0
+      - 32.0
+      - 74.0
+      - 47.0
+      confidence: 0.4
+    Central Stairs:
+      box:
+      - 70.0
+      - 37.0
+      - 75.0
+      - 48.0
+      confidence: 0.4
+    Garage:
+      box:
+      - 61.0
+      - 61.0
+      - 72.0
+      - 87.0
+      confidence: 0.55
+    Main Gate:
+      box:
+      - 40.0
+      - 85.0
+      - 60.0
+      - 100.0
+      confidence: 0.25
+    Construction Site:
+      box:
+      - 0.0
+      - 25.0
+      - 20.0
+      - 70.0
+      confidence: 0.2
+    Shipping Dock:
+      box:
+      - 80.0
+      - 60.0
+      - 100.0
+      - 90.0
+      confidence: 0.2
+    Warehouse:
+      box:
+      - 90.0
+      - 0.0
+      - 100.0
+      - 60.0
+      confidence: 0.2
+- floor: 2F
+  image: r6-maps-clubhouse-blueprint-3.jpg
+  size:
+  - 1600
+  - 900
+  notes: Image 3 of 4 with the garage rafters and upper rooms shown above the ground layout, so this is Ubisoft's 1ST FLOOR (in-game 2F). The
+    floor call is fairly confident; the individual room positions are rough guesses.
+  rooms:
+    Bedroom:
+      box:
+      - 50.0
+      - 10.0
+      - 61.0
+      - 24.0
+      confidence: 0.55
+    Bathroom:
+      box:
+      - 44.0
+      - 11.0
+      - 50.0
+      - 24.0
+      confidence: 0.4
+    Gym:
+      box:
+      - 46.0
+      - 30.0
+      - 55.0
+      - 53.0
+      confidence: 0.4
+    Server Room:
+      box:
+      - 40.0
+      - 24.0
+      - 49.0
+      - 38.0
+      confidence: 0.3
+    Logistic Office:
+      box:
+      - 40.0
+      - 38.0
+      - 46.0
+      - 53.0
+      confidence: 0.3
+    Cash Room:
+      box:
+      - 55.0
+      - 24.0
+      - 62.0
+      - 51.0
+      confidence: 0.35
+    CCTV Room:
+      box:
+      - 62.0
+      - 33.0
+      - 70.0
+      - 50.0
+      confidence: 0.4
+    Construction:
+      box:
+      - 62.0
+      - 49.0
+      - 74.0
+      - 62.0
+      confidence: 0.35
+    Garage (Rafters):
+      box:
+      - 62.0
+      - 62.0
+      - 74.0
+      - 89.0
+      confidence: 0.6
+- floor: ROOF
+  image: r6-maps-clubhouse-blueprint-4.jpg
+  size:
+  - 1600
+  - 900
+  notes: Image 4 of 4 is a top-down roof view showing rooftops, AC units and roof hatches with no interior rooms, so this is clearly the ROOF.
+    None of the listed callouts are on the roof.
+  rooms: {}

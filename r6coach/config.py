@@ -24,6 +24,17 @@ class VisionCfg(BaseModel):
     # Recognise the screen type locally (r6coach/screens.py) and only send detail screens (bans,
     # picks, first prep read, scoreboard) to the cloud. False = the old thumbnail-only gate.
     local_screens: bool = True
+    # Fast reads of the pre-round menus (map ban, operator ban, operator select, loadout) via
+    # Claude.read_detail: a short prompt and a small schema. Measured on 26 saved frames
+    # (tools/detail_eval.py, 2026-11-06): Sonnet 5.5 without thinking ~2.1 s median / 3.3 s p95,
+    # every field right, $0.005 a read; Opus 5.5 low ~2.5 s / 3.6 s, $0.010; Haiku 5.5 without
+    # thinking ~1.2 s but misreads the side on ~1 in 8 frames. The full read_screen takes 3-5.5 s.
+    detail_model: str = "claude-sonnet-5-5"
+    # "none" = thinking off where the model allows it (Haiku, Sonnet; Opus runs at low).
+    detail_effort: str = "none"
+    # Downscale detail frames to this width first; 0 = send as captured (upload_width). 1280 saved
+    # no time and made Sonnet name the map from title-card scenery, so 0 is the default.
+    detail_width: int = 0
     # With the local HUD reader on, live rounds rarely need cloud reads.
     min_interval: dict[str, float] = Field(
         default_factory=lambda: {
@@ -51,10 +62,19 @@ class CoachCfg(BaseModel):
     model: str = "claude-opus-5-5"
     # Measured on Opus 5.5 with cached prompts: low ~9 s to the first spoken line, medium ~19 s.
     effort: str = "low"              # bans, questions, live prep (short windows: must be quick)
-    pick_effort: str = "medium"      # operator pick (op select gives ~30 s)
+    pick_effort: str = "low"         # operator pick: medium thinks ~10 s longer
     deep_effort: str = "high"        # defense prep plan (made during pick) and round debriefs
     live_effort: str = "low"         # in-round tactical calls (must land within seconds)
-    live_min_gap: float = 15.0       # seconds between in-round tactical calls
+    live_min_gap: float = 10.0       # seconds between in-round tactical calls
+    live_checkin: float = 20.0       # a call after this many quiet seconds alive in a round (0 = off)
+    # Short-window calls (bans, picks, in-round calls) go to a faster model; deep plans, debriefs
+    # and answers stay on `model`. Set fast_model to the same as model to turn this off.
+    fast_model: str = "claude-sonnet-5-5"
+    fast_phases: list[str] = Field(default_factory=lambda: ["map_ban", "operator_ban", "operator_select", "live"])
+    preplan_bans: bool = True        # think the next ban through at round end, so it's ready when the ban screen opens
+
+    def model_for(self, phase: str) -> str:
+        return self.fast_model if self.fast_model and phase in self.fast_phases else self.model
     stream: bool = True              # speak the first line while the rest is still being written
     budget_per_match: float = 3.0    # USD; at 80% live calls and debriefs pause, at 100% only bans/picks
     skill_level: str = "intermediate"
@@ -120,6 +140,9 @@ class StorageCfg(BaseModel):
 
 class Config(BaseModel):
     player_name: str = ""  # your in-game name, so the coach can tell your kills apart
+    # Ranked format: sides swap after this many rounds; from round 2*swap_after+1 (overtime)
+    # they swap every round. Used to know the side before the screen shows it.
+    swap_after: int = 3
     capture: CaptureCfg = Field(default_factory=CaptureCfg)
     vision: VisionCfg = Field(default_factory=VisionCfg)
     hud: HudCfg = Field(default_factory=HudCfg)

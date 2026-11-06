@@ -186,6 +186,22 @@ def test_watcher_reads_detail_screen_and_lets_the_cloud_set_it(bus, monkeypatch)
     assert claude.calls <= 7
 
 
+def test_watcher_uses_the_fast_detail_read_on_menus(bus, monkeypatch):
+    class _Both(_Claude):
+        detail = []
+
+        def read_detail(self, jpeg, screen, model, effort, hint="", player_name="", max_width=0):
+            self.detail.append((screen, model, effort))
+            return ScreenRead(screen=screen, map="Chalet", side="attack", my_operator="Ash", confidence=0.9)
+
+    claude = _Both(Screen.operator_select)
+    w, src = _watcher(bus, L(Screen.operator_select, map="Chalet"), claude)
+    _run(w, src, monkeypatch, 1000.0, 10)
+    assert claude.detail and claude.calls == 0
+    assert claude.detail[0] == (Screen.operator_select, w.cfg.vision.detail_model, w.cfg.vision.detail_effort)
+    assert w.state.my_operator == "Ash"
+
+
 def test_watcher_once_per_round_key(bus, monkeypatch):
     claude = _Claude(Screen.operator_ban)
     w, src = _watcher(bus, L(Screen.operator_ban, key="BANADEFENDER", map="Chalet"), claude)

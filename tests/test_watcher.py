@@ -64,7 +64,7 @@ def test_match_round_flow(bus):
     assert w.state.score_us == 1
 
 
-def test_bans_and_location_are_per_round(bus):
+def test_bans_last_the_match_and_location_is_per_round(bus):
     w = make_watcher(bus)
     w.apply(ScreenRead(screen=Screen.main_menu, confidence=0.9))
     w.apply(ScreenRead(screen=Screen.operator_ban, map="House", banned_operators=["Castle"],
@@ -76,8 +76,52 @@ def test_bans_and_location_are_per_round(bus):
     assert w.state.my_location == "2F Upper Hallway"
     w.apply(ScreenRead(screen=Screen.round_end, confidence=0.9))
     w.apply(ScreenRead(screen=Screen.operator_ban, banned_operators=["Goyo"], confidence=0.9))
-    assert w.state.banned_operators == ["Goyo"]            # new round: replaced, not merged
+    assert w.state.banned_operators == ["Castle", "Goyo"]  # round 1 bans still stand
     assert w.state.my_location is None and w.state.site_options == []
+    w.apply(ScreenRead(screen=Screen.match_end, confidence=0.9))
+    w.apply(ScreenRead(screen=Screen.map_ban, map_ban_options=["Bank", "Villa"], confidence=0.9))
+    assert w.state.banned_operators == []                  # new match: cleared
+
+
+def test_local_card_read_wins_over_cloud_for_the_lock(bus):
+    from r6coach.opcards import OpCards
+    w = make_watcher(bus)
+    w.apply(ScreenRead(screen=Screen.main_menu, confidence=0.9))
+    w.apply(ScreenRead(screen=Screen.operator_select, map="Chalet", side="attack", banned_operators=["Ace"],
+                       confidence=0.9))
+    cards = OpCards(my_operator="Thermite", teammates=["Kali", "Buck", "Thermite"], banned=["Mira"],
+                    screen="operator_select", confidence=0.9, ms=30.0, source="cards")
+    w._apply_cards(cards)
+    assert w.state.my_operator == "Thermite" and w.state.teammate_operators == ["Kali", "Buck"]
+    assert w.state.banned_operators == ["Ace", "Mira"]
+    # A later cloud read that gets the lock wrong doesn't undo it this round.
+    w.apply(ScreenRead(screen=Screen.operator_select, my_operator="Ash", confidence=0.9))
+    assert w.state.my_operator == "Thermite"
+    # An unsure single read doesn't set the lock; the same answer twice does.
+    w3 = make_watcher(bus)
+    unsure = OpCards(my_operator="Ram", screen="operator_select", confidence=0.5, source="cards")
+    w3._apply_cards(unsure)
+    assert w3.state.my_operator is None
+    w3._apply_cards(unsure)
+    assert w3.state.my_operator == "Ram"
+    # A hovered operator on the OPERATORS panel is not a lock.
+    w2 = make_watcher(bus)
+    w2._apply_cards(OpCards(my_operator="Ash", teammates=[], banned=[], screen="operator_select",
+                            confidence=0.5, ms=20.0, source="panel"))
+    assert w2.state.my_operator is None
+
+
+def test_own_operator_is_not_a_teammate(bus):
+    w = make_watcher(bus)
+    w.apply(ScreenRead(screen=Screen.main_menu, confidence=0.9))
+    # The top bar lists the player's own card too: this read happened in the live match.
+    w.apply(ScreenRead(screen=Screen.operator_select, side="attack", my_operator="Thermite",
+                       teammate_operators=["Buck", "Deimos", "Thermite"], confidence=0.9))
+    assert w.state.my_operator == "Thermite"
+    assert w.state.teammate_operators == ["Buck", "Deimos"]
+    w.apply(ScreenRead(screen=Screen.operator_select, side="attack",
+                       teammate_operators=["Rauora", "Fuze", "Buck", "Deimos", "thermite"], confidence=0.9))
+    assert w.state.teammate_operators == ["Rauora", "Fuze", "Buck", "Deimos"]
 
 
 def test_low_confidence_reads_are_ignored(bus):

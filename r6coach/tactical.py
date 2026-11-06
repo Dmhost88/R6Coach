@@ -22,23 +22,27 @@ from .config import Config
 from .knowledge import Knowledge
 from .llm import Claude
 from .models import Screen
+from .twin import render
 
 log = logging.getLogger(__name__)
 
 TIMER_MARKS = (120, 60, 30)
 STALE_AFTER = 9.0   # seconds; a call that arrives later than this is dropped
 
-LIVE_TASK = """IN-ROUND CALL. Give ONE spoken line (max 14 words): the single most useful thing the \
-player should do in the next 10-20 seconds, given exactly this state. It must name a specific \
-location (room, wall, hatch, doorway or angle) and fit the side, time, plant status and player \
-counts. Reason about what usually happens at this point of a round on this site. Never describe \
+LIVE_TASK = """IN-ROUND CALL. Give ONE spoken line (max 22 words): the single most useful thing the \
+player should do in the next 10-20 seconds, given exactly this state. Say WHERE in callouts: a \
+route from the player's current room ("from 1F Bar, through 1F Fireplace Hall, to the Library \
+stairs") or an exact spot (room plus landmark, and what to watch). Never "the plant spot", \
+"default" or "site" on its own. It must fit the side, time, plant status and player counts. Reason about what usually happens at this point of a round on this site. Never describe \
 where enemies are unless they are listed as pinged/spotted. No praise, no filler."""
 
 
-SPECTATE_TASK = """SPECTATOR CALL. The player is dead and watching the rest of the round. Give ONE \
-spoken line (max 16 words) that teaches them something from this moment: what the surviving \
-teammates should do here and why, or how this situation relates to how the player died. Name an \
-exact location. Never describe where enemies are unless they are listed as pinged/spotted. No filler."""
+SPECTATE_TASK = """SPECTATOR CALL. The player is DEAD and watching the rest of the round; they cannot act. Give ONE \
+spoken line (max 22 words) that teaches them something from this moment: what the surviving \
+teammates should do here and why, or how this situation relates to how the player died. Talk about \
+the team in the third person ("Kali should plant in Master corner"), never as an instruction to \
+the player. Name an exact location. Never describe where enemies are unless they are listed as \
+pinged/spotted. No filler."""
 
 
 class TacticalCoach:
@@ -90,12 +94,25 @@ class TacticalCoach:
                 if t <= mark and mark not in self._marks_done and t > mark - 8:
                     self._marks_done.add(mark)
                     self._trigger(f"{mark // 60}:{mark % 60:02d} left on the clock")
+                    return
+            # Check in when it's been quiet for a while, so the player always has a current plan.
+            checkin = self.cfg.coach.live_checkin
+            s = self.state()
+            if checkin and s.player_alive and self._last_call and time.time() - self._last_call >= checkin:
+                self._trigger(f"check-in: {t}s left, the player is now in {s.my_location or 'an unknown room'}")
         elif kind == "vs":
             self._trigger(f"player count just changed to {ev.data['alive_us']} v {ev.data['alive_them']}")
         elif kind == "planted":
             self._trigger("the defuser was just planted", important=True)
-        elif kind == "kill" and ev.data.get("victim_team") == "us" and not ev.data.get("mine"):
+        elif kind == "found_bombs":
+            self._trigger("the attackers just found the bombs (site known to them)")
+        elif kind == "kill" and ev.data.get("mine"):
+            self._trigger(f"the player just killed {ev.data.get('victim')}: say what to do with the advantage",
+                          important=True)
+        elif kind == "kill" and ev.data.get("victim_team") == "us":
             self._trigger(f"teammate {ev.data.get('victim')} was just killed by {ev.data.get('killer')}")
+        elif kind == "kill" and ev.data.get("killer_team") == "us":
+            self._trigger(f"teammate {ev.data.get('killer')} just killed {ev.data.get('victim')}")
 
     def _trigger(self, reason: str, important: bool = False) -> None:
         if not self.enabled():
@@ -118,21 +135,12 @@ class TacticalCoach:
         try:
             s = self.state()
             alive = s.player_alive
-            pinged = ", ".join(p.location for p in s.pinged_enemies) or "none"
             prompt = (
                 f"{LIVE_TASK if alive else SPECTATE_TASK}\n\nWhat just happened: {reason}.\n"
-                f"State: map {s.map}, side {s.side}, site {s.site or 'unknown'}, "
-                f"timer {s.timer_seconds}s, players {s.alive_us} v {s.alive_them}, "
-                f"defuser planted: {s.defuser_planted}, player is {s.my_operator or 'unknown op'} "
-                f"in {s.my_location or 'unknown room'} with {s.health or '?'} health, "
-                f"score {s.score_us}-{s.score_them}.\n"
-                f"Teammates: {', '.join(s.teammate_operators) or 'unknown'}. "
-                f"Enemy operators revealed: {', '.join(s.enemy_operators) or 'none'}. "
-                f"Pinged/spotted by the team: {pinged}.\n"
-                f"{self.memory.text() if self.memory else ''}\n"
+                f"{render(s, None, self.memory.text() if self.memory else '')}\n"
                 f"Focus: site {s.site or 'not known yet'} (full map dossier in the system prompt)."
             )
-            out = self.claude.coach(self.cfg.coach.model, self.cfg.coach.live_effort, self.system(s.map), prompt,
+            out = self.claude.coach(self.cfg.coach.model_for("live"), self.cfg.coach.live_effort, self.system(s.map), prompt,
                                     purpose="coach.live")
             if not out or not out.lines:
                 return

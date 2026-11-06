@@ -9,6 +9,7 @@ from __future__ import annotations
 import logging
 import threading
 import time
+from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 from typing import Optional
 
@@ -18,6 +19,8 @@ from .knowledge import Knowledge
 from .llm import Claude, CoachLines
 from .models import PRE_ROUND, GameState, Screen
 from .profile import Profile
+from .rounds import first_side_from, side_for
+from .twin import render
 from .voice.tts import Speaker
 
 log = logging.getLogger(__name__)
@@ -39,9 +42,10 @@ SKILL_HINTS = {
     "new": "The player is new: name rooms plainly, explain what a gadget does when you mention it.",
     "intermediate": "The player knows every operator and the main callouts. Skip basics; focus on "
                     "setups, timing and positioning.",
-    "advanced": "The player is high-ranked. Assume they know every operator, kit and callout. Never say "
-                "anything they'd already do by default. Give only the one or two non-obvious calls that "
-                "change this round, the way a tier-1 analyst briefs a pro.",
+    "advanced": "The player is high-ranked. Assume they know every operator and kit; skip basics and give "
+                "the non-obvious calls that change this round, the way a tier-1 analyst briefs a pro. "
+                "Do NOT assume they know where a setup, plant or hold is on this map: always spell the "
+                "location out in callouts (see Locations).",
 }
 
 SYSTEM = """You are a tier-1 Rainbow Six Siege analyst coaching one player through their headset \
@@ -79,10 +83,20 @@ between Laundry and Supply", "the Kids' Dorms wall facing Big Tower".
 Kitchen".
 - Name angles from where to where: "hold Supply door from behind the shelves, looking at Laundry stairs".
 - Name floors when it isn't obvious: "2F", "B".
+- Every move is a route in the game's own room callouts (the names shown under the compass and in \
+the map dossier's Callouts list), starting from where the player is now: "from EXT Campfire, go through \
+EXT Cliffside, up the Library stairs into 2F Library". Two or three hops, each a real callout.
+- Every spot is a room plus a landmark inside it: "plant in 2F Master Bedroom, behind the bed in \
+the corner by the Master Bathroom door", not "the default plant", "the plant spot", "the usual \
+spot", "site" or "anchor position". Never say "default", "standard" or "usual spot" without naming \
+it like this.
+- Every hold names where to stand and what to watch: "hold 2F Office from behind the desk, \
+watching the Library doorway".
 
 How you speak:
 - Lines are read aloud by text-to-speech. Plain spoken English, no markdown, no lists, no emojis.
-- Each line at most 16 words. Calm, even, confident; never hype, never filler.
+- Each line at most 24 words: room for a route or spot in callouts. Calm, even, confident; never \
+hype, never filler.
 - Use the in-game callouts. Numbers as digits.
 - Never talk about yourself, your data or your limits ("I don't have map data", "as a coach"). \
 Just give the call.
@@ -95,7 +109,12 @@ hatches you are confident exist on the current version of the map; if unsure of 
 describe it by landmark ("the wall between Dorms and the stairs").
 - Operator recommendations come from the player's pool unless the team needs a role no pool \
 operator covers. Never recommend a banned operator, one a teammate already locked, or one the \
-player does not own.
+player does not own. Bans last the whole match: an operator banned in any earlier round is still \
+unavailable.
+- The player's own operator is given separately from the teammates. The player IS that operator: \
+speak to them as "you" ("you charge the Office wall", "your charges"), never "your Thermite", \
+"your breacher" or "your entry" as if it were someone else; never treat it as a teammate's pick \
+or tell them to support it from another operator. Name teammates by operator ("Kali lances it").
 
 Fair play (hard rules):
 - You know only what the player could see on their own screen plus what an experienced player \
@@ -120,12 +139,21 @@ class Coach:
         self._tls = threading.local()           # per-worker flag: was this answer streamed/spoken?
         self._rooms_map: Optional[str] = None
         self._rooms_cache: list[str] = []
-        self.pool = ThreadPoolExecutor(max_workers=2, thread_name_prefix="coach")
+        # 4 workers: a slow debrief must never hold up the ban or pick advice behind it.
+        self.pool = ThreadPoolExecutor(max_workers=4, thread_name_prefix="coach")
         self._lock = threading.Lock()
         self._done: set[str] = set()            # advice keys already given this match
         self._recommended: Optional[str] = None
+        # Advice generation per phase. Bumped when the state advice was built on changes (the player
+        # locked another operator, the next round's picks began): in-flight streams stop, queued
+        # lines are dropped and late answers are discarded.
+        self._gen: dict[str, int] = defaultdict(int)
+        self._planned: dict[int, str] = {}      # round -> the operator pick/prep advice is about
+        self._ban_ahead: Optional[tuple] = None  # (round number, Future) ban advice made at round end
+        self._pick_pending: set[int] = set()    # rounds whose pick advice is still being written
         self._round_seq = 0
         self._prep_started: dict[int, float] = {}
+        self._pick_started: dict[int, float] = {}
         self._prep_cache: dict[int, tuple] = {}   # round -> (operator, Future of a defense prep plan)
         self._last_screen = Screen.other
         self.last_lines: list[str] = []
@@ -144,6 +172,7 @@ class Coach:
         with self._lock:
             self._done.clear()
             self._recommended = None
+            self._ban_ahead = None
             self._rooms_map = None          # re-read rooms seen for the new match's map
         self.profile.match_started(ev.data["match_id"])
 
@@ -170,15 +199,43 @@ class Coach:
             won = ev.data.get("won")
             threading.Timer(1.5, lambda: self.pool.submit(
                 self._run, "between_rounds", self._advise_debrief, state, won)).start()
+        if self.cfg.coach.preplan_bans:
+            state = self.current_state().model_copy(deep=True)
+            threading.Timer(1.5, self._preplan_ban, args=(state,)).start()
+
+    def _preplan_ban(self, s: GameState) -> None:
+        """Think the next round's ban through now (map, the side after any swap, bans so far and the
+        round just played are all known), so it plays the moment the ban screen opens."""
+        if not s.map or not self.cfg.coach.level("operator_ban") or not self._allowed("operator_ban"):
+            return
+        n = s.round_number or max(self._round_seq, 1)
+        nxt = n + 1
+        side = None
+        if s.side:
+            first = first_side_from(n, s.side, self.cfg.swap_after)
+            side = side_for(nxt, first, self.cfg.swap_after) if first else None
+        ahead = s.model_copy(deep=True, update={
+            "round_number": nxt, "side": side, "side_source": "predicted" if side else None,
+            "my_operator": None, "teammate_operators": [], "enemy_operators": [], "site": None,
+            "site_options": [], "spawn": None, "my_location": None, "health": None, "timer_seconds": None,
+            "alive_us": None, "alive_them": None, "defuser_planted": False, "player_alive": True,
+            "pinged_enemies": [], "screen": Screen.operator_ban})
+        self._ban_ahead = (nxt, self.pool.submit(self._safe, self._advise_op_ban, ahead, False))
+        log.info("pre-planning the round %d ban (%s)", nxt, side or "side unknown")
 
     def _on_died(self, ev: Event) -> None:
         if not self.cfg.coach.level("action_phase") or not self._allowed("death"):
             return
+        # In-round calls queued for a live player are wrong now: drop them.
+        if hasattr(self.speaker, "clear"):
+            self.speaker.clear("action_phase")
         killer = ev.data.get("killer")
+        kill_cam = ev.data.get("source") != "spectating"
         state = self.current_state().model_copy(deep=True)
-        # Wait for the kill cam: it shows the killer's operator card and the angle they used.
-        threading.Timer(2.5, lambda: self.pool.submit(
-            self._run, "death", self._advise_death, state, killer)).start()
+        # From the killfeed, wait for the kill cam: it shows the killer's operator card and angle.
+        # Spotted only once spectating, the kill cam is already over: go now.
+        threading.Timer(1.5 if kill_cam else 0.0, lambda: self.pool.submit(
+            self._run, "death", self._advise_death, state, killer, kill_cam)).start()
 
     def _on_said(self, ev: Event) -> None:
         self.profile.log_line(self.current_state().match_id, ev.data.get("phase", ""), ev.data["text"])
@@ -198,6 +255,8 @@ class Coach:
         if s.screen in (Screen.operator_ban, Screen.operator_select) and self._last_screen not in PRE_ROUND:
             self._round_seq += 1
             self._recommended = None
+            # The next round's bans and picks are on: a debrief still talking would bury them.
+            self._bump("between_rounds", "death")
         self._last_screen = s.screen
         rnd = self._round_seq
         lv = self.cfg.coach.level
@@ -205,14 +264,25 @@ class Coach:
             self._submit("map_ban", self._advise_map_ban, s)
         elif s.screen == Screen.operator_ban and lv("operator_ban") and s.map and self._once(f"op_ban:{rnd}"):
             # Siege now runs an operator ban phase before every round.
-            self._submit("operator_ban", self._advise_op_ban, s)
+            ahead, self._ban_ahead = self._ban_ahead, None
+            if ahead and s.round_number in (None, ahead[0]) and not ahead[1].cancelled():
+                # Thought through at round end: play it now, or the moment it's ready.
+                g = self._gen["operator_ban"]
+                if not ahead[1].done():
+                    self.bus.publish("coach.thinking", phase="operator_ban")
+                ahead[1].add_done_callback(lambda f: self._deliver("operator_ban", f.result(), gen=g))
+            else:
+                self._submit("operator_ban", self._advise_op_ban, s)
         elif s.screen == Screen.operator_select and lv("operator_select") and s.side:
-            # Defenders need the site for a useful pick: wait one extra read for it.
-            if s.side == "defense" and not s.site and self._once(f"pick_wait:{rnd}"):
+            # Defenders need the site for a useful pick: give the detail read up to 4 s to bring it.
+            # (Time, not a count of updates: the HUD publishes one every second.)
+            first_seen = self._pick_started.setdefault(rnd, time.time())
+            if s.side == "defense" and not s.site and time.time() - first_seen < 4.0:
                 return
             if self._once(f"pick:{rnd}"):
                 self._submit("operator_select", self._advise_pick, s)
             elif (self._recommended and self._recommended in s.teammate_operators
+                  and (s.my_operator or "").lower() != self._recommended.lower()
                   and self._once(f"repick:{rnd}")):
                 self._submit("operator_select", self._advise_pick, s, True)
         elif s.screen == Screen.prep_phase and lv("prep_phase") and f"prep:{rnd}" not in self._done:
@@ -224,9 +294,13 @@ class Coach:
                 cached = self._prep_cache.get(rnd)
                 if s.side == "defense" and cached and s.my_operator in (None, cached[0]):
                     # Made during operator select with deeper reasoning: play it now (or when ready).
-                    cached[1].add_done_callback(lambda f: self._deliver("prep_phase", f.result()))
+                    g = self._gen["prep_phase"]
+                    cached[1].add_done_callback(lambda f: self._deliver("prep_phase", f.result(), gen=g))
                 else:
                     self._submit("prep_phase", self._advise_prep, s)
+
+        if s.screen in (Screen.operator_select, Screen.loadout, Screen.prep_phase) and s.my_operator:
+            self._check_lock(s, rnd)
 
         # Defense knows the site at operator select: think the prep plan through while they pick,
         # so it plays the moment prep starts.
@@ -237,6 +311,43 @@ class Coach:
                 plan_state = s.model_copy(deep=True, update={"my_operator": op})
                 # Made ahead of time, spoken later: no streaming (live=False).
                 self._prep_cache[rnd] = (op, self.pool.submit(self._safe, self._advise_prep, plan_state, True, False))
+
+    # ------------------------------------------------------------------ pivots
+    def _bump(self, *phases: str) -> None:
+        """Advice for these phases is out of date: stop it wherever it is."""
+        with self._lock:
+            for p in phases:
+                self._gen[p] += 1
+        if hasattr(self.speaker, "cancel"):
+            self.speaker.cancel(*phases)
+
+    def _stale(self, phase: str, gen: Optional[int]) -> bool:
+        return gen is not None and self._gen[phase] != gen
+
+    def _check_lock(self, s: GameState, rnd: int) -> None:
+        """The player's locked operator is known. If the pick or prep advice is about a different
+        one (or is still being written and can't know), drop it and advise for what they took."""
+        op = s.my_operator
+        planned = self._planned.get(rnd) or self._recommended
+        if planned and planned.lower() == op.lower():
+            self._planned[rnd] = op
+            return
+        if not planned and rnd not in self._pick_pending:
+            self._planned[rnd] = op            # no pick advice given: nothing to correct
+            return
+        if not self._once(f"locked:{rnd}:{op.lower()}"):
+            return
+        log.info("player locked %s (advice was for %s): pivoting", op, planned or "a pick still being written")
+        self._planned[rnd] = op
+        self._pick_pending.discard(rnd)
+        self._prep_cache.pop(rnd, None)
+        if s.screen == Screen.prep_phase:
+            # Picks are over: replace the prep plan with one for the operator they're actually on.
+            self._bump("prep_phase")
+            self._submit("prep_phase", self._advise_prep, s)
+        else:
+            self._bump("operator_select", "prep_phase")
+            self._submit("operator_select", self._advise_locked, s, planned)
 
     def _on_question(self, ev: Event) -> None:
         self.bus.publish("coach.thinking", question=ev.data["text"])
@@ -262,7 +373,10 @@ class Coach:
             log.info("skipping %s: per-match budget", phase)
             return
         self.bus.publish("coach.thinking", phase=phase)
-        self.pool.submit(self._run, phase, fn, state.model_copy(deep=True), *args)
+        if fn == self._advise_pick:
+            self._pick_pending.add(self._round_seq)
+        # The generation is taken now: a pivot while this waits in the pool still cancels it.
+        self.pool.submit(self._run, phase, fn, state.model_copy(deep=True), *args, gen=self._gen[phase])
 
     def _safe(self, fn, *args) -> Optional[CoachLines]:
         try:
@@ -271,10 +385,19 @@ class Coach:
             log.exception("coach call failed")
             return None
 
-    def _run(self, phase: str, fn, state: GameState, *args) -> None:
+    def _run(self, phase: str, fn, state: GameState, *args, gen: Optional[int] = None) -> None:
+        gen = self._gen[phase] if gen is None else gen
         self._tls.streamed = False
-        out = self._safe(fn, state, *args)
-        self._deliver(phase, out, spoken=getattr(self._tls, "streamed", False))
+        self._tls.gen = (phase, gen)
+        try:
+            if self._stale(phase, gen):
+                return
+            out = self._safe(fn, state, *args)
+            self._deliver(phase, out, spoken=getattr(self._tls, "streamed", False), gen=gen)
+        finally:
+            self._tls.gen = None
+            if fn == self._advise_pick:
+                self._pick_pending.discard(self._round_seq)
 
     def _relevant(self, phase: str) -> bool:
         """Is advice for this phase still worth saying right now?"""
@@ -287,15 +410,20 @@ class Coach:
                                                      and self.current_state().player_alive)
         return now in STILL_RELEVANT.get(phase, {Screen(phase)})
 
-    def _deliver(self, phase: str, out: Optional[CoachLines], spoken: bool = False) -> None:
+    def _deliver(self, phase: str, out: Optional[CoachLines], spoken: bool = False,
+                 gen: Optional[int] = None) -> None:
         """spoken=True: the lines were already spoken one by one as they streamed in."""
         if out is None:
+            return
+        if self._stale(phase, gen):
+            log.info("dropping %s advice: the state it was for changed", phase)
             return
         if not spoken and not self._relevant(phase):
             # Drop advice that arrives after the moment has passed.
             log.info("dropping stale %s advice (now %s)", phase, self.current_state().screen.value)
             return
-        if out.recommended_operator:
+        if phase == "operator_select" and out.recommended_operator:
+            # Only a pick is a recommendation to lock; a ban or prep plan naming an operator isn't.
             self._recommended = out.recommended_operator
         if not spoken:
             self.speak(out.lines, phase)
@@ -304,14 +432,18 @@ class Coach:
     def _speak_streamed(self, phase: str):
         """Returns an on_line callback that speaks each streamed line if it's still relevant."""
         first = {"done": False}
+        tag = getattr(self._tls, "gen", None)
+        gen = tag[1] if tag and tag[0] == phase else None
 
         def on_line(text: str) -> None:
+            if self._stale(phase, gen):
+                return
             if phase != "question" and not self._relevant(phase):
                 return
             if phase == "question":
                 priority = 0 if not first["done"] else 1
             else:
-                priority = 2
+                priority = self._priority(phase)
             if not first["done"]:
                 self.last_lines = []
             first["done"] = True
@@ -319,8 +451,14 @@ class Coach:
             self.speaker.say(text, priority=priority, ttl=40.0 if phase != "question" else 30.0, phase=phase)
         return on_line
 
-    def speak(self, lines: list[str], phase: str, priority: int = 2, ttl: float = 40.0) -> None:
+    @staticmethod
+    def _priority(phase: str) -> int:
+        """Ban and pick advice has a short window: it goes ahead of queued debrief lines."""
+        return 1 if phase in ("map_ban", "operator_ban", "operator_select") else 2
+
+    def speak(self, lines: list[str], phase: str, priority: Optional[int] = None, ttl: float = 40.0) -> None:
         self.last_lines = lines
+        priority = self._priority(phase) if priority is None else priority
         for line in lines:
             self.speaker.say(line, priority=priority, ttl=ttl, phase=phase)
 
@@ -349,17 +487,24 @@ class Coach:
              map_name: Optional[str] = None, live: bool = True,
              effort: Optional[str] = None) -> Optional[CoachLines]:
         """live=True: the answer is spoken now, so stream it and start speaking at line 1."""
-        n = FIXED_LINES.get(phase) or LINES_FOR_LEVEL.get(self.cfg.coach.level(phase), "2-4")
+        level = self.cfg.coach.level(phase)
+        n = FIXED_LINES.get(phase) or LINES_FOR_LEVEL.get(level, "2-4")
+        if phase == "between_rounds" and phase in self.cfg.coach.chattiness and level == 1:
+            n = "1"   # quiet setting: one line between rounds, so it never runs into the ban phase
         prompt += f"\n\nReply with {n} spoken lines."
         jpeg = self.current_jpeg() if image else None
         effort = effort or (self.cfg.coach.deep_effort if deep else self.cfg.coach.effort)
         system = self._system(map_name)
+        model = self.cfg.coach.model_for(phase)
         if live and self.cfg.coach.stream and hasattr(self.claude, "coach_stream"):
             self._tls.streamed = True
-            return self.claude.coach_stream(self.cfg.coach.model, effort, system, prompt,
+            tag = getattr(self._tls, "gen", None)
+            gen = tag[1] if tag and tag[0] == phase else None
+            return self.claude.coach_stream(model, effort, system, prompt,
                                             purpose=f"coach.{phase}", image_jpeg=jpeg,
-                                            on_line=self._speak_streamed(phase))
-        return self.claude.coach(self.cfg.coach.model, effort, system, prompt,
+                                            on_line=self._speak_streamed(phase),
+                                            cancelled=lambda: self._stale(phase, gen))
+        return self.claude.coach(model, effort, system, prompt,
                                  purpose=f"coach.{phase}", image_jpeg=jpeg)
 
     def _pool_text(self, side: Optional[str], state: GameState) -> str:
@@ -367,10 +512,12 @@ class Coach:
         return (
             f"Player's operator pool ({side}), best first: {', '.join(pool) or 'not set'}\n"
             f"Not owned: {', '.join(self.cfg.not_owned) or 'none'}\n"
-            f"Banned this match: {', '.join(state.banned_operators) or 'unknown'}\n"
-            f"Teammates' picks so far: {', '.join(state.teammate_operators) or 'none yet'}\n"
             f"Operator data:\n{self.kb.operators_context(pool + state.teammate_operators)}"
         )
+
+    def _state(self, s: GameState, memory: bool = True) -> str:
+        """The one rendering of the match state every prompt uses (see twin.py)."""
+        return render(s, self._recommended, self._memory() if memory else "")
 
     def _advise_map_ban(self, s: GameState) -> Optional[CoachLines]:
         rates = self.profile.map_win_rates()
@@ -390,32 +537,29 @@ class Coach:
     def _memory(self) -> str:
         return self.memory.text() if self.memory else ""
 
-    def _advise_op_ban(self, s: GameState) -> Optional[CoachLines]:
+    def _advise_op_ban(self, s: GameState, live: bool = True) -> Optional[CoachLines]:
         prompt = (
-            f"OPERATOR BAN phase before round {s.round_number or '?'} on {s.map}. Bans happen every round. "
-            f"Player side this round: {s.side or 'unknown'}. Score {s.score_us}-{s.score_them}.\n"
-            f"Bans visible so far: {', '.join(s.banned_operators) or 'none'}\n"
-            f"Possible bomb sites this round: {' | '.join(s.site_options) or 'unknown'}\n"
+            f"OPERATOR BAN phase before round {s.round_number or '?'}.\n"
+            f"{self._state(s)}\n"
             f"Player's pools: attack {self.cfg.operator_pool.attack}, defense {self.cfg.operator_pool.defense}\n"
-            f"{self._memory()}\n"
             f"{self._focus(s)}\n"
-            "The screen shows which side the player's team is banning (e.g. 'BAN A DEFENDER') and any bans "
-            "already made: read them and never recommend an operator that is already banned. Name the one ban "
+            "Never recommend an operator that is already banned. Name the one ban "
             "that most hurts the enemy here. Base it on what the enemy has actually run this match if anything, "
             "else on this map's meta. At ban time nobody has picked yet: never plan around specific teammates' "
             "operators or assume who your team will run; reason about the enemy, the possible sites and the "
             "player's own pool only. Say why in one line. Put it in recommended_bans."
         )
-        return self._ask("operator_ban", prompt, image=True, map_name=s.map)
+        # Mid-match the ban advice starts on the "ROUND n" title card, which shows nothing useful:
+        # skip the screenshot (faster, and nothing to misread). Round 1 sends the ban screen.
+        first = (s.round_number or 1) <= 1
+        return self._ask("operator_ban", prompt, image=first and live, map_name=s.map, live=live)
 
     def _advise_pick(self, s: GameState, repick: bool = False) -> Optional[CoachLines]:
         head = "A teammate just took the operator you recommended. " if repick else ""
         prompt = (
-            f"{head}OPERATOR SELECT, round {s.round_number or '?'}, {s.map}, player is {s.side}. "
-            f"Site: {s.site or 'not known yet'}. Possible sites: {' | '.join(s.site_options) or 'unknown'}. "
-            f"Score {s.score_us}-{s.score_them}.\n"
+            f"{head}OPERATOR SELECT.\n"
+            f"{self._state(s)}\n"
             f"{self._pool_text(s.side, s)}\n"
-            f"{self._memory()}\n"
             f"{self._focus(s)}\n"
             f"{self._stats(s, s.side)}\n"
             "Pick the operator from the player's pool that fills what this team composition is missing for "
@@ -425,6 +569,20 @@ class Coach:
         )
         return self._ask("operator_select", prompt, image=True, map_name=s.map,
                          effort=self.cfg.coach.pick_effort)
+
+    def _advise_locked(self, s: GameState, planned: Optional[str]) -> Optional[CoachLines]:
+        """The player locked a different operator from the one the advice was about."""
+        prompt = (
+            f"The player just LOCKED {s.my_operator}"
+            + (f" (the coach had suggested {planned}; that advice is void, never mention {planned} again)"
+               if planned else "") +
+            ".\n"
+            f"{render(s, None, self._memory())}\n{self._focus(s)}\n"
+            f"Don't comment on the choice. Give the player's job as {s.my_operator} this round: the exact "
+            "wall, hatch or gadget placement on the most likely site and the route there in callouts, "
+            "then the one loadout choice that matters."
+        )
+        return self._ask("operator_select", prompt, map_name=s.map, effort=self.cfg.coach.effort)
 
     def _stats(self, s: GameState, side: Optional[str] = None) -> str:
         text = self.profile.stats_text(s.map, side) if hasattr(self.profile, "stats_text") else ""
@@ -443,22 +601,27 @@ class Coach:
             self.profile.set_takeaways(s.match_id, out.lines)
         return out
 
-    def _advise_death(self, s: GameState, killer: Optional[str]) -> Optional[CoachLines]:
+    def _advise_death(self, s: GameState, killer: Optional[str], kill_cam: bool = True) -> Optional[CoachLines]:
         trail = self.memory.death_trail() if self.memory is not None else ""
+        me = s.my_operator or "unknown op"
+        screenshot = (
+            "The screenshot is the kill cam: read the killer's operator card and weapon. Describe the angle "
+            "or position they shot from only if it is clearly visible; "
+            if kill_cam else
+            "The screenshot is the spectator view after the kill cam: it does not show how the player died; "
+        )
         prompt = (
-            f"THE PLAYER JUST DIED on {s.map} ({s.side}, site {s.site or 'unknown'}), playing "
-            f"{s.my_operator or 'unknown op'}, killed by {killer or 'unknown'} in {s.my_location or 'unknown room'} "
-            f"with {s.timer_seconds if s.timer_seconds is not None else '?'}s left, "
-            f"defuser planted: {s.defuser_planted}. Players alive just before: "
-            f"{s.alive_us if s.alive_us is not None else '?'} on the player's team v "
-            f"{s.alive_them if s.alive_them is not None else '?'} enemies.\n"
+            f"THE PLAYER JUST DIED as {me}, killed by {killer or 'unknown'} in "
+            f"{s.my_location or 'unknown room'}. State just before the death:\n"
+            f"{render(s.model_copy(update={'player_alive': True}), None, self._memory())}\n"
             + (f"The player's last seconds (room and health from their HUD, oldest first): {trail}\n" if trail else "")
             + "If their health was already low, say what they should have done about that first.\n"
-            f"{self._memory()}\n"
             f"{self._focus(s)}\n"
-            "The screenshot is the kill cam: read the killer's operator card and weapon. Describe the angle "
-            "or position they shot from only if it is clearly visible; never invent details (props, open "
-            "walls, holes) you can't see. Death debrief, like a coach on comms right after a death: "
+            + screenshot +
+            "never invent details (props, open walls, holes) you can't see.\n"
+            f"The player IS the {me}: talk to them as 'you' ('you walked Trophy Stairs alone'), never as "
+            f"'your {me}' or 'your breacher'.\n"
+            "Death debrief, like a coach on comms right after a death: "
             "Line 1: what was good in how the player played the round, if anything was (be honest). "
             "Line 2: the actual mistake: the angle, timing or decision that got them killed, using the room "
             "they died in and the killer's operator. Line 3: the fix next time: an exact spot to play "
@@ -470,9 +633,8 @@ class Coach:
     def _advise_debrief(self, s: GameState, won: Optional[bool]) -> Optional[CoachLines]:
         result = {True: "WON", False: "LOST", None: "ended"}[won]
         prompt = (
-            f"ROUND JUST {result} on {s.map}, player was {s.side} as {s.my_operator or 'unknown op'}, "
-            f"site {s.site or 'unknown'}. Score now {s.score_us}-{s.score_them}.\n"
-            f"{self._memory()}\n"
+            f"ROUND JUST {result}. State at the end of the round:\n"
+            f"{render(s, None, self._memory())}\n"
             f"{self._focus(s)}\n"
             "Round debrief in the gap between rounds. Line 1: what decided the round, from the facts above "
             "(first blood, trades, the plant, where the player died). Line 2: what the player did well, "
@@ -499,13 +661,8 @@ class Coach:
                     "earlier rounds threatens this site (a camera, trap or anchor that killed the player), say "
                     f"how {me} deals with it.")
         prompt = (
-            f"{task}\nMap {s.map}, site {s.site or 'unknown'} "
-            f"(possible: {' | '.join(s.site_options) or 'unknown'}), spawn {s.spawn or 'unknown'}, "
-            f"player is in {s.my_location or 'unknown room'}, "
-            f"round {s.round_number or '?'}, score {s.score_us}-{s.score_them}.\n"
-            f"Teammates: {', '.join(s.teammate_operators) or 'unknown'}\n"
-            f"Enemy operators revealed this round: {', '.join(s.enemy_operators) or 'none yet'}\n"
-            f"{self._memory()}\n"
+            f"{task}\n"
+            f"{render(s, None, self._memory())}\n"
             f"{self._stats(s, s.side)}\n"
             f"{self._focus(s)}"
         )
@@ -515,13 +672,11 @@ class Coach:
         s = self.current_state()
         # Screenshots go to the cloud only on static screens, never mid-round.
         static = s.screen not in (Screen.prep_phase, Screen.action_phase, Screen.spectating)
-        pinged = ", ".join(p.location + (f" ({p.operator})" if p.operator else "") for p in s.pinged_enemies)
         prompt = (
             f'The player asks: "{question}"\n'
-            f"Current state: {s.summary()}\n"
-            f"Enemies pinged by the team: {pinged or 'none'}\n"
+            f"Screen now: {s.screen.value}.\n"
+            f"{self._state(s)}\n"
             f"{self._pool_text(s.side, s)}\n"
-            f"{self._memory()}\n"
             f"{self._focus(s)}\n"
             "Answer directly for this exact moment. If it's mid-round, keep it very short."
         )

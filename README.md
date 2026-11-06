@@ -34,6 +34,8 @@ It is designed not to be a cheat. It reads only menus and the HUD from your own 
 
 ## Running
 
+Double-click **`R6 Coach.bat`** (or pin a shortcut to it). It starts the coach in the background with its tray icon, logs to `data/coach.log`, and if a coach is already running it just opens the dashboard. From a terminal:
+
 ```bash
 .venv/Scripts/python -m r6coach
 ```
@@ -49,7 +51,7 @@ The coach sits in the system tray and opens the dashboard in your browser at htt
 | Ctrl+Alt+S | Skip the line being spoken |
 
 The dashboard has five tabs:
-- **Live**: match state and what the coach said.
+- **Live**: match state, what the coach said, and a live map: Ubisoft's blueprint of your floor with the rooms the coach names lit up in order and a ring on your own room. Fetch the blueprints once with `.venv/Scripts/python -I tools/fetch_blueprints.py` (about 70 MB into `data/maps/`, personal use only, never committed); room positions are in `r6coach/knowledge/data/layout/` (made by `tools/locate_rooms.py`).
 - **What the coach sees**: the current frame and the last screen read, for checking detection.
 - **Settings**: operator pool, chattiness per phase, skill level, volume.
 - **Map notes**: your own notes per map. The coach trusts these over its database.

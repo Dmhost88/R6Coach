@@ -27,6 +27,9 @@ class FakeSpeaker:
     def clear(self, phase=None):
         pass
 
+    def cancel(self, *phases):
+        self.cancelled = getattr(self, "cancelled", []) + list(phases)
+
 
 def setup(bus, kb, tmp_path):
     state = {"s": GameState(match_id="m1")}
@@ -81,6 +84,60 @@ def test_repick_when_teammate_takes_recommendation(bus, kb, tmp_path):
     assert "just took" in claude.prompts[1][1]
 
 
+def test_locking_another_operator_cancels_and_readvises(bus, kb, tmp_path):
+    coach, claude, speaker, state = setup(bus, kb, tmp_path)
+    push(bus, state, screen=Screen.operator_select, map="Bank", side="attack")
+    assert wait(lambda: coach._recommended == "Mute")
+    push(bus, state, my_operator="Thermite", teammate_operators=["Buck"])
+    assert wait(lambda: any("LOCKED Thermite" in p for _, p, _ in claude.prompts))
+    locked = [p for _, p, _ in claude.prompts if "LOCKED Thermite" in p][0]
+    assert "Mute" in locked and "void" in locked
+    assert "operator_select" in speaker.cancelled and "prep_phase" in speaker.cancelled
+    n = len(claude.prompts)
+    push(bus, state, timer_seconds=20)                      # more state updates: no second pivot
+    time.sleep(0.2)
+    assert len(claude.prompts) == n
+
+
+def test_lock_found_in_prep_replaces_the_prep_plan(bus, kb, tmp_path):
+    coach, claude, speaker, state = setup(bus, kb, tmp_path)
+    push(bus, state, screen=Screen.operator_select, map="Bank", side="attack")
+    assert wait(lambda: coach._recommended == "Mute")
+    push(bus, state, screen=Screen.prep_phase, site="B Lockers / B CCTV Room", my_operator="Thermite")
+    assert wait(lambda: any(p[0] == "coach.prep_phase" and "Thermite" in p[1] for p in claude.prompts))
+    assert not any("LOCKED Thermite (the coach" in p[1] for p in claude.prompts if p[0] == "coach.operator_select")
+
+
+def test_only_pick_advice_sets_the_recommendation(bus, kb, tmp_path):
+    coach, claude, speaker, state = setup(bus, kb, tmp_path)
+    push(bus, state, screen=Screen.operator_ban, map="Bank", side="attack")
+    coach._deliver("operator_ban", CoachLines(lines=["Ban Mira."], recommended_operator="Ash", recommended_bans=["Mira"]))
+    assert coach._recommended is None
+
+
+def test_stale_advice_is_dropped(bus, kb, tmp_path):
+    coach, claude, speaker, state = setup(bus, kb, tmp_path)
+    push(bus, state, screen=Screen.operator_select, map="Bank", side="attack")
+    g = coach._gen["operator_select"]
+    coach._bump("operator_select")
+    before = len(speaker.said)
+    coach._deliver("operator_select", CoachLines(lines=["old"], recommended_operator="Ash",
+                                                 recommended_bans=[]), gen=g)
+    assert len(speaker.said) == before and coach._recommended != "Ash"
+
+
+def test_no_repick_when_the_player_locked_the_recommendation(bus, kb, tmp_path):
+    coach, claude, speaker, state = setup(bus, kb, tmp_path)
+    push(bus, state, screen=Screen.operator_select, map="Bank", side="attack", banned_operators=["Ace"])
+    assert wait(lambda: coach._recommended == "Mute")
+    # The player took it; their own card shows up in the team's icons.
+    push(bus, state, my_operator="Mute", teammate_operators=["Buck", "Mute"])
+    time.sleep(0.2)
+    assert len(claude.prompts) == 1
+    prompt = claude.prompts[0][1]
+    assert "Ace" in prompt and "still unavailable" in prompt
+
+
 def test_prep_advice_text_only_and_dropped_when_stale(bus, kb, tmp_path):
     coach, claude, speaker, state = setup(bus, kb, tmp_path)
     push(bus, state, screen=Screen.prep_phase, map="Bank", side="attack", my_operator="Thermite",
@@ -117,6 +174,8 @@ def test_operator_ban_advice_every_round(bus, kb, tmp_path):
         push(bus, state, screen=Screen.round_end)
     assert wait(lambda: len([p for p in claude.prompts if p[0] == "coach.operator_ban"]) == 2)
     # op select after the ban phase is the same round, not a new one
+    assert wait(lambda: len([p for p in claude.prompts if p[0] == "coach.operator_select"]) == 2)
+    time.sleep(0.2)
     assert len([p for p in claude.prompts if p[0] == "coach.operator_select"]) == 2
 
 
