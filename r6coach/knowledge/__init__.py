@@ -34,6 +34,7 @@ class Knowledge:
     def reload(self) -> None:
         self.maps: dict[str, dict[str, Any]] = {}
         self.operators: dict[str, dict[str, Any]] = {}
+        self._op_alias: dict[str, str] = {}
         self.meta: dict[str, Any] = {}
         maps_dir = self.data_dir / "maps"
         if maps_dir.exists():
@@ -49,6 +50,10 @@ class Knowledge:
             with open(ops_file, encoding="utf-8") as f:
                 for op in (yaml.safe_load(f) or {}).get("operators", []):
                     self.operators[_norm(op["name"])] = op
+            # Aliases (accented spellings, nicknames) resolve to the same entry; the dossier
+            # iterates unique operators via operator_list().
+            self._op_alias = {_norm(a): _norm(op["name"]) for op in self.operators.values()
+                              for a in (op.get("aliases") or [])}
         meta_file = self.data_dir / "meta.yaml"
         if meta_file.exists():
             with open(meta_file, encoding="utf-8") as f:
@@ -101,6 +106,8 @@ class Knowledge:
         key = _norm(name)
         if key in self.operators:
             return self.operators[key]
+        if key in getattr(self, "_op_alias", {}):
+            return self.operators[self._op_alias[key]]
         close = difflib.get_close_matches(key, list(self.operators), n=1, cutoff=0.8)
         return self.operators[close[0]] if close else None
 

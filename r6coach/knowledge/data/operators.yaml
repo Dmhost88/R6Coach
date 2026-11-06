@@ -1,3 +1,7 @@
+# Operator database for the coach. Season Y11S3 (Operation Split Fire), mid-season patch Y11S3.2 (2026-10-15).
+# Loadouts verified against Ubisoft operator pages on 2026-11-06. Meta and ban figures are approximate:
+# ban percentages quoted from timesaver.gg's Y11S3 tier list, which cites Ubisoft's Top Operator Bans chart.
+# speed: 1 = slowest/most health, 3 = fastest/least health.
 operators:
   # ---------------- ATTACKERS ----------------
   - name: Sledge
@@ -6,19 +10,35 @@ operators:
     speed: 2
     unique_gadget: "Breaching hammer that opens soft walls, floors and hatches; knocks back shields."
     gadget_options: ["Frag Grenade", "Stun Grenade", "Impact EMP Grenade"]
+    primaries: ["L85A2", "M590A1"]
+    secondaries: ["P226 Mk 25", "Reaper MK2"]
+    gadget_details: "Unlimited hammer swings: one swing makes a crouch hole, two make a standing opening. Breaks hatches and soft floors quietly compared to charges."
+    pro_usage: ["Opens rotation walls and floors from above to deny anchors", "Hammers hatches over site for vertical pressure", "Frag/EMP carrier who soft-breaches line-of-sight walls late in execute"]
+    hard_counters: ["Reinforced walls/hatches: hammer cannot open them", "Ela/Kapkan traps on hatch drops: punish noisy entries"]
+    synergies: ["Buck: double vertical play from above", "Thermite/Ace: Sledge opens soft lines while they breach"]
     counters: ["Soft-wall setups", "Deployable shields", "Ballistic shield users"]
     countered_by: ["Reinforced walls", "Roamers punishing loud breaches"]
     comp_notes: "Flexible vertical and soft-breach pick. Good when a map rewards opening floors."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Medium pick; A tier on timesaver.gg Y11S3.2 list as an easy soft breacher."
     ban_value: low
   - name: Thatcher
     side: attack
     roles: [anti_gadget, support]
-    speed: 1
-    unique_gadget: "E.G.S. Disruptor: tracks electronic defender gadgets through cover and disables them with EMP bursts."
+    speed: 2
+    unique_gadget: "E.G.S. Disruptor: scans defender electronics through cover and disables them with EMP beams."
     gadget_options: ["Breach Charge", "Claymore"]
+    primaries: ["AR33", "L85A2", "M590A1", "PMR90A2"]
+    secondaries: ["P226 Mk 25"]
+    gadget_details: "Launcher shows electronic devices within ~10 m on its screen and fires a ~3.5 m by 10 m EMP beam that disables them for up to 15 s. About 6 charges (Y10S4 rework)."
+    pro_usage: ["Disrupts Bandit/Kaid/Mute on the breach wall right before the hard breacher places", "Scans the wall from outside to locate batteries and claws before committing", "Late beam on Maestro/Valkyrie cams and Echo drones before plant"]
+    hard_counters: ["Bandit battery tricking: re-place after the disruption ends", "Roamers punishing him on the wall", "Non-electronic denial (Castle, Azami, Goyo): disruptor does nothing"]
+    synergies: ["Thermite/Ace/Hibana: clears anti-breach for the hard breach", "Maverick: covers his torch line from shock"]
     counters: ["Bandit", "Kaid", "Mute", "Surya Gates", "Valkyrie and Maestro cameras"]
     countered_by: ["Wamai", "Roamers", "Non-electronic denial like Castle"]
     comp_notes: "Pairs with a hard breacher to clear anti-breach. Reworked in Y10S4."
+    ban_reason: "Core anti-electronics op; banned by teams whose setup relies on Kaid/Bandit/Mute wall denial."
+    pick_rate_note: "High pick when not banned; S tier on timesaver.gg Y11S3.2 list. Historically a top ranked attacker ban."
     ban_value: medium
   - name: Ash
     side: attack
@@ -26,9 +46,17 @@ operators:
     speed: 3
     unique_gadget: "Breaching rounds that blow open soft walls and barricades from range."
     gadget_options: ["Breach Charge", "Claymore"]
+    primaries: ["G36C", "R4-C"]
+    secondaries: ["5.7 USG", "M45 MEUSOC"]
+    gadget_details: "Two breaching rounds; fired from range, they burrow briefly then explode, opening soft walls and barricades and destroying gadgets behind them."
+    pro_usage: ["Opens site soft walls at round start for early picks", "Shoots out barricades and Castle-free doors before an entry", "Breaching round on Mira canister side is not possible; use on deployables instead"]
+    hard_counters: ["Jager ADS/Wamai: catch the rounds", "Reinforced walls: rounds only lodge"]
+    synergies: ["Thatcher/Thermite: Ash makes soft-wall lines while they breach", "Zofia: double soft breach for vertical"]
     counters: ["Barricades", "Soft walls", "Deployables in the open"]
     countered_by: ["Jager", "Wamai", "Trap defenders"]
     comp_notes: "Fast entry fragger for opening lines early."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "High ranked pick (fast fragger); A tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Thermite
     side: attack
@@ -36,9 +64,17 @@ operators:
     speed: 2
     unique_gadget: "Exothermic charge that opens reinforced walls."
     gadget_options: ["Smoke Grenade", "Stun Grenade"]
+    primaries: ["556xi", "M1014"]
+    secondaries: ["5.7 USG", "M45 MEUSOC", "ITA12S"]
+    gadget_details: "Placed charges that open a large hole in reinforced walls and hatches; bigger opening than other hard breachers. Charges can be shocked or destroyed while placed."
+    pro_usage: ["Opens main site walls (e.g. Bank CCTV, Clubhouse CCTV) after anti-breach is cleared", "Smokes the wall area to place under cover", "Saves a charge for a hatch or rotation wall"]
+    hard_counters: ["Bandit/Kaid: shock destroys the charge", "Mute: jams placement", "Smoke/Goyo/Noor fire on the wall: deny the placer"]
+    synergies: ["Thatcher: disrupts anti-breach", "Kali: lance kills batteries and claws", "Brava: hijacks Kaid claws"]
     counters: ["Reinforced walls", "Castle panels"]
     countered_by: ["Bandit", "Kaid", "Mute", "Goyo", "Noor", "Roamers on the wall"]
     comp_notes: "Core hard breacher for big wall openings. Needs anti-gadget support."
+    ban_reason: "Occasionally banned on maps where one big wall wins the site."
+    pick_rate_note: "High pick (~30% presence per timesaver.gg citing Ubisoft data); S tier Y11S3.2."
     ban_value: medium
   - name: Twitch
     side: attack
@@ -46,29 +82,53 @@ operators:
     speed: 2
     unique_gadget: "Shock drones that zap defender gadgets and can hit defenders."
     gadget_options: ["Smoke Grenade", "Claymore"]
+    primaries: ["F2", "417", "SG-CQB"]
+    secondaries: ["P9", "LFP586"]
+    gadget_details: "Shock drone (replaces normal drones) fires a limited, recharging laser that destroys defender gadgets; it can jump and is quieter than standard drones."
+    pro_usage: ["Prep-phase sweeps of Echo, Maestro, Valkyrie cams and traps", "Kills Mute jammers and Thorn shells on the breach wall", "Holds drone in site for late intel plus utility clear"]
+    hard_counters: ["Mozzie: hacks the drone", "Mute: jams it", "Solis: spots drones"]
+    synergies: ["Thermite/Hibana: clears wall utility", "Lion/Dokkaebi: intel support during executes"]
     counters: ["Cameras", "Traps", "Shields", "Mute jammers"]
     countered_by: ["Mute", "Wamai", "Mozzie"]
     comp_notes: "Good utility clear for trap-heavy setups."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low-medium pick; B tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Montagne
     side: attack
     roles: [support, entry]
     speed: 1
     unique_gadget: "Extendable Le Roc shield giving near full cover."
-    gadget_options: ["Smoke Grenade", "Impact EMP Grenade"]
+    gadget_options: ["Hard Breach Charge", "Smoke Grenade", "Impact EMP Grenade"]
+    primaries: ["Le Roc Shield"]
+    secondaries: ["P9", "LFP586"]
+    gadget_details: "Shield extends to cover almost the whole body (cannot shoot while extended). Hard Breach Charge option makes him a slow backup hard breach."
+    pro_usage: ["Plants behind the extended shield with teammates crossfiring", "Absorbs Echo/Maestro pressure and baits defenders out", "Carries Hard Breach to open a rotation wall"]
+    hard_counters: ["Noor: Horus Lance pierces shields, 80 impact damage, full guardbreak since Y11S3.2", "Clash taser and flanks", "Goyo/Tachanka fire on plant spot"]
+    synergies: ["Fuze or second shield for plant stacks", "Gridlock/Nomad flank watch while he plants"]
     counters: ["Plant denial by gunfire", "Long angles"]
     countered_by: ["Noor", "Clash", "Goyo", "Melee flanks"]
     comp_notes: "Plant cover and soft-entry shield. Noor lances hurt shields."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Medium pick; A tier on timesaver.gg Y11S3.2, riskier since the Noor buff."
     ban_value: low
   - name: Glaz
     side: attack
     roles: [map_control]
-    speed: 3
+    speed: 2
     unique_gadget: "Flip Sight scope that highlights enemies through smoke."
     gadget_options: ["Smoke Grenade", "Frag Grenade", "Claymore"]
+    primaries: ["OTs-03"]
+    secondaries: ["PMM", "Gonne-6", "Bearing 9"]
+    gadget_details: "OTs-03 marksman rifle with Flip Sight thermal that highlights enemies through his own smoke."
+    pro_usage: ["Holds long lines into windows from outside", "Smokes a window and shoots through it with thermal", "Spawn-peek denial on open maps"]
+    hard_counters: ["Close-range roamers", "Warden-style smoke counters"]
+    synergies: ["Capitao/Ying: smoke and flash covering his lanes"]
     counters: ["Window holds", "Spawn peekers"]
     countered_by: ["Close-range roamers"]
     comp_notes: "Map control on long-sightline maps."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; C tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Fuze
     side: attack
@@ -76,19 +136,35 @@ operators:
     speed: 1
     unique_gadget: "Cluster charge that drops grenades through soft surfaces."
     gadget_options: ["Breach Charge", "Hard Breach Charge", "Smoke Grenade"]
+    primaries: ["AK-12", "6P41", "Ballistic Shield"]
+    secondaries: ["PMM", "GSh-18"]
+    gadget_details: "APM-6 Cluster Charge planted on a soft surface or hatch fires a group of small grenades into the room behind; kills hostages too."
+    pro_usage: ["Clears shields, Maestro cams and deployables from a soft wall or floor", "Fuzes a hatch before a vertical drop", "Hard Breach carrier as backup breacher"]
+    hard_counters: ["Jager/Wamai: catch the grenades", "Reinforced walls: cannot plant"]
+    synergies: ["Sledge/Buck for vertical openings", "Montagne: plant cover after the clear"]
     counters: ["Clustered defenders", "Deployables"]
     countered_by: ["Jager", "Wamai", "Reinforcements"]
-    comp_notes: "Clears sites and utility through floors and walls."
+    comp_notes: "Clears sites and utility through floors and walls. Banned or avoided on hostage."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; C tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Blitz
     side: attack
     roles: [entry]
     speed: 2
-    unique_gadget: "Flash shield that blinds defenders at close range."
+    unique_gadget: "G52 flash shield that blinds defenders at close range."
     gadget_options: ["Smoke Grenade", "Breach Charge"]
+    primaries: ["G52-Tactical Shield"]
+    secondaries: ["P12"]
+    gadget_details: "Shield with built-in flash charges that blind defenders in front at close range; charges recharge over time."
+    pro_usage: ["Sprint-flashes holders in tight sites after a drone call", "Pushes a single choke paired with a rifle trade"]
+    hard_counters: ["Noor: lances pierce and guardbreak shields", "Clash: slows him", "Warden: cleanses flash"]
+    synergies: ["Ying: layered flashes", "Gridlock: covers flanks during the push"]
     counters: ["Close angles", "Corner anchors"]
     countered_by: ["Noor", "Clash", "Explosives"]
     comp_notes: "Aggressive entry on tight sites."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; C tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: IQ
     side: attack
@@ -96,149 +172,271 @@ operators:
     speed: 3
     unique_gadget: "Electronics detector that shows defender gadgets nearby."
     gadget_options: ["Breach Charge", "Frag Grenade", "Claymore"]
+    primaries: ["AUG A2", "552 Commando", "G8A1"]
+    secondaries: ["P12"]
+    gadget_details: "Handheld detector shows electronic devices through walls nearby; she can shoot them with her pistol while scanning."
+    pro_usage: ["Finds and shoots Bandit batteries and Kaid claws through walls", "Locates hidden cams before plant"]
+    hard_counters: ["Non-electronic traps (Frost, Castle)", "Roamers while scanning"]
+    synergies: ["Thermite/Hibana: clears wall electronics"]
     counters: ["Hidden traps", "Cameras"]
     countered_by: ["Non-electronic traps"]
-    comp_notes: "Good for finding hidden utility on solo queue."
+    comp_notes: "Good for finding hidden utility in solo queue."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; B tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Buck
     side: attack
     roles: [soft_breacher, map_control]
     speed: 2
     unique_gadget: "Skeleton Key underbarrel shotgun for vertical play."
-    gadget_options: ["Stun Grenade", "Hard Breach Charge"]
+    gadget_options: ["Stun Grenade", "Claymore"]
+    primaries: ["C8-SFW", "CAMRS"]
+    secondaries: ["Mk1 9mm"]
+    gadget_details: "Underbarrel 12-gauge (4-shell magazine) on his primary for soft breaching floors and walls without switching weapons."
+    pro_usage: ["Opens floors above site to deny anchors", "Shoots holes in soft walls for murder lines"]
+    hard_counters: ["Reinforced floors and walls", "Roamers above site"]
+    synergies: ["Sledge: double vertical", "Thermite: Buck covers from above"]
     counters: ["Floor anchors", "Soft walls"]
     countered_by: ["Reinforced floors", "Roamers"]
     comp_notes: "Great vertical pick on multi-floor maps."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low-medium pick; B tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Blackbeard
     side: attack
     roles: [entry, support]
-    speed: 1
-    unique_gadget: "H.U.L.L. adaptable shield that can be used as a mobile or rifle shield."
-    gadget_options: ["Claymore", "Stun Grenade"]
+    speed: 2
+    unique_gadget: "H.U.L.L. adaptable shield usable on foot or while rappelling; breaches soft walls."
+    gadget_options: ["Claymore", "Frag Grenade"]
+    primaries: ["Mk17 CQB", "SR-25"]
+    secondaries: ["D-50"]
+    gadget_details: "Adaptable shield gives head cover while aiming on foot or rappelling, and its pneumatic system can breach soft walls."
+    pro_usage: ["Window and rappel holds into site", "Long-lane DMR picks with head cover"]
+    hard_counters: ["Noor: lances pierce shields", "Explosives and flanks"]
+    synergies: ["Hibana/Thermite: covers the breach lane"]
     counters: ["Window holds"]
     countered_by: ["Noor", "Explosives", "Flanks"]
     comp_notes: "Window and angle control. Shield breaks under pressure."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; B tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Capitao
+    aliases: ["Capitão"]
     side: attack
     roles: [crowd_control, support]
     speed: 3
     unique_gadget: "Crossbow with fire and smoke bolts for area denial."
-    gadget_options: ["Claymore", "Hard Breach Charge"]
+    gadget_options: ["Claymore", "Hard Breach Charge", "Impact EMP Grenade"]
+    primaries: ["M249", "PARA-308", "PMR90A2"]
+    secondaries: ["Gonne-6", "PRB92"]
+    gadget_details: "Tactical crossbow with fire bolts (expansion delay cut to 0.9 s and fire damage up to 14 hp in Y11S3.2) and smoke bolts."
+    pro_usage: ["Fire-bolts the defuser after plant to deny the tap", "Smokes doors and lines for site take", "Burns roam corridors to flush defenders"]
+    hard_counters: ["Jager/Wamai: catch the bolts"]
+    synergies: ["Gridlock/Nomad: layered post-plant denial", "Glaz: smoke plus thermal"]
     counters: ["Retakes", "Defuser denial"]
-    countered_by: ["Wamai", "Smoke"]
+    countered_by: ["Wamai", "Jager"]
     comp_notes: "Post-plant denial and site take smokes."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low-medium pick; B tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Hibana
     side: attack
     roles: [hard_breacher]
     speed: 3
     unique_gadget: "X-KAIROS pellets that open reinforced walls and hatches remotely."
-    gadget_options: ["Stun Grenade", "Claymore"]
+    gadget_options: ["Breach Charge", "Stun Grenade", "Claymore"]
+    primaries: ["SuperNova", "Type-89", "PMR90A2"]
+    secondaries: ["Bearing 9", "P229"]
+    gadget_details: "40 mm launcher fires sticky X-KAIROS pellets, detonated remotely together to open reinforced walls, hatches or small holes from range."
+    pro_usage: ["Opens reinforced hatches for vertical", "Fires pellets from outside a wall the roamers cannot reach", "Makes small murder holes in Castle panels or walls"]
+    hard_counters: ["Bandit/Kaid shock", "Mute jams detonation", "Wamai/Jager catch pellets in flight"]
+    synergies: ["Thatcher/Kali: clear anti-breach", "Ace when two breaches are needed"]
     counters: ["Reinforced hatches", "Castle panels"]
     countered_by: ["Bandit", "Kaid", "Mute", "Wamai"]
     comp_notes: "Best hard breacher for hatches and small openings."
+    ban_reason: "Rarely banned outside hatch-heavy maps."
+    pick_rate_note: "Medium pick; A tier on timesaver.gg Y11S3.2 as the next hard breacher after Ace/Thermite."
     ban_value: medium
   - name: Jackal
     side: attack
     roles: [intel, map_control]
     speed: 2
     unique_gadget: "Eyenox visor that tracks defender footprints."
-    gadget_options: ["Claymore", "Smoke Grenade"]
+    gadget_options: ["Claymore", "Smoke Grenade", "Frag Grenade"]
+    primaries: ["C7E", "PDW9", "ITA12L"]
+    secondaries: ["USP40", "ITA12S"]
+    gadget_details: "Eyenox Model III visor shows fresh defender footprints; scanning a track pings that defender a few times."
+    pro_usage: ["Hunts roamers early in the round", "Tracks the flank roamer before executing"]
+    hard_counters: ["Stationary anchors", "Vigil/Caveira who wait instead of moving"]
+    synergies: ["Lion/Dokkaebi: layered intel on roamers"]
     counters: ["Roamers", "Caveira", "Vigil"]
     countered_by: ["Stationary anchors"]
     comp_notes: "Anti-roam pick for roam-heavy defenses."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Medium pick; A tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Ying
     side: attack
     roles: [entry, crowd_control]
     speed: 2
     unique_gadget: "Candela flash devices that blind through cover."
-    gadget_options: ["Smoke Grenade", "Hard Breach Charge"]
+    gadget_options: ["Hard Breach Charge", "Smoke Grenade"]
+    primaries: ["T-95 LSW", "SIX12"]
+    secondaries: ["Q-929", "Reaper MK2"]
+    gadget_details: "Candela charges can be stuck on surfaces or thrown, releasing a burst of flashes that blind anyone looking."
+    pro_usage: ["Sticks Candelas through doorways before a push", "Flashes plant area and stacks during execute"]
+    hard_counters: ["Jager/Wamai: catch thrown Candelas", "Warden: cleanses flash"]
+    synergies: ["Blitz: layered flash entry", "Thermite: flash through the opened wall"]
     counters: ["Anchors", "Close holds"]
     countered_by: ["Wamai", "Jager"]
     comp_notes: "Strong site takes with flashes."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; B tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Zofia
     side: attack
     roles: [anti_gadget, soft_breacher, crowd_control]
     speed: 1
     unique_gadget: "KS79 Lifeline with impact and concussion grenades."
-    gadget_options: ["Breach Charge", "Claymore"]
+    gadget_options: ["Claymore", "Hard Breach Charge"]
+    primaries: ["LMG-E", "M762"]
+    secondaries: ["RG15"]
+    gadget_details: "KS79 Lifeline fires impact grenades (soft breach, gadget destruction) and concussion rounds that disorient; Zofia can self-revive once from DBNO."
+    pro_usage: ["Opens floors for vertical then concusses the anchors", "Impacts on Mira canister side, cams and shields", "Hard Breach option as a backup breacher"]
+    hard_counters: ["Jager/Wamai catch her grenades"]
+    synergies: ["Thermite: concussion through the opened wall", "Buck: vertical stack"]
     counters: ["Cameras", "Deployables", "Clustered anchors"]
     countered_by: ["Jager", "Wamai"]
     comp_notes: "Utility clear and vertical in one pick."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Medium pick; A tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Dokkaebi
     side: attack
     roles: [intel, anti_gadget]
-    speed: 3
-    unique_gadget: "Jegeo Payload: targets one defender's phone, maintained signal makes it explode and blocks cameras."
-    gadget_options: ["Smoke Grenade", "Stun Grenade", "Impact EMP Grenade"]
+    speed: 2
+    unique_gadget: "Jegeo Payload: uploads to one defender's phone; finishing the upload makes the phone explode and catch fire."
+    gadget_options: ["Smoke Grenade", "Breach Charge"]
+    primaries: ["BOSG.12.2", "Mk 14 EBR", "XK23"]
+    secondaries: ["C75 Auto", "Gonne-6", "SMG-12"]
+    gadget_details: "Targets one defender; since Y11S3 the upload needs an unbroken link, cancels if she dies or Mute/Tubarao interrupt, and her tablet is visible to Solis. Phone blast deals 40 hp plus fire. Per-target cooldown."
+    pro_usage: ["Uploads on the last anchor to flush him with 40 hp and fire", "Times payloads with the execute so defenders lose cams and health", "Breach Charge since Y11S3 for soft-wall utility"]
+    hard_counters: ["Mute: jammers interrupt the upload", "Tubarao: Zoto stops it", "Solis: finds her during the upload"]
+    synergies: ["Thatcher: kills Mute jammers so uploads finish", "Jackal/Lion: locate the target"]
     counters: ["Camera users", "Roamers relying on cams"]
-    countered_by: ["Mute", "Tubarao", "Vigil"]
-    comp_notes: "Remastered Y11S2. Denies defender intel and forces positions."
+    countered_by: ["Mute", "Tubarao", "Vigil", "Solis"]
+    comp_notes: "Remastered Y11S2, nerfed Y11S3 (constant link needed, EMP swapped for Breach Charge, SMG-12 and MK14 nerfed)."
+    ban_reason: "Was a top-3 attacker ban in Y11S2; now situational since Mute can interrupt her."
+    pick_rate_note: "Medium pick; A tier on timesaver.gg Y11S3.2 after the Split Fire nerfs."
     ban_value: medium
   - name: Lion
     side: attack
     roles: [intel]
     speed: 2
     unique_gadget: "EE-ONE-D drone scan that reveals moving defenders."
-    gadget_options: ["Stun Grenade", "Claymore"]
+    gadget_options: ["Claymore", "Frag Grenade", "Stun Grenade"]
+    primaries: ["417", "SG-CQB", "V308"]
+    secondaries: ["LFP586", "P9"]
+    gadget_details: "Drone scan reveals any defender who moves during the scan; warning before the scan cut to 1.4 s in Y11S3."
+    pro_usage: ["Scans during the execute so anchors freeze for teammates", "Scans after plant to stop defuser retakes", "Pairs with a hard breach to lock defenders in place"]
+    hard_counters: ["Patient defenders who stay still", "Mute jams the drone nearby"]
+    synergies: ["Thermite/Ace: freeze defenders while breaching", "Nomad/Gridlock: post-plant layering"]
     counters: ["Roamers", "Rotations"]
     countered_by: ["Patient defenders", "Vigil"]
     comp_notes: "Good intel for plant timing."
-    ban_value: low
+    ban_reason: "Banned by roam-heavy defenses; listed in timesaver.gg Y11S3 recommended attacker bans."
+    pick_rate_note: "High pick; S tier on timesaver.gg Y11S3.2."
+    ban_value: medium
   - name: Finka
     side: attack
     roles: [support]
     speed: 2
     unique_gadget: "Adrenal Surge that boosts team health and revives downed teammates."
     gadget_options: ["Frag Grenade", "Smoke Grenade", "Stun Grenade"]
+    primaries: ["6P41", "SASG-12", "Spear .308"]
+    secondaries: ["GSh-18", "PMM"]
+    gadget_details: "Adrenal Surge gives all teammates bonus health, steadier aim and removes concussion/poison; downed teammates are revived."
+    pro_usage: ["Surge right before the execute push", "Cleanses Ela/Lesion/Melusi effects mid-fight"]
+    hard_counters: ["Burst damage and headshots"]
+    synergies: ["Any hard-push comp", "Blitz/Ying entries"]
     counters: ["Lesion poison", "Concussion effects"]
     countered_by: ["Burst damage"]
     comp_notes: "Team sustain for executes."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; B tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Maverick
     side: attack
     roles: [hard_breacher]
     speed: 3
     unique_gadget: "Blowtorch that cuts quiet holes in reinforced walls."
-    gadget_options: ["Stun Grenade", "Claymore"]
+    gadget_options: ["Claymore", "Stun Grenade", "Frag Grenade"]
+    primaries: ["AR-15.50", "M4"]
+    secondaries: ["1911 TACOPS", "C75 Auto", "Reaper MK2"]
+    gadget_details: "Close-range torch that burns through reinforced walls and hatches; fuel runs out fast. Not stopped by Bandit/Kaid shock, only by being shot or pushed."
+    pro_usage: ["Burns murder holes into site from a safe wall", "Opens a reinforced wall slowly for an alternate line", "Cuts hatches quietly"]
+    hard_counters: ["Defenders watching the wall and shooting through", "Castle panels"]
+    synergies: ["Thermite: two hard-breach lines", "Ace when Kaid is banned"]
     counters: ["Reinforced walls", "Anti-breach that only reacts to charges"]
     countered_by: ["Wall watchers", "Thunderbird and Castle"]
     comp_notes: "Sneaky hard breach and murder holes."
-    ban_value: low
+    ban_reason: "Occasionally banned; listed in timesaver.gg Y11S3 recommended attacker bans."
+    pick_rate_note: "Medium-high pick; S tier on timesaver.gg Y11S3.2."
+    ban_value: medium
   - name: Nomad
     side: attack
     roles: [flank_watch, crowd_control]
     speed: 2
     unique_gadget: "Airjab launcher that knocks back anyone triggering it."
-    gadget_options: ["Stun Grenade", "Breach Charge"]
+    gadget_options: ["Breach Charge", "Stun Grenade"]
+    primaries: ["AK-74M", "ARX200"]
+    secondaries: ["PRB92", ".44 MAG SEMI-AUTO"]
+    gadget_details: "Three Airjab grenades stick to surfaces and blast back defenders who come close; non-lethal."
+    pro_usage: ["Airjabs on flank doors before the execute", "Airjabs around the plant to stop the defuser tap"]
+    hard_counters: ["Patient defenders shooting airjabs", "Oryx breaking soft walls around them"]
+    synergies: ["Gridlock: double flank watch", "Lion: post-plant layering"]
     counters: ["Roamers", "Flanks"]
     countered_by: ["Patient defenders", "Shooting airjabs"]
     comp_notes: "Lock flanks on roam-heavy maps."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "High pick; S tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Gridlock
     side: attack
     roles: [flank_watch, crowd_control]
     speed: 1
     unique_gadget: "Trax Stingers that slow and damage defenders."
-    gadget_options: ["Smoke Grenade", "Breach Charge"]
+    gadget_options: ["Smoke Grenade", "Frag Grenade", "Impact EMP Grenade"]
+    primaries: ["F90", "M249 SAW"]
+    secondaries: ["Super Shorty", "SDP 9mm"]
+    gadget_details: "Thrown Trax Stingers spread a patch of spikes that slows and damages defenders who step in; destroyed by shots or explosives."
+    pro_usage: ["Trax on flank hallways", "Trax on plant spot to stop the defuser tap"]
+    hard_counters: ["Shooting or blowing up the trax"]
+    synergies: ["Nomad: flank lock", "Capitao: post-plant denial"]
     counters: ["Roamers", "Defuser retakes"]
     countered_by: ["Twitch-like utility clear", "Shooting stingers"]
     comp_notes: "Flank watch and post-plant denial."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Medium pick; A tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Nokk
+    aliases: ["Nøkk"]
     side: attack
     roles: [entry, anti_gadget]
     speed: 2
-    unique_gadget: "HEL device hides from cameras and silences footsteps."
-    gadget_options: ["Frag Grenade", "Hard Breach Charge"]
+    unique_gadget: "HEL device hides her from cameras and silences footsteps."
+    gadget_options: ["Hard Breach Charge", "Frag Grenade", "Impact EMP Grenade"]
+    primaries: ["FMG-9", "SIX12 SD", "PMR90A2"]
+    secondaries: ["5.7 USG", "D-50"]
+    gadget_details: "HEL reduces her noise and hides her image from drones, bulletproof cams and Evil Eyes while active."
+    pro_usage: ["Late-round flank through cams", "Hard Breach option as a backup breacher"]
+    hard_counters: ["Traps", "Sound cues", "Players watching cams that glitch"]
+    synergies: ["Any execute as a solo flanker"]
     counters: ["Cameras", "Pulse"]
     countered_by: ["Traps", "Sound"]
     comp_notes: "Flank fragger, best in solo play."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; C tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Amaru
     side: attack
@@ -246,49 +444,89 @@ operators:
     speed: 2
     unique_gadget: "Garra Hook to rappel fast into windows and hatches."
     gadget_options: ["Stun Grenade", "Hard Breach Charge"]
+    primaries: ["G8A1", "SuperNova"]
+    secondaries: ["Gonne-6", "SMG-11", "ITA12S"]
+    gadget_details: "Garra Hook pulls her onto ledges, windows and up open hatches; a timed hook through a window does a Garra Kick that kills the defender behind it."
+    pro_usage: ["Fast hatch climbs into site", "Surprise window entries"]
+    hard_counters: ["Barbed wire and traps on landing", "Defenders holding the hatch"]
+    synergies: ["Hibana: opens hatches for her"]
     counters: ["Hatch holds", "Window anchors"]
     countered_by: ["Barbed wire", "Traps"]
     comp_notes: "Fast vertical entry for surprise plays."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; C tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Kali
     side: attack
     roles: [anti_gadget, map_control]
     speed: 2
     unique_gadget: "LV Explosive Lance that destroys gadgets behind walls."
-    gadget_options: ["Claymore", "Breach Charge"]
+    gadget_options: ["Breach Charge", "Claymore", "Smoke Grenade"]
+    primaries: ["CSRX 300"]
+    secondaries: ["SPSMG9", "C75 Auto", "P226 Mk 25"]
+    gadget_details: "Underbarrel LV Lance lodges in walls and destroys gadgets on the far side. Y11S3: CSRX 3.5x/8x scopes, 0.8 s bolt, 51 rounds; switching to lance keeps ADS."
+    pro_usage: ["Lances Bandit/Kaid on the breach wall from range", "Long-range bolt picks on windows", "SPSMG9 (35 dmg) for close fights"]
+    hard_counters: ["Roamers at close range", "Wamai catches lances"]
+    synergies: ["Thermite/Hibana: clears anti-breach", "Thatcher: redundancy on the wall"]
     counters: ["Bandit", "Kaid", "Mute"]
     countered_by: ["Roamers", "Close ranges"]
-    comp_notes: "Anti-gadget and long-range picks."
+    comp_notes: "Anti-gadget and long-range picks. CSRX buffed in Y11S3."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low-medium pick; B tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Iana
     side: attack
     roles: [intel]
     speed: 2
     unique_gadget: "Gemini Replicator hologram for safe intel."
-    gadget_options: ["Frag Grenade", "Smoke Grenade"]
+    gadget_options: ["Impact EMP Grenade", "Smoke Grenade"]
+    primaries: ["ARX200", "G36C"]
+    secondaries: ["Gonne-6", "Mk1 9mm"]
+    gadget_details: "Timed hologram copy that moves and makes her sounds but cannot shoot; cooldown is longer if it is destroyed."
+    pro_usage: ["Clears angles before a peek", "Baits defender shots for location", "Impact EMP to kill electronics before the execute"]
+    hard_counters: ["Mute jammers", "Patient defenders who ignore the clone"]
+    synergies: ["Any entry fragger following the clone"]
     counters: ["Angle holds", "Shields"]
     countered_by: ["Mute", "Patience"]
     comp_notes: "Safe info pick for executes."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; B tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Ace
     side: attack
     roles: [hard_breacher]
-    speed: 1
+    speed: 2
     unique_gadget: "S.E.L.M.A. aqua breacher that opens reinforced walls."
-    gadget_options: ["Breach Charge", "Claymore"]
+    gadget_options: ["Stun Grenade", "Claymore"]
+    primaries: ["AK-12", "M1014"]
+    secondaries: ["P9"]
+    gadget_details: "Thrown S.E.L.M.A. sticks and expands; on walls it can detonate up to twice as it rolls down, on hatches/floors once. Can be thrown from range and destroyed by shots or shock."
+    pro_usage: ["Throws S.E.L.M.A. onto the wall from cover after anti-breach is down", "Opens two walls with one charge on stacked reinforcements", "Pairs with Thermite for two breach lines"]
+    hard_counters: ["Kaid/Bandit shock", "Mute jams it", "Goyo/Noor fire on the wall"]
+    synergies: ["Thatcher: clears anti-breach", "Thermite: double hard breach"]
     counters: ["Reinforced walls"]
     countered_by: ["Bandit", "Kaid", "Mute", "Goyo"]
     comp_notes: "Throwable hard breach, very flexible."
-    ban_value: medium
+    ban_reason: "Self-sufficient safe breach; ~44% ban rate per timesaver.gg citing Ubisoft Y11S3 data. Pro bans lower (~9-11% Kickoff 2026, siege.gg)."
+    pick_rate_note: "High pick; S tier on timesaver.gg Y11S3.2."
+    ban_value: high
   - name: Zero
     side: attack
     roles: [intel, anti_gadget]
-    speed: 3
+    speed: 2
     unique_gadget: "Argus cameras shot into walls."
     gadget_options: ["Hard Breach Charge", "Claymore"]
+    primaries: ["MP7", "SC3000K"]
+    secondaries: ["5.7 USG", "Gonne-6"]
+    gadget_details: "Argus launcher embeds cameras into walls that see both sides and can fire a single laser to destroy a gadget."
+    pro_usage: ["Argus into site walls for plant intel", "Laser a Mute jammer or Bandit battery", "Hard Breach carrier"]
+    hard_counters: ["Mute jams them", "Defenders shooting the camera"]
+    synergies: ["Thermite: intel and anti-gadget for the wall", "Maverick"]
     counters: ["Shields", "Roamers"]
     countered_by: ["Mute", "Shooting cameras"]
     comp_notes: "Intel and anti-gadget support."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Medium pick; A tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Flores
     side: attack
@@ -296,39 +534,71 @@ operators:
     speed: 2
     unique_gadget: "RCE-Ratero drones that explode on gadgets."
     gadget_options: ["Stun Grenade", "Claymore"]
+    primaries: ["AR33", "SR-25", "T-95 LSW"]
+    secondaries: ["GSh-18"]
+    gadget_details: "Remote charges that drive, attach to a surface, armor up and explode, destroying nearby gadgets and soft surfaces."
+    pro_usage: ["Clears Azami barriers, shields and traps on plant spot", "Opens soft walls quietly before the execute"]
+    hard_counters: ["Jager/Wamai", "Mute jams the drone"]
+    synergies: ["Montagne: clears plant spot for the shield"]
     counters: ["Azami", "Thorn", "Fenrir", "Castle"]
     countered_by: ["Jager", "Wamai", "Mute"]
     comp_notes: "Clears deployables and traps."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; B tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Osa
     side: attack
     roles: [support]
-    speed: 1
+    speed: 2
     unique_gadget: "TALON-8 clear shield for windows and doors."
-    gadget_options: ["Smoke Grenade", "Claymore"]
+    gadget_options: ["Claymore", "Frag Grenade", "Impact EMP Grenade"]
+    primaries: ["556xi", "PDW9"]
+    secondaries: ["PMM"]
+    gadget_details: "Transparent bulletproof shield carried or placed on floors and window frames; deployment restrictions reduced in Y11S3.2."
+    pro_usage: ["Shield on a window for safe peeks", "Shield on plant spot for cover"]
+    hard_counters: ["Noor: lances pierce shields", "Explosives"]
+    synergies: ["Thatcher: covered entry"]
     counters: ["Long holds", "Spawn peeks"]
     countered_by: ["Noor", "Explosives"]
-    comp_notes: "Cover for plants and entries. Easier placement since Y11S3."
+    comp_notes: "Cover for plants and entries. Easier placement since Y11S3.2."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; B tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Sens
     side: attack
     roles: [support, crowd_control]
     speed: 3
     unique_gadget: "R.O.U. projector walls that block sight."
-    gadget_options: ["Claymore", "Hard Breach Charge"]
+    gadget_options: ["Claymore", "Frag Grenade", "Hard Breach Charge"]
+    primaries: ["417", "POF9", "XK23"]
+    secondaries: ["SDP 9mm"]
+    gadget_details: "R.O.U. rolls along the floor and projects a wall of light that blocks sight but not bullets."
+    pro_usage: ["Blocks Maestro and anchor sightlines during plant", "Covers crossing doors on site take"]
+    hard_counters: ["Warden-style smoke counters", "Destroying the device"]
+    synergies: ["Montagne/Osa: plant cover"]
     counters: ["Maestro", "Anchors on long lines"]
     countered_by: ["Smoke", "Thunderbird"]
     comp_notes: "Plant cover against camera denial."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; B tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Grim
     side: attack
     roles: [intel, crowd_control]
     speed: 3
     unique_gadget: "Kawan Hive launcher with bees that ping defenders."
-    gadget_options: ["Claymore", "Breach Charge"]
+    gadget_options: ["Claymore", "Hard Breach Charge", "Impact EMP Grenade"]
+    primaries: ["552 Commando", "SG-CQB"]
+    secondaries: ["Bailiff 410", "P229"]
+    gadget_details: "Launcher releases a swarm that pings defenders who walk through it."
+    pro_usage: ["Bees on defuser after plant", "Bees in flank hallways for intel"]
+    hard_counters: ["Vigil", "Patient play"]
+    synergies: ["Nomad/Gridlock: post-plant layering"]
     counters: ["Anchors", "Roamers"]
     countered_by: ["Vigil", "Patient play"]
     comp_notes: "Intel and denial for executes."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Medium pick; A tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Brava
     side: attack
@@ -336,19 +606,35 @@ operators:
     speed: 3
     unique_gadget: "Kludge drone that hijacks defender gadgets."
     gadget_options: ["Smoke Grenade", "Claymore"]
+    primaries: ["PARA-308", "CAMRS"]
+    secondaries: ["USP40", "Super Shorty"]
+    gadget_details: "Kludge drone takes over defender devices or destroys those it cannot control; can kill Clash's taser battery."
+    pro_usage: ["Hijacks Kaid claws for a clean breach", "Turns Valkyrie or Maestro cams", "Breaks Clash tasers"]
+    hard_counters: ["Mute jams the drone", "Jager"]
+    synergies: ["Thermite: gadget clear on wall"]
     counters: ["Valkyrie", "Maestro", "Bandit", "Clash"]
     countered_by: ["Mute", "Jager"]
     comp_notes: "Turns defender gadgets against them."
-    ban_value: medium
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; B tier on timesaver.gg Y11S3.2."
+    ban_value: low
   - name: Ram
     side: attack
     roles: [soft_breacher]
     speed: 1
     unique_gadget: "BU-GI auto breacher that tears through floors."
-    gadget_options: ["Stun Grenade", "Smoke Grenade"]
+    gadget_options: ["Smoke Grenade", "Stun Grenade"]
+    primaries: ["LMG-E", "R4-C"]
+    secondaries: ["Mk1 9mm"]
+    gadget_details: "Deployable BU-GI drives a set path, breaking every soft surface and device it passes; since Y11S3.2 Barbed Wire stops and self-destructs it."
+    pro_usage: ["Deletes floors above site", "Clears site gadgets fast before plant"]
+    hard_counters: ["Barbed Wire stops BU-GI (Y11S3.2)", "Reinforced floors"]
+    synergies: ["Sledge/Buck: vertical stack"]
     counters: ["Soft floors", "Floor anchors"]
     countered_by: ["Reinforcements", "Barbed wire stops it", "Fenrir"]
-    comp_notes: "Fast vertical openings."
+    comp_notes: "Fast vertical openings. Weaker after the Barbed Wire change."
+    ban_reason: "~22% ban rate per timesaver.gg citing Ubisoft data."
+    pick_rate_note: "Medium pick; A tier on timesaver.gg Y11S3.2."
     ban_value: medium
   - name: Deimos
     side: attack
@@ -356,19 +642,35 @@ operators:
     speed: 2
     unique_gadget: "DeathMark Tracker that hunts one defender."
     gadget_options: ["Frag Grenade", "Hard Breach Charge"]
+    primaries: ["AK-74M", "M590A1"]
+    secondaries: [".44 Vendetta"]
+    gadget_details: "Flying probe marks one defender and reveals their position, but also reveals Deimos to them; only the .44 Vendetta can be used while tracking."
+    pro_usage: ["Marks the last anchor late round", "Hunts a flank roamer"]
+    hard_counters: ["Patience; defenders who hold an angle on him"]
+    synergies: ["Lion/Jackal: layered intel"]
     counters: ["Roamers", "Last defenders"]
     countered_by: ["Patience", "Holds that hide"]
     comp_notes: "Late round hunter."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Medium pick; A tier on timesaver.gg Y11S3.2."
     ban_value: medium
   - name: Striker
     side: attack
     roles: [support]
     speed: 2
     unique_gadget: "None; can pick any attacker secondary gadget."
-    gadget_options: ["Any attacker secondary gadget"]
+    gadget_options: ["Breach Charge", "Claymore", "Frag Grenade", "Hard Breach Charge", "Smoke Grenade", "Stun Grenade", "Impact EMP Grenade"]
+    primaries: ["M4", "M249", "SR-25"]
+    secondaries: ["5.7 USG", "ITA12S"]
+    gadget_details: "No unique gadget; access to every attacker secondary gadget, so he can carry a Hard Breach Charge as a backup breach."
+    pro_usage: ["Fill pick with Hard Breach Charge when breachers are banned"]
+    hard_counters: []
+    synergies: ["Any comp missing a gadget"]
     counters: []
     countered_by: []
     comp_notes: "Recruit-style fill pick when ops are banned."
+    ban_reason: "Never banned."
+    pick_rate_note: "Low pick; B tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Rauora
     side: attack
@@ -376,40 +678,73 @@ operators:
     speed: 2
     unique_gadget: "D.O.M. panel launcher that blocks doorways with bulletproof panels."
     gadget_options: ["Smoke Grenade", "Breach Charge"]
+    primaries: ["417", "M249", "XK23"]
+    secondaries: ["Reaper MK2", "GSh-18"]
+    gadget_details: "Fires bulletproof panels into doorways from range; a trigger at the top lets the panel be opened or closed."
+    pro_usage: ["Blocks rotation doors during plant", "Panels flank doors in post-plant"]
+    hard_counters: ["Noor: lances pierce panels", "Explosives"]
+    synergies: ["Nomad/Gridlock: flank lock"]
     counters: ["Rotations", "Retakes"]
     countered_by: ["Noor", "Explosives"]
     comp_notes: "Blocks site doors during plants."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; B tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Solid Snake
+    aliases: ["Snake"]
     side: attack
     roles: [intel, roamer]
     speed: 3
-    unique_gadget: "Soliton Radar MK III: shows nearby layout and defenders; precision mode charges limited."
-    gadget_options: ["On-Site Procurement: collects secondary gadgets from downed operators"]
+    unique_gadget: "Soliton Radar MK III: minimap of nearby hostiles; precision mode pinpoints them but alerts the target."
+    gadget_options: ["Frag Grenade", "Stun Grenade", "Impact EMP Grenade", "Smoke Grenade", "Breach Charge"]
+    primaries: ["F2", "PMR90A2"]
+    secondaries: ["TACIT .45"]
+    gadget_details: "Radar shows nearby defenders on a minimap; precision mode charges cut 4 to 3 in Y11S3.2. He can also scavenge gadgets from downed operators."
+    pro_usage: ["Clears roamers with radar before the execute", "Precision pings on the last anchor", "Scavenges gadgets late round"]
+    hard_counters: ["Mute jammers", "Vigil", "Alibi"]
+    synergies: ["Lion/Jackal: layered intel"]
     counters: ["Roamers", "Anchors"]
     countered_by: ["Mute jammers", "Vigil", "Alibi"]
-    comp_notes: "Infiltration and intel. Radar hides some camera gadgets."
-    ban_value: medium
+    comp_notes: "Infiltration and intel. Nerfed Y11S3.2."
+    ban_reason: "Most banned attacker this season (~58% per timesaver.gg citing Ubisoft data); strips roam-based defenses."
+    pick_rate_note: "High pick when open; S tier on timesaver.gg Y11S3.2."
+    ban_value: high
   # ---------------- DEFENDERS ----------------
   - name: Smoke
     side: defense
     roles: [anti_entry, crowd_control, anchor]
     speed: 2
     unique_gadget: "Remote gas canisters that deal damage over time in an area."
-    gadget_options: ["Barbed Wire", "Proximity Alarm"]
+    gadget_options: ["Barbed Wire", "Proximity Alarm", "Deployable Shield"]
+    primaries: ["M590A1", "FMG-9"]
+    secondaries: ["P226 Mk 25", "SMG-11"]
+    gadget_details: "Three remote gas grenades thrown and detonated on command; the cloud deals damage over time and blocks sight."
+    pro_usage: ["Holds gas for the defuser plant late round", "Gasses the hard breacher on the wall", "Pairs canisters with Fenrir or Goyo for layered denial"]
+    hard_counters: ["Finka cleanses", "Thatcher-free utility like frags and Fuze clearing the canisters"]
+    synergies: ["Fenrir: layered denial", "Mira: denies plants seen through the glass"]
     counters: ["Plants", "Defuser pickups", "Hard breachers on a wall", "Site pushes"]
-    countered_by: ["Finka", "Wamai-free utility like frags", "Twitch and Zofia clearing canisters"]
+    countered_by: ["Finka", "Frags", "Twitch and Zofia clearing canisters"]
     comp_notes: "Excellent plant denial and wall delay. Strong on Fortress and tight sites."
-    ban_value: low
+    ban_reason: "Top late-round plant denier; timesaver.gg calls him second most banned defender in ranked behind Mira."
+    pick_rate_note: "High pick; S tier on timesaver.gg Y11S3.2."
+    ban_value: high
   - name: Mute
     side: defense
     roles: [anti_gadget, anchor]
     speed: 2
     unique_gadget: "Signal disruptors that jam drones, breach gadgets and attacker electronics nearby."
     gadget_options: ["Bulletproof Camera", "Nitro Cell"]
+    primaries: ["MP5K", "M590A1"]
+    secondaries: ["P226 Mk 25", "SMG-11"]
+    gadget_details: "Four signal disruptors jam drones, remote breaches and attacker electronics nearby; since Y11S3 they also interrupt Dokkaebi uploads."
+    pro_usage: ["Jams the main breach wall and hatches", "Jams drone entries early", "Stops Dokkaebi uploads near site"]
+    hard_counters: ["Thatcher disruptor", "Twitch/Kali/Zofia destroy jammers"]
+    synergies: ["Bandit/Kaid: layered anti-breach", "Echo/Maestro: protect cams from drones"]
     counters: ["Drones", "Hibana", "Thermite charges", "Dokkaebi payload", "Solid Snake radar", "Brava"]
     countered_by: ["Thatcher", "Twitch", "Kali", "Zofia"]
     comp_notes: "Core anti-breach and anti-drone pick. Jam hatches and key walls."
+    ban_reason: "Rarely banned; usually a pick."
+    pick_rate_note: "High pick; S tier on timesaver.gg Y11S3.2."
     ban_value: medium
   - name: Castle
     side: defense
@@ -417,19 +752,35 @@ operators:
     speed: 2
     unique_gadget: "Armor panels that make doors and windows bulletproof barriers."
     gadget_options: ["Proximity Alarm", "Bulletproof Camera"]
+    primaries: ["UMP45", "M1014"]
+    secondaries: ["5.7 USG", "Super Shorty", "M45 MEUSOC"]
+    gadget_details: "Three UTP1 Armor Panels reinforce doors and windows; they take many melee hits and require explosives to remove."
+    pro_usage: ["Panels on site doors and windows to force hard breach", "Shapes rotations for anchors"]
+    hard_counters: ["Hard breachers", "Flores", "Fuze"]
+    synergies: ["Bandit/Kaid: shock the walls", "Noor: lances through his panels"]
     counters: ["Easy door entries", "Fast rotations by attackers"]
     countered_by: ["Hard breachers", "Flores", "Fuze"]
     comp_notes: "Shapes entries and forces breach usage. Good for basement bunkers."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; B tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Pulse
     side: defense
     roles: [intel, roamer]
     speed: 3
     unique_gadget: "Cardiac sensor that detects nearby heartbeats through walls and floors."
-    gadget_options: ["Nitro Cell", "Barbed Wire"]
+    gadget_options: ["Nitro Cell", "Deployable Shield", "Observation Blocker"]
+    primaries: ["UMP45", "M1014"]
+    secondaries: ["5.7 USG", "M45 MEUSOC", "Reaper MK2"]
+    gadget_details: "HB-5 sensor detects heartbeats through walls and floors at short range."
+    pro_usage: ["Finds planters below and nitro-cells them", "Tracks attackers on the floor above"]
+    hard_counters: ["Nokk", "Vertical attackers with good info"]
+    synergies: ["Vigil/Caveira: roam info"]
     counters: ["Planters below or above", "Hidden attackers"]
     countered_by: ["Nokk", "Vertical attackers with good info"]
     comp_notes: "Great for vertical kills with nitro or shotgun through floors."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Medium pick; A tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Doc
     side: defense
@@ -437,49 +788,90 @@ operators:
     speed: 1
     unique_gadget: "Stim pistol that heals, overheals and revives teammates."
     gadget_options: ["Bulletproof Camera", "Barbed Wire"]
+    primaries: ["MP5", "P90", "SG-CQB"]
+    secondaries: ["P9", "LFP586", "Bailiff 410"]
+    gadget_details: "Stim pistol shots heal and overheal teammates or himself and can revive downed players."
+    pro_usage: ["Overheals the team during prep", "Anchors with self-heal"]
+    hard_counters: ["Burst damage and headshots"]
+    synergies: ["Rook: stacking HP", "Aggressive roamers"]
     counters: ["Chip damage", "Lesion poison", "Fire"]
     countered_by: ["Burst damage and headshots"]
     comp_notes: "Anchor sustain. Pick when your team trades often."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low-medium pick; B tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Rook
     side: defense
     roles: [support, anchor]
     speed: 1
     unique_gadget: "Armor pack giving teammates extra armor and down protection."
-    gadget_options: ["Proximity Alarm", "Impact Grenade"]
+    gadget_options: ["Proximity Alarm", "Impact Grenade", "Nitro Cell"]
+    primaries: ["MP5", "P90", "SG-CQB"]
+    secondaries: ["Reaper MK2", "P9", "LFP586"]
+    gadget_details: "Drops a pack of armor plates; each teammate takes one for bonus armor."
+    pro_usage: ["Drop plates early in prep", "Easy team value in solo queue"]
+    hard_counters: ["Headshots", "Explosives"]
+    synergies: ["Doc: stacking HP"]
     counters: ["Body-shot damage"]
     countered_by: ["Headshots", "Explosives"]
     comp_notes: "Easy team value. Drop plates early in prep."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Medium pick; A tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Kapkan
     side: defense
     roles: [trapper]
     speed: 2
     unique_gadget: "Entry denial devices on doorways and windows that explode when crossed."
-    gadget_options: ["Barbed Wire", "Impact Grenade"]
+    gadget_options: ["Barbed Wire", "Bulletproof Camera"]
+    primaries: ["9x19VSN", "SASG-12"]
+    secondaries: ["PMM", "GSh-18"]
+    gadget_details: "Five EDD traps on doors and windows; damage raised to 62 in Y11S3."
+    pro_usage: ["Traps flank doors", "Traps site windows"]
+    hard_counters: ["IQ", "Twitch", "Careful droning"]
+    synergies: ["Mira: traps reinforce glass sightlines"]
     counters: ["Fast entries", "Unscouted pushes"]
     countered_by: ["IQ", "Twitch", "Careful droning", "Shooting the device"]
     comp_notes: "Trap pick for flank routes and main entries."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Medium pick; A tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Tachanka
     side: defense
     roles: [anti_entry, crowd_control]
     speed: 1
     unique_gadget: "Shumikha launcher firing fire grenades; impact or bounce mode since Y11S3.2."
-    gadget_options: ["Barbed Wire", "Proximity Alarm"]
+    gadget_options: ["Barbed Wire", "Proximity Alarm", "Deployable Shield"]
+    primaries: ["DP27", "9x19VSN"]
+    secondaries: ["PMM", "GSh-18", "Bearing 9"]
+    gadget_details: "Shumikha holds 7 of 10 incendiary grenades; Y11S3.2 added an impact mode beside bounce. Fire now deals 14 hp ticks."
+    pro_usage: ["Impact fire on plant spot", "Bounces fire through doorways", "Denies wall breachers"]
+    hard_counters: ["Finka", "Flank pressure"]
+    synergies: ["Smoke: layered denial", "Goyo: fire stacking"]
     counters: ["Plants", "Doorway pushes", "Shields"]
-    countered_by: ["Finka", "Wamai-proof timing", "Flank pressure"]
-    comp_notes: "Area denial for plants and chokes. Bounce mode passes thin glass and paper."
+    countered_by: ["Finka", "Flank pressure"]
+    comp_notes: "Area denial for plants and chokes."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Medium pick; A tier on timesaver.gg Y11S3.2 after the impact mode."
     ban_value: low
   - name: Jager
+    aliases: ["Jäger"]
     side: defense
     roles: [anti_gadget, roamer]
     speed: 3
     unique_gadget: "Active Defense System that intercepts thrown projectiles."
-    gadget_options: ["Bulletproof Camera", "Barbed Wire"]
+    gadget_options: ["Bulletproof Camera", "Observation Blocker"]
+    primaries: ["M870", "416-C Carbine"]
+    secondaries: ["P12", "P-10C"]
+    gadget_details: "Three ADS devices automatically destroy thrown projectiles nearby."
+    pro_usage: ["ADS covers cams and anchors", "ADS on breach walls vs pellets"]
+    hard_counters: ["Thatcher", "Twitch", "Flores"]
+    synergies: ["Maestro: protect cams", "Smoke: protect canisters"]
     counters: ["Flashes", "Frags", "Zofia", "Capitao bolts", "EMP grenades"]
     countered_by: ["Thatcher", "Twitch", "Flores"]
     comp_notes: "Protects cameras and anchors from grenades. Strong all-round pick."
+    ban_reason: "Recommended ban vs utility-heavy executes per timesaver.gg Y11S3."
+    pick_rate_note: "High pick; S tier on timesaver.gg Y11S3.2."
     ban_value: medium
   - name: Bandit
     side: defense
@@ -487,9 +879,17 @@ operators:
     speed: 3
     unique_gadget: "Shock wire batteries that electrify reinforced walls and barbed wire."
     gadget_options: ["Barbed Wire", "Nitro Cell"]
+    primaries: ["MP7", "M870"]
+    secondaries: ["P12", "Keratos .357"]
+    gadget_details: "Shock wires electrify reinforced walls, barbed wire and metal gadgets, destroying breach charges."
+    pro_usage: ["Battery tricking on the main wall", "Roams after placing batteries"]
+    hard_counters: ["Thatcher", "Kali", "Twitch", "Brava"]
+    synergies: ["Kaid/Mute: layered anti-breach"]
     counters: ["Thermite", "Hibana", "Ace", "Maverick charges on walls"]
     countered_by: ["Thatcher", "Kali", "Twitch", "Brava"]
     comp_notes: "Wall denial with battery tricking. Pairs with Kaid and Mute."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Medium pick; A tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Frost
     side: defense
@@ -497,9 +897,17 @@ operators:
     speed: 2
     unique_gadget: "Welcome Mat traps that down attackers who step in."
     gadget_options: ["Bulletproof Camera", "Deployable Shield"]
+    primaries: ["Super 90", "9mm C1"]
+    secondaries: ["Mk1 9mm", "ITA12S"]
+    gadget_details: "Welcome Mats lock attackers who step on them; they can free themselves."
+    pro_usage: ["Traps hatch landings", "Traps window vaults"]
+    hard_counters: ["IQ", "Droning"]
+    synergies: ["Mira", "Kapkan"]
     counters: ["Fast entries", "Window vaults", "Hatch drops"]
     countered_by: ["IQ", "Droning", "Shooting mats"]
     comp_notes: "Trap windows and hatch landings."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; B tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Valkyrie
     side: defense
@@ -507,29 +915,53 @@ operators:
     speed: 2
     unique_gadget: "Black Eye sticky cameras for extra intel."
     gadget_options: ["Impact Grenade", "Nitro Cell"]
+    primaries: ["MPX", "SPAS-12"]
+    secondaries: ["D-50", "Glaive-12"]
+    gadget_details: "Black Eye sticky cameras; Glaive-12 secondary added in Y11S3.2 to open camera sightlines."
+    pro_usage: ["Cams high on site", "Opens sightlines with Glaive-12"]
+    hard_counters: ["Twitch", "Brava", "Thatcher"]
+    synergies: ["Anchors: feeds intel"]
     counters: ["Information gaps", "Plants out of default cam view"]
     countered_by: ["Twitch", "Brava", "Dokkaebi", "Thatcher"]
     comp_notes: "Feeds intel to anchors. Place cams high and hidden."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Medium pick; A tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Caveira
     side: defense
     roles: [roamer, intel]
     speed: 3
     unique_gadget: "Silent Step quiet movement and interrogation to reveal attackers."
-    gadget_options: ["Impact Grenade", "Proximity Alarm"]
+    gadget_options: ["Proximity Alarm", "Impact Grenade", "Observation Blocker"]
+    primaries: ["M12", "SPAS-15"]
+    secondaries: ["Luison"]
+    gadget_details: "Silent Step makes her quiet; interrogating a downed attacker reveals attackers."
+    pro_usage: ["Hunts solo flankers", "Interrogates for full-team intel"]
+    hard_counters: ["Jackal", "Nomad", "Gridlock"]
+    synergies: ["Vigil: roam pair"]
     counters: ["Isolated attackers", "Solo flankers"]
     countered_by: ["Jackal", "Nomad", "Gridlock", "Team play"]
     comp_notes: "High-skill roamer. Interrogations reveal the whole team."
+    ban_reason: "Rarely banned in pro play."
+    pick_rate_note: "Low-medium pick; B tier on timesaver.gg Y11S3.2."
     ban_value: medium
   - name: Echo
     side: defense
     roles: [intel, anti_entry]
-    speed: 2
+    speed: 1
     unique_gadget: "Yokai drones on ceilings that stun with sonic bursts."
     gadget_options: ["Impact Grenade", "Deployable Shield"]
+    primaries: ["MP5SD", "SuperNova"]
+    secondaries: ["Bearing 9", "P229"]
+    gadget_details: "Yokai drones cling to ceilings and fire sonic bursts; refill cut to 15 s in Y11S3."
+    pro_usage: ["Denies the plant with sonic bursts", "Hides drones high on site"]
+    hard_counters: ["Twitch", "Thatcher"]
+    synergies: ["Mute: protect drones"]
     counters: ["Planters", "Defuser pickups"]
     countered_by: ["Twitch", "Smoke grenades", "Thatcher"]
     comp_notes: "Plant denial and intel. Hide drones high on site."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Medium pick; A tier on timesaver.gg Y11S3.2."
     ban_value: medium
   - name: Mira
     side: defense
@@ -537,119 +969,215 @@ operators:
     speed: 1
     unique_gadget: "Black Mirror one-way bulletproof windows on walls and hatches."
     gadget_options: ["Proximity Alarm", "Nitro Cell"]
+    primaries: ["Vector .45 ACP", "ITA12L"]
+    secondaries: ["USP40", "ITA12S"]
+    gadget_details: "Black Mirror one-way windows; the canister ejects to open a hole and the glass breaks to melee."
+    pro_usage: ["Mirrors on site walls", "Mirror under hatches"]
+    hard_counters: ["Melee to break the glass", "Explosives on the canister"]
+    synergies: ["Kapkan: traps around the glass"]
     counters: ["Site entries", "Plants in view of windows"]
     countered_by: ["Melee to break the glass", "Explosives on the canister", "Sledge", "Ash"]
     comp_notes: "Strong site anchor. Glass now breaks to melee."
+    ban_reason: "Most banned defender (~89% per timesaver.gg citing Ubisoft data); pro ban 36-41% Kickoff 2026 per siege.gg."
+    pick_rate_note: "Very high pick when open; S tier on timesaver.gg Y11S3.2."
     ban_value: high
   - name: Lesion
     side: defense
     roles: [trapper, intel]
     speed: 2
     unique_gadget: "Gu mines that poison and reveal attackers who step on them."
-    gadget_options: ["Impact Grenade", "Bulletproof Camera"]
+    gadget_options: ["Observation Blocker", "Bulletproof Camera"]
+    primaries: ["SIX12 SD", "T-5 SMG"]
+    secondaries: ["Q-929"]
+    gadget_details: "Invisible Gu mines poison and reveal attackers who step on them."
+    pro_usage: ["Mines on flank routes", "Passive intel"]
+    hard_counters: ["IQ", "Finka", "Twitch"]
+    synergies: ["Roamers"]
     counters: ["Fast pushes", "Runners"]
     countered_by: ["IQ", "Finka", "Twitch"]
     comp_notes: "Passive intel and delay on flanks."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Medium pick; A tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Ela
     side: defense
     roles: [trapper, roamer]
-    speed: 2
+    speed: 3
     unique_gadget: "Grzmot mines that concuss attackers."
-    gadget_options: ["Barbed Wire", "Deployable Shield"]
+    gadget_options: ["Barbed Wire", "Deployable Shield", "Impact Grenade"]
+    primaries: ["Scorpion EVO 3 A1", "FO-12"]
+    secondaries: ["RG15"]
+    gadget_details: "Grzmot mines concuss attackers who trigger them."
+    pro_usage: ["Mines in roam chokes", "Aggressive roam"]
+    hard_counters: ["IQ", "Twitch"]
+    synergies: ["Vigil: roam pair"]
     counters: ["Fast entries", "Pushes into roam areas"]
     countered_by: ["IQ", "Twitch", "Shooting mines"]
     comp_notes: "Aggressive roamer with traps for chokes."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; C tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Vigil
     side: defense
     roles: [roamer]
     speed: 3
     unique_gadget: "ERC-7 that hides him from drones and cameras."
-    gadget_options: ["Impact Grenade", "Bulletproof Camera"]
+    gadget_options: ["Bulletproof Camera", "Impact Grenade"]
+    primaries: ["K1A", "BOSG.12.2"]
+    secondaries: ["C75 Auto", "SMG-12"]
+    gadget_details: "ERC-7 cloak hides him from drones and cameras."
+    pro_usage: ["Flank roam", "Hides from Snake radar and Lion"]
+    hard_counters: ["Jackal", "Nomad", "Gridlock"]
+    synergies: ["Caveira: roam pair"]
     counters: ["Drones", "Solid Snake radar", "Grim bees", "Lion"]
     countered_by: ["Jackal", "Nomad", "Gridlock"]
     comp_notes: "Flank roamer who wastes attacker intel time."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Medium pick; A tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Alibi
     side: defense
     roles: [intel, roamer]
     speed: 3
     unique_gadget: "Prisma holograms that ping attackers who shoot them."
-    gadget_options: ["Impact Grenade", "Proximity Alarm"]
+    gadget_options: ["Proximity Alarm", "Observation Blocker"]
+    primaries: ["Mx4 Storm", "ACS12"]
+    secondaries: ["Keratos .357", "Bailiff 410"]
+    gadget_details: "Prisma holograms ping attackers who shoot them."
+    pro_usage: ["Bait holograms on roam angles", "Prisma near plant spot"]
+    hard_counters: ["Drones", "Patience"]
+    synergies: ["Roamers"]
     counters: ["Trigger-happy attackers", "Snake radar"]
     countered_by: ["Drones", "Patience"]
     comp_notes: "Roam and bait with holograms."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; C tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Maestro
     side: defense
     roles: [intel, anti_entry]
     speed: 1
     unique_gadget: "Evil Eye bulletproof turrets that see and shoot lasers."
-    gadget_options: ["Barbed Wire", "Impact Grenade"]
+    gadget_options: ["Barbed Wire", "Impact Grenade", "Observation Blocker"]
+    primaries: ["ALDA 5.56", "ACS12"]
+    secondaries: ["Keratos .357", "Bailiff 410"]
+    gadget_details: "Evil Eye turrets are bulletproof when closed and see through smoke."
+    pro_usage: ["Cams on plant spot", "Lasers planters"]
+    hard_counters: ["Sens", "Brava", "Twitch"]
+    synergies: ["Jager/Mute: protect cams"]
     counters: ["Planters", "Shields", "Smokes on plant"]
     countered_by: ["Sens", "Brava", "Twitch", "Melee from above"]
     comp_notes: "Plant denial anchor. Protect cams with Jager or Mute."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low-medium pick; B tier on timesaver.gg Y11S3.2."
     ban_value: medium
   - name: Clash
     side: defense
     roles: [anti_entry, crowd_control]
     speed: 1
-    unique_gadget: "CCE Shield MK2: deployable shield with remote taser that slows and stuns."
-    gadget_options: ["Impact Grenade", "Barbed Wire"]
+    unique_gadget: "CCE Shield MK2: deployable shield with remote taser that slows."
+    gadget_options: ["Barbed Wire", "Impact Grenade"]
+    primaries: ["CCE Shield MK2"]
+    secondaries: ["P-10C", "SPSMG9", "Super Shorty"]
+    gadget_details: "Deployable shield with a remote taser that slows without damage; slow on retreat raised to 10% in Y11S3.2."
+    pro_usage: ["Plants shield at a choke and roams", "Tases planters"]
+    hard_counters: ["Explosives", "Melee bash", "Brava disabling taser"]
+    synergies: ["Noor: area denial"]
     counters: ["Fast entries", "Planters in hallways"]
     countered_by: ["Explosives", "Melee bash", "Brava disabling taser"]
     comp_notes: "Remastered Y10S2. Deploy the shield and roam; taser slows attackers more toward her."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Medium pick; A tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Kaid
     side: defense
     roles: [anti_gadget, anchor]
     speed: 1
     unique_gadget: "Rtila Electroclaws that electrify walls, hatches and metal gadgets."
-    gadget_options: ["Barbed Wire", "Nitro Cell"]
+    gadget_options: ["Barbed Wire", "Nitro Cell", "Observation Blocker"]
+    primaries: ["AUG A3", "TCSG12"]
+    secondaries: [".44 MAG SEMI-AUTO", "LFP586"]
+    gadget_details: "Two Electroclaws electrify metal within 0.75 m: walls, hatches, barbed wire and shields."
+    pro_usage: ["Claws on breach walls", "Claws on hatches"]
+    hard_counters: ["Thatcher", "Kali", "Twitch", "Brava"]
+    synergies: ["Bandit/Mute: layered anti-breach"]
     counters: ["Thermite", "Hibana", "Ace", "Hard breach on hatches"]
     countered_by: ["Thatcher", "Kali", "Twitch", "Brava"]
     comp_notes: "Wall and hatch denial. Pick on most sites."
-    ban_value: low
+    ban_reason: "Second most banned defender (~50% per timesaver.gg citing Ubisoft data)."
+    pick_rate_note: "High pick when open; S tier on timesaver.gg Y11S3.2."
+    ban_value: high
   - name: Mozzie
     side: defense
     roles: [anti_gadget, intel]
     speed: 2
     unique_gadget: "Pest launcher that hacks attacker drones."
-    gadget_options: ["Barbed Wire", "Nitro Cell"]
+    gadget_options: ["Barbed Wire", "Nitro Cell", "Impact Grenade"]
+    primaries: ["Commando 9", "P10 RONI"]
+    secondaries: ["SDP 9mm", "Super Shorty"]
+    gadget_details: "Pest launcher hacks attacker drones."
+    pro_usage: ["Steals drones", "Pests on entry points"]
+    hard_counters: ["Twitch", "Brava"]
+    synergies: ["Anchors"]
     counters: ["Drones", "Twitch", "Flores drones"]
     countered_by: ["Twitch", "Brava", "Shooting pests"]
     comp_notes: "Steal drones for free intel."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; B tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Warden
     side: defense
     roles: [anchor]
-    speed: 1
+    speed: 2
     unique_gadget: "Glance smart glasses that see through smoke and resist flashes."
-    gadget_options: ["Deployable Shield", "Nitro Cell"]
+    gadget_options: ["Deployable Shield", "Nitro Cell", "Observation Blocker"]
+    primaries: ["M590A1", "MPX"]
+    secondaries: ["P-10C", "SMG-12"]
+    gadget_details: "Glance glasses see through smoke while he stands still and cleanse flash."
+    pro_usage: ["Anchors smoke plants", "Counters flashes"]
+    hard_counters: ["Gunfights in open"]
+    synergies: ["Smoke"]
     counters: ["Smoke plants", "Flashes", "Ying", "Blitz"]
     countered_by: ["Gunfights in open", "Utility without smoke"]
     comp_notes: "Anti-smoke anchor."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; C tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Goyo
     side: defense
     roles: [anti_entry, anchor]
     speed: 2
     unique_gadget: "Volcan canisters on shields that explode into fire when shot."
-    gadget_options: ["Proximity Alarm", "Impact Grenade"]
+    gadget_options: ["Proximity Alarm", "Bulletproof Camera", "Impact Grenade"]
+    primaries: ["Vector .45 ACP", "TCSG12"]
+    secondaries: ["P229"]
+    gadget_details: "Volcan shields explode into fire when shot; fire 14 hp ticks since Y11S3.2."
+    pro_usage: ["Fire on breach walls", "Fire on plant spot"]
+    hard_counters: ["Flores", "Twitch", "Zofia"]
+    synergies: ["Smoke/Tachanka"]
     counters: ["Plants", "Breach walls", "Shields"]
     countered_by: ["Flores", "Twitch", "Zofia"]
     comp_notes: "Fire denial on walls and plant spots."
+    ban_reason: "Rarely banned (~2% per Ubisoft data cited by timesaver.gg)."
+    pick_rate_note: "Medium pick; A tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Wamai
     side: defense
     roles: [anti_gadget]
     speed: 2
     unique_gadget: "Mag-NET discs that catch and redirect thrown projectiles."
-    gadget_options: ["Impact Grenade", "Proximity Alarm"]
+    gadget_options: ["Deployable Shield", "Proximity Alarm", "Nitro Cell"]
+    primaries: ["AUG A2", "MP5K"]
+    secondaries: ["Super Shorty", "P12", "Keratos .357"]
+    gadget_details: "Mag-NET discs pull projectiles to them and detonate them."
+    pro_usage: ["Discs near breach walls", "Discs on site"]
+    hard_counters: ["Thatcher", "Twitch"]
+    synergies: ["Bandit/Kaid"]
     counters: ["Frags", "Flashes", "Hibana pellets", "Capitao bolts"]
     countered_by: ["Thatcher", "Twitch", "Solid aim"]
     comp_notes: "Anti-utility alternative to Jager."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; B tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Oryx
     side: defense
@@ -657,39 +1185,71 @@ operators:
     speed: 2
     unique_gadget: "Remah Dash that breaks soft walls and knocks down attackers; can climb hatches."
     gadget_options: ["Barbed Wire", "Proximity Alarm"]
+    primaries: ["SPAS-12", "T-5 SMG"]
+    secondaries: ["Bailiff 410", "Reaper MK2", "USP40"]
+    gadget_details: "Remah Dash breaks soft walls and knocks attackers; he loses health per breach."
+    pro_usage: ["Dash roams", "Hatch climbs"]
+    hard_counters: ["Gunfights", "Nomad airjabs"]
+    synergies: ["Roamers"]
     counters: ["Soft walls", "Unsuspecting attackers"]
     countered_by: ["Gunfights", "Nomad airjabs"]
     comp_notes: "Mobile roamer for vertical plays."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; C tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Melusi
     side: defense
     roles: [anti_entry, intel]
-    speed: 1
+    speed: 3
     unique_gadget: "Banshee sonic devices that slow and alert on attackers."
-    gadget_options: ["Impact Grenade", "Bulletproof Camera"]
+    gadget_options: ["Bulletproof Camera", "Impact Grenade"]
+    primaries: ["MP5", "Super 90"]
+    secondaries: ["ITA12S", "RG15"]
+    gadget_details: "Banshees slow attackers nearby and are bulletproof."
+    pro_usage: ["Banshee at entry chokes", "Banshee on plant spots"]
+    hard_counters: ["Flores", "Ash", "Explosives"]
+    synergies: ["Anchors"]
     counters: ["Entries", "Rushes"]
     countered_by: ["Flores", "Ash", "Explosives"]
     comp_notes: "Slows pushes and gives intel."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; B tier on timesaver.gg Y11S3.2."
     ban_value: medium
   - name: Aruni
     side: defense
     roles: [anti_entry]
-    speed: 1
+    speed: 2
     unique_gadget: "Surya gates laser barriers that block doors and hurt crossers."
-    gadget_options: ["Barbed Wire", "Bulletproof Camera"]
+    gadget_options: ["Bulletproof Camera", "Barbed Wire"]
+    primaries: ["P10 RONI", "Mk 14 EBR"]
+    secondaries: ["PRB92"]
+    gadget_details: "Surya gates block doors and burn those who cross."
+    pro_usage: ["Gates rotations", "Gates entries"]
+    hard_counters: ["Thatcher", "Impact EMP", "Brava"]
+    synergies: ["Anchors"]
     counters: ["Entries", "Rotations"]
     countered_by: ["Thatcher", "Impact EMP", "Brava"]
-    comp_notes: "Gate entries and rotations."
+    comp_notes: "Gate entries and rotations. MK14 nerfed and lost Muzzle Brake in Y11S3."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; C tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Thunderbird
     side: defense
     roles: [support]
     speed: 2
     unique_gadget: "Kona stations that heal defenders and revive."
-    gadget_options: ["Barbed Wire", "Bulletproof Camera"]
+    gadget_options: ["Barbed Wire", "Bulletproof Camera", "Deployable Shield"]
+    primaries: ["SPAS-15", "Spear .308"]
+    secondaries: ["Bearing 9", "Q-929", "ITA12S"]
+    gadget_details: "Kona stations heal and revive defenders near them."
+    pro_usage: ["Kona on site", "Sustain anchors"]
+    hard_counters: ["Burst damage", "Shooting stations"]
+    synergies: ["Anchors"]
     counters: ["Chip damage"]
     countered_by: ["Burst damage", "Shooting stations"]
     comp_notes: "Sustain for anchors."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; B tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Thorn
     side: defense
@@ -697,9 +1257,17 @@ operators:
     speed: 2
     unique_gadget: "Razorbloom shells that explode near attackers."
     gadget_options: ["Deployable Shield", "Barbed Wire"]
+    primaries: ["UZK50Gi", "M870"]
+    secondaries: ["1911 TACOPS", "C75 Auto"]
+    gadget_details: "Razorbloom shells detect nearby attackers and fire blades."
+    pro_usage: ["Shells on door entries", "Shells on plant spots"]
+    hard_counters: ["Flores", "Twitch"]
+    synergies: ["Mira"]
     counters: ["Entries", "Planters"]
     countered_by: ["Flores", "Twitch"]
     comp_notes: "Trap entries and plant spots."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "High pick; S tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Azami
     side: defense
@@ -707,59 +1275,109 @@ operators:
     speed: 2
     unique_gadget: "Kiba barriers that create bulletproof foam walls."
     gadget_options: ["Impact Grenade", "Barbed Wire"]
+    primaries: ["9X19SVN", "ACS12"]
+    secondaries: ["D-50"]
+    gadget_details: "Kiba barriers create bulletproof foam walls."
+    pro_usage: ["Patches holes", "Closes angles"]
+    hard_counters: ["Flores", "Explosives"]
+    synergies: ["Noor"]
     counters: ["Open angles", "Holes from vertical"]
     countered_by: ["Flores", "Noor-style piercing", "Explosives"]
     comp_notes: "Shapes angles and patches holes."
+    ban_reason: "Recommended ban per timesaver.gg Y11S3."
+    pick_rate_note: "High pick; S tier on timesaver.gg Y11S3.2."
     ban_value: medium
   - name: Solis
     side: defense
     roles: [intel]
     speed: 2
     unique_gadget: "SPEC-IO sensor that sees attacker electronics."
-    gadget_options: ["Impact Grenade", "Bulletproof Camera"]
+    gadget_options: ["Impact Grenade", "Proximity Alarm"]
+    primaries: ["ITA12L", "P90"]
+    secondaries: ["SMG-11"]
+    gadget_details: "SPEC-IO marks attacker electronics; sees Dokkaebi tablets during uploads."
+    pro_usage: ["Finds drones", "Spots Dokkaebi"]
+    hard_counters: ["Nokk"]
+    synergies: ["Mute"]
     counters: ["Drones", "Electronic gadgets"]
     countered_by: ["Mute-free attacks", "Nokk"]
     comp_notes: "Intel by tracking attacker gadgets."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; B tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Fenrir
     side: defense
     roles: [trapper]
     speed: 2
     unique_gadget: "F-NATT dread mines that release fear gas."
-    gadget_options: ["Bulletproof Camera", "Barbed Wire"]
+    gadget_options: ["Bulletproof Camera", "Observation Blocker"]
+    primaries: ["MP7", "SASG-12"]
+    secondaries: ["5.7 USG"]
+    gadget_details: "Five mines, three active at once, remotely triggered fear gas."
+    pro_usage: ["Mines on plant", "Mines on entries"]
+    hard_counters: ["Flores", "Twitch"]
+    synergies: ["Smoke"]
     counters: ["Entries", "Planters"]
     countered_by: ["Flores", "Twitch"]
     comp_notes: "Strong trapper. Pairs with Smoke."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "High pick; S tier on timesaver.gg Y11S3.2."
     ban_value: medium
   - name: Tubarao
+    aliases: ["Tubarão"]
     side: defense
     roles: [anti_gadget]
     speed: 2
     unique_gadget: "Zoto canisters that freeze and slow attacker gadgets and operators."
     gadget_options: ["Nitro Cell", "Proximity Alarm"]
+    primaries: ["MPX", "AR-15.50"]
+    secondaries: ["P226 Mk 25"]
+    gadget_details: "Zoto canisters freeze gadgets and slow attackers; can stop Dokkaebi uploads."
+    pro_usage: ["Freezes breach charges", "Stops Dokkaebi"]
+    hard_counters: ["Thatcher", "Twitch"]
+    synergies: ["Mute"]
     counters: ["Hard breach charges", "Dokkaebi payload"]
     countered_by: ["Thatcher", "Twitch"]
-    comp_notes: "Freezes breaches and can sever Dokkaebi payload."
+    comp_notes: "Freezes breaches and can sever Dokkaebi payload. AR-15.50 nerfed in Y11S3."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; B tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Sentry
     side: defense
     roles: [support]
     speed: 2
     unique_gadget: "None; can pick any defender secondary gadget."
-    gadget_options: ["Any defender secondary gadget"]
+    gadget_options: ["Barbed Wire", "Bulletproof Camera", "Deployable Shield", "Observation Blocker", "Impact Grenade", "Nitro Cell", "Proximity Alarm"]
+    primaries: ["Commando 9", "M870", "TCSG12"]
+    secondaries: ["C75 Auto", "Super Shorty"]
+    gadget_details: "No unique gadget; access to all defender secondary gadgets."
+    pro_usage: ["Fill pick when key ops are banned"]
+    hard_counters: []
+    synergies: ["Any comp missing a gadget"]
     counters: []
     countered_by: []
     comp_notes: "Recruit-style fill pick when ops are banned."
+    ban_reason: "Never banned."
+    pick_rate_note: "Low pick; C tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Skopos
+    aliases: ["Skopós"]
     side: defense
     roles: [intel, roamer]
     speed: 3
     unique_gadget: "V10 Pantheon shells: two robotic bodies she switches between."
     gadget_options: ["Impact Grenade", "Proximity Alarm"]
+    primaries: ["PCX-33"]
+    secondaries: ["P229"]
+    gadget_details: "Two shells; she controls one at a time; losing one loses both."
+    pro_usage: ["Holds two angles", "Shell intel"]
+    hard_counters: ["Twitch", "Explosives"]
+    synergies: ["Anchors"]
     counters: ["Drones", "Intel denial"]
     countered_by: ["Twitch", "Explosives"]
     comp_notes: "Hold two angles with two bodies."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "Low pick; C tier on timesaver.gg Y11S3.2."
     ban_value: low
   - name: Denari
     side: defense
@@ -767,9 +1385,17 @@ operators:
     speed: 3
     unique_gadget: "T.R.I.P. connector devices linked by lasers that slow and injure."
     gadget_options: ["Observation Blocker", "Deployable Shield"]
+    primaries: ["Scorpion EVO 3 A1", "FMG-9"]
+    secondaries: ["Glaive-12", "P226 Mk 25"]
+    gadget_details: "Devices in line of sight link with lasers that slow and injure."
+    pro_usage: ["Laser webs on stairs", "Laser webs on doors"]
+    hard_counters: ["Flores", "Twitch"]
+    synergies: ["Anchors"]
     counters: ["Entries", "Stair pushes"]
     countered_by: ["Flores", "Twitch", "Shooting devices"]
     comp_notes: "Laser webs on stairs and doors. More devices make a bigger web."
+    ban_reason: "Rarely banned."
+    pick_rate_note: "High pick; S tier on timesaver.gg Y11S3.2."
     ban_value: medium
   - name: Noor
     side: defense
@@ -777,7 +1403,15 @@ operators:
     speed: 2
     unique_gadget: "Horus Lance launcher: five lances that pierce shields and surfaces, then burst into flame."
     gadget_options: ["Deployable Shield", "Barbed Wire"]
+    primaries: ["Commando 9", "ALDA 5.56"]
+    secondaries: ["1911 TACOPS", "Bailiff 410"]
+    gadget_details: "Five lances pierce shields and soft surfaces then vent fire. Y11S3.2: 1.5 s drill, 80 impact damage, full shield guardbreak, 0.4 s equip."
+    pro_usage: ["Lances through walls at shield pushes", "Fire on plant spots", "Lances from Azami or Castle surfaces"]
+    hard_counters: ["Flank pressure", "Non-shield executes"]
+    synergies: ["Azami: lance surfaces", "Castle: lance surfaces"]
     counters: ["Shield attackers", "Montagne", "Blitz", "Osa", "Rauora panels"]
     countered_by: ["Flank pressure", "Non-shield executes", "Fast hard breach"]
-    comp_notes: "Anti-shield and area denial. Buffed Y11S3.2: 80 impact damage and full guardbreak on shields."
+    comp_notes: "Anti-shield and area denial. Buffed Y11S3.2."
+    ban_reason: "New this season; recommended ban vs shield attacks per timesaver.gg."
+    pick_rate_note: "Medium-high pick; top of A tier on timesaver.gg Y11S3.2."
     ban_value: medium

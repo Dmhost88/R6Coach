@@ -27,7 +27,9 @@ from r6coach.memory import MatchMemory  # noqa: E402
 from r6coach.models import GameState, Screen  # noqa: E402
 
 JUDGE = """You are grading a Rainbow Six Siege voice coach's advice for a high-ranked player. You are \
-strict, like a tier-1 coach reviewing an analyst. You have the map dossier and operator database. \
+strict, like a tier-1 coach reviewing an analyst. You have the map dossier and the CURRENT operator \
+database: kits have been reworked recently (e.g. Thatcher's E.G.S. Disruptor), so judge gadget claims \
+against the database, not your memory of older seasons. \
 Score each criterion 1-5 (5 = excellent):
 - specificity: every line names exact walls (by the rooms they separate), hatches (room + room below), \
 angles, timings or operator interactions. 1 = generic advice that fits any map.
@@ -154,10 +156,11 @@ def run(label: str) -> None:
         lines = out.lines if out else []
         grade = None
         if lines:
-            prompt = (f"Scenario: {name}. State: {s.summary()}\n{coach._memory()}\n\n"
+            killer = " The player was just killed by Enemy_E (from the killfeed)." if kind == "death" else ""
+            prompt = (f"Scenario: {name}. State: {s.summary()}.{killer}\n{coach._memory()}\n\n"
                       "Coach said:\n" + "\n".join(f"- {ln}" for ln in lines))
             grade = claude._parse(model="claude-opus-5-5", effort="medium",
-                                  system=[JUDGE, kb.map_dossier(s.map)],
+                                  system=[JUDGE, kb.operators_dossier(), kb.map_dossier(s.map)],
                                   content=[{"type": "text", "text": prompt}], schema=Grade, purpose="judge")
         total += claude.total_cost
         row = {"scenario": name, "seconds": round(secs, 1), "lines": lines,

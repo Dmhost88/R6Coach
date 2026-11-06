@@ -60,6 +60,17 @@ avoid its angle).
 one thing that beats it.
 - Prefer one sharp insight over a full plan. Most important line first.
 
+Reasoning discipline (accuracy matters more than sounding smart):
+- Check every gadget interaction against the OPERATOR DATABASE before you say it: what a gadget \
+does, what counters it, and what it can or cannot jam, destroy or slow. If the database doesn't \
+support the claim, don't make it.
+- Plan around enemy operators that were actually seen this match, plus ones that are common on \
+this site. Don't build a plan around an operator nobody has shown.
+- Never state an inference as a fact. "Ela has been on their team every round" is a fact; \
+"Ela usually roams Big Tower here" is an inference and must say "usually" or "likely".
+- When there is match history, at least one line must use it (the score situation, a repeated \
+death, what the enemy keeps running) and say what to do differently because of it.
+
 Locations must be exact. "The main wall", "site walls", "the hatch" or "Laundry walls" are not \
 locations:
 - Name every wall by the two rooms it separates, or by the room and the side it faces: "the wall \
@@ -350,10 +361,12 @@ class Coach:
             f"{self._focus(s)}\n"
             f"{self.profile.map_record(s.map)}\n"
             "Pick the operator from the player's pool that fills what this team composition is missing for "
-            "this site and counters what the enemy has shown (set recommended_operator). Then give the one "
-            "loadout or gadget choice that matters and why, and the role they should play with it."
+            "this site and counters what the enemy has shown (set recommended_operator). Then give their "
+            "concrete job on the most likely site: the exact wall to breach or gadget placement, in what "
+            "order, and the one loadout choice that matters."
         )
-        return self._ask("operator_select", prompt, image=True, map_name=s.map)
+        return self._ask("operator_select", prompt, image=True, map_name=s.map,
+                         deep=self.cfg.coach.deep_pick)
 
     def _advise_death(self, s: GameState, killer: Optional[str]) -> Optional[CoachLines]:
         prompt = (
@@ -391,13 +404,16 @@ class Coach:
         if s.side == "defense":
             reinf = (f" The team has {s.team_reinforcements} reinforcements left."
                      if s.team_reinforcements is not None else "")
-            task = (f"PREP PHASE on defense, player is {me}. Give this round's specific job: the exact walls or "
-                    "hatches to reinforce or open, exactly where their gadget goes and why, and where to be "
-                    f"when action starts (anchor angle or roam path, with the timing to rotate).{reinf}")
+            task = (f"PREP PHASE on defense, player is {me}. Give this round's specific job IN TIME ORDER, one "
+                    "step per line: the exact walls or hatches to reinforce or open, exactly where their "
+                    "gadget goes and how it works with the team's other utility on that wall, where to stand "
+                    "when action starts, and when to rotate or fall back. If the enemy's attackers haven't "
+                    f"been seen yet, plan for this site's common attack, and say 'likely'.{reinf}")
         else:
-            task = (f"PREP PHASE on attack, player is {me}. Give this round's specific plan: where to drone "
-                    "and what to look for, the entry and the defender roam to clear first, what utility to "
-                    "save for which wall or gadget, and where to plant and hold.")
+            task = (f"PREP PHASE on attack, player is {me}. Give this round's specific plan IN TIME ORDER, one "
+                    "step per line: what to drone for now (and from where a drone can actually see it), the "
+                    "roam to clear first, the breach or entry with the utility it needs, then the plant spot "
+                    "and where to hold it.")
         prompt = (
             f"{task}\nMap {s.map}, site {s.site or 'unknown'} "
             f"(possible: {' | '.join(s.site_options) or 'unknown'}), spawn {s.spawn or 'unknown'}, "

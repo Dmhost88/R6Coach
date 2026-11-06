@@ -16,6 +16,18 @@ def test_operator_lookup_handles_accents(kb):
     assert kb.operator("thermite")["name"] == "Thermite"
 
 
+def test_real_data_loads_with_aliases():
+    from pathlib import Path
+    from r6coach.knowledge import Knowledge
+    real = Knowledge(Path(__file__).parent / "_notes_unused")
+    assert len(real.maps) == 15 and len(real.operators) >= 78
+    assert real.operator("Snake") and real.operator("Snake")["name"] == "Solid Snake"
+    assert real.operator("Tubarão")["name"] == "Tubarao"
+    dossier = real.map_dossier("Oregon")
+    assert "Laundry" in dossier and "MAP DOSSIER: Oregon" in dossier
+    assert "Thatcher" in real.operators_dossier()
+
+
 def test_context_is_side_specific_and_includes_notes(kb):
     kb.save_notes("bank", "I like CCTV anchor.")
     ctx = kb.context_for("Bank", "B Lockers / B CCTV Room", "defense")
