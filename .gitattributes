@@ -1,0 +1,2 @@
+# Git hooks are shell scripts: a CRLF after the shebang stops them running.
+.githooks/* text eol=lf

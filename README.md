@@ -4,6 +4,18 @@ An audio-only coach for Rainbow Six Siege Ranked on PC. It watches your screen t
 
 It is designed not to be a cheat. It reads only menus and the HUD from your own screen, plus public strategy knowledge, and never looks for enemies in the game world. See [SPEC.md](SPEC.md).
 
+## Documentation
+
+| Read | For |
+|---|---|
+| [docs/HANDOVER.md](docs/HANDOVER.md) | where the project stands, known limits, what to do next — **start here if you're picking up development** |
+| [SPEC.md](SPEC.md) | the product and its fair-play rules |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | components, threads, bus events, cost control, invariants |
+| [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) | dev setup, running without the game, tests, evals, conventions |
+| [docs/KNOWLEDGE_DATA.md](docs/KNOWLEDGE_DATA.md) | the map, callout, layout and setup YAML, and the season refresh |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | feature branches, pull requests, squash merging |
+| [CLAUDE.md](CLAUDE.md) | rules for AI coding agents working on this repo |
+
 ## Setup
 
 1. Install Python 3.12, then create the environment from this folder:
@@ -125,11 +137,22 @@ Everything is stored under `data/`:
 
 | Path | Purpose |
 |---|---|
+| `r6coach/app.py` | Builds every component and wires them together |
+| `r6coach/bus.py` | In-process publish/subscribe between components |
 | `r6coach/capture.py` | Windows Graphics Capture of the game window; replay source |
 | `r6coach/watcher.py` | Decides when to read the screen; merges reads into the match state |
+| `r6coach/screens.py` | Local screen-type recognition (menus, bans, picks, rounds) |
+| `r6coach/opcards.py` | Local read of picks and bans from the operator cards |
+| `r6coach/hud.py` | Local HUD reader: timer, score, banners, killfeed, your room |
 | `r6coach/llm.py` | Claude calls with structured outputs |
 | `r6coach/coach.py` | When to speak and what to ask Claude for |
-| `r6coach/knowledge/` | Map, site and operator data, plus your notes |
+| `r6coach/live.py` | Instant rule-based lines during rounds |
+| `r6coach/tactical.py` | Claude in-round calls at key moments |
+| `r6coach/memory.py`, `rounds.py`, `twin.py` | Match memory, side/round arithmetic, the state every prompt sees |
+| `r6coach/knowledge/` | Map, site, callout, layout, setup and operator data, plus your notes |
+| `r6coach/maplayout.py`, `setups.py` | Live-map room positions; standard setup briefs |
 | `r6coach/voice/` | Text-to-speech queue and cache; push-to-talk with local Whisper |
 | `r6coach/dashboard/` | The second-monitor page |
 | `r6coach/profile.py` | SQLite player profile |
+| `tools/` | Evals, data tools, debug helpers (see [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)) |
+| `tests/` | Unit tests (`pytest -q`) |

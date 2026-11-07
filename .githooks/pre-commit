@@ -1,0 +1,12 @@
+#!/bin/sh
+# Refuse commits on main: all work goes on a branch (see CONTRIBUTING.md).
+# GitHub can't protect main on a free private repo, so this hook is the guard.
+# Turn it on once per clone:  git config core.hooksPath .githooks
+branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+if [ "$branch" = "main" ]; then
+  echo "pre-commit: refusing to commit on main. Create a branch first:" >&2
+  echo "  git switch -c feature/<what-you-are-doing>" >&2
+  echo "(your staged changes come with you). See CONTRIBUTING.md." >&2
+  exit 1
+fi
+exit 0
