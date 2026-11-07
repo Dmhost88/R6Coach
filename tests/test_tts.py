@@ -230,6 +230,22 @@ def test_priority_zero_interrupts_remaining_sentences(tmp_path, monkeypatch):
     sp.stop()
 
 
+def test_question_answer_keeps_the_prep_plan(tmp_path, monkeypatch):
+    sp, fake, bus, eng = make_speaker(tmp_path, monkeypatch, dur=0.4)
+    sp.say("Reinforce the Office wall.", priority=1, phase="prep_phase")
+    sp.say("Mira goes on the Library wall.", priority=1, phase="prep_phase")
+    sp.say("Old answer.", priority=1, phase="question")
+    time.sleep(0.15)                                  # the first prep step is playing
+    sp.say("Hold from the desk.", priority=0, phase="question")
+    wait_idle(sp)
+    said = [kw["text"] for t, kw in bus.events if t == "coach.said"]
+    assert said[0] == "Reinforce the Office wall."    # cut off by the answer...
+    assert said[1] == "Hold from the desk."
+    assert said[2:] == ["Reinforce the Office wall.", "Mira goes on the Library wall."]   # ...then the plan
+    assert "Old answer." not in said                  # older answers are out of date
+    sp.stop()
+
+
 def test_cancel_drops_a_phase_and_cuts_its_playing_line(tmp_path, monkeypatch):
     sp, fake, bus, eng = make_speaker(tmp_path, monkeypatch, dur=1.0)
     sp.say("Go Ace. Throw from cover. Then hold the stairs.", phase="operator_select")
