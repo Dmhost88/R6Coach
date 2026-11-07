@@ -146,6 +146,8 @@ tabs, the loadout screen's operator, their own slot in the bar). teammate_operat
 four players only: never include the player's own operator there. Enemy icons appear once revealed; "?" means unknown. Put revealed enemy \
 operators in enemy_operators. A greyed or crossed-out icon is a dead player: count alive_us / \
 alive_them from the icons.
+- banned_operators: only bans visible in this screenshot (ban result splash, crossed-out ban \
+icons). Never carry bans over from earlier rounds or infer them from context: leave it [].
 - A large "N VS M" banner mid-round (e.g. "5 VS 2") is the alive count: alive_us=N, alive_them=M.
 - "WON ROUND n" / "LOST ROUND n" banners are round_end; set round_won accordingly.
 - "ENEMY DETECTED OUTDOORS" (red text) is a team alert: add a pinged_enemies entry with \
@@ -227,7 +229,8 @@ player's selected card on OPERATORS / READY.
 - teammate_operators: the other four players' operators only (top-bar icons, READY cards). \
 Never include my_operator. Skip "?" slots.
 - banned_operators: operators banned this round, only when named or clearly identifiable \
-(ban result splash, crossed-out ban icons). Not the operator merely highlighted on the grid.
+on this screenshot (ban result splash, crossed-out ban icons). Not the operator merely \
+highlighted on the grid, and never bans remembered from earlier rounds or inferred from context.
 - site_options: the bomb site pairs listed ("BOMB SITES", or "Objective can be found in one \
 of these locations", the four LOCATIONS vote options), copied exactly as \
 "2F Master Bedroom / 2F Office". Never spawn names.

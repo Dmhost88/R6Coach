@@ -165,6 +165,10 @@ class Watcher:
         # counting it cleared the lock mid-pick and put the round count one ahead (2026-11-06).
         self._round_played = False
         self._first_side: Optional[str] = None   # the side the player started the match on
+        self._resumed = False            # state restored from the profile after a restart (resume())
+        # Cloud reads once invented a ban "carried over from context". A ban read by the cloud
+        # counts when it was on the ban screen, or once two reads agree; local card reads count.
+        self._ban_seen: dict[str, int] = {}
         self._once_done: set[str] = set()   # sub-screens already read this round (see ROUND_KEYS)
         self._cloud_ok_ts = 0.0          # last successful cloud read
         self.cloud_skipped = 0           # cloud reads the local classifier made unnecessary
@@ -420,9 +424,14 @@ class Watcher:
         # New match: ban/select screens after a menu or a finished match, or a different map.
         new_match = screen in (Screen.map_ban, Screen.operator_ban, Screen.operator_select) and (
             s.match_id is None or prev in MATCH_RESET_SCREENS or self._match_over
+            # A match resumed after a restart may have ended while the coach was off: the map vote
+            # only ever opens a new match.
+            or (self._resumed and screen == Screen.map_ban)
         )
         if new_match:
             self._match_over = False
+            self._resumed = False
+            self._ban_seen = {}
             self._round_n = 0
             self._round_played = False
             self._first_side = None
@@ -672,6 +681,50 @@ class Watcher:
         self.bus.publish("live.event", kind="vs", alive_us=counts[0], alive_them=counts[1],
                          player_alive=s.player_alive)
 
+    def _confirmed_bans(self, read: ScreenRead, screen: Screen) -> list[str]:
+        """The bans in a cloud read that count: all of them on the ban screen (the splash shows
+        them), elsewhere only those another read has already reported."""
+        out = []
+        for op in read.banned_operators:
+            n = self._ban_seen.get(op.lower(), 0) + 1
+            self._ban_seen[op.lower()] = n
+            if screen == Screen.operator_ban or n >= 2:
+                out.append(op)
+            else:
+                log.info("ban %s read once on %s; waiting for a second read", op, screen.value)
+        return out
+
+    # ------------------------------------------------------------------ restart recovery
+    def resume(self, info: dict) -> None:
+        """Pick up a match the coach was restarted in the middle of (Profile.unfinished_match):
+        match id, map, bans and the round count, so round 3 isn't called round 1."""
+        rounds = info.get("rounds") or []
+        with self._lock:
+            n = max([r.get("round_number") or 0 for r in rounds] + [len(rounds)])
+            s = GameState(match_id=info["id"], map=info.get("map"),
+                          banned_operators=list(info.get("bans") or []), round_number=n or None,
+                          score_us=sum(1 for r in rounds if r.get("won") is True),
+                          score_them=sum(1 for r in rounds if r.get("won") is False))
+            self.state = s
+            self._round_n = n
+            self._round_played = True       # the next ban or pick screen starts the next round
+            self._match_over = False
+            self._resumed = True
+            last = next((r for r in reversed(rounds) if r.get("side")), None)
+            if last:
+                self._first_side = first_side_from(last.get("round_number") or n, last["side"],
+                                                   self.cfg.swap_after)
+        log.info("resumed match %s on %s after %d rounds", s.match_id, s.map, n)
+        self.bus.publish("state.updated", state=s.model_dump(mode="json"))
+
+    def recover_map(self, map_name: str) -> None:
+        """Set the map when no read named it (worked out from the room callouts on the HUD)."""
+        with self._lock:
+            if self.state.map is None and self.state.screen not in MATCH_RESET_SCREENS:
+                log.info("map recovered from room callouts: %s", map_name)
+                self.state.map = map_name
+                self.bus.publish("state.updated", state=self.state.model_dump(mode="json"))
+
     def _apply(self, read: ScreenRead) -> None:
         """Merge one screen read into the match state and publish what changed."""
         s = self.state
@@ -680,6 +733,9 @@ class Watcher:
             return
         prev_screen = s.screen
         screen = read.screen
+        if self._resumed and read.map and s.map and read.map.lower() != s.map.lower():
+            log.info("resumed match was on %s, the screen shows %s: a new match", s.map, read.map)
+            self._match_over = True
         s = self._enter_screen(prev_screen, screen)
 
         for field in ("map", "site", "spawn", "my_operator", "my_location", "round_number",
@@ -717,7 +773,7 @@ class Watcher:
         if read.site_options:
             s.site_options = read.site_options
         if read.banned_operators:  # bans accumulate over the match
-            s.banned_operators = list(dict.fromkeys(s.banned_operators + read.banned_operators))
+            s.banned_operators = list(dict.fromkeys(s.banned_operators + self._confirmed_bans(read, screen)))
         if read.map_ban_options:
             s.map_ban_options = read.map_ban_options
         if read.score_us is not None:

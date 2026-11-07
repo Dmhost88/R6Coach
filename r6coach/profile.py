@@ -34,8 +34,10 @@ MIGRATIONS = [
     ("rounds", "first_blood", "TEXT"), ("rounds", "my_kills", "INTEGER"), ("rounds", "team_kills", "INTEGER"),
     ("rounds", "enemy_kills", "INTEGER"), ("rounds", "died_to", "TEXT"), ("rounds", "died_in", "TEXT"),
     ("rounds", "planted", "INTEGER"), ("rounds", "enemy_ops", "TEXT"),
-    ("matches", "takeaways", "TEXT"),
+    ("matches", "takeaways", "TEXT"), ("matches", "bans", "TEXT"),
 ]
+
+RESUME_MAX_AGE = 900.0   # s: a match with no end whose last round is this recent can be resumed
 
 
 class Profile:
@@ -90,6 +92,24 @@ class Profile:
                 ",".join(r.get("enemy_ops") or []) or None,
             ),
         )
+        # Keep the match row current, so a restart mid-match can pick it up (unfinished_match).
+        if state.get("match_id"):
+            self._exec("UPDATE matches SET map=COALESCE(?, map), bans=? WHERE id=?",
+                       (state.get("map"), ",".join(state.get("banned_operators") or []), state["match_id"]))
+
+    def unfinished_match(self, max_age: float = RESUME_MAX_AGE, now: Optional[float] = None) -> Optional[dict[str, Any]]:
+        """The latest match that never ended and had a round in the last `max_age` seconds:
+        id, map, bans and its rounds (oldest first). None when there is nothing to resume."""
+        rows = self._query("SELECT id, map, bans FROM matches WHERE ended IS NULL ORDER BY started DESC LIMIT 1")
+        if not rows:
+            return None
+        mid, map_name, bans = rows[0]
+        last = self._query("SELECT MAX(ts) FROM rounds WHERE match_id=?", (mid,))
+        if not last or last[0][0] is None or (now or time.time()) - last[0][0] > max_age:
+            return None
+        report = self.match_report(mid) or {}
+        return {"id": mid, "map": map_name, "bans": [b for b in (bans or "").split(",") if b],
+                "rounds": report.get("rounds", [])}
 
     def set_takeaways(self, match_id: Optional[str], lines: list[str]) -> None:
         if match_id:

@@ -89,6 +89,24 @@ class MatchMemory:
         steps = [f"{room or '?'} {hp if hp is not None else '?'} HP" for t, room, hp in pts if end - t <= seconds]
         return " -> ".join(steps)
 
+    def restore(self, rounds: list[dict]) -> None:
+        """Rebuild the match so far from the profile's round rows (a restart mid-match)."""
+        with self._lock:
+            self.rounds = []
+            self.killers_of_me = Counter()
+            for i, row in enumerate(rounds, start=1):
+                r = RoundRecord(n=row.get("round_number") or i)
+                for k in ("side", "site", "operator", "won", "first_blood", "died_to", "died_in"):
+                    setattr(r, k, row.get(k))
+                for k in ("my_kills", "team_kills", "enemy_kills"):
+                    setattr(r, k, row.get(k) or 0)
+                r.planted = bool(row.get("planted"))
+                r.enemy_ops = list(row.get("enemy_ops") or [])
+                if r.died_to:
+                    self.killers_of_me[r.died_to] += 1
+                self.rounds.append(r)
+            self.cur = RoundRecord(n=len(self.rounds) + 1)
+
     def reset(self) -> None:
         with self._lock:
             self.rounds = []

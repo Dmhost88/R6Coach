@@ -91,6 +91,23 @@ class Knowledge:
         close = difflib.get_close_matches(key, list(index), n=1, cutoff=0.75)
         return self.maps[index[close[0]]] if close else None
 
+    def maps_with_room(self, room: Optional[str]) -> set[str]:
+        """Map ids whose callouts list this HUD room ("2F Office"). Used to recover the map when no
+        screen read named it (a restart mid-round)."""
+        if not room:
+            return set()
+        parts = room.split(None, 1)
+        floor, name = (parts[0].upper(), parts[1]) if len(parts) == 2 else ("", room)
+        key = _norm(name)
+        out = set()
+        for mid, c in self.callouts.items():
+            for fl, rooms in (c.get("rooms") or {}).items():
+                if floor and str(fl).upper() != floor:
+                    continue
+                if any(_norm(str(r)) == key for r in rooms or []):
+                    out.add(mid)
+        return out
+
     def find_site(self, map_data: Optional[dict[str, Any]], site: Optional[str]) -> Optional[dict[str, Any]]:
         if not map_data or not site:
             return None
