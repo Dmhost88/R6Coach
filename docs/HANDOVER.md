@@ -46,7 +46,9 @@ Measured so far: the real-match eval (`tools/eval_real.py`, 14 decision points f
 
 ## Good next steps
 
-Roughly in order of value. Each is a branch of its own (see [CONTRIBUTING.md](../CONTRIBUTING.md)).
+**Start with [BACKLOG.md](BACKLOG.md).** The 2026-11-06 review of a real match found that the advice is too wordy, repeats itself and sometimes states stale facts. Those fixes are tracked as issues in the milestone [Review 2026-11-06: usable advice](https://github.com/Dmhost88/R6Coach/milestone/1), and they come before the items below.
+
+The items below are roughly in order of value. Each is a branch of its own (see [CONTRIBUTING.md](../CONTRIBUTING.md)).
 
 1. **CI**: a GitHub Actions workflow on `windows-latest` that installs requirements and runs `pytest -q`, then make it a required check on `main`.
 2. **Y11S4 season refresh** (`data/season-y11s4`) when the season lands.
