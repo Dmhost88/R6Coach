@@ -80,56 +80,63 @@ briefs:
         between: [Kids' Dorms, Trophy Room]
         nudge: [0, 2.0]
         note: "Thorn bloom by the Trophy door"
+  # Attack briefs on this map follow Garfieldisdoc, "How to Attack EVERY Bombsite in Rainbow Six Siege
+  # (2026)", https://www.youtube.com/watch?v=1qCEYZwQzes (Oregon from 3:24:49).
   - id: oregon-dorms-attack-big-tower-master
     site: kids_dorms_dorms_main_hall
     side: attack
-    operators: [Thermite, Thatcher]
-    title: "Big Tower, Attic, then the Master wall"
+    operators: [Thermite, Ying, Gridlock]
+    title: "Attic and Master split"
     text: >-
-      From Junkyard take Big Tower, clear Attic and Master, then Thatcher pops the claws and Thermite
-      opens the Master wall. Plant on the Dorms Main Hall bunk line.
+      Split Attic and Master. Get a cut-off cam on Tower, make sure it's empty, and open the Attic wall from
+      Tower. Master needs two: one rappels Armory and clears extenders up to the head hole, the hard breacher
+      opens the main Master wall from the Master balcony. Nade or Ying the drop and Bolo on the dresser, hold the
+      cut-off, then the main-breach player flashes in and runs to default.
     placements:
-      - kind: entry
-        floor: 3F
-        room: Big Tower
-        note: "Clear the roam first"
+      - kind: breach
+        floor: 2F
+        between: [Small Tower, Attic]
+        note: "Attic wall from Tower after the cut-off cam (the HUD calls this tower Big Tower)"
       - kind: entry
         floor: 2F
-        room: Attic
-        note: "Clear the Attic player"
+        between: [Armory, exterior]
+        edge: bottom
+        note: "Armory rappel: clear extenders, mind the head hole"
       - kind: thermite
         floor: 2F
         room: Master Bedroom
-        nudge: [-1.2, 0]
-        note: "Master breach wall into Dorms"
+        nudge: [-2.0, 0]
+        note: "Main Master wall, from the Master balcony"
       - kind: plant
         floor: 2F
-        room: Dorms Main Hall
-        note: "Bunk line by the Master breach"
-  - id: oregon-dorms-attack-armory-split
+        at: [54.0, 59.0]
+        name: "Game Room default"
+        note: "On the gen; the HUD names this room Game Room (position approximate)"
+  - id: oregon-dorms-attack-late-window
     site: kids_dorms_dorms_main_hall
     side: attack
-    operators: [Hibana, Kali]
-    title: "Armory plus Big Window split"
+    operators: [Hibana, Ace]
+    title: "Late Kids or Big window, plant Dorm Main Hall"
     text: >-
-      Hibana opens the Armory wall while Kali shoots the denial. A rappel player swings Big Window on
-      the breach so Kids and Trophy have to split their attention.
+      Late in the round, not early: open Big Window or Kids window and play the cut-offs on close, the
+      chassis, the White bookshelf and White stairs. Then plant on the gen, or walk in and plant in Dorm Main
+      Hall, which has less risk from the White head holes. After that watch the pixel and the rotate from Trophy
+      or the deep Armory hole.
     placements:
-      - kind: hibana
-        floor: 2F
-        between: [Armory, Dorms Main Hall]
-        nudge: [1.2, 0]
-        note: "Armory wall, left side"
       - kind: entry
         floor: 2F
         between: [Kids' Dorms, exterior]
         edge: left
         nudge: [-1.0, 0]
-        note: "Big Window rappel"
+        note: "Late round: open Kids or Big window and play the cut-offs"
       - kind: plant
         floor: 2F
-        room: Kids' Dorms
-        note: "Corner by Big Window once Kids is clear"
+        room: Dorms Main Hall
+        note: "Less risk from the White head holes"
+      - kind: anchor
+        floor: 2F
+        room: Trophy Room
+        note: "Watch the pixel and the rotate, or play the deep Armory hole"
   # ---------------------------------------------------------------- 1F Kitchen / Dining Hall
   - id: oregon-dining-team-reinforcements
     site: kitchen_dining_hall
@@ -194,45 +201,60 @@ briefs:
         room: Attic
         nudge: [0, 4.0]
         note: "Above Dining"
+  - id: oregon-dining-attack-meeting-take
+    site: kitchen_dining_hall
+    side: attack
+    operators: [Gridlock, Nomad]
+    title: "Garage control, then a Meeting take"
+    text: >-
+      Skip the usual Small Tower thermite onto Dining. Take Garage, then enter Meeting while one player
+      Gridlocks or Airjabs the Lobby flank, as long as the hatch isn't popped. Two push Meeting side and clear
+      Rear Stage, then hold the green hallway and push it to contest anyone back site. They're focused on Small
+      Tower and rarely play vertical, so plant once you've won the fights.
+    placements:
+      - kind: entry
+        floor: 1F
+        room: Garage
+        note: "Take Garage control first"
+      - kind: anchor
+        floor: 1F
+        room: Lobby
+        note: "Gridlock or Airjab the Lobby flank"
+      - kind: entry
+        floor: 1F
+        room: Meeting Hall
+        note: "Two push Meeting side and clear Rear Stage"
+      - kind: anchor
+        floor: 1F
+        between: [Meeting Hall, Kitchen]
+        note: "Hold the green hallway, push it to contest back site"
+      - kind: plant
+        floor: 1F
+        room: Kitchen
+        nudge: [-2.0, 2.0]
+        note: "Usually you're a man up by now"
   - id: oregon-dining-attack-small-tower-dining
     site: kitchen_dining_hall
     side: attack
-    operators: [Thermite, Thatcher, Hibana]
-    title: "Small Tower, then the Dining wall"
+    operators: [Thermite, Thatcher]
+    title: "Small Tower thermite (the common take)"
     text: >-
-      From Street clear Small Tower and Showers, Thatcher pops the claws, then Thermite or Hibana
-      opens the Dining exterior wall. Plant against the breached wall.
+      The take most teams run: come over from Small Tower, thermite the Dining wall and plant in the open. It
+      works, but it leaves a lot of annoying angles to clear, so run it only when the Meeting take is shut down.
     placements:
       - kind: entry
         floor: 1F
         room: Small Tower
-        note: "Clear the Clash contest"
+        note: "Come over from Small Tower"
       - kind: thermite
         floor: 1F
         between: [Dining Hall, exterior]
         edge: right
-        note: "Dining exterior wall"
+        note: "Dining wall"
       - kind: plant
         floor: 1F
         room: Dining Hall
-        note: "Against the breached wall"
-  - id: oregon-dining-attack-vertical
-    site: kitchen_dining_hall
-    side: attack
-    operators: [Buck, Sledge]
-    title: "Take 2F above site"
-    text: >-
-      Take the floor above Kitchen to stop the Pulse vertical and open lines down. Someone watches the
-      Freezer stairs flank.
-    placements:
-      - kind: breach
-        floor: 2F
-        room: Kids' Dorms
-        note: "Floor above Kitchen"
-      - kind: drone
-        floor: B
-        room: Freezer Stairs
-        note: "Freezer stairs flank"
+        note: "In the open; clear the angles first"
   # ---------------------------------------------------------------- 1F Meeting Hall / Kitchen
   - id: oregon-meeting-team-reinforcements
     site: meeting_hall_kitchen
@@ -302,47 +324,65 @@ briefs:
   - id: oregon-meeting-attack-garage
     site: meeting_hall_kitchen
     side: attack
-    operators: [Ash, Zofia, Thermite]
-    title: "Garage take"
+    operators: [Montagne, Gridlock, Thermite]
+    title: "Garage and Lobby, Monty through the castle"
     text: >-
-      Ash and Zofia break the barricade at the Garage doors and Thermite opens the Meeting Garage
-      wall. Gridlock watches White Stairs. Plant by the Garage doors or on Stage.
+      Same premise as Dining: take Garage, then Lobby, and make sure nobody walks or plays Zulu side (Gridlock
+      it or fight them). The job is the single wall; the double door is usually Castled, so bring Montagne.
+      Once the barricade is broken he walks in and you plant behind him.
     placements:
       - kind: entry
         floor: 1F
         room: Garage
-        note: "Double doors"
-      - kind: thermite
+        note: "Garage control"
+      - kind: anchor
+        floor: 1F
+        room: Lobby
+        note: "Lobby control; Gridlock Zulu side"
+      - kind: breach
         floor: 1F
         between: [Meeting Hall, Garage]
-        nudge: [-1.2, 0]
-        note: "Meeting Garage wall"
+        nudge: [0, -2.0]
+        note: "The single wall, then break the Castle on the double door"
       - kind: plant
         floor: 1F
         room: Meeting Hall
-        note: "By the Garage doors"
+        note: "Behind Montagne"
   - id: oregon-meeting-attack-over
     site: meeting_hall_kitchen
     side: attack
-    operators: [Hibana, Buck]
-    title: "Meeting over from Big Tower"
+    operators: [Gridlock, Thermite, Hibana]
+    title: "Meeting over from the tower"
     text: >-
-      Take Big Tower, push Rear Stage and Attic, Hibana opens the Stage wall while Buck plays vertical
-      through the Meeting hatch.
+      Against good players go Meeting over. Pre-place a cam on the pillar downstairs and take Rear Stage and the
+      back stairs: one walks up Blue Bunker side and Gridlocks the bottom-to-mid staircase, while others take T2
+      and open the Attic wall so nobody can walk up through an open hatch. Hold the hatch angle while a
+      teammate opens the main Meeting wall and the green Castle, then smoke the left rotate and plant in
+      Meeting, or plant on the green door with a teammate covering.
     placements:
+      - kind: drone
+        floor: B
+        at: [53.5, 50.0]
+        name: "Pillar downstairs"
+        note: "Pre-placed cam (HUD: Boiler Room; position approximate)"
       - kind: entry
         floor: 1F
-        room: Big Tower
-        note: "Start here"
-      - kind: hibana
+        room: Rear Stage
+        note: "Rear Stage and back stairs control"
+      - kind: breach
+        floor: 2F
+        between: [Small Tower, Attic]
+        note: "T2 opens the Attic wall; hold the hatch angle"
+      - kind: thermite
         floor: 1F
         between: [Rear Stage, Meeting Hall]
         nudge: [-1.2, 0]
-        note: "Stage wall"
+        note: "Main Meeting wall and the green Castle"
       - kind: plant
         floor: 1F
-        room: Rear Stage
-        note: "Stage side"
+        room: Meeting Hall
+        nudge: [-2.0, 0]
+        note: "Smoke the left rotate"
   # ---------------------------------------------------------------- B Laundry Room / Supply Room
   - id: oregon-laundry-team-reinforcements
     site: laundry_room_supply_room
@@ -421,43 +461,58 @@ briefs:
   - id: oregon-laundry-attack-bunker
     site: laundry_room_supply_room
     side: attack
-    operators: [Hibana, Thatcher, Buck]
-    title: "Bunker breach"
+    operators: [Flores, Hibana, Nomad]
+    title: "Bunker split and the Meeting hatch"
     text: >-
-      From Construction Site take Blue Bunker, Thatcher EMPs the Electrical wall and Hibana opens it
-      to kill the Mira. Buck plays vertical from 1F. Plant in Supply near Pillar.
+      If they put a Mira on the front wall, go Bunker split: open Bunker early and work your utility to get
+      inside. The hard breacher takes T2 with a pre-place, Nomad Airjabs Dining and drones Meeting, and you open
+      the Meeting hatch (EMPs for Kaid or Tubarao) to pop the Mira. Then push back stairs for pillar and the head
+      holes, Hibana off close, and from pillar cut Laundry and Long Hall while one plants and one watches the
+      Freezer swing.
     placements:
       - kind: entry
         floor: B
         room: Blue Bunker
-        note: "Through the Blue door"
+        note: "Open Bunker early, work utility to get in"
       - kind: hibana
+        floor: 1F
+        at: [37.0, 57.0]
+        name: "Meeting hatch"
+        note: "Open it to pop the Mira (position approximate)"
+      - kind: entry
+        floor: 1F
+        room: Rear Stage
+        note: "Push back stairs once the Mira is gone"
+      - kind: anchor
         floor: B
-        between: [Electric Room, Blue Bunker]
-        nudge: [-1.0, 0]
-        note: "Electrical wall, Mira side"
+        at: [53.5, 50.0]
+        name: "Pillar"
+        note: "Cuts Laundry and Long Hall (position approximate)"
       - kind: plant
         floor: B
         room: Supply Room
-        note: "Near Pillar"
+        note: "Someone else watches the Freezer swing"
   - id: oregon-laundry-attack-stairs-split
     site: laundry_room_supply_room
     side: attack
-    operators: []
-    title: "Laundry and Freezer stairs split"
+    operators: [Flores, Hibana, Thatcher]
+    title: "High-elo Laundry split with a Freezer take"
     text: >-
-      Clear the Banshees and traps on the stairs, then push Laundry Stairs and Freezer Stairs at once
-      while someone opens a 1F hatch over site. Plant in the Laundry corner.
+      In high elo skip Bunker. Pre-place for Garage and Showers, take 1F and open the Freezer hatch, the
+      Laundry hatch if it's reinforced, and the Meeting hatch. Flores clears the Mira and the Laundry shield while
+      a teammate peeks off the drone. Another walks down Freezer and clears it (watch the lockers jump-up, close,
+      the hallway and Laundry), then plant on the hard wall or tucked in the corner.
     placements:
-      - kind: entry
-        floor: B
-        room: Laundry Stairs
-        note: "Clear the Banshee"
+      - kind: hibana
+        floor: 1F
+        at: [44.5, 62.0]
+        name: "Freezer hatch"
+        note: "Plus the Laundry and Meeting hatches (position approximate)"
       - kind: entry
         floor: B
         room: Freezer Stairs
-        note: "Watch the Freezer swing"
+        note: "Walk down Freezer; watch lockers jump-up, close and Laundry"
       - kind: plant
         floor: B
         room: Laundry Room
-        note: "Laundry corner"
+        note: "On the hard wall or tucked in the corner"

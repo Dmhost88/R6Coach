@@ -90,53 +90,68 @@ briefs:
         room: Aviator Room
         nudge: [1.5, 1.5]
         note: "Evil Eye on Games"
-  - id: villa-aviator-attack-study-main
+  # Attack briefs on this map follow Garfieldisdoc, "How to Attack EVERY Bombsite in Rainbow Six Siege
+  # (2026)", https://www.youtube.com/watch?v=1qCEYZwQzes (Villa from 4:18:55). The video has no Basement
+  # chapter, so the Art Storage / Old Office attack briefs are not from it.
+  - id: villa-aviator-attack-horizontal
     site: aviator_room_games_room
     side: attack
-    operators: []
-    title: "Take Study and Main together"
+    operators: [Gridlock, Thatcher]
+    title: "90 side over: Astro, Statue and Deer"
     text: >-
-      Take Study and Top Main at the same time and keep a cam on Red 90 for the flank. Ash or Zofia break the Top
-      Main shield; Thatcher then Thermite open the Main wall and plant by it.
+      Don't sit on Study and the balcony. The team goes 90 side over horizontally: pre-place drones in Astro
+      in the drone phase (the skylight works), rappel Astro early and Gridlock the flank. Work up to Statue and
+      Deer, then call it with the 90-window player and take the 90 space while someone watches Skull and Red.
+      One player shoots the Study barricade and both default cams early for phantom pressure, then you walk in
+      and plant.
     placements:
       - kind: drone
         floor: 2F
-        room: Classical Hall
-        note: "Drone Top Main and cam Red 90"
-      - kind: thermite
+        room: Astronomy Room
+        note: "Pre-place in Astro; the skylight works"
+      - kind: entry
         floor: 2F
-        room: Games Room
-        nudge: [0, -4.0]
-        note: "Main wall, after Thatcher"
+        room: Trophy Room
+        note: "Statue control, then Deer"
+      - kind: anchor
+        floor: 2F
+        room: Classical Hall
+        note: "Take the 90 space; watch Skull and Red for flanks"
+      - kind: anchor
+        floor: 2F
+        room: Study
+        note: "Shoot the Study barricade and both default cams early"
       - kind: plant
         floor: 2F
         room: Aviator Room
         nudge: [2.0, -3.0]
-        note: "Aviator by the Main wall"
+        note: "Walk in once you have the map control"
   - id: villa-aviator-attack-bar
     site: aviator_room_games_room
     side: attack
-    operators: [Hibana]
-    title: "Hibana on Bar, rappel the 90 window"
+    operators: [Hibana, Ace]
+    title: "90 rappel, open the 90 wall and the Bar wall"
     text: >-
-      Hibana opens the Bar wall while a rappel player swings the 90 window. Clear the Maestro cams first;
-      plant in Games by Study.
+      The hard breacher (Hibana or Ace) works the 90 rappel, holding anyone playing 90 and the cut-off from
+      Trophy side so 90 hall stays clear. Once the team has 90 control, open the 90 wall and the Bar wall: those
+      angles cut the Vault and Bar rotates so the team can end on the half Vault wall. Pushed-back defenders end
+      up playing Study, so keep one late flank on Study.
     placements:
-      - kind: hibana
-        floor: 2F
-        room: Aviator Room
-        nudge: [0, 3.5]
-        note: "Bar wall"
       - kind: entry
         floor: 2F
         room: Aviator Room
         nudge: [-2.0, 0]
-        note: "90 rappel window"
+        note: "90 rappel window; hold 90 and the Trophy cut-off"
+      - kind: hibana
+        floor: 2F
+        room: Aviator Room
+        nudge: [0, 3.5]
+        note: "90 wall and Bar wall, once 90 is yours"
       - kind: plant
         floor: 2F
-        room: Games Room
-        nudge: [1.5, 2.0]
-        note: "Games by Study"
+        room: Aviator Room
+        nudge: [-1.0, -2.0]
+        note: "On the half Vault wall"
 
   # ------------------------------------------------------------------ 2F Trophy Room / 2F Statuary Room
   - id: villa-trophy-team-reinforce
@@ -216,55 +231,69 @@ briefs:
         floor: 2F
         room: Astronomy Room
         note: "Banshee on the Astro stairs"
-  - id: villa-trophy-attack-triple
+  - id: villa-trophy-attack-study-over
     site: trophy_room_statuary_room
     side: attack
-    operators: []
-    title: "Pop the claw, open the triple wall"
+    operators: [Gridlock, Nomad]
+    title: "Study side over, skylight pick on Bricks"
     text: >-
-      Clear Master and Astro first. Thatcher pops the claw and Thermite opens the triple wall while a rappel
-      player swings the Master window during the breach. Plant in Trophy by the triple wall.
+      Cut-off cam on top Main, take Study and clear Maps with a player on the Skull window peeking the Skull
+      swing. Work up to Landing and 90 (rappel in) and Airjab or claymore the stairs. Open the Master window at
+      the start and come back late to pinch whoever plays Triple or Bricks. For the Bricks shield, have the team
+      make noise Master side, then rappel down the skylight, shoot him and rappel back up.
     placements:
-      - kind: drone
+      - kind: anchor
         floor: 2F
-        room: Master Bedroom
-        note: "Drone Master and Astro; find the Red/Boar roamer"
-      - kind: thermite
+        room: Study
+        note: "Skull window: peek the Skull swing, cut Maps"
+      - kind: entry
         floor: 2F
-        between: [Statuary Room, Classical Hall]
-        note: "Triple wall, right and middle panels"
+        room: Classical Hall
+        note: "Take Landing and 90; claymore the stairs"
       - kind: entry
         floor: 2F
         between: [Master Bedroom, exterior]
         edge: right
-        note: "Master window rappel"
-      - kind: plant
-        floor: 2F
-        room: Trophy Room
-        note: "By the triple wall"
-  - id: villa-trophy-attack-astro
-    site: trophy_room_statuary_room
-    side: attack
-    operators: [Ash, Hibana]
-    title: "Through Astro, plant Statuary"
-    text: >-
-      Ash or Zofia clears Melusi's Banshee on the Astro stairs, then Hibana opens the Closet walls. Shoot the
-      Jager ADS before throwing utility through Bathroom; plant in Statuary away from the Bathroom hole.
-    placements:
+        note: "Open the Master window early, pinch from it late"
       - kind: entry
         floor: 2F
-        room: Astronomy Room
-        note: "Astro stairs"
-      - kind: hibana
-        floor: 2F
-        room: Master Bedroom
-        nudge: [-1.0, 2.5]
-        note: "Closet walls"
+        room: Statuary Room
+        nudge: [1.5, -2.0]
+        note: "Skylight: rappel down, shoot Bricks, rappel back up"
       - kind: plant
         floor: 2F
         room: Statuary Room
         nudge: [-1.5, 0]
-        note: "Away from the Bathroom hole"
+        note: "Bricks side once it's clear"
+  - id: villa-trophy-attack-astro
+    site: trophy_room_statuary_room
+    side: attack
+    operators: [Thatcher, Flores, Hibana, Buck]
+    title: "Astro window, clear Closet, open both Trophy walls"
+    text: >-
+      Play the Astro window to cut rotators. If they extend into Closet with a shield, Warden or ADS, bring burn
+      utility: Thatcher EMPs above them and a banked nade kills the shield, pushing them out of Walk-in and Master.
+      Airjab the Master door and take Bathroom fast; the Astro rappel cuts anyone rotating through it. Then hard
+      breach both Trophy walls, make vertical under Astro, and plant tucked Deer, on the A chassis or on Bricks.
+    placements:
+      - kind: entry
+        floor: 2F
+        room: Astronomy Room
+        note: "Astro window rappel cuts the Bathroom rotate"
+      - kind: drone
+        floor: 2F
+        room: Master Bedroom
+        nudge: [-1.0, 2.5]
+        note: "Closet extender: EMP from above, nade the shield"
+      - kind: hibana
+        floor: 2F
+        between: [Trophy Room, Aviator Room]
+        note: "Both Trophy walls"
+      - kind: plant
+        floor: 2F
+        room: Trophy Room
+        nudge: [2.0, 0]
+        note: "Tucked Deer, or the A chassis or Bricks"
 
   # ------------------------------------------------------------------ 1F Dining Room / 1F Kitchen
   - id: villa-dining-team-reinforce
@@ -336,53 +365,55 @@ briefs:
   - id: villa-dining-attack-pantry
     site: dining_room_kitchen
     side: attack
-    operators: []
-    title: "Garage and Kitchen Stairs, breach Pantry"
+    operators: [Thermite, Thatcher]
+    title: "Pantry wall with the Master and Closet windows open"
     text: >-
-      Clear the interior Garage and the Kitchen Stairs door, then Thatcher pops the Pantry claws and Thermite
-      opens the Pantry wall. Buck clears the 2F Bathroom; plant in Kitchen by the Pantry wall.
+      Shoot the defaults, watch the Art door and open the Laundry door early for phantom pressure. Get basement
+      and Astro control, walk up and open the Pantry wall. Someone opens the Master wall or window and the Closet
+      window, because everything above is vertical play: fight them off the Pantry single. Then walk in and plant;
+      a shield can sit in front while you plant behind it.
     placements:
-      - kind: drone
-        floor: B
-        room: Garage
-        note: "Drone Garage and the Kitchen Stairs door"
       - kind: thermite
         floor: 1F
         at: [68.0, 28.5]
         name: "Pantry to Kitchen wall"
-        note: "After Thatcher"
-      - kind: breach
+        note: "After basement and Astro control"
+      - kind: entry
         floor: 2F
-        room: Bathroom
-        note: "Buck clears the Bathroom above Pantry"
+        between: [Master Bedroom, exterior]
+        edge: right
+        note: "Open the Master and Closet windows against the vertical"
       - kind: plant
         floor: 1F
         at: [67.0, 29.0]
         name: "Kitchen by the Pantry wall"
-        note: "Approximate"
-  - id: villa-dining-attack-memo
+        note: "Behind a shield (position approximate)"
+  - id: villa-dining-attack-vertical
     site: dining_room_kitchen
     side: attack
-    operators: [Hibana, Kali]
-    title: "Memo breach with 2F held"
+    operators: [Buck, Hibana]
+    title: "Vertical from upstairs and the Laundry hatch"
     text: >-
-      Two players take 2F Trophy and Bathroom to stop the verticals. Hibana opens Memo and Kali lances the Mira
-      in China; plant in Dining away from the Mira window.
+      For the vertical take, get Statue, Astro, Deer and Trophy control and make vertical on Memo, the Island,
+      the B chassis and the tucked spot behind it. The same player opens the Laundry hatch; with the Pantry wall
+      open the team walks in and plants. If you lose bodies, he walks down bottom Astro (if there's no Castle)
+      to fight the China player. Without vertical, go Laundry over to the Dining door and Memo and plant on the
+      Dining door or the single.
     placements:
-      - kind: entry
+      - kind: breach
         floor: 2F
-        room: Trophy Room
-        note: "Take Trophy and Bathroom first"
+        room: Bathroom
+        note: "Vertical on Memo, the Island and the B chassis"
       - kind: hibana
         floor: 1F
-        at: [71.7, 32.0]
-        name: "Memo wall"
-        note: "Approximate; one of the two Memo walls"
+        at: [64.8, 37.5]
+        name: "Laundry hatch"
+        note: "Which hatch is Laundry is not verified"
       - kind: plant
         floor: 1F
-        at: [70.0, 37.0]
-        name: "Dining Room"
-        note: "Approximate; away from China"
+        at: [67.5, 31.0]
+        name: "Kitchen"
+        note: "Covered by the vertical (position approximate)"
 
   # ------------------------------------------------------------------ B Art Storage / B Old Office
   - id: villa-basement-team-reinforce

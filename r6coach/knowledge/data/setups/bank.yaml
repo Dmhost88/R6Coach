@@ -85,52 +85,70 @@ briefs:
         floor: 2F
         room: Executive Lounge
         note: "Behind the Mira"
+  # Attack briefs on this map follow Garfieldisdoc, "How to Attack EVERY Bombsite in Rainbow Six Siege
+  # (2026)", https://www.youtube.com/watch?v=1qCEYZwQzes (Bank from 0:30).
   - id: bank-ceo-attack-top-square
     site: ceo_executive_lounge
     side: attack
-    operators: [Ace, Thermite, Thatcher, Buck]
-    title: "Stock from below, open Top Square"
+    operators: [Ace, Buck, Sledge]
+    title: "Win Stock and Top Square, open the far Square wall"
     text: >-
-      From Back Alley, win Stock with Buck shooting up from 1F, then take Top Square. Thatcher EMPs the claws
-      and Ace or Thermite opens the far CEO-Top Square panel; plant by the bookshelf and watch Main Stairs.
+      Two players fight Stock and kill the zombie behind the trading table while one walks up Top Square and
+      one jumps in Stock window. Too much utility? Pre-place a cam in Open Area, clear Beepers and make
+      vertical up on him. Rappel the CEO window to cut Janitor and Double Door, then open the far right Top
+      Square wall and plant on the bookshelf.
     placements:
       - kind: entry
         floor: 2F
         at: [61.5, 76.0]
         name: "Stock window"
-        note: "Phantom pressure and the way in from Terrace"
-      - kind: drone
-        floor: 2F
-        room: Skylight Stairwell
-        note: "Drone Top Square and Janitor"
-      - kind: ace
-        floor: 2F
-        between: [CEO Office, Skylight Stairwell]
-        nudge: [1.2, 0]
-        note: "From Top Square, after the EMP"
-      - kind: plant
-        floor: 2F
-        room: CEO Office
-        nudge: [2.5, -3.0]
-        note: "Bookshelf by the far Top Square panel"
-  - id: bank-ceo-attack-windows
-    site: ceo_executive_lounge
-    side: attack
-    operators: [Hibana, Nomad]
-    title: "CEO window and the E3 wall"
-    text: >-
-      A rappeller on the CEO window cuts Janitor and the Lounge swing while the team works Top Square. Hibana
-      can open the E3 elevator wall as a fallback breach to cut rotates.
-    placements:
+        note: "Jump in while Top Square pushes the Stock player back"
+      - kind: breach
+        floor: 1F
+        room: Open Area
+        note: "Safer route: pre-place here, shoot up through the Stock floor"
       - kind: entry
         floor: 2F
         at: [58.5, 36.5]
         name: "CEO window"
-        note: "Rappel; drone Front Desk first"
-      - kind: breach
+        note: "Rappel; cut Janitor and Double Door, one player watches the Lobby swing"
+      - kind: ace
+        floor: 2F
+        between: [CEO Office, Skylight Stairwell]
+        nudge: [1.2, 2.0]
+        note: "Far right Top Square wall (or run the soft wall)"
+      - kind: plant
+        floor: 2F
+        room: CEO Office
+        nudge: [2.5, -3.0]
+        note: "On the bookshelf; play the defuse from Top Square"
+  - id: bank-ceo-attack-lobby-e3
+    site: ceo_executive_lounge
+    side: attack
+    operators: [Hibana, Twitch]
+    title: "Hibana opens E3, take Lobby stairs"
+    text: >-
+      Hibana rappels and opens E3, without the bomb, to cut the Janitor, Long Hallway and Stock rotates. The
+      rest drone up Lobby stairs, clear the wall utility, pre-place a cam on E2 and fight up for Front Desk
+      while a teammate pushes Beepers. Keep one or two on Stock and Stock window for phantom pressure.
+    placements:
+      - kind: hibana
         floor: 2F
         room: Elevators
-        note: "E3 elevator wall (usually opened by Hibana)"
+        note: "E3 from the rappel; leave the bomb with someone else"
+      - kind: drone
+        floor: 1F
+        room: Main Stairs
+        note: "Drone up Lobby stairs; pre-place a cam on E2"
+      - kind: anchor
+        floor: 2F
+        room: Front Desk
+        note: "Fight for Front Desk, not the hallway (Hibana has it)"
+      - kind: entry
+        floor: 2F
+        at: [61.5, 76.0]
+        name: "Stock window"
+        note: "Phantom pressure on Stock"
 
   # ------------------------------------------------------------------ 1F Open Area / 1F Staff Room
   - id: bank-staff-team-reinforce
@@ -214,45 +232,59 @@ briefs:
   - id: bank-staff-attack-vertical
     site: open_area_staff_room
     side: attack
-    operators: [Ram, Buck, Ash]
-    title: "Win 2F, open the Stock floor"
+    operators: [Buck, Sledge, Gridlock, Nomad]
+    title: "Win upstairs, vertical through the Stock floor"
     text: >-
-      Take Stock and Top Square on 2F first, then Ram or Buck opens the Stock floor onto the Mira and the anchor.
-      Ash opens the Printer window and Electrical early for lines.
+      Pre-place cams upstairs for Top Square and the CEO rappel, then clear Stock door, Back Elevator and
+      Conference. Gridlock or Nomad the Lobby and Marble flanks, make vertical on the Stock floor over the
+      Mira and open the Stock hatch to drop. If someone plays Archives, the vertical player moves to CEO.
     placements:
+      - kind: drone
+        floor: 2F
+        room: Skylight Stairwell
+        note: "Pre-place cams for Top Square and the CEO rappel"
+      - kind: breach
+        floor: 2F
+        room: Stock Trading Room
+        note: "Vertical on the Stock floor; cut off the Mira"
       - kind: breach
         floor: 2F
         at: [52.5, 77.0]
-        name: "Stock hatch / Stock floor"
-        note: "Ram or Buck the floor around it"
+        name: "Stock hatch"
+        note: "Open it so you can drop when needed"
       - kind: breach
-        floor: 1F
-        at: [68.0, 76.5]
-        name: "Printer window"
-        note: "Open early for phantom pressure"
-      - kind: drone
-        floor: 1F
-        room: Open Area
-        note: "Pre-place for the vertical"
+        floor: 2F
+        room: CEO Office
+        note: "Vertical onto Archives if someone plays there"
   - id: bank-staff-attack-square-wall
     site: open_area_staff_room
     side: attack
-    operators: [Ace, Brava, Thatcher]
-    title: "Burn the Square wall, plant the counter"
+    operators: [Ace, Thatcher, Hibana]
+    title: "Open Bottom Square wall, or drop the hatch from E2"
     text: >-
-      With 2F won, Brava or Thatcher clears the claw and Ace opens the Square wall from Bottom Square. Plant
-      behind the Staff Room counter and hold from the vertical above.
+      Open the Printer window at the start for phantom pressure. With the vertical played, open the Bottom
+      Square wall and watch the Bottom Blue drop. No wall? Keep the vertical, work the E2 side past the
+      Tellers' Office feet holes, hold mid plat and plant by the hatch after the drop.
     placements:
+      - kind: entry
+        floor: 1F
+        at: [68.0, 76.5]
+        name: "Printer window"
+        note: "Open it early; a late player plays here"
       - kind: ace
         floor: 1F
         at: [66.0, 54.5]
-        name: "Square wall"
-        note: "From Bottom Square"
+        name: "Bottom Square wall"
+        note: "After the vertical; watch the Bottom Blue drop"
+      - kind: anchor
+        floor: 1F
+        room: Office Hallway
+        nudge: [0, -3.0]
+        note: "E2 side: hold mid plat and stop the door rotate"
       - kind: plant
         floor: 1F
-        room: Staff Room
-        nudge: [3.0, 0]
-        note: "Behind the counter"
+        room: Open Area
+        note: "Around the hatch after the drop"
 
   # ------------------------------------------------------------------ 1F Tellers' Office / 1F Archives
   - id: bank-tellers-team-reinforce
@@ -306,47 +338,62 @@ briefs:
   - id: bank-tellers-attack-lobby
     site: tellers_archives
     side: attack
-    operators: [Ace, Buck, Thatcher]
-    title: "Lobby take, Lounge vertical"
+    operators: [Thermite, Sens, Capitao]
+    title: "Old school: ATMs and the Lobby desk wall"
     text: >-
-      Win Lobby and the Executive Lounge, play Buck vertical down onto Tellers' Office, then Thatcher and Ace open
-      the Tellers' Office wall. Plant behind the bulletproof projector and watch E2 and Main Stairs.
+      Get ATM control, then take Tellers and open the Lobby desk wall; the player on the E2 or Marble
+      staircase is the problem. Work up to Money Bag and open the Loan Office walls to cut rotates, then
+      smoke off site and go for an off plant.
     placements:
-      - kind: drone
+      - kind: anchor
         floor: 1F
-        room: Lobby
-        note: "Lobby, Lobby stairs and E2"
-      - kind: ace
+        room: ATMs
+        note: "Win ATMs first"
+      - kind: breach
         floor: 1F
         between: [Tellers' Office, Tellers]
         nudge: [-1.0, 0]
-        note: "Tellers' Office wall"
+        note: "The Lobby desk wall"
+      - kind: breach
+        floor: 1F
+        room: Loan Office
+        note: "Loan Office walls; cut the rotates"
       - kind: plant
         floor: 1F
         room: Tellers' Office
-        note: "Behind the projector unit"
+        note: "Off plant under smoke"
   - id: bank-tellers-attack-archives
     site: tellers_archives
     side: attack
-    operators: [Hibana, Gridlock]
-    title: "Admin side into Archives"
+    operators: [Hibana, Buck, Gridlock]
+    title: "Open Area control, then the Admin walls"
     text: >-
-      Open Printer and Electrical, clear Open Area, then go through Admin and open the Archives walls; often only
-      the last wall is hard. Hold Top Square and bottom Blue as the flanks.
+      Open the Electrical closet and the Printer window for phantom pressure and drone how they hold it; a
+      teammate upstairs plays vertical to push the back Open Area player out. Then go through Admin Office
+      and open the main Archives wall while someone holds Top Square, the only flank besides Bottom Blue.
+      Play the closet and run the plant in.
     placements:
+      - kind: breach
+        floor: 1F
+        room: Electrical Room
+        note: "Open the closet for phantom pressure"
       - kind: entry
         floor: 1F
         at: [68.0, 76.5]
         name: "Printer window"
-        note: "Way in from the Alley"
+        note: "Open it and drone Open Area"
       - kind: hibana
         floor: 1F
         between: [Archives, Admin Office]
-        note: "Admin walls into Archives"
+        note: "Main wall from Admin; often only the last panel is reinforced"
+      - kind: anchor
+        floor: 2F
+        room: Skylight Stairwell
+        note: "Hold Top Square: the flank"
       - kind: plant
         floor: 1F
         room: Archives
-        note: "Archives after the wall"
+        note: "Run in from the closet after the wall"
 
   # ------------------------------------------------------------------ B CCTV Room / B Lockers
   - id: bank-basement-kaid-server-wall
@@ -432,50 +479,60 @@ briefs:
   - id: bank-basement-attack-server
     site: cctv_lockers
     side: attack
-    operators: [Ace, Thatcher, Hibana]
-    title: "Sewer into Server, open CCTV"
+    operators: [Thermite, Thatcher, Montagne, Hibana]
+    title: "Server control, open the walls, bait the plant"
     text: >-
-      From Jewelry Front, take the Sewer into Server. Thatcher EMPs the Server wall, Ace opens it, and Hibana opens
-      the Admin hatch from 1F to shoot down. Plant tight to the Server wall.
+      Take Server with a shield player and a hard breacher, then open both Server walls into CCTV. Against a
+      Mira, Goyo or smoke, plant, get off, plant again until the utility is burnt. At the same time Hibana and
+      a teammate take Printer, drone it clear, EMP and open the Admin hatch and the Open Area hatch for the
+      red angles; drop the hatch if the Mira or the Garage head-hole player is too strong.
     placements:
       - kind: entry
         floor: B
         at: [75.5, 14.5]
         name: "Sewer manhole"
-        note: "Drone Server and the stairs first"
-      - kind: ace
+        note: "From spawn, shoot the Lobby and Top Square cams before you drop"
+      - kind: thermite
         floor: B
         between: [CCTV Room, Server Room]
         nudge: [1.2, 0]
-        note: "From Server, after the EMP"
+        note: "Open both Server walls"
       - kind: hibana
         floor: 1F
         at: [59.0, 57.5]
         name: "Admin hatch"
-        note: "Vertical onto CCTV"
+        note: "EMP it, then Hibana; red angles onto site"
+      - kind: hibana
+        floor: 1F
+        at: [57.0, 66.0]
+        name: "Open Area hatch"
+        note: "Drop it to frag the Mira or the Garage head-hole player"
       - kind: plant
         floor: B
         room: CCTV Room
         nudge: [1.5, -2.5]
-        note: "Tight to the Server wall"
+        note: "Plant, get off, plant again to bait the utility"
   - id: bank-basement-attack-garage
     site: cctv_lockers
     side: attack
     operators: [Twitch, Nomad]
-    title: "Garage pressure, Lockers side"
+    title: "Shoot every cam, late Twitch on Garage"
     text: >-
-      A second group drones the Garage ramp and pushes late once drones have popped the utility; Twitch counters
-      Mira and Goyo here. Watch the Lobby hatch and Square on the way.
+      Shoot every cam early, not just Garage: rappel up to E2 to shoot the E2 cam and hit Lobby and Top Square
+      from the Sewer spawn. Twitch drones pop the Mira and Goyo first and she pushes Garage late, once the
+      Garage defender gives it up. With man advantage, walk someone down Marble stairs to cut the rotates.
     placements:
+      - kind: entry
+        floor: 1F
+        at: [42.0, 70.0]
+        name: "E2 window rappel"
+        note: "Shoot the E2 cam from the rappel"
       - kind: drone
         floor: B
         room: Garage
-        note: "Garage ramp drone"
-      - kind: breach
+        note: "Twitch drones pop the utility before the push"
+      - kind: anchor
         floor: B
-        between: [Garage, Lockers Hallway]
-        note: "Loading Dock wall"
-      - kind: plant
-        floor: B
-        room: Lockers
-        note: "After clearing Red Hallway"
+        at: [44.0, 46.0]
+        name: "Marble stairs"
+        note: "With man advantage, walk down and cut rotates"

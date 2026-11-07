@@ -52,59 +52,70 @@ briefs:
         edge: left
         nudge: [1.0, 1.2]
         note: "Lower half"
+  # Attack briefs on this map follow Garfieldisdoc, "How to Attack EVERY Bombsite in Rainbow Six Siege
+  # (2026)", https://www.youtube.com/watch?v=1qCEYZwQzes (Kanal from 2:39:22).
   - id: kanal-server-attack-burn
     site: server_room_radar_room
     side: attack
-    operators: [Thermite, Thatcher]
-    title: "EMP and burn the main wall, hop 90"
+    operators: [Nomad, Maverick, Ying]
+    title: "Main breach with a Red pinch"
     text: >-
-      Drone the outside Server wall for claws, then Thatcher EMPs as Thermite places on the main wall. Take Skybridge or
-      one stairwell at the same time, hop the 90 and plant behind the desk by the Green-side wall.
+      Nomad goes off top White and shoots down the Printer window for a late collapse, airjabs the door, and the team
+      opens the main wall and the pill door, Maverick if it has to be made soft. Send one player through Museum or
+      bottom Red to pinch the Red plat with the breach, bank a nade for tuck left, and take top Red. Once they fall back
+      into Server, smoke the rotate and the mirror, Ying candelas Skybridge for the teammate walking it, and plant.
     placements:
-      - kind: drone
+      - kind: anchor
         floor: 2F
-        room: Skybridge
-        note: "Find the Skybridge holder and feet holes first"
-      - kind: thermite
-        floor: 2F
-        between: [Server Room, exterior]
-        edge: left
-        note: "Main wall; charge inside the EMP window"
-      - kind: entry
-        floor: 2F
-        room: Skybridge
-        nudge: [0, 1.5]
-        note: "Cross after the holder is concussed or traded"
-      - kind: plant
-        floor: 2F
-        room: Server Room
-        nudge: [1.5, 1.0]
-        note: "Behind the desk, away from the Mira anchor (usually)"
-  - id: kanal-server-attack-ace
-    site: server_room_radar_room
-    side: attack
-    operators: [Ace, Maverick]
-    title: "Ace or Maverick on the Server wall"
-    text: >-
-      Backup breach: Ace opens the outside Server wall inside a Thatcher EMP, or Maverick torches it from Skybridge once
-      Kali has lanced the claws. Plant in Radar Room or just inside the breach.
-    placements:
-      - kind: ace
-        floor: 2F
-        between: [Server Room, exterior]
-        edge: left
-        nudge: [0, 1.5]
-        note: "Inside the EMP window"
+        at: [59.3, 46.0]
+        name: "Coast Guard roof (top White)"
+        note: "Nomad: shoot down the Printer window, airjab the door"
       - kind: maverick
         floor: 2F
         between: [Server Room, exterior]
         edge: left
-        nudge: [0, -1.5]
-        note: "Torch a sightline first, then a hole"
+        note: "Main wall and the pill door; any hard breach works"
+      - kind: entry
+        floor: 1F
+        room: Map Room
+        note: "Museum / bottom Red to pinch the player on the Red plat"
+      - kind: entry
+        floor: 2F
+        room: Skybridge
+        note: "Walk it behind Ying's candelas"
       - kind: plant
         floor: 2F
         room: Radar Room
-        note: "Or just inside the breach"
+        note: "Once they're held back in Server"
+  - id: kanal-server-attack-ace
+    site: server_room_radar_room
+    side: attack
+    operators: [Ace, Ying, Montagne, Gridlock]
+    title: "90 and Green split"
+    text: >-
+      Pre-place a cut-off cam in Map Room in the drone phase; if nobody comes down to Museum, Montagne pushes up Green
+      with a teammate behind. Ying candelas 90 and Red while Ace opens both Server walls and the Red angle to cut off the
+      whole site, then airjab Green late or Gridlock the hallways and play the 90 wall. Capitao can smoke the rotate
+      through the floor from the window below.
+    placements:
+      - kind: drone
+        floor: 1F
+        room: Map Room
+        note: "Cut-off cam: nobody comes down to Museum"
+      - kind: entry
+        floor: 2F
+        at: [69.4, 58.5]
+        name: "Green stairs (top)"
+        note: "Montagne leads, one player behind"
+      - kind: ace
+        floor: 2F
+        room: Server Room
+        note: "Both Server walls, then the Red angle"
+      - kind: plant
+        floor: 2F
+        room: Server Room
+        nudge: [1.5, 1.0]
+        note: "Run in once everyone coming off site is dead"
   # ---------------------------------------------------------------- 1F Security Room / Map Room
   - id: kanal-security-team-hatches
     site: security_room_map_room
@@ -156,50 +167,63 @@ briefs:
   - id: kanal-security-attack-top-take
     site: security_room_map_room
     side: attack
-    operators: [Ace, Thatcher, Buck]
-    title: "Take 2F, open the Killbox wall, drop Kitchen"
+    operators: [Nomad, Gridlock, Maverick]
+    title: "Attack it like upstairs: main wall, 90 windows, flank watch"
     text: >-
-      Win 2F from Skybridge, top Red and top Green first. Thatcher EMPs the Killbox wall so Ace can open it, Buck verts
-      over the Kitchen tables, then drop the Kitchen hatch and plant in the Maps corner by the Kitchen door.
+      Defenders extend above, so open the main wall and the pill door, put one or two players on the 90 windows, and
+      shoot open bottom Green and bottom Red for late phantom pressure. Drone where they play and clear from Skybridge
+      plus the breach or a 90 window. Airjab the staircase and keep one player passively on Red and one on Green
+      watching Museum.
     placements:
-      - kind: drone
+      - kind: breach
         floor: 2F
-        room: Skybridge
-        note: "Clear 2F before opening anything"
-      - kind: ace
+        between: [Server Room, exterior]
+        edge: left
+        note: "Main wall and the pill door"
+      - kind: entry
         floor: 2F
-        at: [72.8, 49.5]
-        name: "Killbox outside wall"
+        between: [Control Room, exterior]
+        edge: right
+        note: "90 windows: one or two players"
+      - kind: anchor
+        floor: 2F
+        room: Radar Room
+        note: "Airjab the staircase door; passive holds on Red and Green"
+  - id: kanal-security-attack-hatches
+    site: security_room_map_room
+    side: attack
+    operators: [Sledge, Buck, Hibana]
+    title: "Pop all three hatches, drop Kitchen and plant"
+    text: >-
+      Bring a vertical player and someone with a secondary for hatches: open both site hatches and the Kitchen hatch,
+      and make vertical in Kitchen too so nobody retakes from the tables. That forces them out to Model, the front of
+      site, bottom Red and Museum; drop the Kitchen hatch and plant while a teammate drops the other hatch, watches the
+      rotate and doubles up on you.
+    placements:
+      - kind: breach
+        floor: 2F
+        at: [66.5, 47.3]
+        name: "Radar site hatch"
+        note: "Open it"
+      - kind: breach
+        floor: 2F
+        at: [71.4, 47.3]
+        name: "Other site hatch"
+        note: "Open it; a teammate drops here to watch the rotate"
       - kind: breach
         floor: 2F
         at: [65.5, 56.9]
         name: "Kitchen hatch"
-        note: "Open it, then drop"
+        note: "Open it, vert the Kitchen tables, then drop"
+      - kind: anchor
+        floor: 2F
+        room: Server Room
+        note: "Vertical over the whole site"
       - kind: plant
         floor: 1F
         room: Map Room
         nudge: [-1.5, 1.5]
-        note: "Maps corner by the Kitchen door (usually)"
-  - id: kanal-security-attack-hibana
-    site: security_room_map_room
-    side: attack
-    operators: [Hibana]
-    title: "Burn the site hatches from 2F"
-    text: >-
-      After 2F is yours, Hibana burns the reinforced Radar and Killbox hatches; shoot Maestro Evil Eyes and Mute
-      jammers through them before anyone drops. Plant Security Room if Maps is held.
-    placements:
-      - kind: hibana
-        floor: 2F
-        at: [66.5, 47.3]
-        name: "Radar site hatch"
-      - kind: hibana
-        floor: 2F
-        at: [71.4, 47.3]
-        name: "Killbox site hatch"
-      - kind: plant
-        floor: 1F
-        room: Security Room
+        note: "Right after the Kitchen drop; they have to swing wide to retake"
   # ---------------------------------------------------------------- 1F Coast Guard Meeting Room / Lounge
   - id: kanal-coastguard-team-walls
     site: coast_guard_meeting_lounge
@@ -263,44 +287,57 @@ briefs:
   - id: kanal-coastguard-attack-radio
     site: coast_guard_meeting_lounge
     side: attack
-    operators: [Ace, Kali, Buck]
-    title: "Take Radio from below, open the back wall"
+    operators: [Buck, Sledge, Nomad]
+    title: "Radio take: Scuba below, Skybridge above"
     text: >-
-      Take the basement Scuba side and Buck clears Radio from below while Zero rappels the Radio window. Kali lances the
-      wall gadgets, Ace opens the back wall from Radio, and you plant on the chassis just behind the breach.
+      Open the Radio window and put someone on that rappel. Jump into the basement Scuba side, drone out Scuba and
+      Lockers and take it if it's empty, while another player takes Skybridge control or jumps the Printer window if
+      there's no vertical on it. Pinch the Harry Potter player and cut off whoever plays inside Radio by playing
+      vertical from below.
     placements:
       - kind: entry
         floor: 1F
         between: [Radio Room, exterior]
         edge: left
-        note: "Radio window on rappel"
-      - kind: ace
-        floor: 1F
-        between: [Radio Room, Coast Guard Meeting Room]
-        note: "Back wall; which panel is not verified"
-      - kind: plant
-        floor: 1F
-        room: Coast Guard Meeting Room
-        nudge: [0, -1.5]
-        note: "On the chassis just behind the breach"
-  - id: kanal-coastguard-attack-thermite
+        note: "Open the Radio window; one player on the rappel"
+      - kind: entry
+        floor: B
+        room: Diving Room
+        note: "Scuba side: drone Scuba and Lockers, then take it"
+      - kind: anchor
+        floor: B
+        room: Diving Room
+        nudge: [0, 2.0]
+        note: "Vertical from below to clear Radio"
+      - kind: entry
+        floor: 2F
+        room: Skybridge
+        note: "Skybridge control, or jump the Printer window"
+  - id: kanal-coastguard-attack-back-wall
     site: coast_guard_meeting_lounge
     side: attack
-    operators: [Thermite, Thatcher]
-    title: "Burn Coast Guard from Printer"
+    operators: [Ace, Thermite]
+    title: "Collapse on B: back wall and the chassis plant"
     text: >-
-      Drone Printer Hallway for feet holes and the top Printer stairs roamer. Thatcher EMPs and Thermite burns the
-      Coast Guard to Printer wall; plant Lounge if Coast Guard is crossfired.
+      Once Radio is cut off, collapse on B site by opening the back wall from Blue Stairs, whatever head holes or
+      reinforcements they left. Plant on the chassis right behind the breach: they can only see it through the open
+      hatch or a long C4 lob from Lockers. A teammate on the site rappel watches the bridge and banks utility at the
+      defuser.
     placements:
-      - kind: drone
+      - kind: breach
         floor: 1F
-        room: Printer Hallway
-      - kind: thermite
-        floor: 1F
-        between: [Coast Guard Meeting Room, Printer Hallway]
+        at: [59.3, 56.0]
+        name: "Back wall from Blue Stairs"
+        note: "Open it, whatever they reinforced"
       - kind: plant
         floor: 1F
         room: Lounge
+        note: "On the chassis right behind the breach"
+      - kind: anchor
+        floor: 1F
+        between: [Lounge, exterior]
+        edge: right
+        note: "Site rappel: watch the bridge, bank utility at the defuser"
   # ---------------------------------------------------------------- B Kayaks / Supply Room
   - id: kanal-kayaks-team-hatches
     site: kayaks_supply_room
@@ -356,53 +393,62 @@ briefs:
       - kind: anchor
         floor: B
         room: Diving Room
-  - id: kanal-kayaks-attack-hibana
+  - id: kanal-kayaks-attack-trench
     site: kayaks_supply_room
     side: attack
-    operators: [Hibana, Buck]
-    title: "Win 1F, burn both hatches"
+    operators: [Buck, Sledge, Nomad]
+    title: "Vertical split from Reception, Trench push"
     text: >-
-      Take Reception and the 1F rooms first; Caveira roams there until 1:30. Hibana burns the Coast Guard and Lounge
-      hatches, Buck opens the floor over site, and you plant tucked by the chassis.
+      Start at Reception, mind the far spawn-peek angle, open the Trench door and drone Reception and Archives. If
+      they're free, work the main hatch while a teammate rappels Lounge or comes down top White and airjabs the Main
+      Stairs swing. Open both hatches, work vertical on Harry Potter and the stalls, rotate one or two to Trench, and
+      plant under the open hatch with an angle on the double door.
     placements:
-      - kind: hibana
+      - kind: entry
+        floor: 1F
+        room: Reception
+        note: "Drone out Reception and Archives first"
+      - kind: breach
         floor: 1F
         at: [53.1, 57.6]
-        name: "Coast Guard hatch"
-      - kind: hibana
+        name: "Main hatch (Coast Guard)"
+        note: "Open it once 1F is yours"
+      - kind: breach
         floor: 1F
         at: [59.9, 52.0]
         name: "Lounge hatch"
-      - kind: breach
-        floor: 1F
-        room: Coast Guard Meeting Room
-        nudge: [1.5, 0]
-        note: "Buck opens the floor over site"
+        note: "Open both, then work vertical"
+      - kind: entry
+        floor: B
+        at: [52.0, 60.0]
+        name: "Trench door"
+        note: "Opened at the start; one or two rotate here"
       - kind: plant
         floor: B
         room: Supply Room
-        note: "Tucked by the chassis, Buck covers from above"
+        note: "Under the open hatch, angle on the double door"
   - id: kanal-kayaks-attack-split
     site: kayaks_supply_room
     side: attack
-    operators: []
-    title: "Split Trench and Yellow"
+    operators: [Smoke, Capitao, Buck]
+    title: "Yellow push and the chassis plant"
     text: >-
-      Open and drone Trench early for the Jager at the door, then drone Diving and Main stairs. Push Trench and Yellow
-      stairs together and plant the Kayaks corner; Airjab Main stairs instead of rushing it.
+      Make vertical on everything and come down Yellow; make sure Scuba is clear, and someone can jump the Scuba window
+      late. Defenders end up by the door, Closet or Main Stairs, so smoke off the double and the Lockers door and plant
+      the cheeky spot on the bomb chassis: retaking it means jumping up to defuse at an awkward angle.
     placements:
-      - kind: drone
+      - kind: entry
         floor: B
         room: Diving Room
-        note: "Frost mats and Mute jammers"
+        note: "Down Yellow, clear Scuba"
       - kind: entry
         floor: B
         between: [Diving Room, exterior]
         edge: left
         nudge: [0, 1.5]
-        note: "Diving side (usually)"
+        note: "Scuba window, late"
       - kind: plant
         floor: B
         room: Kayaks
         nudge: [-1.0, -1.0]
-        note: "Kayaks corner"
+        note: "On the bomb chassis; smoke the double and Lockers door"

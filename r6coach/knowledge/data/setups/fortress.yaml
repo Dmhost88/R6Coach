@@ -74,47 +74,72 @@ briefs:
         floor: 2F
         room: Commander's Office
         note: "Black boxes"
-  - id: fortress-commanders-attack-thermite
+  # Attack briefs on this map follow Garfieldisdoc, "How to Attack EVERY Bombsite in Rainbow Six Siege
+  # (2026)", https://www.youtube.com/watch?v=1qCEYZwQzes (Fortress from 2:06:41).
+  - id: fortress-commanders-attack-white-split
     site: commanders_office_bathroom
     side: attack
-    operators: [Thermite, Thatcher]
-    title: "Old Tower clear, burn the Bathroom wall"
+    operators: [Thermite, Nomad]
+    title: "White stairs split: the main Commander's wall"
     text: >-
-      Take Laundry and the Old Tower side with drones first. Thatcher EMPs the Bathroom to Briefing wall right before
-      Thermite charges the far-right panel; plant Bathroom behind the half wall and hold from the breach.
+      Pre-place a cam in Lobby (or Nomad jabs the double) so nobody flanks bottom White. Take top White, drone
+      out the tower and open the main Tower Hallway wall if they give it up; then open the main Commander's
+      wall. A player outside Museum cuts off site, and starts the round shooting down the Horse door for
+      phantom pressure on the White and Horse rotates.
     placements:
       - kind: drone
         floor: 2F
-        room: Old Tower
+        at: [57.0, 40.0]
+        name: "Lobby (1F)"
+        note: "Pre-placed cam or Nomad jab: stop the bottom White flank"
+      - kind: entry
+        floor: 2F
+        at: [59.0, 46.5]
+        name: "Top White stairs"
+        note: "Take top White, drone out the tower"
       - kind: thermite
         floor: 2F
-        between: [Bathroom, Briefing Room]
-        nudge: [1.2, 0]
-        note: "Far-right panel"
-      - kind: plant
-        floor: 2F
-        room: Bathroom
-        note: "Behind the half wall"
-  - id: fortress-commanders-attack-ace
-    site: commanders_office_bathroom
-    side: attack
-    operators: [Ace]
-    title: "Open Commander's from Museum"
-    text: >-
-      Clear Museum (Horse) and Central stairs, then Ace opens the Commander's to Museum wall. Nokk lurks Horse for the
-      rotating defenders; plant Bathroom tight on the door.
-    placements:
-      - kind: drone
+        between: [Commander's Office, Old Tower]
+        note: "Main Commander's wall from Tower Hallway"
+      - kind: anchor
         floor: 2F
         room: Museum
-      - kind: ace
+        nudge: [-3.0, 0]
+        note: "Outside Museum: cut off site; shoot down the Horse door"
+  - id: fortress-commanders-attack-tower-drop
+    site: commanders_office_bathroom
+    side: attack
+    operators: [Thermite, Ace, Flores]
+    title: "Tower drop: Briefing wall, Courtyard Hall windows, pinch Horse"
+    text: >-
+      Cam the tower side, open the outside wall from Shisha and the White hallway window for phantom pressure.
+      A teammate comes up from Laundry by the Old Tower stairs while the tower player drops; drone Games and
+      open the main Briefing wall, rotate one to the Courtyard Hall windows if Briefing is contested, then work
+      the Bathroom walls while a lurker pinches Horse.
+    placements:
+      - kind: breach
         floor: 2F
-        between: [Commander's Office, Museum]
-      - kind: plant
+        room: Old Tower
+        nudge: [-2.0, -2.0]
+        note: "Hard breach from Shisha; White hallway window too"
+      - kind: entry
         floor: 2F
-        room: Bathroom
-        nudge: [0, -1.5]
-        note: "Tight on the door"
+        room: Old Tower
+        nudge: [1.5, 1.5]
+        note: "Laundry up the Old Tower stairs while the tower drops"
+      - kind: thermite
+        floor: 2F
+        between: [Briefing Room, Courtyard Corridor]
+        note: "Main Briefing wall"
+      - kind: entry
+        floor: 2F
+        room: Courtyard Corridor
+        nudge: [2.0, 0]
+        note: "Courtyard Hall windows if Briefing contests you"
+      - kind: breach
+        floor: 2F
+        between: [Bathroom, Briefing Room]
+        note: "Bathroom walls; a lurker pinches Horse"
   # ---------------------------------------------------------------- 2F Dormitory / Games Room
   - id: fortress-dorms-team-walls
     site: dormitory_games_room
@@ -167,40 +192,63 @@ briefs:
   - id: fortress-dorms-attack-thermite
     site: dormitory_games_room
     side: attack
-    operators: [Thermite, Thatcher]
-    title: "Pinch Old Tower, burn the Dorms breach"
+    operators: [Montagne, Zofia, Thermite]
+    title: "Tower side and Laundry stairs into the single wall"
     text: >-
-      Zofia clears the Old Tower drop, then Vending; Flores walks Laundry stairs for the pinch. Thatcher disrupts and
-      Thermite burns the Dorms breach from the window side; Osa plants deep in Games facing Briefing.
+      Open the Horse door and the White window, keep one player lurking Horse late. A shield takes the tower
+      side; Zofia's stuns and impacts clear the shield and wire on the drop. At the same time someone comes up
+      from Laundry to the staircase, then open the single wall and the double wall if it's reinforced, and take
+      linear fights off the breach and the Horse-side player's crosses.
     placements:
       - kind: entry
         floor: 2F
+        room: Museum
+        note: "Horse door and White window open early; lurk Horse late"
+      - kind: entry
+        floor: 2F
         room: Old Tower
+        note: "Shield takes the tower; Zofia clears the shield and wire"
+      - kind: entry
+        floor: 2F
+        room: Old Tower
+        nudge: [1.5, 2.0]
+        note: "From Laundry up the staircase (crouch-walk, not the window)"
       - kind: thermite
         floor: 2F
-        between: [Dormitory, exterior]
-        edge: right
-      - kind: plant
-        floor: 2F
-        room: Games Room
-        nudge: [2.0, 1.0]
-        note: "Deep Games corner, shield facing Briefing"
+        between: [Games Room, Old Tower]
+        note: "Single wall, then the double if it's reinforced"
   - id: fortress-dorms-attack-flank
     site: dormitory_games_room
     side: attack
-    operators: []
-    title: "Hold the Briefing flank"
+    operators: [Thermite, Flores]
+    title: "Bathroom wall, the triple wall, backstab from back tower"
     text: >-
-      Drone Central stairs and Briefing before the plant; the Briefing flank is the usual mistake. Thatcher leaves a
-      claymore on Central stairs and one player watches Courtyard Corridor.
+      Start one player on the Horse door for the roamer and one in the main balcony window to cut the area.
+      Open the single, collapse into the Bathroom hallway and Courtyard hallway and watch the swing, then open
+      the main triple wall. When they fall back, a Flores works back tower late and backstabs.
     placements:
-      - kind: drone
+      - kind: anchor
         floor: 2F
-        room: Briefing Room
+        room: Museum
+        nudge: [-2.0, 2.0]
+        note: "Horse door: cut off the Bathroom-side roamer"
       - kind: anchor
         floor: 2F
         room: Courtyard Corridor
-        note: "Watch the Briefing flank"
+        nudge: [3.0, 0]
+        note: "Main balcony window"
+      - kind: breach
+        floor: 2F
+        room: Bathroom
+        note: "Open the single, take the Bathroom hallway"
+      - kind: thermite
+        floor: 2F
+        between: [Dormitory, Courtyard Corridor]
+        note: "Main triple wall"
+      - kind: entry
+        floor: 2F
+        room: Old Tower
+        note: "Flores late from back tower: the backstab"
   # ---------------------------------------------------------------- 1F Waiting Room / Cafeteria
   - id: fortress-cafe-team-walls
     site: waiting_room_cafeteria
@@ -250,47 +298,65 @@ briefs:
         floor: 1F
         room: Cafeteria
         note: "Power spot"
-  - id: fortress-cafe-attack-oven
+  - id: fortress-cafe-attack-dining-wall
     site: waiting_room_cafeteria
     side: attack
-    operators: [Hibana, Thatcher, Sledge]
-    title: "Fountain first, burn Oven"
+    operators: [Thermite, Gridlock, Nomad]
+    title: "Lobby side: open the main wall from Dining"
     text: >-
-      Sledge opens the Showers wall and holds Fountain (Hammam). Thatcher EMPs the Oven claws, Hibana opens the triple
-      wall from the Lobby side, then pinch the hallway and plant deep Cafeteria.
-    placements:
-      - kind: breach
-        floor: 1F
-        between: [Showers, Hammam]
-        note: "Sledge opens Showers into Fountain"
-      - kind: hibana
-        floor: 1F
-        room: Kitchen
-        nudge: [0, -1.0]
-        note: "Oven triple wall"
-      - kind: plant
-        floor: 1F
-        room: Cafeteria
-        note: "Deep Cafeteria, power-spot side"
-  - id: fortress-cafe-attack-briefing
-    site: waiting_room_cafeteria
-    side: attack
-    operators: []
-    title: "Take Briefing, plant Waiting"
-    text: >-
-      Drone Infirmary for the contest and Briefing for the hatch player. If you own Briefing, hold the hatch from above
-      and plant Waiting under it.
+      Don't fight Laundry. Split in two: one group takes Courtyard Hall and Lobby with pre-placed cut-off cams
+      and Gridlock or Nomad on the staircase, the other pushes from Hammam and Sitting. Get to White stairs, put
+      a player in Gun Room for the flank, then open the main wall from Dining; you can't plant at the breach,
+      so take control and get deep into Cafeteria.
     placements:
       - kind: drone
         floor: 1F
-        room: Infirmary
+        room: Dining Room
+        note: "Pre-placed cut-off cam"
       - kind: entry
-        floor: 2F
-        at: [64.2, 63.4]
-        name: "Briefing hatch"
+        floor: 1F
+        room: Courtyard
+        note: "Courtyard Hall and Lobby; Trax or jabs on the staircase"
+      - kind: anchor
+        floor: 1F
+        room: Gun Room
+        note: "Cut off the flank"
+      - kind: thermite
+        floor: 1F
+        between: [Kitchen, Dining Room]
+        note: "Main wall from the Dining side"
+      - kind: plant
+        floor: 1F
+        room: Cafeteria
+        note: "Deep: the plant spot is awkward"
+  - id: fortress-cafe-attack-briefing
+    site: waiting_room_cafeteria
+    side: attack
+    operators: [Nomad, Gridlock]
+    title: "Flip to Infirmary, or open the Briefing hatch"
+    text: >-
+      If they reinforce Infirmary off and give it up, open the Courtyard door and everybody pushes Infirmary
+      while someone takes Laundry for the flank. Go for the one wall, flash out the stove, double up on the
+      planter and plant in Waiting. For a split, rappel into Briefing, open the hatch and cut the door, the
+      Infirmary wall and the stove rotate from above.
+    placements:
+      - kind: entry
+        floor: 1F
+        room: Infirmary
+        note: "Push Infirmary through the Courtyard door"
+      - kind: breach
+        floor: 1F
+        between: [Infirmary, Waiting Room]
+        note: "The one wall; flash the stove"
       - kind: plant
         floor: 1F
         room: Waiting Room
+        note: "Double up on the planter"
+      - kind: breach
+        floor: 2F
+        at: [64.2, 63.4]
+        name: "Briefing hatch"
+        note: "Rappel into Briefing, open the hatch, cut every angle"
   # ---------------------------------------------------------------- 1F Hammam / Sitting Room
   - id: fortress-hammam-team-walls
     site: hammam_sitting_room
@@ -343,43 +409,59 @@ briefs:
   - id: fortress-hammam-attack-thermite
     site: hammam_sitting_room
     side: attack
-    operators: [Thermite]
-    title: "Burn the Sitting outside wall"
+    operators: [Thermite, Montagne, Glaz]
+    title: "Open the main Sitting wall, jump the window"
     text: >-
-      Drone Gun Room and Showers for the Frost and the traps. Thermite burns the Sitting Room outside wall and Ying
-      candelas Hammam; plant on the Hammam steps under smoke.
+      Simply go for the Sitting wall: open the main wall, and jump in the window next to it to take Gun Room and
+      their crosses. Bring smokes (Montagne or Glaz help), smoke off the double and close, then jump in and
+      plant on the little half wall; watch for vertical.
     placements:
-      - kind: drone
-        floor: 1F
-        room: Gun Room
       - kind: thermite
         floor: 1F
         between: [Sitting Room, exterior]
         edge: right
-      - kind: plant
-        floor: 1F
-        room: Hammam
-        note: "Hammam steps"
-  - id: fortress-hammam-attack-window
-    site: hammam_sitting_room
-    side: attack
-    operators: [Capitao, Glaz]
-    title: "Fire bolts on Showers, Glaz through smoke"
-    text: >-
-      Capitao fire-bolts Showers and smokes the plant; Glaz opens the Sitting window and holds through the smoke. Plant
-      on the Hammam half wall and watch the hallway flank.
-    placements:
+        note: "Main Sitting wall"
       - kind: entry
         floor: 1F
         between: [Sitting Room, exterior]
         edge: right
         nudge: [0, 1.5]
-        note: "Sitting window"
-      - kind: drone
+        note: "Jump in the window"
+      - kind: anchor
         floor: 1F
-        room: Showers
+        room: Gun Room
+        note: "Gun Room control: their crosses"
       - kind: plant
         floor: 1F
-        room: Hammam
-        nudge: [1.0, 1.5]
-        note: "Hammam half wall"
+        room: Sitting Room
+        note: "On the little half wall, smoke the double and close"
+  - id: fortress-hammam-attack-window
+    site: hammam_sitting_room
+    side: attack
+    operators: []
+    title: "If they play vert: phantom windows, tower drop, Museum hatch"
+    text: >-
+      If they play vertical, open the main hallway window and the Horse door for phantom pressure and play
+      outside Horse instead of walking in. Teammates drop the tower and one comes Lobby, take the space up to
+      Museum and open the hatch: it cuts every line of sight in site and forces them to flank up White, so
+      hold a gun there with claymores while the planter walks in and plants tucked.
+    placements:
+      - kind: anchor
+        floor: 2F
+        room: Museum
+        nudge: [-3.0, 0]
+        note: "Outside the Horse door; open the hallway window too"
+      - kind: entry
+        floor: 2F
+        room: Old Tower
+        note: "Drop the tower; one more comes Lobby"
+      - kind: breach
+        floor: 2F
+        room: Museum
+        nudge: [0, 3.0]
+        note: "Museum hatch: cuts every line of sight in site"
+      - kind: plant
+        floor: 1F
+        room: Sitting Room
+        nudge: [0, 2.0]
+        note: "Tucked"

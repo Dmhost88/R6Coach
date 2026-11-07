@@ -94,51 +94,66 @@ briefs:
         room: Hookah Lounge
         nudge: [-2.0, 0]
         note: "Jager ADS on the Hookah door"
-  - id: coastline-hookah-attack-quad
+  # Attack briefs on this map follow Garfieldisdoc, "How to Attack EVERY Bombsite in Rainbow Six Siege
+  # (2026)", https://www.youtube.com/watch?v=1qCEYZwQzes (Coastline from 1:25:10).
+  - id: coastline-hookah-attack-aqua-nomad
     site: hookah_billiards
     side: attack
-    operators: []
-    title: "Fake the door, Ace the quad wall from the roof"
+    operators: [Nomad]
+    title: "Aqua take: Nomad jabs, roof nade, main window late"
     text: >-
-      Montagne fakes the Hookah door while Ace opens the quad wall from the roof and clears Aqua. Nomad jabs the
-      doors and rappels Billiards; Osa shields the Billiards window and plants behind it.
+      Nomad pre-places a cam watching Sunrise, takes Sunrise control and jabs the Sunrise double door, then
+      rappels the inner rappel and jabs the Hookah door; her job late is the main window, cutting everything
+      off. Someone on the roof nades down the hatch to force the Aqua player to rotate, and you take Aqua
+      control, clear barriers and shields, and plant.
     placements:
       - kind: drone
-        floor: 2F
-        room: Aquarium
-        note: "Drone Aqua from the roof"
-      - kind: ace
-        floor: 2F
-        room: Billiards Room
-        nudge: [0, 3.0]
-        note: "Pink Bar quad wall from the roof"
+        floor: 1F
+        room: Sunrise Bar
+        note: "Pre-placed cam watching Sunrise; air jab the double door"
       - kind: entry
         floor: 2F
-        room: Billiards Room
-        nudge: [2.5, 0]
-        note: "Billiards window rappel"
+        between: [Hookah Lounge, exterior]
+        edge: top
+        note: "Inner rappel; air jab off the Hookah door"
+      - kind: anchor
+        floor: 2F
+        room: Hookah Lounge
+        nudge: [3.0, 0]
+        note: "Main window late: cut everything off"
+      - kind: breach
+        floor: ROOF
+        at: [58.0, 37.0]
+        name: "Roof hatch and vent"
+        note: "Nade down the hatch so the Aqua player rotates; pre-fire him"
       - kind: plant
         floor: 2F
         room: Billiards Room
-        note: "Behind the Osa shield at the window"
+        note: "Once Aqua is yours and the utility is cleared"
   - id: coastline-hookah-attack-triple
     site: hookah_billiards
     side: attack
-    operators: [Thermite, Thatcher]
-    title: "Burn the Hookah triple wall"
+    operators: [Hibana, Ace]
+    title: "Open the far angles from the roof, Blue window early"
     text: >-
-      Thatcher EMPs the claw, then Thermite burns the Hookah triple wall. Plant the Hookah default under smoke
-      while the team holds Aqua.
+      At the start, Hibana or Ace rappels and opens the far right angle, the left angle and as much of the wall
+      as you can: it cuts off Vase, Pink Bar and anyone rotating Hookah. Play it from there or from Luggage
+      (watch bottom Courtyard). Open the Blue Bar window early so a defender who crosses to C4 gets peeked from
+      the window or the rappel.
     placements:
-      - kind: thermite
+      - kind: hibana
         floor: 2F
         room: Hookah Lounge
         nudge: [0, 4.0]
-        note: "Hookah triple wall, Billiards section"
-      - kind: plant
+        note: "Far right angle, left angle and the wall from the rappel"
+      - kind: anchor
         floor: 2F
-        room: Hookah Lounge
-        note: "Hookah default plant under smoke"
+        room: Aquarium
+        note: "Luggage: hold the angles; bottom Courtyard can peek you"
+      - kind: entry
+        floor: 1F
+        room: Blue Bar
+        note: "Open the Blue Bar window early for phantom pressure"
 
   # ------------------------------------------------------------------ 2F Theater / 2F Penthouse
   - id: coastline-theater-team-reinforce
@@ -229,46 +244,52 @@ briefs:
   - id: coastline-theater-attack-vip
     site: theater_penthouse
     side: attack
-    operators: []
-    title: "Burn VIP, plant the bed"
+    operators: [Thermite, Thatcher, Buck, Sledge]
+    title: "Main wall, then vert from Kitchen below"
     text: >-
-      Win the Hookah-side hallway, then Thatcher EMPs and Thermite burns the VIP wall. Buck verticals Theater
-      from below onto the DJ booth and bookshelves; clear Penthouse and plant on the bed.
+      Thatcher and Thermite open the main wall and hold an angle until the team has the map. Someone goes below
+      into Kitchen and Service and makes vert on every cutoff spot: by the wall, the DJ booth, the rotate and
+      the bookshelf. Collapse off the breach, push them off books and plant on the bed.
     placements:
       - kind: thermite
         floor: 2F
         between: [Penthouse, VIP Lounge]
-        note: "VIP wall from the VIP side"
+        note: "Main wall; hold an angle off it until you have map control"
       - kind: breach
         floor: 1F
-        between: [Sunrise Bar, Blue Bar]
-        note: "Buck vertical up into Theater, usually from below the DJ booth"
+        room: Kitchen
+        note: "Vert up into Penthouse on the cutoff spots: DJ booth, rotate, bookshelf"
+      - kind: breach
+        floor: 1F
+        room: Service Entrance
+        note: "The main vert if you only make one"
       - kind: plant
         floor: 2F
         room: Penthouse
-        note: "Penthouse bed under Thermite smoke"
+        note: "Jump in on the bed"
   - id: coastline-theater-attack-window
     site: theater_penthouse
     side: attack
-    operators: []
-    title: "Big window and the Bathroom hatch"
+    operators: [Blackbeard, Nomad]
+    title: "Hookah-side hallway, Aqua shield, Nomad on the windows"
     text: >-
-      Drone Penthouse through the big window, then split one through the big window and one down the Bathroom
-      hatch while the team pushes Main Stairs.
+      While the main wall goes, two players come Hookah side, drone each other in and win the hallway so nobody
+      rotates out. Another goes Aqua and Luggage with a shield like Blackbeard to push top White back, and a
+      rappeller (Nomad) jabs the Lobby door and the front Service door and works the windows for picks.
     placements:
-      - kind: drone
-        floor: 2F
-        room: Penthouse
-        nudge: [-3.0, 0]
-        note: "Drone through the big window"
       - kind: entry
         floor: 2F
-        room: Penthouse Bathroom
-        note: "Bathroom hatch entry"
+        room: Hookah Lounge
+        note: "Two players, drone each other in, win the hallway"
       - kind: entry
-        floor: 1F
-        room: Main Stairs
-        note: "Main Stairs push"
+        floor: 2F
+        room: Aquarium
+        note: "Aqua and Luggage with a shield; contest top White"
+      - kind: anchor
+        floor: 2F
+        room: Theater
+        nudge: [-4.0, 0]
+        note: "Nomad: jab Lobby and Service doors, work the windows"
 
   # ------------------------------------------------------------------ 1F Kitchen / 1F Service Entrance
   - id: coastline-kitchen-team-reinforce
@@ -336,52 +357,58 @@ briefs:
   - id: coastline-kitchen-attack-barrels
     site: kitchen_service_entrance
     side: attack
-    operators: []
-    title: "Take VIP, then open Barrels"
+    operators: [Ace, Hibana]
+    title: "Open Kegs to cut every rotate, then walk in Service"
     text: >-
-      Take VIP and the floor over site first, play vertical onto the corners, then Thatcher EMPs and Ace opens
-      the Back Barrels wall. Plant behind the Kitchen counter, away from the Volcans.
+      Open the Lobby and Service barricades at the start for phantom pressure and feel out the map from the
+      Service door with drones. Ace or Hibana opens the Kegs wall: it cuts off every rotate in site, so the
+      Service-side player only worries about far angles like the Kitchen door. Someone works the Kitchen
+      window; plant once Bathroom is clear.
     placements:
       - kind: entry
-        floor: 2F
-        room: VIP Lounge
-        note: "Take VIP above"
-      - kind: breach
-        floor: 2F
-        room: VIP Lounge
-        nudge: [0, 3.0]
-        note: "Vertical onto Kitchen"
-      - kind: ace
         floor: 1F
         room: Service Entrance
-        nudge: [3.0, 1.5]
-        note: "Back Barrels wall"
-      - kind: plant
+        nudge: [3.0, 2.0]
+        note: "Open the Service door early; drone and find the gap"
+      - kind: ace
+        floor: 1F
+        between: [Kitchen, Service Entrance]
+        note: "Kegs wall: cuts every rotate in site"
+      - kind: entry
         floor: 1F
         room: Kitchen
-        note: "Behind the counter"
+        nudge: [-3.0, 0]
+        note: "Kitchen window; flip to a Kitchen plant if Service is too heavy"
+      - kind: plant
+        floor: 1F
+        room: Service Entrance
+        note: "Walk in Service side once Bathroom is clear"
   - id: coastline-kitchen-attack-hibana
     site: kitchen_service_entrance
     side: attack
-    operators: [Hibana, Fuze]
-    title: "Hibana on Barrels, Fuze the soft walls"
+    operators: [Fuze, Buck, Sledge]
+    title: "Fuze the soft wall, vert the whole site from above"
     text: >-
-      Hibana opens the Barrels wall from outside while Fuze clusters the soft Kitchen walls. Drone Sunrise and
-      Security first for the roamer.
+      If the Kitchen soft wall isn't reinforced, Fuze it twice to clear the Kitchen utility, then open it. From
+      upstairs make vert on default, the Bathroom rotate, the far toilet stalls, the tucked corner, Kegs and the
+      Lobby desk; shoot the Mira and pop the hatch while the team pushes in off your vert.
     placements:
-      - kind: drone
+      - kind: breach
         floor: 1F
-        room: Sunrise Bar
-        note: "Drone Sunrise and Security"
-      - kind: hibana
-        floor: 1F
-        room: Service Entrance
-        nudge: [3.0, -1.5]
-        note: "Back Barrels wall"
-      - kind: plant
-        floor: 1F
-        room: Service Entrance
-        note: "Service Entrance default"
+        room: Kitchen
+        note: "Fuze the soft wall twice, then open it"
+      - kind: breach
+        floor: 2F
+        room: VIP Lounge
+        note: "Vert onto default; shoot the Mira"
+      - kind: breach
+        floor: 2F
+        room: Penthouse
+        note: "Vert on the Bathroom rotate and the tucked corner"
+      - kind: breach
+        floor: 2F
+        room: Theater
+        note: "Vert on the Lobby desk player"
 
   # ------------------------------------------------------------------ 1F Blue Bar / 1F Sunrise Bar
   - id: coastline-blue-team-reinforce
@@ -443,52 +470,54 @@ briefs:
   - id: coastline-blue-attack-floor
     site: blue_bar_sunrise_bar
     side: attack
-    operators: []
-    title: "Win Hookah, open the floor over the bar"
+    operators: [Thermite, Montagne, Blackbeard]
+    title: "Main wall with a shield, then win Hookah above"
     text: >-
-      Win Hookah first. Sledge opens the floor over the bar, Thermite burns Blue main on his call and Thatcher
-      holds the Sunrise window. Plant behind the bomb in Sunrise.
+      Thermite opens the main wall and a shield (Montagne, Blackbeard) deals with the Sunrise Bar player. That
+      alone won't do it, so get Hookah control too: drone upstairs, check behind the couches and work for the
+      hatch while a teammate watches Cool Vibes from around the plat. Then walk in off your breach and plant on
+      the couches.
     placements:
-      - kind: entry
-        floor: 2F
-        room: Hookah Lounge
-        note: "Win Hookah first"
-      - kind: breach
-        floor: 2F
-        at: [36.5, 44.0]
-        name: "Floor over the bar"
-        nudge: [1.5, 0]
-        note: "Sledge opens it on call"
       - kind: thermite
         floor: 1F
-        room: Blue Bar
-        nudge: [0, -2.0]
-        note: "Blue Bar main wall"
+        room: Sunrise Bar
+        nudge: [-4.0, 0]
+        note: "Main wall; shield first in"
+      - kind: drone
+        floor: 2F
+        room: Hookah Lounge
+        note: "Drone upstairs, check behind the couches"
+      - kind: breach
+        floor: 2F
+        room: Hookah Lounge
+        nudge: [0, 3.0]
+        note: "Open the hatch; a teammate watches Cool Vibes meanwhile"
       - kind: plant
         floor: 1F
         room: Sunrise Bar
-        note: "Behind the bomb"
+        nudge: [0, 3.0]
+        note: "On the couches"
   - id: coastline-blue-attack-window
     site: blue_bar_sunrise_bar
     side: attack
-    operators: [Zero]
-    title: "Open the Blue window early"
+    operators: [Buck, Sledge]
+    title: "Vert the bar from Hookah, a player outside Sunrise"
     text: >-
-      Open the Blue Bar window early from Pool Side and drone behind the couches. Zero cams Cool Vibes and White
-      for the roamer; plant on the couches if Sunrise is held.
+      With the hatch open, make vert from Hookah on the bar, the rotate and the hallway to the double door; if
+      someone sits behind Sunrise Bar, vert the bar and the back couches too. Put a teammate outside the
+      Sunrise window so nobody tucks there and plays safe, then collapse in off the breach.
     placements:
-      - kind: entry
+      - kind: breach
+        floor: 2F
+        room: Hookah Lounge
+        nudge: [-3.0, 0]
+        note: "Vert on the bar, the rotate and the double-door hallway"
+      - kind: anchor
         floor: 1F
-        between: [Blue Bar, exterior]
-        edge: bottom
-        nudge: [1.5, 0]
-        note: "Blue Bar window"
-      - kind: drone
-        floor: 1F
-        room: Blue Bar
-        note: "Drone behind the couches"
+        between: [Sunrise Bar, exterior]
+        edge: left
+        note: "Outside the Sunrise window: nobody tucks there"
       - kind: plant
         floor: 1F
-        room: Blue Bar
-        nudge: [0, 2.0]
-        note: "On the couches"
+        room: Sunrise Bar
+        note: "Walk in off the breach once the bar is cleared"

@@ -89,47 +89,73 @@ briefs:
         between: [Gym, Bedroom]
         nudge: [0, -1.2]
         note: "Bedroom side of the feet holes"
+  # Attack briefs on this map follow Garfieldisdoc, "How to Attack EVERY Bombsite in Rainbow Six Siege
+  # (2026)", https://www.youtube.com/watch?v=1qCEYZwQzes (Clubhouse from 1:13:42).
   - id: clubhouse-gym-attack-logi-jacuzzi
     site: gym_bedroom
     side: attack
-    operators: []
-    title: "Logistics drop, Jacuzzi wall"
+    operators: [Thermite, Montagne, Blackbeard]
+    title: "Jacuzzi-Logistic split: open everything"
     text: >-
-      From Construction Site take the roof and drop the Logistic hatch while the breach team works
-      Jacuzzi. Plant on the Gym half wall by the weights.
+      Open everything: Thermite takes the main Jacuzzi wall, pop the Logistic hatch, open the Construction
+      single and the Server wall. While he burns, the rest take Garage with a pre-placed cam, shields push up
+      to the Garage window and you drone Red stairs before working toward Gym.
     placements:
-      - kind: drone
-        floor: ROOF
-        at: [57.9, 12.8]
-        name: "Roof hatch"
-        note: "Drone down before dropping"
-      - kind: entry
-        floor: 2F
-        room: Logistic Office
-        note: "Drop and clear the C4 anchor"
-      - kind: plant
-        floor: 2F
-        room: Gym
-        note: "Half wall by the weights"
-  - id: clubhouse-gym-ace-jacuzzi
-    site: gym_bedroom
-    side: attack
-    operators: [Ace, Thatcher, Hibana]
-    title: "Open Jacuzzi, then the Bathroom wall"
-    text: >-
-      Thatcher EMPs the Jacuzzi claws, Ace opens Jacuzzi, then Ace or Hibana opens the Bathroom wall
-      into Bedroom. Zofia impacts the window panels.
-    placements:
-      - kind: ace
+      - kind: thermite
         floor: 2F
         at: [40.2, 30.0]
         name: "Jacuzzi wall"
         nudge: [-1.2, 0]
-        note: "After the EMP"
+        note: "Main Jacuzzi wall; clear the utility on it first"
+      - kind: breach
+        floor: ROOF
+        at: [57.9, 12.8]
+        name: "Logistic hatch"
+        note: "Pop the Logistic hatch"
+      - kind: breach
+        floor: 2F
+        room: Construction
+        note: "Open the Construction single if you can"
+      - kind: breach
+        floor: 2F
+        room: Server Room
+        note: "Open the Server wall too"
+      - kind: entry
+        floor: 2F
+        room: Garage (Rafters)
+        note: "Shields push Garage up to the window; drone Red stairs"
+  - id: clubhouse-gym-attack-highway-plant
+    site: gym_bedroom
+    side: attack
+    operators: [Hibana, Grim, Sledge]
+    title: "Highway windows, Grim the hatch, plant the half wall"
+    text: >-
+      Put a player outside the Highway windows to cut the Bedroom angles; Hibana rappels the far angle and puts
+      two pellets on each castle, then claymore the windows for jump-outs. Grim on the Logistic hatch pushes
+      them out of Main Hall into Gold; flash and pinch Gold, then jump in and plant on the half wall or the
+      half mattress.
+    placements:
+      - kind: anchor
+        floor: 2F
+        at: [55.5, 9.0]
+        name: "Highway windows"
+        note: "Outside on the Central sub-roof; cut off every Bedroom angle"
       - kind: hibana
         floor: 2F
-        between: [Bathroom, Bedroom]
-        note: "Bathroom wall into Bedroom"
+        at: [55.5, 9.0]
+        name: "Bedroom window castles"
+        nudge: [1.5, 0]
+        note: "Rappel the far angle, two pellets on each castle; claymore the windows"
+      - kind: anchor
+        floor: ROOF
+        at: [57.9, 12.8]
+        name: "Logistic hatch"
+        nudge: [1.5, 0]
+        note: "Grim from the hatch pushes them out of Main Hall into Gold"
+      - kind: plant
+        floor: 2F
+        room: Bedroom
+        note: "Half wall or the half mattress; Gym weights also work"
   # ---------------------------------------------------------------- 2F CCTV / Cash
   - id: clubhouse-cctv-team-reinforcements
     site: cctv_cash_room
@@ -208,48 +234,50 @@ briefs:
   - id: clubhouse-cctv-attack-garage-main-wall
     site: cctv_cash_room
     side: attack
-    operators: [Thermite, Thatcher, Capitao]
-    title: "Garage first, then the main Cash wall"
+    operators: [Thermite, Capitao, Zofia, Montagne]
+    title: "Main Cash wall, clear bottom Garage, Montagne up Rafters"
     text: >-
-      Clear the Garage floor with Capitao, take Rafters, then Thatcher EMPs and Thermite burns the
-      main Cash wall. Save one EMP for Rafters.
+      Hard breach opens the main Cash wall. Capitao opens bottom Garage and Zofia opens the front door and
+      impacts the Castle barricade to clear the tucked player downstairs. Once he's dead or rotated, Montagne
+      walks up Rafters calling where they are and Capitao flames them off; watch the jump-up angles on Cash.
     placements:
-      - kind: entry
-        floor: 1F
-        room: Garage
-        note: "Clear the floor first"
-      - kind: entry
-        floor: 2F
-        room: Garage (Rafters)
-        note: "Take Rafters"
       - kind: thermite
         floor: 2F
         between: [Cash Room, exterior]
         edge: bottom
-        note: "Main Cash wall; usually burned after Rafters is clear"
+        note: "Main Cash wall; it cuts off anyone rotating while you take Rafters"
+      - kind: entry
+        floor: 1F
+        room: Garage
+        note: "Zofia opens the front door, impacts the Castle; clear the tucked player"
+      - kind: entry
+        floor: 2F
+        room: Garage (Rafters)
+        note: "Montagne walks up, Capitao flames off his call (bounce it off the roof)"
   - id: clubhouse-cctv-attack-plants
     site: cctv_cash_room
     side: attack
-    operators: []
-    title: "Plant tucked by the breach"
+    operators: [Thermite]
+    title: "Tucked plant by the breach, Highway cuts the flank"
     text: >-
-      Plant tucked beside the Cash breach and hold Lounge, or hop the CCTV window from Rafters and
-      plant the CCTV corner.
+      Open the soft wall and walk in, or if Thermite has the bomb, plant tucked by the flat breach while a
+      teammate stays downstairs in Lounge for the C4. Someone works the Highway window to cut flanks and tucked
+      angles; watch the Construction window and nade a Bandit on the main wall.
     placements:
       - kind: plant
         floor: 2F
-        room: Cash Room
-        nudge: [0, 6.0]
-        note: "Tucked beside the breach"
-      - kind: entry
-        floor: 2F
-        between: [CCTV Room, exterior]
-        edge: bottom
-        note: "CCTV window from Rafters"
-      - kind: plant
-        floor: 2F
         room: CCTV Room
-        note: "Corner after the window hop"
+        nudge: [0, 4.0]
+        note: "Tucked by the flat breach"
+      - kind: anchor
+        floor: 1F
+        room: Lounge
+        note: "Stay downstairs for the C4 on the plant"
+      - kind: anchor
+        floor: 2F
+        at: [70.0, 45.0]
+        name: "Highway window"
+        note: "Cut flanks and tucked angles; watch the Construction window"
   # ---------------------------------------------------------------- 1F Bar / Stock Room
   - id: clubhouse-bar-team-reinforcements
     site: bar_stock_room
@@ -316,46 +344,59 @@ briefs:
         floor: 2F
         room: Gym
         note: "Vertical over Bar"
-  - id: clubhouse-bar-attack-gym-stock
+  - id: clubhouse-bar-attack-stock-wall
     site: bar_stock_room
     side: attack
-    operators: [Hibana, Thatcher, Buck]
-    title: "Gym first, then burn Stock"
+    operators: [Thermite, Hibana]
+    title: "Garage and Lounge cams, then Stock wall and Lounge double"
     text: >-
-      Buck takes Gym and opens the floor over Bar. Thatcher EMPs and Hibana opens the main Stock wall
-      while Ash breaks the Strip panels.
+      Pre-place a drone in Garage and a cam inside Lounge so you take Stock and Garage control early. Make
+      lines of sight on the Lounge wall, open the Lounge double and the main Stock wall, then rotate a body
+      into Kitchen, drone it out and contest from there.
     placements:
-      - kind: entry
-        floor: 2F
-        room: Gym
-        note: "Take Gym, open the floor"
-      - kind: hibana
+      - kind: drone
+        floor: 1F
+        room: Garage
+        note: "Pre-placed drone for Garage control"
+      - kind: drone
+        floor: 1F
+        room: Lounge
+        note: "Cam inside Lounge for Stock control"
+      - kind: breach
+        floor: 1F
+        between: [Lounge, Bar]
+        note: "Lounge double, after lines of sight on the wall"
+      - kind: breach
         floor: 1F
         between: [Stock Room, exterior]
         edge: bottom
-        nudge: [-1.2, 0]
-        note: "After the EMP"
-      - kind: breach
+        note: "Main Stock wall"
+      - kind: entry
         floor: 1F
-        between: [Strip Club, exterior]
-        edge: top
-        note: "Ash on the Strip panels"
+        room: Kitchen
+        note: "Rotate a body in, drone it out, contest"
   - id: clubhouse-bar-attack-plant
     site: bar_stock_room
     side: attack
     operators: []
-    title: "Plant behind the bar"
+    title: "Smoke off and plant on the bar machine"
     text: >-
-      Plant behind the bar by the bar machine, then hold it from the Gym holes and the Stock breach.
+      As long as the hatch isn't open and nobody plays above, smoke off and plant on the bar machine. If they
+      play the Con window or Con hatch, send someone upstairs to the Con window to cut it off; if it stalls,
+      backstab strip side and flip the take into Bar.
     placements:
       - kind: plant
         floor: 1F
         room: Bar
-        note: "By the bar machine"
+        note: "On the bar machine, under smoke"
       - kind: anchor
+        floor: 2F
+        room: Construction
+        note: "Con window: cut off the Con window and hatch player"
+      - kind: entry
         floor: 1F
-        room: Stock Room
-        note: "Hold from the breach"
+        room: Strip Club
+        note: "Backstab strip side if the main take stalls"
   # ---------------------------------------------------------------- B Church / Arsenal Room
   - id: clubhouse-church-team-reinforcements
     site: church_arsenal_room
@@ -421,44 +462,71 @@ briefs:
         floor: B
         room: Arsenal Room
         note: "Smoke under the Kitchen hatch"
-  - id: clubhouse-church-attack-three-lanes
+  - id: clubhouse-church-attack-dirt-kitchen
     site: church_arsenal_room
     side: attack
-    operators: [Ace, Thatcher, Hibana]
-    title: "Three lanes: Memorial, Kitchen hatch, Blue"
+    operators: [Hibana, Buck, Sledge, Montagne]
+    title: "Dirt-Kitchen take: open Dirt, Hibana the hatch, vert"
     text: >-
-      Thatcher EMPs and Ace opens the Memorial wall. Hibana opens the Kitchen hatch to shoot into
-      Arsenal, and Nomad clears Garage and Oil Pit then pushes Blue.
+      Take Main Hallway and drone it all out, then hard breach opens Dirt from the Construction Site side so
+      the main stairs window can't peek you. Hibana opens the Kitchen hatch from inside Kitchen, never the
+      upside-down rappel, while Buck or Sledge cuts lines of sight with vert; a shield clears Dirt, nade the
+      Mira, then drop the hatch and plant safe in Arsenal.
     placements:
-      - kind: ace
+      - kind: entry
+        floor: 1F
+        at: [52.0, 30.0]
+        name: "Main Hallway"
+        note: "Get control and drone everything out first"
+      - kind: breach
         floor: B
-        between: [Church, Memorial]
-        nudge: [1.2, 0]
-        note: "From Memorial after the EMP"
+        at: [44.0, 22.0]
+        name: "Dirt wall (Container)"
+        note: "Open it from the Construction Site side, not under the main stairs window"
       - kind: hibana
         floor: 1F
         at: [56.6, 18.3]
         name: "Kitchen hatch"
         nudge: [1.2, 0]
-        note: "Open it, shoot down"
-      - kind: drone
-        floor: B
-        room: Oil Pit
-        note: "Clear Oil Pit for the Blue push"
-  - id: clubhouse-church-attack-plants
-    site: church_arsenal_room
-    side: attack
-    operators: []
-    title: "Plant behind the table"
-    text: >-
-      Plant behind the Church table or in Arsenal under the Kitchen hatch. After planting, cover the
-      Moto hatch and the Blue generator.
-    placements:
-      - kind: plant
-        floor: B
-        room: Church
-        note: "Behind the table"
+        note: "From inside Kitchen; pellet beside the cade to kill the claw"
+      - kind: breach
+        floor: 1F
+        room: Kitchen
+        note: "Buck or Sledge vert onto Arsenal; it still works through their reinforcement"
       - kind: plant
         floor: B
         room: Arsenal Room
-        note: "Under the Kitchen hatch"
+        note: "Drop the hatch and plant safe by the crates"
+  - id: clubhouse-church-attack-moto-main
+    site: church_arsenal_room
+    side: attack
+    operators: [Nomad, Buck, Thermite]
+    title: "Kitchen-Moto split into the Memorial wall"
+    text: >-
+      Clear Bar and strip side with a cut-off cam; Nomad jabs the Lounge double and the top of main stairs.
+      Open the Moto hatch and the Kitchen hatch, walk someone down main stairs, make vert right above the
+      triple-wall Mira and bank a nade off it, then open the main Memorial wall and plant on the blue box.
+    placements:
+      - kind: drone
+        floor: 1F
+        room: Strip Club
+        note: "Cut-off cam strip side at the start"
+      - kind: breach
+        floor: 1F
+        at: [47.5, 45.9]
+        name: "Moto hatch"
+        note: "Open it once Bar and strip are clear"
+      - kind: breach
+        floor: 1F
+        at: [52.0, 30.0]
+        name: "Main Hallway floor"
+        note: "Vert right above the triple-wall Mira; bank a nade off it"
+      - kind: thermite
+        floor: B
+        between: [Church, Memorial]
+        nudge: [1.2, 0]
+        note: "Main Memorial wall, usually Mira'd"
+      - kind: plant
+        floor: B
+        room: Church
+        note: "On the blue box"

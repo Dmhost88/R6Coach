@@ -107,55 +107,72 @@ briefs:
         floor: 2F
         room: Pool
         note: "Pool bar"
+  # Attack briefs on this map follow Garfieldisdoc, "How to Attack EVERY Bombsite in Rainbow Six Siege
+  # (2026)", https://www.youtube.com/watch?v=1qCEYZwQzes (Calypso Casino from 36:55).
   - id: calypso-cigar-pool-thermite-kitchen
     site: cigar_room_pool
     side: attack
-    operators: [Thermite, Thatcher, Rauora]
-    title: "Clear Tequila, burn the Kitchen wall"
+    operators: [Thermite, Ace, Ying]
+    title: "Tequila cam, Kitchen breach, push Barista, open the bar"
     text: >-
-      Pool Side spawn. Drone Tequila and Barista first; clear Tequila before the burn. Thatcher EMPs the
-      Kitchen wall, Thermite opens the left side, and Rauora panels Tequila to stop the rotate.
+      Pre-place a cam on the Tequila stairs in prep for the C4 roamer and take the staircase early. Open the
+      Kitchen wall with any hard breach and keep a player on it to cut the Barista rotate, then push Barista
+      in steps off the windows, shooting the Mez barricade for phantom pressure. End goal: open the bar wall
+      and plant on the bar.
     placements:
       - kind: drone
         floor: 2F
-        room: Barista
-        note: "Azami stall"
+        at: [60.0, 30.0]
+        name: "Tequila stairs"
+        note: "Pre-place a cam in prep; watch for the C4 roamer"
       - kind: thermite
         floor: 2F
         between: [Kitchen, exterior]
         edge: left
         nudge: [-0.8, 0]
-        note: "Left side, after the EMP"
+        note: "Open it; hold the breach to cut the Barista rotate"
       - kind: entry
         floor: 2F
-        room: Kitchen
-      - kind: plant
-        floor: 2F
-        room: Cigar Room
-        nudge: [0, -2.0]
-        note: "Behind the Kitchen breach, once Cigar is clear"
-  - id: calypso-cigar-pool-ace-barista
-    site: cigar_room_pool
-    side: attack
-    operators: [Ace, Capitao]
-    title: "Pinch Barista, Ace opens Pool"
-    text: >-
-      Take Barista, then Ace opens the Barista/Pool wall (and the far-side Pool wall if it's reinforced).
-      Capitao smokes the plant: Pool beside the Barista opening.
-    placements:
-      - kind: drone
-        floor: 2F
-        room: Aqua
-        note: "Aqua wire holder"
+        room: Barista
+        note: "Push in steps; mind the shield and the Mira"
       - kind: ace
         floor: 2F
         between: [Barista, Pool]
         nudge: [0, -1.0]
+        note: "Open the bar wall"
       - kind: plant
         floor: 2F
         room: Pool
         nudge: [0, -2.5]
-        note: "By the Barista opening, under smoke"
+        note: "On the bar"
+  - id: calypso-cigar-pool-vertical-aqua
+    site: cigar_room_pool
+    side: attack
+    operators: [Buck, Sledge, Gridlock]
+    title: "Vertical from below, or take Aqua"
+    text: >-
+      Vertical is underrated here: from the 1F Bathroom and Roulette, shoot up under the bar to cut the 90
+      and the Aqua rotate. Without vertical, take Aqua hall with one player on the Cigar Balcony window to
+      cut the box and the swing around site, then 3-2-1 the push and clear utility as you go.
+    placements:
+      - kind: breach
+        floor: 1F
+        room: Roulette
+        note: "Shoot up under the bar and the 90"
+      - kind: entry
+        floor: 2F
+        at: [57.4, 49.0]
+        name: "Cigar Balcony window"
+        note: "Cut the box and the swing around site"
+      - kind: anchor
+        floor: 2F
+        room: Aqua
+        note: "Take Aqua hall, then push in together"
+      - kind: plant
+        floor: 2F
+        room: Pool
+        nudge: [0, -2.5]
+        note: "On the bar"
   # ---------------------------------------------------------------- 1F Blackjack / 1F Poker
   - id: calypso-blackjack-poker-team-walls
     site: blackjack_poker
@@ -227,49 +244,65 @@ briefs:
   - id: calypso-blackjack-poker-thermite
     site: blackjack_poker
     side: attack
-    operators: [Thermite, Thatcher, Ram]
-    title: "Take Humidor, burn Blackjack"
+    operators: [Thermite, Ying, Capitao]
+    title: "Secret control, the Crane wall, plant deep on the table"
     text: >-
-      Garden Ruins spawn. Take Humidor first so nobody plays vertical on you; Ram can open the floor. Thatcher
-      EMPs and Thermite burns the Blackjack exterior wall, left side first. Plant tight to the breach.
+      Drone Secret first; with little utility, force into it, and if they reinforced it off, hard breach it.
+      Open the main Crane wall, keep someone on the rappel angles and push Lobby (Registration) to keep the
+      Vending player's eyes off the breach. Smoke off the breach and plant deep on the Blackjack table.
     placements:
-      - kind: drone
-        floor: 2F
-        room: Humidor
-        note: "Vertical players over site"
-      - kind: breach
-        floor: 2F
-        room: Humidor
-        nudge: [0, 1.5]
-        note: "Ram opens the floor"
+      - kind: anchor
+        floor: 1F
+        room: Secret
+        note: "Take it; breach it if they reinforced it off"
       - kind: thermite
         floor: 1F
         between: [Blackjack, exterior]
         edge: bottom
         nudge: [-1.0, 0.8]
-        note: "Left side first"
+        note: "The main Crane wall"
+      - kind: entry
+        floor: 1F
+        at: [59.5, 66.0]
+        name: "Crane rappel"
+        note: "Rappel angles make the retake very hard"
+      - kind: anchor
+        floor: 1F
+        room: Lobby
+        note: "Registration: make noise, pressure the Aqua side"
       - kind: plant
         floor: 1F
         room: Blackjack
         nudge: [0, 4.0]
-        note: "Tight to the breach"
-  - id: calypso-blackjack-poker-secret
+        note: "Deep on the table, under smoke"
+  - id: calypso-blackjack-poker-vertical
     site: blackjack_poker
     side: attack
-    operators: [Ying, Ace, Nomad]
-    title: "Flush Secret through the window"
+    operators: [Buck, Sledge, Nomad]
+    title: "Pool Ruins balcony and vertical over site"
     text: >-
-      Ying throws Candelas through the Secret window to clear the side room, Ace can open the Blackjack/Secret
-      wall from Secret, and Nomad Airjabs the Aqua stairs for the rotate.
+      No hard breach? Come up on Pool Ruins, take the balcony to Lobby and the Aqua window, and drone out the
+      hatch players. From above you can open half the site: behind the bar, the Bathroom rotate, the hatch,
+      Vending and the Vending door; the vent drone hole sees anyone tucked behind the bar.
     placements:
       - kind: entry
-        floor: 1F
-        at: [56.0, 64.5]
-        name: "Secret window"
-      - kind: ace
-        floor: 1F
-        between: [Blackjack, Secret]
-        nudge: [-0.8, 0]
+        floor: 2F
+        at: [66.0, 53.0]
+        name: "Pool Ruins balcony"
+        note: "Take the balcony to Lobby"
+      - kind: entry
+        floor: 2F
+        at: [54.0, 61.7]
+        name: "Aqua window"
+        note: "Cut whoever plays the hatch"
+      - kind: breach
+        floor: 2F
+        room: Cigar Room
+        note: "Vertical behind the bar and on the Bathroom rotate"
+      - kind: breach
+        floor: 2F
+        room: Humidor
+        note: "Vertical on Vending and the hatch side"
       - kind: plant
         floor: 1F
         room: Blackjack
@@ -351,54 +384,61 @@ briefs:
         between: [Roulette, Bathroom]
         nudge: [0, -1.2]
         note: "Roulette door, approximate"
-  - id: calypso-bar-betting-hibana-janitor
+  - id: calypso-bar-betting-vertical
     site: bar_betting
     side: attack
-    operators: [Hibana, Kali, Ram]
-    title: "Kitchen floor, then the Janitor wall"
+    operators: [Buck, Sledge]
+    title: "Vertical from Kitchen and Barista"
     text: >-
-      Garden Ruins spawn. Drone Servers under Janitor and upstairs Kitchen. Ram opens the floor over Bar, Kali
-      lances the claws, Hibana opens the right side of the Janitor wall. Plant just inside the breach in
-      smoke.
+      Start with vertical: Buck or Sledge in Kitchen and Barista open lines on the site so a Mira and most of
+      site are cut off, and work for the small hatch in the middle of site. With the hatch open and players
+      above, the defenders have so many angles to watch that the plant below is easy.
     placements:
-      - kind: drone
-        floor: B
-        room: Servers
-        note: "Under Janitor"
       - kind: breach
         floor: 2F
         room: Kitchen
-        note: "Ram opens the floor over Bar"
-      - kind: hibana
-        floor: 1F
-        between: [Bar, Janitor]
-        nudge: [1.0, 0]
-        note: "Right, dartboard side"
-      - kind: plant
-        floor: 1F
-        room: Bar
-        nudge: [2.0, -3.5]
-        note: "Just inside the breach, Bar side"
+        note: "Vertical over Bar; cut the Mira"
+      - kind: breach
+        floor: 2F
+        room: Barista
+        note: "More vertical over site"
+      - kind: breach
+        floor: 2F
+        at: [59.5, 36.5]
+        name: "Hatch over the middle of site"
+        note: "Open it to cut every rotate"
   - id: calypso-bar-betting-roulette-side
     site: bar_betting
     side: attack
-    operators: [Capitao, Gridlock, Ace]
-    title: "Clear Wine Stock, push the Roulette side"
+    operators: [Ace, Hibana, Gridlock]
+    title: "Red Register take, plant in front of the breach"
     text: >-
-      Second group clears Wine Stock before anyone plants, then works Roulette. Ace can open the Betting side
-      if the Roulette rotate is reinforced; Gridlock Traxes the Aqua stairs. Plant Betting.
+      While vertical is going, work toward Red Register: drone Bathroom and Roulette clear, then open the
+      Betting wall to cut the rotates and plant right in front of the breach. Teammates on Tequila stairs
+      cut the rotate; a second hard breach opens the Bathroom wall to play off the vertical.
     placements:
       - kind: drone
         floor: 1F
         room: Roulette
-        note: "Castle panels"
+        note: "Make sure Bathroom and Roulette are clear"
       - kind: ace
         floor: 1F
         between: [Betting, Roulette]
         nudge: [0, 1.0]
+        note: "The Betting wall"
+      - kind: anchor
+        floor: 1F
+        at: [61.0, 22.5]
+        name: "Tequila stairs"
+        note: "Cut the rotate"
+      - kind: hibana
+        floor: 1F
+        between: [Bathroom, Roulette]
+        note: "Second breach: the Bathroom wall"
       - kind: plant
         floor: 1F
         room: Betting
+        note: "Right in front of the breach"
   # ---------------------------------------------------------------- B CCTV / B Vault Checkpoint
   - id: calypso-cctv-vc-team-walls
     site: cctv_vault_checkpoint
@@ -463,50 +503,63 @@ briefs:
   - id: calypso-cctv-vc-green-cash
     site: cctv_vault_checkpoint
     side: attack
-    operators: [Thermite, Sledge, Rauora, Flores]
-    title: "Green side: Cash vertical, burn Manager's"
+    operators: [Zofia, Buck, Thermite]
+    title: "Green side: vertical on the trick, down Green stairs"
     text: >-
-      Sledge takes Bar Stock and opens the Bar floor over Cash. Flores clears the claws, Thermite burns
-      Manager's Office and then the site wall from Cash Counting. Rauora panels the site doors; plant just
-      inside the Cash breach under smoke.
+      Two players push Green side, by the big Casino sign and the façade rappel, working toward Weapon Cache.
+      If they Bandit-trick the wall, go above and pop the hatch or make vertical on the trickster, then
+      work down Green (Bar) stairs. Drone out, look toward Weapon Cache, open the wall into site and it's
+      usually a free plant; vertical from Roulette and the Bathroom hatch cuts the rest.
     placements:
+      - kind: entry
+        floor: 1F
+        at: [74.0, 40.0]
+        name: "Façade rappel by the Casino sign"
+        note: "Green side way in"
       - kind: breach
         floor: 1F
-        at: [64.5, 35.0]
-        name: "Bar floor over Cash"
-      - kind: thermite
+        room: Bar
+        note: "Pop the hatch or vertical on the wall trickster"
+      - kind: anchor
         floor: B
-        between: [Lockers, Manager's Office]
-        nudge: [-0.8, 0]
-        note: "Manager's Office wall"
+        at: [69.0, 36.0]
+        name: "Green (Bar) stairs"
+        note: "Work down, then look toward Weapon Cache"
       - kind: thermite
         floor: B
         between: [Cash Counting, Vault Checkpoint]
         nudge: [0, -0.8]
-        note: "Site wall from Cash"
+        note: "Open the site wall"
       - kind: plant
         floor: B
         room: Vault Checkpoint
         nudge: [0, -2.5]
-        note: "Just inside the Cash breach"
+        note: "Usually a free plant"
   - id: calypso-cctv-vc-stairs
     site: cctv_vault_checkpoint
     side: attack
-    operators: [Nomad, Ram, Gridlock]
-    title: "Pressure Green and Yellow"
+    operators: [Buck, Sledge, Gridlock]
+    title: "Yellow take with Lobby vertical"
     text: >-
-      Drone Green stairs, Break Room and the Yellow shield before committing. Two players pressure Lockers
-      and Yellow while the Cash side burns; Nomad holds bottom Green after the plant.
+      Skip the Vault wall if they Bandit-trick it. Three players take Yellow: one fights the Yellow player
+      through the window while a vertical operator goes up into Lobby and makes vertical on him so he can't
+      swing. Hold an angle and refrag, with a teammate outside the hallway to collapse on Elevator or the
+      rotate.
     placements:
-      - kind: drone
-        floor: B
-        room: Lockers
-        note: "Wire and Smoke on the Lockers stairs"
       - kind: entry
         floor: B
+        at: [60.0, 47.0]
+        name: "Yellow window"
+        note: "Fight the Yellow player from here"
+      - kind: breach
+        floor: 1F
+        room: Lobby
+        note: "Vertical on the Yellow player"
+      - kind: anchor
+        floor: B
         at: [61.7, 52.8]
-        name: "West stairs"
-        note: "Name not verified"
-      - kind: drone
+        name: "Outside the Yellow hallway"
+        note: "Collapse on Elevator or the rotate"
+      - kind: plant
         floor: B
         room: CCTV

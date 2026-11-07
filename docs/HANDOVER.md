@@ -36,6 +36,8 @@ Measured so far: the real-match eval (`tools/eval_real.py`, 14 decision points f
 - **Ranked only.** Other playlists (Quick Match, Unranked, Arcade) are not recognised as such.
 - **Screen classifier accuracy is optimistic.** 99.8% on 539 frames, but tuned on the same frames. Expect misses on screens not in that capture (new season UI, events).
 - **Room boxes on the live map** were located by Claude vision with confidences of 0.5–0.7 on many rooms. Expect some to be off; fix by hand in `knowledge/data/layout/`.
+- **Layouts lag map reworks.** The attack briefs were rebuilt from Garfieldisdoc's 2026 bombsite guide (2026-11-07), whose in-game HUD names rooms our layouts lack. The worst cases are Oregon (Game Room, Walk In, Boiler Room, Supply Closet, Laundry Storage; "Big Tower" where the layout says "Small Tower"), Outback (Motel Balcony, Back Stairs, Party Hall, Bike Repair), Calypso Casino, Fortress and Villa 1F (no rooms). Spots there use `at:` estimates, so map icons can be off while the step text is right.
+- **Setup pictures from the guide video stay local.** Stills for the attack steps (about 325, with marks) were pulled from that video into `data/setups/<map>/`, which is git-ignored; they are not in the repo and a fresh clone has none.
 - **Strategy data ages every season.** It was written for Y11S3 (Operation Split Fire). Y11S4 is expected early December 2026; see the season refresh steps in [KNOWLEDGE_DATA.md](KNOWLEDGE_DATA.md#season-refresh).
 - **Windows only.** Capture, hotkeys and the fallback voice are Windows APIs.
 - **No CI.** Tests are run by hand before merging.
