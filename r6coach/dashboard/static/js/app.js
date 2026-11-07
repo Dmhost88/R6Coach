@@ -138,8 +138,16 @@ function renderVoicePill() {
   else pill($("pill-voice"), "voice: on", "live");
 }
 function renderCost(cost, calls) {
+  // Total spend, this match against its budget, and whether the budget has throttled the coach.
+  const st = lastStatus || {};
   const c = Number(cost || 0);
-  $("pill-cost").textContent = `cost: $${c.toFixed(2)}` + (calls != null ? ` · ${calls} calls` : "");
+  let text = `cost: $${c.toFixed(2)}` + (calls != null ? ` · ${calls} calls` : "");
+  const budget = Number(st.budget_per_match || 0);
+  if (budget > 0 && st.match_cost != null) text += ` · match $${Number(st.match_cost).toFixed(2)} of $${budget.toFixed(2)}`;
+  let kind = "plain";
+  if (st.budget_level === "tight") { text += " · budget tight: essentials only"; kind = "warn"; }
+  else if (st.budget_level === "spent") { text += " · budget spent: bans and picks only"; kind = "error"; }
+  pill($("pill-cost"), text, kind);
 }
 
 // ------------------------------------------------------------------ match state
@@ -352,7 +360,12 @@ function handle(ev, live = true) {
     case "coach.thinking": if (live) setThinking(true, d.question ? "Thinking about your question" : "Thinking"); break;
     case "error": addError(ev.ts, `${d.source || "error"}: ${d.message || ""}`); break;
     case "vision.read": lastRead = ev; renderRead(); break;
-    case "llm.usage": renderCost(d.total_cost, lastStatus ? lastStatus.calls : null); break;
+    case "llm.usage":
+      if (lastStatus) Object.assign(lastStatus, { match_cost: d.match_cost, budget_level: d.budget_level });
+      renderCost(d.total_cost, lastStatus ? lastStatus.calls : null); break;
+    case "budget.level":
+      if (lastStatus) Object.assign(lastStatus, { match_cost: d.match_cost, budget_level: d.level });
+      renderCost(lastStatus ? lastStatus.cost : 0, lastStatus ? lastStatus.calls : null); break;
     case "ptt.ready": if (lastStatus) { lastStatus.ptt_ready = true; renderStatus(lastStatus); } break;
     case "ptt.listening": if (live) setListening(true); break;
     case "ptt.question": if (live) setListening(false); addLine(ev.ts, esc("You: " + (d.text || "")), "is-you"); break;

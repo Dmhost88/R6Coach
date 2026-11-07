@@ -375,6 +375,17 @@ class Claude:
         self._lock = threading.Lock()
         self._last_errors: dict[str, float] = {}
         self.budget = 0.0          # USD per match; 0 = no cap
+        self._level = "ok"         # last budget level announced (see budget.level)
+        # The first call per model after start writes the ~50k-token cached prefix. After a restart
+        # mid-match that write (~$0.13-0.27) used to eat the match budget; it is counted here instead.
+        self._warmed: set[str] = set()
+        self.startup_cost = 0.0
+
+    def reset_match(self) -> None:
+        """A new match starts: its own budget."""
+        with self._lock:
+            self.match_cost = 0.0
+            self._level = "ok"
 
     def budget_level(self) -> str:
         """'ok', 'tight' (>=80% of the per-match budget) or 'spent' (>=100%)."""
@@ -429,23 +440,36 @@ class Claude:
 
     def _account(self, model: str, usage, purpose: str, started: float) -> None:
         inp, out, cache = PRICES.get(model, PRICES["claude-opus-5-5"])
-        cost = (
+        write = (getattr(usage, "cache_creation_input_tokens", 0) or 0) * inp * 1.25 / 1_000_000
+        cost = write + (
             (getattr(usage, "input_tokens", 0) or 0) * inp
-            + (getattr(usage, "cache_creation_input_tokens", 0) or 0) * inp * 1.25
             + (getattr(usage, "cache_read_input_tokens", 0) or 0) * cache
             + (getattr(usage, "output_tokens", 0) or 0) * out
         ) / 1_000_000
         with self._lock:
             self.total_cost += cost
-            self.match_cost += cost
+            if model not in self._warmed:
+                self._warmed.add(model)
+                self.startup_cost += write
+                self.match_cost += cost - write
+            else:
+                self.match_cost += cost
             self.calls += 1
             total = self.total_cost
+            level = self.budget_level()
+            changed, self._level = level != self._level, level
+            match_cost = self.match_cost
+        if changed:
+            log.warning("budget %s: $%.2f of $%.2f this match", level, match_cost, self.budget)
+            self.bus.publish("budget.level", level=level, match_cost=round(match_cost, 4), budget=self.budget)
         self.bus.publish(
             "llm.usage",
             purpose=purpose,
             model=model,
             cost=round(cost, 5),
             total_cost=round(total, 4),
+            match_cost=round(match_cost, 4),
+            budget_level=level,
             seconds=round(time.time() - started, 2),
             input_tokens=getattr(usage, "input_tokens", 0) or 0,
             cache_read=getattr(usage, "cache_read_input_tokens", 0) or 0,
