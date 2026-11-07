@@ -81,52 +81,67 @@ briefs:
         at: [33.8, 80.0]
         name: "Library windows"
         note: "Lasers or traps on the rappel windows (Denari, Thorn)"
+  # Attack briefs on this map follow Garfieldisdoc, "How to Attack EVERY Bombsite in Rainbow Six Siege
+  # (2026)", https://www.youtube.com/watch?v=1qCEYZwQzes (Chalet from 51:16).
   - id: chalet-office-attack-library-wall
     site: master_bedroom_office
     side: attack
-    operators: [Hibana, Thermite, Thatcher]
-    title: "Take Library, open the Office wall"
+    operators: [Ace, Zofia, Gridlock, Nomad]
+    title: "Library and Mez split into the main Office wall"
     text: >-
-      Rappel into Library, clear it, and have Thatcher or Kali clear the claw before Hibana or Thermite opens
-      the Office-Library wall from the Library side. Plant behind the Office desk and hold from the breach.
+      Split Library and Mezzanine with pre-placed cams; one player rappels the Highway window slant to cut
+      top Mez. Push bottom Library back into Library Stairs with frags or Ying, Gridlock off Library, then
+      open the main Office wall and plant on the half wall while the breacher watches Piano and Bathroom.
     placements:
+      - kind: anchor
+        floor: 2F
+        at: [32.6, 72.0]
+        name: "Highway window slant rappel"
+        note: "Cuts anyone going top Mez or extending into Library"
       - kind: entry
         floor: 2F
         at: [33.8, 80.0]
         name: "Library windows"
-        note: "Rappel in; drone Library first in prep"
-      - kind: hibana
+        note: "Double or single window once Library Stairs is pushed back"
+      - kind: ace
         floor: 2F
         between: [Office, Library]
         nudge: [-1.2, 0]
-        note: "From the Library side, after the claw is cleared"
+        note: "The main wall; watch the swing from Piano"
       - kind: plant
         floor: 2F
         room: Office
         nudge: [0, 3.0]
-        note: "Behind the desk"
-  - id: chalet-office-attack-vertical
+        note: "On the half wall"
+  - id: chalet-office-attack-solarium
     site: master_bedroom_office
     side: attack
-    operators: [Buck, Ace]
-    title: "Clear the Half Wall and the Closet"
+    operators: [Kali, Gridlock, Hibana, Nomad]
+    title: "Trophy and Solarium take into Master"
     text: >-
-      While Library falls, clear the Half Wall: Buck from below or utility from Ivy. Ace can open the Closet
-      wall into Master. Plant in the Master corner once Piano and the Ivy holes are cleared.
+      When the Library extend is too strong, take Trophy up to the Kitchen hallway with a pre-placed cam
+      in Trophy, keep one player outside the Highway windows to claymore the Bathroom and Piano jump-outs,
+      bolt or vert the Owl player, then open the Solarium wall and plant tucked in the Master corner.
     placements:
-      - kind: ace
-        floor: 2F
-        between: [Master Bathroom, Office]
-        nudge: [0, 1.0]
-        note: "Closet wall into Master (if it is left soft or for the second wall)"
       - kind: drone
+        floor: 1F
+        at: [66.0, 62.0]
+        name: "Trophy Room"
+        note: "Pre-place a cam here in the drone phase"
+      - kind: anchor
         floor: 2F
-        room: Bedroom Hallway
-        note: "Drone Ivy holes and the Half Wall"
+        between: [Master Bathroom, exterior]
+        edge: top
+        note: "Outside the Highway windows; claymore Bathroom and Piano jump-outs"
+      - kind: breach
+        floor: 2F
+        between: [Master Bedroom, Bedroom Hallway]
+        note: "Solarium wall, then fight into Bathroom"
       - kind: plant
         floor: 2F
         room: Master Bedroom
-        note: "Master corner after the Half Wall is cleared"
+        nudge: [2.0, 4.0]
+        note: "Tucked in the corner, or on the bed"
 
   # ------------------------------------------------------------------ 1F Bar / 1F Gaming Room
   - id: chalet-bar-team-reinforce
@@ -210,50 +225,50 @@ briefs:
   - id: chalet-bar-attack-gaming-wall
     site: bar_gaming_room
     side: attack
-    operators: [Thermite, Hibana]
-    title: "Open the Gaming exterior wall"
+    operators: [Hibana, Flores, Gridlock]
+    title: "Piano and Office control, then the Library hall wall"
     text: >-
-      With Library and Mezzanine won, Thermite or Hibana opens the Gaming exterior wall while a teammate
-      pressures the Gaming window. Plant deep in the Gaming corner and hold from outside.
-    placements:
-      - kind: drone
-        floor: 2F
-        room: Library
-        note: "Drone Library and Mezzanine in prep"
-      - kind: thermite
-        floor: 1F
-        between: [Gaming Room, exterior]
-        edge: left
-        note: "Gaming exterior wall"
-      - kind: entry
-        floor: 1F
-        between: [Gaming Room, exterior]
-        edge: bottom
-        note: "Games window pressure"
-      - kind: plant
-        floor: 1F
-        at: [36.5, 87.0]
-        name: "Deep Gaming corner"
-        note: "Deep corner past the vault-up"
-  - id: chalet-bar-attack-vertical
-    site: bar_gaming_room
-    side: attack
-    operators: [Buck, Hibana]
-    title: "Vertical from Library and Office"
-    text: >-
-      From 2F, Hibana or Buck opens the Library hatch and the floor over Bar to shoot down into the deep
-      spots. Set cut-off cams at Piano and bottom Trophy before you commit.
+      Hibana starts on the Library side and spends two pellets on the soft wall to pop the Mira. The rest
+      take Piano and Office with cut-off cams at Piano and bottom Trophy and a player on the window slant
+      shooting top Mez, then open the Library hall wall from Office and clear the top-Library shield.
     placements:
       - kind: hibana
         floor: 2F
-        at: [35.3, 77.5]
-        name: "Library hatch"
-        note: "Open it to play Gaming from above"
+        at: [33.8, 80.0]
+        name: "Library side"
+        note: "Two pellets on the soft wall to pop the Mira"
+      - kind: drone
+        floor: 2F
+        room: Master Bathroom
+        note: "Cut-off cams at Piano and bottom Trophy stairs"
       - kind: breach
         floor: 2F
-        at: [45.5, 70.5]
-        name: "Bathroom hatch"
-        note: "Buck or a hatch breach over Bar"
+        between: [Office, Library]
+        nudge: [1.2, 0]
+        note: "Library hall wall from Office; Flores or frags on the top-Library shield"
+  - id: chalet-bar-attack-vertical
+    site: bar_gaming_room
+    side: attack
+    operators: [Buck, Hibana, Sledge]
+    title: "Phantom pressure, vertical and the Gaming wall plant"
+    text: >-
+      Open the front Lobby door, the Mudroom window and the main window early so nobody plays tucked. Once
+      top Mez is clear, open the hatch and play vertical from Library onto Bar, then plant on the Gaming
+      wall or take bottom Fireplace and run in.
+    placements:
+      - kind: entry
+        floor: 1F
+        at: [34.2, 70.0]
+        name: "Main and Mudroom windows"
+        note: "Open them at the start for phantom pressure"
+      - kind: breach
+        floor: 2F
+        room: Mezzanine
+        note: "Open the hatch so rotations are cut"
+      - kind: anchor
+        floor: 2F
+        room: Library
+        note: "Vertical spot: you can see the Mira player from above"
       - kind: plant
         floor: 1F
         between: [Gaming Room, Bar]
@@ -328,39 +343,46 @@ briefs:
   - id: chalet-kitchen-attack-fireplace-wall
     site: kitchen_dining_room
     side: attack
-    operators: [Hibana, Kali, Buck]
-    title: "Open the Fireplace wall last"
+    operators: [Hibana, Gridlock, Sledge]
+    title: "Lobby control, then the Fireplace wall"
     text: >-
-      Take Lobby, Library and top Mezzanine and play 2F vertical first. Kali lances the batteries, then Hibana
-      opens the Fireplace wall from the Fireplace side. Plant by the dining table.
+      Take Lobby with cut-off drones or Gridlock on the staircases; a Sledge can come up from Snowmobile
+      or through Stock. Once nobody is on that side of the map, open the Fireplace wall and plant on
+      default.
     placements:
       - kind: drone
         floor: 1F
         room: Fireplace
-        note: "Drone the wall and Trophy"
+        note: "Cut off Fireplace stairs and Trophy"
       - kind: hibana
         floor: 1F
         between: [Dining Room, Fireplace]
         nudge: [0, 1.5]
-        note: "After the batteries are lanced"
+        note: "Fireplace wall, last"
       - kind: plant
         floor: 1F
         room: Dining Room
-        note: "By the dining table"
+        note: "Default plant"
   - id: chalet-kitchen-attack-hatch
     site: kitchen_dining_room
     side: attack
-    operators: [Ace, Ying]
-    title: "Drop the Kitchen hatch"
+    operators: [Ace, Buck, Gridlock]
+    title: "Win upstairs and play vertical"
     text: >-
-      Clear Solarium and the bedroom over Kitchen, then Ace opens the Kitchen hatch (or Ying drops it) to
-      clear Kitchen from above. Plant in Kitchen if they collapse on Dining.
+      Drone Library, pre-place a cam there and take Library and top Mez; watch the Library Stairs flank and
+      45. Work the Highway windows to cut Piano and Bathroom, open the main wall upstairs and the hatch if
+      it isn't open, and play vertical onto site while someone holds Trophy and Solarium stairs.
     placements:
+      - kind: entry
+        floor: 2F
+        at: [33.8, 80.0]
+        name: "Library windows"
+        note: "Pre-place a cam in Library first"
       - kind: ace
         floor: 2F
         at: [65.5, 37.5]
         name: "Kitchen hatch"
-        note: "Over Kitchen"
+        note: "Open it if it isn't open; then vertical"
       - kind: plant
         floor: 1F
         room: Kitchen
@@ -442,47 +464,52 @@ briefs:
   - id: chalet-basement-attack-snowmobile-wall
     site: wine_cellar_snowmobile_garage
     side: attack
-    operators: [Thermite, Thatcher, Osa]
-    title: "EMP and burn the Snowmobile wall"
+    operators: [Thermite, Maverick, Buck, Nomad]
+    title: "Lobby take: open the main breach"
     text: >-
-      Drone the garage-door window for a Vigil pick first. Thatcher EMPs the batteries and Thermite opens the
-      Snowmobile exterior wall; Osa shields the breach and the plant behind the snowmobiles.
+      Counter-pick the main breach to what they bring: Maverick if it has to be made soft, otherwise
+      Thermite with Twitch drones.
+      Buck plays vertical from upstairs while Nomad airjabs the Dining single and holds Snowmobile stairs;
+      a second hard breach opens the hatch. Cut off Connector, the single and Pillar, then plant on the
+      front breach.
     placements:
-      - kind: drone
-        floor: B
-        between: [Snowmobile Garage, exterior]
-        edge: left
-        note: "Garage-door window side"
       - kind: thermite
         floor: B
         between: [Snowmobile Garage, exterior]
         edge: bottom
         nudge: [1.5, 0]
-        note: "Exterior wall, after the EMP"
-      - kind: plant
-        floor: B
-        room: Snowmobile Garage
-        nudge: [0, 4.0]
-        note: "Behind the snowmobiles, Osa shield facing Wine"
-  - id: chalet-basement-attack-vertical
-    site: wine_cellar_snowmobile_garage
-    side: attack
-    operators: [Hibana, Buck, Fuze]
-    title: "Win 1F and play down"
-    text: >-
-      Take Fireplace and the 1F rooms above site, then open the hatch over the basement and play vertical on
-      Wine. Fuze from the Fireplace floor into Wine Cellar is a common idea but unverified; drone first.
-    placements:
+        note: "The main breach"
       - kind: hibana
         floor: 1F
         at: [59.9, 85.3]
         name: "Fireplace hatch"
-        note: "Open the hatch over the basement"
-      - kind: drone
+        note: "Second hard breach opens the hatch"
+      - kind: plant
         floor: B
-        room: Wine Cellar
-        note: "Find the Mira anchor"
+        room: Snowmobile Garage
+        nudge: [0, 4.0]
+        note: "On the front breach"
+  - id: chalet-basement-attack-vertical
+    site: wine_cellar_snowmobile_garage
+    side: attack
+    operators: [Ace, Hibana, Nomad]
+    title: "Boiler take"
+    text: >-
+      Still open the front breach for phantom pressure. Nomad takes West Main and airjabs Dining with a
+      pre-placed cam near Trophy; Hibana opens the long angle onto Connector while Ace drones out and opens
+      the Boiler wall. Dump utility on the Pillar shield, then plant if nobody is roaming Dining.
+    placements:
+      - kind: hibana
+        floor: B
+        at: [55.0, 48.0]
+        name: "Long angle on Connector"
+        note: "Mind the feet hole while you place it"
+      - kind: ace
+        floor: B
+        at: [53.0, 63.0]
+        name: "Boiler wall"
+        note: "Drone it out, gun up for the door, then open it"
       - kind: plant
         floor: B
         room: Wine Cellar
-        note: "Wine Cellar once the Mira is cleared"
+        note: "Once the Pillar shield's utility is gone"
