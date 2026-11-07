@@ -119,7 +119,7 @@ All HUD/screen regions are measured on 3440×1440 and stored **relative to the s
 
 ## Voice
 
-[r6coach/voice/tts.py](../r6coach/voice/tts.py): a priority queue with a WAV cache. Providers are tried in order: the configured one, then local Piper, then Windows SAPI, so the coach is never silent. Fixed live lines are pre-generated so they play with no delay. [voice/ptt.py](../r6coach/voice/ptt.py) transcribes push-to-talk locally with faster-whisper; audio never leaves the PC.
+[r6coach/voice/tts.py](../r6coach/voice/tts.py): a priority queue with a WAV cache. Providers are tried in order: the configured one, then local Piper, then Windows SAPI, so the coach is never silent. Fixed live lines are pre-generated so they play with no delay. Every line passes [spoken.py](../r6coach/spoken.py) first, which removes sentences where the model thinks aloud (talk about "the screen" or "the match state", questions it answers itself, a bare "No.") and drops the line if nothing is left. [voice/ptt.py](../r6coach/voice/ptt.py) transcribes push-to-talk locally with faster-whisper; audio never leaves the PC.
 
 ## Dashboard
 

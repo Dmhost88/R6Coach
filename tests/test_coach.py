@@ -135,7 +135,7 @@ def test_no_repick_when_the_player_locked_the_recommendation(bus, kb, tmp_path):
     time.sleep(0.2)
     assert len(claude.prompts) == 1
     prompt = claude.prompts[0][1]
-    assert "Ace" in prompt and "still unavailable" in prompt
+    assert "Ace" in prompt and "Banned so far this match (unavailable" in prompt
 
 
 def test_prep_advice_text_only_and_dropped_when_stale(bus, kb, tmp_path):

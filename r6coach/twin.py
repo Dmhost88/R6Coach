@@ -39,7 +39,8 @@ def render(s: GameState, recommended: Optional[str] = None, memory: str = "") ->
                                                         if s.my_operator else "")
     lines.append(f"- Player's operator: {me}.")
     lines.append(f"- Teammates (the other players only): {_list(s.teammate_operators)}.")
-    lines.append(f"- Banned this match (all rounds; still unavailable): {_list(s.banned_operators)}.")
+    lines.append(f"- Banned so far this match (unavailable; this round's ban screen wins if it differs): "
+                 f"{_list(s.banned_operators)}.")
     lines.append(f"- Enemy operators revealed this round: {_list(s.enemy_operators)}.")
     live = []
     if s.timer_seconds is not None:
