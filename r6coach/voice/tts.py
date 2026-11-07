@@ -443,7 +443,9 @@ class _Item:
 class Speaker:
     """Speaks queued lines one at a time. Lower priority number = more urgent.
 
-    Priority 0 interrupts whatever is playing (used for push-to-talk answers).
+    Priority 0 interrupts whatever is playing (used for push-to-talk answers and urgent live
+    calls). It drops older queued lines of its own phase only; a line from another phase that it
+    cut off plays again afterwards.
     Lines older than their ttl are dropped: stale advice is worse than none.
     Long multi-sentence lines play sentence by sentence; the next sentence is
     synthesised while the current one plays.
@@ -460,7 +462,8 @@ class Speaker:
         self._stop = False
         self._playing = False
         self._playing_phase: Optional[str] = None
-        self._epoch = 0                   # bumped to cut off the line being played
+        self._playing_item: Optional[_Item] = None
+        self._epoch = 0                  # bumped to cut off the line being played
         self._play_lock = threading.Lock()
         self._thread = threading.Thread(target=self._run, name="speaker", daemon=True)
 
@@ -492,11 +495,25 @@ class Speaker:
                 return
             text = cleaned
         if priority == 0:
-            self.clear()
-            self._interrupt()
+            self._cut_in(phase)
         with self._cv:
             heapq.heappush(self._heap, _Item(priority, next(self._seq), text, time.time() + ttl, phase))
             self._cv.notify()
+
+    def _cut_in(self, phase: str) -> None:
+        """An urgent line (a push-to-talk answer, an urgent live call) plays next. Older queued
+        lines of its own phase are out of date and go; everything else stays queued. The line
+        playing now is cut off and, if it is from another phase (a prep step), played again after.
+        It used to clear the whole queue, so asking a question in prep lost the prep plan."""
+        with self._cv:
+            self._heap = [i for i in self._heap if i.phase != phase]
+            heapq.heapify(self._heap)
+        with self._play_lock:
+            cur = self._playing_item
+            self._epoch += 1
+            if cur is not None and cur.phase != phase and time.time() < cur.expires:
+                with self._cv:
+                    heapq.heappush(self._heap, cur)
 
     def clear(self, phase: Optional[str] = None) -> None:
         """Drop queued lines (optionally only those from one phase)."""
@@ -543,6 +560,8 @@ class Speaker:
                 item = heapq.heappop(self._heap)
                 self._playing = True
                 self._playing_phase = item.phase
+            with self._play_lock:
+                self._playing_item = item
                 epoch = self._epoch
             try:
                 if time.time() > item.expires or self.muted:
@@ -551,6 +570,8 @@ class Speaker:
             except Exception:
                 log.exception("playback failed")
             finally:
+                with self._play_lock:
+                    self._playing_item = None
                 self._playing = False
                 self._playing_phase = None
 
