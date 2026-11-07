@@ -155,6 +155,8 @@ class Coach:
         self._prep_started: dict[int, float] = {}
         self._pick_started: dict[int, float] = {}
         self._prep_cache: dict[int, tuple] = {}   # round -> (operator, Future of a defense prep plan)
+        self._pick_site: dict[int, Optional[str]] = {}   # round -> site in the state on the pick screens
+        self._pivoted: set[int] = set()           # rounds in which the player locked something else
         self._last_screen = Screen.other
         self.last_lines: list[str] = []
 
@@ -257,9 +259,17 @@ class Coach:
             self._recommended = None
             # The next round's bans and picks are on: a debrief still talking would bury them.
             self._bump("between_rounds", "death")
-        self._last_screen = s.screen
+        prev_screen, self._last_screen = self._last_screen, s.screen
         rnd = self._round_seq
         lv = self.cfg.coach.level
+        if s.screen in PRE_ROUND:
+            # Attackers can't know the site before their drones find it. A site already in the state
+            # on the pick screens is left over from an earlier round (seen: R3 prepped for R2's site).
+            self._pick_site[rnd] = s.site
+        if s.screen == Screen.prep_phase and prev_screen != Screen.prep_phase:
+            # Prep has started: pick and ban lines still queued are moot, and must not hold up the plan.
+            if hasattr(self.speaker, "cancel"):
+                self.speaker.cancel("operator_select", "operator_ban")
         if s.screen == Screen.map_ban and lv("map_ban") and s.map_ban_options and self._once("map_ban"):
             self._submit("map_ban", self._advise_map_ban, s)
         elif s.screen == Screen.operator_ban and lv("operator_ban") and s.map and self._once(f"op_ban:{rnd}"):
@@ -288,7 +298,10 @@ class Coach:
         elif s.screen == Screen.prep_phase and lv("prep_phase") and f"prep:{rnd}" not in self._done:
             # Attackers find the site with drones ("BOMBS FOUND"); wait up to 15s of prep for it.
             started = self._prep_started.setdefault(rnd, time.time())
-            if s.side == "attack" and not s.site and time.time() - started < 15:
+            site = s.site
+            if s.side == "attack" and site and site == self._pick_site.get(rnd):
+                site = None                     # carried over from an earlier round
+            if s.side == "attack" and not site and time.time() - started < 15:
                 return
             if self._once(f"prep:{rnd}"):
                 cached = self._prep_cache.get(rnd)
@@ -297,7 +310,7 @@ class Coach:
                     g = self._gen["prep_phase"]
                     cached[1].add_done_callback(lambda f: self._deliver("prep_phase", f.result(), gen=g))
                 else:
-                    self._submit("prep_phase", self._advise_prep, s)
+                    self._submit("prep_phase", self._advise_prep, s.model_copy(update={"site": site}))
 
         if s.screen in (Screen.operator_select, Screen.loadout, Screen.prep_phase) and s.my_operator:
             self._check_lock(s, rnd)
@@ -309,8 +322,11 @@ class Coach:
             op = s.my_operator or self._recommended
             if op and self._once(f"preplan:{rnd}:{op}"):
                 plan_state = s.model_copy(deep=True, update={"my_operator": op})
-                # Made ahead of time, spoken later: no streaming (live=False).
-                self._prep_cache[rnd] = (op, self.pool.submit(self._safe, self._advise_prep, plan_state, True, False))
+                # Made ahead of time, spoken later: no streaming (live=False). Deep reasoning takes
+                # ~40 s; after a re-lock there may not be that long left, so use the fast model.
+                fast = rnd in self._pivoted
+                self._prep_cache[rnd] = (op, self.pool.submit(self._safe, self._advise_prep, plan_state,
+                                                              not fast, False, fast))
 
     # ------------------------------------------------------------------ pivots
     def _bump(self, *phases: str) -> None:
@@ -341,10 +357,12 @@ class Coach:
         self._planned[rnd] = op
         self._pick_pending.discard(rnd)
         self._prep_cache.pop(rnd, None)
+        self._pivoted.add(rnd)
         if s.screen == Screen.prep_phase:
-            # Picks are over: replace the prep plan with one for the operator they're actually on.
+            # Picks are over: replace the prep plan with one for the operator they're actually on,
+            # on the fast model (prep is already running).
             self._bump("prep_phase")
-            self._submit("prep_phase", self._advise_prep, s)
+            self._submit("prep_phase", self._advise_prep, s, False, True, True)
         else:
             self._bump("operator_select", "prep_phase")
             self._submit("operator_select", self._advise_locked, s, planned)
@@ -453,8 +471,8 @@ class Coach:
 
     @staticmethod
     def _priority(phase: str) -> int:
-        """Ban and pick advice has a short window: it goes ahead of queued debrief lines."""
-        return 1 if phase in ("map_ban", "operator_ban", "operator_select") else 2
+        """Ban, pick and prep advice have short windows: they go ahead of queued debrief lines."""
+        return 1 if phase in ("map_ban", "operator_ban", "operator_select", "prep_phase") else 2
 
     def speak(self, lines: list[str], phase: str, priority: Optional[int] = None, ttl: float = 40.0) -> None:
         self.last_lines = lines
@@ -485,8 +503,9 @@ class Coach:
 
     def _ask(self, phase: str, prompt: str, image: bool = False, deep: bool = False,
              map_name: Optional[str] = None, live: bool = True,
-             effort: Optional[str] = None) -> Optional[CoachLines]:
-        """live=True: the answer is spoken now, so stream it and start speaking at line 1."""
+             effort: Optional[str] = None, fast: bool = False) -> Optional[CoachLines]:
+        """live=True: the answer is spoken now, so stream it and start speaking at line 1.
+        fast=True: the fast model at the normal effort, whatever the phase usually uses."""
         level = self.cfg.coach.level(phase)
         n = FIXED_LINES.get(phase) or LINES_FOR_LEVEL.get(level, "2-4")
         if phase == "between_rounds" and phase in self.cfg.coach.chattiness and level == 1:
@@ -496,6 +515,8 @@ class Coach:
         effort = effort or (self.cfg.coach.deep_effort if deep else self.cfg.coach.effort)
         system = self._system(map_name)
         model = self.cfg.coach.model_for(phase)
+        if fast and self.cfg.coach.fast_model:
+            model, effort = self.cfg.coach.fast_model, self.cfg.coach.effort
         if live and self.cfg.coach.stream and hasattr(self.claude, "coach_stream"):
             self._tls.streamed = True
             tag = getattr(self._tls, "gen", None)
@@ -643,7 +664,8 @@ class Coach:
         )
         return self._ask("between_rounds", prompt, deep=True, map_name=s.map)
 
-    def _advise_prep(self, s: GameState, deep: bool = False, live: bool = True) -> Optional[CoachLines]:
+    def _advise_prep(self, s: GameState, deep: bool = False, live: bool = True,
+                     fast: bool = False) -> Optional[CoachLines]:
         me = s.my_operator or "their operator"
         if s.side == "defense":
             reinf = (f" The team has {s.team_reinforcements} reinforcements left."
@@ -666,7 +688,7 @@ class Coach:
             f"{self._stats(s, s.side)}\n"
             f"{self._focus(s)}"
         )
-        return self._ask("prep_phase", prompt, deep=deep, map_name=s.map, live=live)
+        return self._ask("prep_phase", prompt, deep=deep, map_name=s.map, live=live, fast=fast)
 
     def _answer(self, question: str) -> None:
         s = self.current_state()
