@@ -747,6 +747,8 @@ class Watcher:
                 continue   # no round is running on a ban or pick screen; a value here is stale
             if field in ("alive_us", "alive_them"):
                 continue   # confirmed below, like the HUD's counts
+            if field == "site" and screen in PRE_ROUND and (read.side or s.side) == "attack":
+                continue   # attackers only learn the site from their drones ("BOMBS FOUND")
             if val is not None:
                 setattr(s, field, val)
         if read.round_number and screen in PRE_ROUND:

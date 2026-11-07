@@ -13,6 +13,7 @@ class FakeClaude:
 
     def coach(self, model, effort, system, prompt, purpose, image_jpeg=None):
         self.prompts.append((purpose, prompt, image_jpeg is not None))
+        self.models = getattr(self, "models", []) + [(purpose, model, effort)]
         return CoachLines(lines=[f"line for {purpose}"], recommended_bans=[],
                           recommended_operator="Mute" if purpose == "coach.operator_select" else "")
 
@@ -189,6 +190,34 @@ def test_attack_prep_waits_for_bombs_found(bus, kb, tmp_path):
     push(bus, state, site="B Lockers / B CCTV Room")  # "BOMBS FOUND"
     assert wait(lambda: len(claude.prompts) == 2)
     assert "B Lockers / B CCTV Room" in claude.prompts[1][1]
+
+
+def test_attack_prep_ignores_a_site_left_from_the_last_round(bus, kb, tmp_path):
+    coach, claude, speaker, state = setup(bus, kb, tmp_path)
+    # Last round's site is still in the state on the pick screen (seen live: R3 planned for R2's site).
+    push(bus, state, screen=Screen.operator_select, map="Bank", side="attack", site="B Lockers / B CCTV Room")
+    assert wait(lambda: len(claude.prompts) == 1)
+    push(bus, state, screen=Screen.prep_phase)
+    time.sleep(0.1)
+    assert len(claude.prompts) == 1                 # the old site doesn't count: wait for BOMBS FOUND
+    assert "operator_select" in speaker.cancelled   # leftover pick lines don't hold up the plan
+    push(bus, state, site="2F CEO Office / 2F Executive Lounge")
+    assert wait(lambda: len(claude.prompts) == 2)
+    assert "2F CEO Office" in claude.prompts[1][1]
+
+
+def test_prep_plan_after_a_relock_uses_the_fast_model(bus, kb, tmp_path):
+    coach, claude, speaker, state = setup(bus, kb, tmp_path)
+    cfg = coach.cfg.coach
+    push(bus, state, screen=Screen.operator_select, map="Bank", side="defense", site="B Lockers / B CCTV Room")
+    assert wait(lambda: coach._recommended == "Mute")
+    push(bus, state, teammate_operators=["Smoke"])
+    assert wait(lambda: any(p == "coach.prep_phase" and m == cfg.model for p, m, _ in claude.models))
+    push(bus, state, my_operator="Kaid")             # the player locked something else
+    assert wait(lambda: any(p == "coach.prep_phase" and m == cfg.fast_model and e == cfg.effort
+                            for p, m, e in claude.models))
+    prep = [pr for pu, pr, _ in claude.prompts if pu == "coach.prep_phase"]
+    assert "Kaid" in prep[-1]
 
 
 def test_budget_drops_extras_first(bus, kb, tmp_path):
