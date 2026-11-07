@@ -11,6 +11,16 @@ from r6coach.hud import HudReader, parse_banners, parse_timer, pretty_place
 from .hud_cases import CASES
 
 ROOT = Path(__file__).resolve().parent.parent / "data" / "calibration"
+# Other players' names are placeholders in the repository (Mate_A, Enemy_A, ...). The real names
+# the frames show are in a local file next to the frames: {"Mate_A": "<name on screen>", ...}.
+NAMES_FILE = ROOT / "names.json"
+
+
+def real_name(name: str) -> str:
+    if NAMES_FILE.exists():
+        import json
+        return json.loads(NAMES_FILE.read_text(encoding="utf-8")).get(name, name)
+    return name
 
 
 def test_parsers():
@@ -52,6 +62,7 @@ def test_real_frames(reader, session, frame, expected):
             assert want in r.events, f"events={r.events} banners={r.banners}"
         elif key == "kill":
             got = [(k.killer, k.killer_team, k.victim, k.victim_team) for k in r.kills]
+            want = (real_name(want[0]), want[1], real_name(want[2]), want[3])
             assert want in got, f"kills={got}"
         elif key.endswith("~"):
             val = getattr(r, key[:-1])

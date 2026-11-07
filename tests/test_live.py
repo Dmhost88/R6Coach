@@ -27,7 +27,7 @@ def test_kill_tracker_dedupes_and_fixes_names():
     k1 = Kill("Mate_B", "us", "Enemy_A", "them")
     assert len(kt.new_kills([k1])) == 1
     assert kt.new_kills([k1]) == []                                  # still on screen
-    assert kt.new_kills([Kill("Mate_B", "us", "Enemy_A", "them")]) == []   # OCR slip
+    assert kt.new_kills([Kill("MateB", "us", "Enemy_A", "them")]) == []   # OCR slip
     assert kt.new_kills([Kill("Enemy_D", "them", "Enemy_A", "them")]) == []      # friendly fire
 
 
