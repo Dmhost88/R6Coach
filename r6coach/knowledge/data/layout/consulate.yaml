@@ -1,5 +1,9 @@
 map: consulate
 source: Room boxes located by Claude on Ubisoft's official blueprints (grid percentages, x left->right, y top->bottom). Check against data/maps/<map>/preview/.
+sides:
+  bottom: Riot Barricade / Police Line (front street)
+  left: Gas Station / Garage Way
+  right: Front Alley
 floors:
 - floor: B
   image: r6-maps-consulate-blueprint-1.jpg
@@ -8,6 +12,9 @@ floors:
   - 900
   notes: Image 1 of 4 with a small, compact footprint and the garage car visible on the west side, so this is very likely the basement; individual
     room placements are rough.
+  features:
+  - {kind: stairs, name: Server Stairs, at: [55.0, 65.0]}
+  - {kind: label, name: Pillar, at: [54.5, 63.8]}
   rooms:
     Garage:
       box:
@@ -86,6 +93,19 @@ floors:
   - 900
   notes: Image 2 of 4 with the surrounding exterior drawn, so this is the ground floor (1F). Exterior and interior room positions are best guesses
     from layout knowledge, so confidence is low.
+  features:
+  - {kind: stairs, name: Spiral Stairs, at: [60.0, 51.5]}
+  - {kind: stairs, name: Yellow Stairs, at: [56.5, 53.5]}
+  - {kind: hatch, name: Visa hatch, at: [53.3, 63.6]}
+  - {kind: hatch, name: Tellers hatch, at: [62.8, 57.3]}
+  - {kind: hatch, name: Piano hatch, at: [68.3, 57.3]}
+  - {kind: hatch, name: Expo hatch, at: [67.2, 69.0]}
+  - {kind: door, name: Main Entrance (Lobby door), at: [60.0, 74.5]}
+  - {kind: label, name: Riot Barricade, at: [60.0, 79.0]}
+  - {kind: label, name: Police Line, at: [60.0, 86.0]}
+  - {kind: label, name: Gas Station, at: [41.0, 41.0]}
+  - {kind: label, name: Garage Way, at: [44.0, 56.0]}
+  - {kind: label, name: Front Alley, at: [75.5, 62.0]}
   rooms:
     Lobby:
       box:
@@ -185,6 +205,13 @@ floors:
   - 900
   notes: Image 3 of 4 (B, 1F, 2F, Roof); the small top-floor footprint with a bay window and front balcony fits Consulate 2F. Floor call is fairly
     confident; room placement is approximate.
+  features:
+  - {kind: stairs, name: Spiral Stairs, at: [60.0, 51.5]}
+  - {kind: stairs, name: Yellow Stairs, at: [56.5, 53.5]}
+  - {kind: hatch, name: Hatch under Coffin, at: [51.2, 62.0]}
+  - {kind: hatch, name: Consul Office hatch, at: [64.1, 62.3]}
+  - {kind: door, name: Balcony door, at: [60.0, 71.0]}
+  - {kind: window, name: Consul Office bay window, at: [71.5, 63.0]}
   rooms:
     Consul Office:
       box:

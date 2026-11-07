@@ -1,0 +1,411 @@
+map: border
+briefs:
+  # ------------------------------------------------------------------ 2F Armory Lockers / 2F Archives
+  - id: border-armory-team-reinforce
+    site: armory_lockers_archives
+    side: defense
+    operators: []
+    title: "Balcony walls, Fountain wall, rotate open"
+    text: >-
+      Reinforce both Armory-West Balcony walls and both Archives-Fountain panels, then the Armory to Security Room
+      corridor. Keep Armory Lockers to Archives open and save up to three flex walls until you've droned.
+    placements:
+      - kind: reinforce
+        floor: 2F
+        between: [Armory Lockers, exterior]
+        edge: left
+        nudge: [0, -2.5]
+        note: "Both West Balcony walls"
+      - kind: reinforce
+        floor: 2F
+        at: [53.5, 35.5]
+        name: "Archives-Fountain wall"
+        note: "Both panels"
+      - kind: rotate
+        floor: 2F
+        between: [Armory Lockers, Archives]
+        note: "Armory to Archives stays open"
+  - id: border-armory-mute-balcony
+    site: armory_lockers_archives
+    side: defense
+    operators: [Mute, Maestro]
+    title: "Jam the West Balcony walls"
+    text: >-
+      Mute jams both Armory-West Balcony walls and the Fountain door so Thatcher and Ace can't open them cleanly.
+      Maestro puts an Evil Eye on the balcony walls and anchors Armory Desk for the crossfire.
+    placements:
+      - kind: trap
+        floor: 2F
+        between: [Armory Lockers, exterior]
+        edge: left
+        nudge: [1.5, -1.5]
+        note: "Mute jammer on the balcony walls"
+      - kind: camera
+        floor: 2F
+        between: [Armory Lockers, exterior]
+        edge: left
+        nudge: [3.0, 2.0]
+        note: "Evil Eye on the walls"
+      - kind: anchor
+        floor: 2F
+        room: Armory Lockers
+        nudge: [4.0, 0]
+        note: "Armory Desk crossfire"
+  - id: border-armory-break-room
+    site: armory_lockers_archives
+    side: defense
+    operators: []
+    title: "Hold Break Room for the East Stairs rotate"
+    text: >-
+      One player holds Break Room and the interior balcony so East Balcony and the East Stairs rotate aren't free.
+      Smoke from back Archives gasses the East Balcony doors.
+    placements:
+      - kind: anchor
+        floor: 2F
+        room: Break Room
+        note: "Interior balcony, stop the East Stairs rotate"
+      - kind: deployable
+        floor: 2F
+        at: [64.0, 19.5]
+        name: "East Balcony doors"
+        note: "Gas or shield here"
+  - id: border-armory-attack-split
+    site: armory_lockers_archives
+    side: attack
+    operators: [Ace, Thatcher, Capitao]
+    title: "Two-balcony split"
+    text: >-
+      Thatcher EMPs both balcony walls, Ace opens Armory from West Balcony while Capitao takes East Balcony into
+      Archives. Plant in Armory Lockers and hold it through the breach.
+    placements:
+      - kind: breach
+        floor: 2F
+        between: [Armory Lockers, exterior]
+        edge: left
+        nudge: [-1.0, 1.5]
+        note: "EMP the jammers first"
+      - kind: ace
+        floor: 2F
+        between: [Armory Lockers, exterior]
+        edge: left
+        nudge: [-1.0, -1.5]
+        note: "From West Balcony"
+      - kind: entry
+        floor: 2F
+        at: [64.0, 15.5]
+        name: "East Balcony"
+        note: "Exterior staircase; drone Break Room"
+      - kind: plant
+        floor: 2F
+        room: Armory Lockers
+        note: "Covered by the breach"
+  - id: border-armory-attack-vertical
+    site: armory_lockers_archives
+    side: attack
+    operators: [Buck, Nomad]
+    title: "Buck from below, Nomad on the stairs"
+    text: >-
+      Buck shoots up from 1F under Archives and Fountain while the balconies are hit; Nomad clears Break Room and
+      airjabs both stair tops for the rotate.
+    placements:
+      - kind: breach
+        floor: 1F
+        room: Workshop
+        note: "Buck vertical into Archives (usually)"
+      - kind: drone
+        floor: 2F
+        at: [42.5, 45.0]
+        name: "Central stairs top"
+        note: "Airjab or drone the stair tops"
+
+  # ------------------------------------------------------------------ 1F Workshop / 1F Ventilation Room
+  - id: border-workshop-kaid-wall
+    site: workshop_ventilation
+    side: defense
+    operators: [Kaid]
+    title: "Claw the Workshop wall and hatch"
+    text: >-
+      Reinforce the main Workshop exterior panel and the second one, claw the main panel, then reinforce and claw
+      the hatch over Workshop. Check the main breach panel in a custom game if you're unsure.
+    placements:
+      - kind: reinforce
+        floor: 1F
+        between: [Workshop, exterior]
+        edge: top
+        nudge: [-2.0, 0]
+        note: "Main panel and the second panel"
+      - kind: kaid
+        floor: 1F
+        between: [Workshop, exterior]
+        edge: top
+        nudge: [1.0, 1.5]
+        note: "Main panel"
+      - kind: hatch
+        floor: 2F
+        at: [53.8, 27.5]
+        name: "Workshop hatch"
+        note: "Reinforce and claw (the hatch over Workshop)"
+  - id: border-workshop-team-reinforce
+    site: workshop_ventilation
+    side: defense
+    operators: []
+    title: "Detention wall, vault rotate open"
+    text: >-
+      Reinforce both Detention panels and the site wall facing the Tellers door. Keep the Workshop-Vents vault rotate
+      open and cut head holes above the Workshop wall so you can C4 the plant.
+    placements:
+      - kind: reinforce
+        floor: 1F
+        between: [Passport Check, Detention]
+        note: "Detention wall, both panels"
+      - kind: rotate
+        floor: 1F
+        between: [Workshop, Ventilation Room]
+        note: "Vault rotate stays open"
+      - kind: open
+        floor: 1F
+        between: [Workshop, exterior]
+        edge: top
+        nudge: [3.0, 1.0]
+        note: "Head holes above the wall"
+  - id: border-workshop-castle-stairs
+    site: workshop_ventilation
+    side: defense
+    operators: [Castle]
+    title: "Panel the Metal Stairs door"
+    text: >-
+      Castle the Metal Stairs door so 2F can't flood down onto site; Noor or Warden play 2F over the plant
+      through holes.
+    placements:
+      - kind: castle
+        floor: 1F
+        at: [42.0, 47.5]
+        name: "Metal Stairs door"
+        note: "Bottom of the central stairs (usually)"
+      - kind: anchor
+        floor: 2F
+        at: [47.0, 30.0]
+        name: "2F over Workshop"
+        note: "Vertical over the plant"
+  - id: border-workshop-attack-vertical
+    site: workshop_ventilation
+    side: attack
+    operators: [Hibana, Thatcher, Sledge, Buck]
+    title: "Take 2F, then the Workshop wall"
+    text: >-
+      Win 2F first: Sledge opens the floor over Workshop and Buck over Vents. Then Thatcher EMPs and Hibana opens the
+      Workshop exterior; plant behind the breach and hold from the floor holes.
+    placements:
+      - kind: breach
+        floor: 2F
+        at: [48.0, 28.0]
+        name: "Floor over Workshop"
+        note: "Sledge"
+      - kind: hibana
+        floor: 1F
+        between: [Workshop, exterior]
+        edge: top
+        nudge: [0, -1.5]
+        note: "After the EMP"
+      - kind: plant
+        floor: 1F
+        room: Workshop
+        note: "Behind the breach"
+
+  - id: border-workshop-attack-drones
+    site: workshop_ventilation
+    side: attack
+    operators: [Nomad]
+    title: "Drone the vertical and cut the stairs"
+    text: >-
+      Drone 2F Armory and Fountain for the vertical players and Detention for the Customs extension. Nomad airjabs
+      the central and East Stairs so 2F stays yours while the wall opens.
+    placements:
+      - kind: drone
+        floor: 2F
+        room: Armory Lockers
+        note: "Vertical denial players"
+      - kind: drone
+        floor: 1F
+        room: Detention
+        note: "Customs extension"
+      - kind: anchor
+        floor: 2F
+        at: [42.5, 45.0]
+        name: "Central stairs top"
+        note: "Airjab and hold"
+
+  # ------------------------------------------------------------------ 1F Customs Inspection / 1F Supply Room
+  - id: border-customs-bandit-passport
+    site: customs_supply
+    side: defense
+    operators: [Bandit]
+    title: "Trick the Passport wall"
+    text: >-
+      Reinforce both Passport-Customs panels and trick them. Thermite and Thatcher come here together, so hold a
+      battery to replace after the EMP.
+    placements:
+      - kind: reinforce
+        floor: 1F
+        between: [Passport Check, Customs Inspection]
+        nudge: [-1.5, 0]
+        note: "Both panels"
+      - kind: bandit
+        floor: 1F
+        between: [Passport Check, Customs Inspection]
+        nudge: [1.0, 1.5]
+        note: "Customs side"
+  - id: border-customs-team-cc
+    site: customs_supply
+    side: defense
+    operators: [Castle, Valkyrie]
+    title: "Panels on windows, hold CC over open hatches"
+    text: >-
+      Reinforce the Detention wall and the Security Room (CC) wall, Castle the windows and the double door. Keep
+      both CC hatches open and hold CC above with cams; if nobody plays CC, reinforce them instead.
+    placements:
+      - kind: reinforce
+        floor: 1F
+        between: [Detention, Customs Inspection]
+        note: "Detention wall, both panels"
+      - kind: open
+        floor: 2F
+        at: [43.3, 72.5]
+        name: "CC hatch (south)"
+        note: "Open for vertical"
+      - kind: open
+        floor: 2F
+        at: [43.3, 52.5]
+        name: "CC hatch (north)"
+        note: "Open for vertical"
+      - kind: castle
+        floor: 1F
+        between: [Customs Inspection, exterior]
+        edge: left
+        note: "Windows"
+  - id: border-customs-attack-passport
+    site: customs_supply
+    side: attack
+    operators: [Thermite, Thatcher, Buck]
+    title: "CC first, then burn Passport"
+    text: >-
+      Buck takes CC and shoots down on the anchors, then Thatcher EMPs the batteries and Thermite burns the Passport
+      wall. Plant tight to the breach and watch Small Office and the double door.
+    placements:
+      - kind: breach
+        floor: 2F
+        at: [43.3, 72.5]
+        name: "CC hatch (south)"
+        note: "Buck vertical from CC"
+      - kind: thermite
+        floor: 1F
+        between: [Passport Check, Customs Inspection]
+        nudge: [0, -1.5]
+        note: "From Passport, after the EMP"
+      - kind: plant
+        floor: 1F
+        between: [Passport Check, Customs Inspection]
+        nudge: [0, 3.0]
+        note: "Tight against the breach"
+
+  - id: border-customs-attack-clear
+    site: customs_supply
+    side: attack
+    operators: [Iana, Nomad]
+    title: "Clear Tellers side and East Stairs"
+    text: >-
+      From East Vehicle Entrance, drone East Stairs and the balcony into CC, then Passport and Small Office. Iana
+      clears the Tellers side and bottom Metal Stairs; Nomad airjabs East Stairs for the flank.
+    placements:
+      - kind: drone
+        floor: 2F
+        at: [70.5, 68.0]
+        name: "East Stairs"
+        note: "Into CC"
+      - kind: drone
+        floor: 1F
+        room: Passport Check
+        note: "Passport and Small Office"
+      - kind: anchor
+        floor: 1F
+        at: [42.0, 47.5]
+        name: "Bottom of Metal Stairs"
+        note: "Clear before planting"
+
+  # ------------------------------------------------------------------ 1F Tellers / 1F Bathroom
+  - id: border-tellers-team-reinforce
+    site: tellers_bathroom
+    side: defense
+    operators: []
+    title: "Tellers walls, rotate shield"
+    text: >-
+      Reinforce the Tellers wall facing Detention, the long-angle Tellers wall and both Bathroom panels. Keep the
+      Tellers-Bathroom vault rotate and put a shield on it.
+    placements:
+      - kind: reinforce
+        floor: 1F
+        between: [Tellers, Main Lobby]
+        note: "Tellers wall toward Detention / Lobby"
+      - kind: reinforce
+        floor: 1F
+        between: [Bathroom, Waiting Room]
+        note: "Bathroom wall, both panels"
+      - kind: deployable
+        floor: 1F
+        between: [Tellers, Bathroom]
+        note: "Shield on the vault rotate (Smoke)"
+  - id: border-tellers-kaid-hatch
+    site: tellers_bathroom
+    side: defense
+    operators: [Kaid]
+    title: "Kaid vertical over Bathroom"
+    text: >-
+      Claw the 2F hatch toward Bathroom and play above it; some teams leave the Bathroom hatch open on purpose for
+      the retake. Watch for Fuze under the hatch.
+    placements:
+      - kind: kaid
+        floor: 2F
+        at: [64.3, 34.5]
+        name: "Bathroom hatch"
+        note: "Claw it, or leave it open for the retake"
+      - kind: anchor
+        floor: 2F
+        at: [61.0, 30.0]
+        name: "2F over Bathroom"
+        note: "Vertical over the shower plant"
+  - id: border-tellers-attack-hatch
+    site: tellers_bathroom
+    side: attack
+    operators: [Fuze, Ying, Buck]
+    title: "Cut 2F, drop the Bathroom hatch"
+    text: >-
+      Take Armory, Archives and Offices, skip CC and Break Room. Fuze under the hatch for the claw, Buck opens lines,
+      then Ying drops and plants in the shower while three hold from above.
+    placements:
+      - kind: breach
+        floor: 2F
+        at: [64.3, 34.5]
+        name: "Bathroom hatch"
+        note: "Open it after the claw is gone"
+      - kind: plant
+        floor: 1F
+        room: Bathroom
+        note: "Shower stall under the hatch"
+  - id: border-tellers-attack-lobby
+    site: tellers_bathroom
+    side: attack
+    operators: []
+    title: "Main Lobby fallback"
+    text: >-
+      If vertical fails, drone Tellers from Main Lobby and the stair doorways for Kapkan, then hit the Tellers wall
+      from the bottom. Hold the site window from outside after the plant.
+    placements:
+      - kind: drone
+        floor: 1F
+        room: Main Lobby
+        note: "Drone Tellers and stair doorways"
+      - kind: breach
+        floor: 1F
+        between: [Tellers, Main Lobby]
+        nudge: [1.5, 0]
+        note: "Tellers wall from the bottom"

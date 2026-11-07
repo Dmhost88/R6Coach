@@ -1,0 +1,408 @@
+map: kanal
+briefs:
+  # ---------------------------------------------------------------- 2F Server Room / Radar Room
+  - id: kanal-server-team-walls
+    site: server_room_radar_room
+    side: defense
+    operators: []
+    title: "Double-deny the outside Server wall"
+    text: >-
+      Reinforce both halves of the outside Server wall first; it is the main breach. Then close the walls facing the
+      90 windows and the contest-hole wall facing the Red door, and keep feet holes onto Skybridge.
+    placements:
+      - kind: reinforce
+        floor: 2F
+        between: [Server Room, exterior]
+        edge: left
+        nudge: [0, -1.2]
+        note: "Outside Server wall, upper half"
+      - kind: reinforce
+        floor: 2F
+        between: [Server Room, exterior]
+        edge: left
+        nudge: [0, 1.2]
+        note: "Outside Server wall, lower half"
+      - kind: open
+        floor: 2F
+        between: [Skybridge, Radar Room]
+        note: "Feet holes watching Skybridge (Wamai, Kaid)"
+      - kind: anchor
+        floor: 2F
+        room: Server Room
+        nudge: [1.0, 0]
+        note: "Left side of site, behind the Mira"
+  - id: kanal-server-kaid-main-wall
+    site: server_room_radar_room
+    side: defense
+    operators: [Kaid]
+    title: "Claw the main wall"
+    text: >-
+      Claw both halves of the outside Server wall from inside so Thermite or Maverick can't open it. If Thatcher or Ace
+      hits it, re-claw straight away; the E.G.S. only disables claws for about 15 seconds.
+    placements:
+      - kind: kaid
+        floor: 2F
+        between: [Server Room, exterior]
+        edge: left
+        nudge: [1.0, -1.2]
+        note: "Upper half, low on the inside"
+      - kind: kaid
+        floor: 2F
+        between: [Server Room, exterior]
+        edge: left
+        nudge: [1.0, 1.2]
+        note: "Lower half"
+  - id: kanal-server-attack-burn
+    site: server_room_radar_room
+    side: attack
+    operators: [Thermite, Thatcher]
+    title: "EMP and burn the main wall, hop 90"
+    text: >-
+      Drone the outside Server wall for claws, then Thatcher EMPs as Thermite places on the main wall. Take Skybridge or
+      one stairwell at the same time, hop the 90 and plant behind the desk by the Green-side wall.
+    placements:
+      - kind: drone
+        floor: 2F
+        room: Skybridge
+        note: "Find the Skybridge holder and feet holes first"
+      - kind: thermite
+        floor: 2F
+        between: [Server Room, exterior]
+        edge: left
+        note: "Main wall; charge inside the EMP window"
+      - kind: entry
+        floor: 2F
+        room: Skybridge
+        nudge: [0, 1.5]
+        note: "Cross after the holder is concussed or traded"
+      - kind: plant
+        floor: 2F
+        room: Server Room
+        nudge: [1.5, 1.0]
+        note: "Behind the desk, away from the Mira anchor (usually)"
+  - id: kanal-server-attack-ace
+    site: server_room_radar_room
+    side: attack
+    operators: [Ace, Maverick]
+    title: "Ace or Maverick on the Server wall"
+    text: >-
+      Backup breach: Ace opens the outside Server wall inside a Thatcher EMP, or Maverick torches it from Skybridge once
+      Kali has lanced the claws. Plant in Radar Room or just inside the breach.
+    placements:
+      - kind: ace
+        floor: 2F
+        between: [Server Room, exterior]
+        edge: left
+        nudge: [0, 1.5]
+        note: "Inside the EMP window"
+      - kind: maverick
+        floor: 2F
+        between: [Server Room, exterior]
+        edge: left
+        nudge: [0, -1.5]
+        note: "Torch a sightline first, then a hole"
+      - kind: plant
+        floor: 2F
+        room: Radar Room
+        note: "Or just inside the breach"
+  # ---------------------------------------------------------------- 1F Security Room / Map Room
+  - id: kanal-security-team-hatches
+    site: security_room_map_room
+    side: defense
+    operators: []
+    title: "Close the three 2F hatches"
+    text: >-
+      Reinforce the Radar, Killbox and Kitchen hatches on 2F and both Killbox outside wall panels. Keep the Security/Maps
+      head hole and crouch rotate open so you can swing between the rooms.
+    placements:
+      - kind: hatch
+        floor: 2F
+        at: [66.5, 47.3]
+        name: "Radar site hatch"
+      - kind: hatch
+        floor: 2F
+        at: [71.4, 47.3]
+        name: "Killbox site hatch"
+      - kind: hatch
+        floor: 2F
+        at: [65.5, 56.9]
+        name: "Kitchen hatch"
+      - kind: reinforce
+        floor: 2F
+        at: [72.8, 49.5]
+        name: "Killbox outside wall"
+        note: "Both panels"
+      - kind: open
+        floor: 1F
+        between: [Map Room, Security Room]
+        note: "Head hole and crouch rotate"
+  - id: kanal-security-bandit-killbox
+    site: security_room_map_room
+    side: defense
+    operators: [Bandit]
+    title: "Batteries on the Killbox wall"
+    text: >-
+      Put your batteries on the reinforced Killbox outside wall, then help hold 2F until about 1:30 and fold to Model
+      and Maps. Re-check the batteries after a Thatcher EMP.
+    placements:
+      - kind: bandit
+        floor: 2F
+        at: [72.8, 48.5]
+        name: "Killbox outside wall, panel 1"
+      - kind: bandit
+        floor: 2F
+        at: [72.8, 50.8]
+        name: "Killbox outside wall, panel 2"
+  - id: kanal-security-attack-top-take
+    site: security_room_map_room
+    side: attack
+    operators: [Ace, Thatcher, Buck]
+    title: "Take 2F, open the Killbox wall, drop Kitchen"
+    text: >-
+      Win 2F from Skybridge, top Red and top Green first. Thatcher EMPs the Killbox wall so Ace can open it, Buck verts
+      over the Kitchen tables, then drop the Kitchen hatch and plant in the Maps corner by the Kitchen door.
+    placements:
+      - kind: drone
+        floor: 2F
+        room: Skybridge
+        note: "Clear 2F before opening anything"
+      - kind: ace
+        floor: 2F
+        at: [72.8, 49.5]
+        name: "Killbox outside wall"
+      - kind: breach
+        floor: 2F
+        at: [65.5, 56.9]
+        name: "Kitchen hatch"
+        note: "Open it, then drop"
+      - kind: plant
+        floor: 1F
+        room: Map Room
+        nudge: [-1.5, 1.5]
+        note: "Maps corner by the Kitchen door (usually)"
+  - id: kanal-security-attack-hibana
+    site: security_room_map_room
+    side: attack
+    operators: [Hibana]
+    title: "Burn the site hatches from 2F"
+    text: >-
+      After 2F is yours, Hibana burns the reinforced Radar and Killbox hatches; shoot Maestro Evil Eyes and Mute
+      jammers through them before anyone drops. Plant Security Room if Maps is held.
+    placements:
+      - kind: hibana
+        floor: 2F
+        at: [66.5, 47.3]
+        name: "Radar site hatch"
+      - kind: hibana
+        floor: 2F
+        at: [71.4, 47.3]
+        name: "Killbox site hatch"
+      - kind: plant
+        floor: 1F
+        room: Security Room
+  # ---------------------------------------------------------------- 1F Coast Guard Meeting Room / Lounge
+  - id: kanal-coastguard-team-walls
+    site: coast_guard_meeting_lounge
+    side: defense
+    operators: []
+    title: "Seal Printer and Radio, reinforce the Coast Guard hatch"
+    text: >-
+      Reinforce both Coast Guard to Printer panels and both Radio Room wall panels, and the Coast Guard floor hatch.
+      Leave the Lounge hatch soft so a basement player can play under the site.
+    placements:
+      - kind: reinforce
+        floor: 1F
+        between: [Coast Guard Meeting Room, Printer Hallway]
+        nudge: [0, -1.2]
+        note: "Panel 1"
+      - kind: reinforce
+        floor: 1F
+        between: [Coast Guard Meeting Room, Printer Hallway]
+        nudge: [0, 1.2]
+        note: "Panel 2"
+      - kind: reinforce
+        floor: 1F
+        between: [Radio Room, Coast Guard Meeting Room]
+        nudge: [-1.0, 0]
+        note: "Radio Room wall, both panels"
+      - kind: hatch
+        floor: 1F
+        at: [53.1, 57.6]
+        name: "Coast Guard hatch"
+      - kind: open
+        floor: 1F
+        at: [59.9, 52.0]
+        name: "Lounge hatch"
+        note: "Keep soft for the player below"
+  - id: kanal-coastguard-castle-lounge
+    site: coast_guard_meeting_lounge
+    side: defense
+    operators: [Castle]
+    title: "Panel the Lounge windows"
+    text: >-
+      Castle panels the Lounge windows so attackers can't swing long Lounge from outside, then anchors the Coast Guard
+      corner.
+    placements:
+      - kind: castle
+        floor: 1F
+        between: [Lounge, exterior]
+        edge: right
+        nudge: [0, -1.0]
+        note: "Lounge window"
+      - kind: castle
+        floor: 1F
+        between: [Lounge, exterior]
+        edge: right
+        nudge: [0, 1.0]
+        note: "Second Lounge window"
+      - kind: anchor
+        floor: 1F
+        room: Coast Guard Meeting Room
+        nudge: [-1.0, 1.5]
+        note: "Coast Guard corner"
+  - id: kanal-coastguard-attack-radio
+    site: coast_guard_meeting_lounge
+    side: attack
+    operators: [Ace, Kali, Buck]
+    title: "Take Radio from below, open the back wall"
+    text: >-
+      Take the basement Scuba side and Buck clears Radio from below while Zero rappels the Radio window. Kali lances the
+      wall gadgets, Ace opens the back wall from Radio, and you plant on the chassis just behind the breach.
+    placements:
+      - kind: entry
+        floor: 1F
+        between: [Radio Room, exterior]
+        edge: left
+        note: "Radio window on rappel"
+      - kind: ace
+        floor: 1F
+        between: [Radio Room, Coast Guard Meeting Room]
+        note: "Back wall; which panel is not verified"
+      - kind: plant
+        floor: 1F
+        room: Coast Guard Meeting Room
+        nudge: [0, -1.5]
+        note: "On the chassis just behind the breach"
+  - id: kanal-coastguard-attack-thermite
+    site: coast_guard_meeting_lounge
+    side: attack
+    operators: [Thermite, Thatcher]
+    title: "Burn Coast Guard from Printer"
+    text: >-
+      Drone Printer Hallway for feet holes and the top Printer stairs roamer. Thatcher EMPs and Thermite burns the
+      Coast Guard to Printer wall; plant Lounge if Coast Guard is crossfired.
+    placements:
+      - kind: drone
+        floor: 1F
+        room: Printer Hallway
+      - kind: thermite
+        floor: 1F
+        between: [Coast Guard Meeting Room, Printer Hallway]
+      - kind: plant
+        floor: 1F
+        room: Lounge
+  # ---------------------------------------------------------------- B Kayaks / Supply Room
+  - id: kanal-kayaks-team-hatches
+    site: kayaks_supply_room
+    side: defense
+    operators: []
+    title: "Hatches first, then the middle wall"
+    text: >-
+      Prep is short: reinforce the Coast Guard and Lounge hatches first. Then one middle Kayaks/Supply panel with the
+      crouch rotate beside it, and the stairs-side half of the Diving wall.
+    placements:
+      - kind: hatch
+        floor: 1F
+        at: [53.1, 57.6]
+        name: "Coast Guard hatch"
+      - kind: hatch
+        floor: 1F
+        at: [59.9, 52.0]
+        name: "Lounge hatch"
+      - kind: reinforce
+        floor: B
+        between: [Kayaks, Supply Room]
+        nudge: [-1.0, 0]
+        note: "One middle panel"
+      - kind: open
+        floor: B
+        between: [Kayaks, Supply Room]
+        nudge: [1.0, 0]
+        note: "Crouch rotate"
+      - kind: reinforce
+        floor: B
+        between: [Diving Room, Kayaks]
+        nudge: [-1.0, 0]
+        note: "Stairs-side half; the other half stays soft for head holes"
+  - id: kanal-kayaks-frost-diving
+    site: kayaks_supply_room
+    side: defense
+    operators: [Frost]
+    title: "Mat the Diving and Lockers windows"
+    text: >-
+      Frost mats the Diving windows and the Lockers window, then anchors Diving. Mute keeps jammers on the Pipes and
+      Diving walls.
+    placements:
+      - kind: trap
+        floor: B
+        between: [Diving Room, exterior]
+        edge: left
+        note: "Diving window (usually)"
+      - kind: trap
+        floor: B
+        between: [Lockers, exterior]
+        edge: right
+        note: "Lockers window (usually)"
+      - kind: anchor
+        floor: B
+        room: Diving Room
+  - id: kanal-kayaks-attack-hibana
+    site: kayaks_supply_room
+    side: attack
+    operators: [Hibana, Buck]
+    title: "Win 1F, burn both hatches"
+    text: >-
+      Take Reception and the 1F rooms first; Caveira roams there until 1:30. Hibana burns the Coast Guard and Lounge
+      hatches, Buck opens the floor over site, and you plant tucked by the chassis.
+    placements:
+      - kind: hibana
+        floor: 1F
+        at: [53.1, 57.6]
+        name: "Coast Guard hatch"
+      - kind: hibana
+        floor: 1F
+        at: [59.9, 52.0]
+        name: "Lounge hatch"
+      - kind: breach
+        floor: 1F
+        room: Coast Guard Meeting Room
+        nudge: [1.5, 0]
+        note: "Buck opens the floor over site"
+      - kind: plant
+        floor: B
+        room: Supply Room
+        note: "Tucked by the chassis, Buck covers from above"
+  - id: kanal-kayaks-attack-split
+    site: kayaks_supply_room
+    side: attack
+    operators: []
+    title: "Split Trench and Yellow"
+    text: >-
+      Open and drone Trench early for the Jager at the door, then drone Diving and Main stairs. Push Trench and Yellow
+      stairs together and plant the Kayaks corner; Airjab Main stairs instead of rushing it.
+    placements:
+      - kind: drone
+        floor: B
+        room: Diving Room
+        note: "Frost mats and Mute jammers"
+      - kind: entry
+        floor: B
+        between: [Diving Room, exterior]
+        edge: left
+        nudge: [0, 1.5]
+        note: "Diving side (usually)"
+      - kind: plant
+        floor: B
+        room: Kayaks
+        nudge: [-1.0, -1.0]
+        note: "Kayaks corner"

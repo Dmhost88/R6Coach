@@ -47,13 +47,72 @@ def test_layout_endpoint_and_focus_event(tmp_path, monkeypatch):
     client = TestClient(build(app))
     lay = client.get("/api/layout").json()
     assert lay["map"] == "chalet" and [f["floor"] for f in lay["floors"]] == ["1F", "2F"]
-    assert lay["you"] == {"floor": "2F", "room": "Library"}
+    assert lay["you"] == {"floor": "2F", "room": "Library", "fi": 1}
     assert lay["floors"][0]["url"] is None and lay["floors"][1]["url"].endswith("/f2.jpg")
     assert client.get("/api/blueprint/chalet/..%2Fx.jpg").status_code == 404
     seen = []
     app.bus.subscribe("map.focus", lambda ev: seen.append(ev.data["rooms"]))
     app.bus.publish("coach.said", text="Charge the Office to Library wall.", phase="action_phase")
-    assert seen == [[{"floor": "2F", "room": "Office"}, {"floor": "2F", "room": "Library"}]]
+    assert seen == [[{"floor": "2F", "room": "Office", "fi": 1}, {"floor": "2F", "room": "Library", "fi": 1}]]
+
+
+def test_resolve_positions(tmp_path):
+    from r6coach.maplayout import edge_point, wall_point
+    m = make(tmp_path)
+    # Side by side (Library 34-40, Office 40-47): the middle of the shared wall.
+    assert m.resolve("chalet", {"floor": "2F", "between": ["Office", "Library"]}) == \
+        {"fi": 1, "floor": "2F", "x": 40.0, "y": 84.0}
+    assert m.resolve("chalet", {"floor": "2F", "room": "Library"})["x"] == 37.0
+    assert m.resolve("chalet", {"floor": "1F", "at": [10, 20], "nudge": [1.5, -1]}) == \
+        {"fi": 0, "floor": "1F", "x": 11.5, "y": 19.0}
+    assert m.resolve("chalet", {"floor": "1F", "between": ["Bar", "exterior"], "edge": "bottom"})["y"] == 90.0
+    assert m.resolve("chalet", {"floor": "2F", "room": "Bar"}) is None          # not on that floor
+    assert m.resolve("chalet", {"floor": "3F", "room": "Office"}) is None       # no such floor
+    assert m.resolve("bank", {"floor": "1F", "room": "Office"}) is None        # no layout
+    assert wall_point([0, 0, 10, 10], [10, 20, 20, 30]) == (10.0, 15.0)       # diagonal: between centres
+    assert edge_point([2, 40, 10, 60], None) == (2, 50.0)                     # nearest image edge: left
+
+
+def test_duplicate_floor_names_pick_the_image_with_the_room(tmp_path):
+    lay = tmp_path / "layout"
+    lay.mkdir()
+    (lay / "bank.yaml").write_text(yaml.safe_dump({"map": "bank", "floors": [
+        {"floor": "1F", "image": "a.jpg", "rooms": {"Lobby": {"box": [1, 1, 5, 5]}}},
+        {"floor": "1F", "image": "b.jpg", "rooms": {"Vault": {"box": [50, 50, 60, 60]}}},
+    ]}), encoding="utf-8")
+    m = MapLayouts(lay, tmp_path)
+    assert m.floor_index("bank", "1F", ("Vault",)) == 1
+    assert m.floor_index("bank", "1F") == 0
+    assert m.resolve("bank", {"floor": "1F", "room": "Vault"})["fi"] == 1
+
+
+def test_features_and_sides(tmp_path):
+    lay = tmp_path / "layout"
+    lay.mkdir()
+    (lay / "chalet.yaml").write_text(yaml.safe_dump({"map": "chalet", "sides": {"top": "Lakeside", "up": "x"},
+        "floors": [{"floor": "2F", "image": "f2.jpg", "rooms": {}, "features": [
+            {"kind": "hatch", "name": "Library hatch", "at": [36, 77]},
+            {"kind": "stairs", "name": "Main Stairs", "at": [50, 50]},
+            {"kind": "teleporter", "at": [1, 1]},               # unknown kinds are dropped
+            {"kind": "window", "name": "no position"}]}]}), encoding="utf-8")
+    m = MapLayouts(lay, tmp_path)
+    assert m.sides("chalet") == {"top": "Lakeside"}
+    assert [(f["kind"], f["name"], f["fi"], f["x"]) for f in m.features("chalet")] == \
+        [("hatch", "Library hatch", 0, 36.0), ("stairs", "Main Stairs", 0, 50.0)]
+    assert m.features("bank") == [] and m.sides("bank") == {}
+
+
+def test_real_layouts_load_and_features_are_on_the_image():
+    from r6coach.knowledge import DATA
+    m = MapLayouts(DATA / "layout", DATA / "no-images")
+    assert len(m.layouts) >= 15
+    for mid in m.layouts:
+        for f in m.features(mid):
+            assert 0 <= f["x"] <= 100 and 0 <= f["y"] <= 100, (mid, f)
+        for fl in m.layouts[mid]["floors"]:
+            for room, r in (fl.get("rooms") or {}).items():
+                x0, y0, x1, y1 = r["box"]
+                assert 0 <= x0 < x1 <= 100 and 0 <= y0 < y1 <= 100, (mid, room)
 
 
 def test_locate_and_images(tmp_path):

@@ -22,6 +22,7 @@ from .memory import MatchMemory
 from .tactical import TacticalCoach
 from .llm import Claude
 from .profile import Profile
+from .setups import SetupLibrary
 from .voice.tts import Speaker
 from .watcher import Watcher
 
@@ -42,6 +43,7 @@ class App:
         self.bus.subscribe("state.updated", self._record_room)
         self.knowledge = Knowledge(notes_dir=data / "notes")
         self.layouts = MapLayouts(self.knowledge.data_dir / "layout", data / "maps")
+        self.setups = SetupLibrary(self.knowledge.data_dir / "setups", data / "setups")
         self.bus.subscribe("coach.said", self._map_focus)
         self.profile = Profile(data / "profile.sqlite")
         self.frames = FrameStore(data, cfg.storage.keep_frames_days)
@@ -89,6 +91,8 @@ class App:
         mid = self.map_id()
         you = self.layouts.locate(mid, self.watcher.state.my_location)
         rooms = self.layouts.mentions(mid, ev.data.get("text", ""), you["floor"] if you else None)
+        for r in rooms:   # which blueprint image, for maps with two images of one floor
+            r["fi"] = self.layouts.floor_index(mid, r["floor"], (r["room"],))
         if rooms:
             self.bus.publish("map.focus", map=mid, rooms=rooms, text=ev.data.get("text", ""))
 

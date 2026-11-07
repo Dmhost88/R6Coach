@@ -34,6 +34,7 @@
     <button class="rc-btn rc-btn--quiet" id="btn-repeat" type="button">Repeat</button>
     <button class="rc-btn rc-btn--quiet" id="btn-skip" type="button">Skip</button>
     <button class="rc-btn rc-btn--quiet" id="btn-pause" type="button">Pause reading</button>
+    <button class="rc-btn rc-btn--quiet" id="btn-glance" type="button" aria-pressed="true" title="Big, simple view while you play: the coach's line, the current step and its picture">Glance view: auto</button>
     <button class="rc-btn rc-btn--quiet" id="btn-theme" type="button">Light theme</button>
   </div>
 </header>
@@ -59,8 +60,25 @@
             <span class="rc-score__them" id="score-them">0</span>
             <span class="rc-score__meta" id="score-meta">Waiting for a match</span>
           </div>
+          <p class="match-compact" id="match-compact"></p>
           <dl class="rc-state" id="state-list"></dl>
           <p class="rc-card__hint">Only what your HUD and menus showed. The coach never looks for enemies.</p>
+        </section>
+
+        <section class="rc-card setups" aria-labelledby="setups-title" id="setups-card" hidden>
+          <h2 class="rc-card__title" id="setups-title"><span class="ic" data-icon="phase-prep"></span>Setup</h2>
+          <p class="card-lede" id="setups-for"></p>
+          <div class="setups__filters">
+            <label class="visually-hidden" for="setups-site">Site</label>
+            <select class="rc-select setups__site" id="setups-site"></select>
+            <div class="setups__sides" role="group" aria-label="Side">
+              <button type="button" class="livemap__toggle" data-side="defense" aria-pressed="false">Defence</button>
+              <button type="button" class="livemap__toggle" data-side="attack" aria-pressed="false">Attack</button>
+            </div>
+          </div>
+          <ul class="setups__list" id="setups-list" aria-label="Standard setups"></ul>
+          <div class="setups__brief" id="setups-brief"></div>
+          <p class="rc-card__hint">Standard setups for this site. Each step has a picture slot: drop in your own screenshot, or pick one of your saved game frames. Pictures stay on this PC.</p>
         </section>
 
         <section class="rc-card" aria-labelledby="rounds-title">
@@ -74,17 +92,46 @@
       </div>
 
       <div class="col col--feed">
+        <section class="nowline" id="now-line" aria-live="polite" hidden>
+          <p class="nowline__label"><span class="ic" data-icon="coach"></span><span id="now-phase">Coach</span> <span class="nowline__when" id="now-when"></span></p>
+          <p class="nowline__text" id="now-text"></p>
+          <div class="nowline__rooms" id="now-rooms"></div>
+        </section>
+
         <section class="rc-card livemap" aria-labelledby="map-title" id="livemap" hidden>
           <div class="livemap__head">
-            <h2 class="rc-card__title" id="map-title"><span class="ic" data-icon="objective"></span>Map</h2>
+            <h2 class="rc-card__title" id="map-title"><span class="ic" data-icon="objective"></span><span id="map-name">Map</span></h2>
             <div class="livemap__floors" id="map-floors" role="group" aria-label="Floor"></div>
           </div>
-          <div class="livemap__stage" id="map-stage">
-            <img id="map-img" alt="" decoding="async">
-            <svg class="livemap__svg" id="map-svg" viewBox="0 0 100 56.25" aria-hidden="true"></svg>
+          <div class="livemap__tools">
+            <div class="livemap__toggles" role="group" aria-label="Show on the map">
+              <button type="button" class="livemap__toggle" data-show="labels" aria-pressed="true">Rooms</button>
+              <button type="button" class="livemap__toggle" data-show="sites" aria-pressed="true">Sites</button>
+              <button type="button" class="livemap__toggle" data-show="features" aria-pressed="true">Stairs and hatches</button>
+              <button type="button" class="livemap__toggle" data-show="utility" aria-pressed="true">Utility</button>
+            </div>
+            <div class="livemap__zoom" role="group" aria-label="Zoom">
+              <button type="button" class="rc-btn rc-btn--quiet livemap__zbtn" id="map-zoom-out" aria-label="Zoom out">−</button>
+              <button type="button" class="rc-btn rc-btn--quiet livemap__zbtn" id="map-zoom-in" aria-label="Zoom in">+</button>
+              <button type="button" class="rc-btn rc-btn--quiet" id="map-reset">Reset view</button>
+            </div>
           </div>
+          <div class="livemap__stage" id="map-stage" tabindex="0" role="group"
+               aria-label="Map. Drag to move, scroll or pinch to zoom, arrow keys to move, plus and minus to zoom, 0 to reset.">
+            <div class="livemap__world" id="map-world">
+              <img id="map-img" alt="" decoding="async" draggable="false">
+              <svg class="livemap__svg" id="map-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg>
+              <div class="livemap__pins" id="map-pins"></div>
+            </div>
+            <span class="livemap__edge livemap__edge--top" id="map-edge-top" hidden></span>
+            <span class="livemap__edge livemap__edge--bottom" id="map-edge-bottom" hidden></span>
+            <span class="livemap__edge livemap__edge--left" id="map-edge-left" hidden></span>
+            <span class="livemap__edge livemap__edge--right" id="map-edge-right" hidden></span>
+            <span class="livemap__zlevel" id="map-zlevel" aria-hidden="true"></span>
+          </div>
+          <div class="livemap__legend" id="map-legend"></div>
           <p class="livemap__said" id="map-said" aria-live="polite"></p>
-          <p class="rc-card__hint">Rooms the coach names light up in order; the ring is your room from the HUD. Blueprints from Ubisoft; room positions are approximate.</p>
+          <p class="rc-card__hint">Rooms the coach names light up in order and the map zooms to them; the blue ring is your room from the HUD. Icons are the selected setup's utility. Blueprints from Ubisoft; room positions are approximate.</p>
         </section>
 
         <section class="rc-card coach" aria-labelledby="coach-title">
@@ -305,6 +352,42 @@
   </section>
 </main>
 
+<dialog class="rc-card shotdlg" id="frame-picker" aria-labelledby="frame-picker-title">
+  <div class="shotdlg__head">
+    <h2 class="rc-card__title" id="frame-picker-title">Pick one of your saved frames</h2>
+    <button type="button" class="rc-btn rc-btn--quiet" data-close>Close</button>
+  </div>
+  <p class="card-lede" id="frame-picker-for"></p>
+  <ul class="frames" id="frame-list"></ul>
+</dialog>
+
+<dialog class="rc-card shotdlg shotdlg--view" id="shot-view" aria-labelledby="shot-view-title">
+  <div class="shotdlg__head">
+    <h2 class="rc-card__title" id="shot-view-title">Picture</h2>
+    <button type="button" class="rc-btn rc-btn--quiet" data-close>Done</button>
+  </div>
+  <p class="card-lede" id="shot-view-note"></p>
+  <div class="shot-tools" id="shot-tools" role="toolbar" aria-label="Mark the spot">
+    <span class="shot-tools__group" role="group" aria-label="Marker">
+      <button type="button" class="livemap__toggle" data-tool="circle" aria-pressed="true">Circle</button>
+      <button type="button" class="livemap__toggle" data-tool="arrow" aria-pressed="false">Arrow</button>
+      <button type="button" class="livemap__toggle" data-tool="box" aria-pressed="false">Box</button>
+    </span>
+    <button type="button" class="rc-btn rc-btn--quiet" id="shot-undo">Undo</button>
+    <span class="shot-tools__spacer"></span>
+    <button type="button" class="rc-btn rc-btn--quiet" id="shot-replace-grab">Replace with game screen</button>
+    <button type="button" class="rc-btn rc-btn--quiet" id="shot-remove">Remove picture</button>
+  </div>
+  <p class="hint-sm">Click where the gadget goes for a circle; drag for an arrow or a box. Saved as you go. Ctrl+V pastes a new picture.</p>
+  <div class="shotframe shotframe--edit" id="shot-edit">
+    <img id="shot-view-img" alt="" draggable="false">
+    <span id="shot-edit-marks"></span>
+  </div>
+</dialog>
+
+<input type="file" id="shot-file" accept="image/jpeg,image/png,image/webp" hidden>
+
+<script src="/static/js/livemap.js" defer></script>
 <script src="/static/js/app.js" defer></script>
 </body>
 </html>

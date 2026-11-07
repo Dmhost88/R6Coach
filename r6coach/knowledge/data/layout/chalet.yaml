@@ -1,5 +1,6 @@
 map: chalet
 source: Room boxes located by Claude on Ubisoft's official blueprints (grid percentages, x left->right, y top->bottom). Check against data/maps/<map>/preview/.
+sides: {left: "Front Yard (upper left) and Campfire (lower left)"}
 floors:
 - floor: B
   image: r6-maps-chalet-blueprint-1.jpg
@@ -30,6 +31,8 @@ floors:
       - 62.0
       - 90.0
       confidence: 0.35
+  features:
+  - {kind: stairs, name: "Main Stairs (to 1F)", at: [53.3, 39.5]}
 - floor: 1F
   image: r6-maps-chalet-blueprint-2.jpg
   size:
@@ -121,6 +124,13 @@ floors:
       - 80.0
       - 100.0
       confidence: 0.2
+  features:
+  - {kind: stairs, name: "Main Stairs", at: [53.3, 39.0]}
+  - {kind: hatch, name: "Fireplace hatch (to basement)", at: [59.9, 85.3]}
+  - {kind: hatch, name: "Hatch to the basement garage", at: [65.2, 7.0]}
+  - {kind: window, name: "Games window", at: [34.2, 70.0]}
+  - {kind: label, name: "Front Yard", at: [12.0, 25.0]}
+  - {kind: label, name: "Campfire", at: [13.0, 80.0]}
 - floor: 2F
   image: r6-maps-chalet-blueprint-3.jpg
   size:
@@ -192,6 +202,13 @@ floors:
       - 60.0
       - 19.0
       confidence: 0.2
+  features:
+  - {kind: stairs, name: "Main Stairs", at: [53.0, 38.0]}
+  - {kind: stairs, name: "Library Stairs", at: [64.5, 64.5]}
+  - {kind: hatch, name: "Library hatch (over Gaming Room)", at: [35.3, 77.5]}
+  - {kind: hatch, name: "Bathroom hatch (over Bar)", at: [45.5, 70.5]}
+  - {kind: hatch, name: "Kitchen hatch (over Kitchen)", at: [65.5, 37.5]}
+  - {kind: window, name: "Library windows", at: [33.8, 80.0]}
 - floor: ROOF
   image: r6-maps-chalet-blueprint-4.jpg
   size:

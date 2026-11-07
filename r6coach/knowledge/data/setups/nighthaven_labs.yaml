@@ -1,0 +1,501 @@
+map: nighthaven_labs
+# Standard setups for Nighthaven Labs. Built 2026-11-06 from maps/nighthaven_labs.yaml,
+# callouts/nighthaven_labs.yaml and the blueprints. Room names on this map vary between guides (Command
+# Center / Servers and Tank / Assembly may be swapped in some), so wall spots are read off the blueprint.
+briefs:
+  # ---------------------------------------------------------------- 2F Command Center / 2F Servers
+  - id: nighthaven-cc-servers-team-walls
+    site: command_center_servers
+    side: defense
+    operators: []
+    title: "Battle for IT: deny IT, layer Rafters and Connector"
+    text: >-
+      Reinforce both IT wall panels first, they're the main breach. Then the left and middle Rafters
+      panels, both Servers/Connector panels, one Connector outer wall and the Aqua hallway wall. Leave the
+      third Rafters panel soft as the rotate, and keep the Servers hatch open as a roam route.
+    placements:
+      - kind: reinforce
+        floor: 2F
+        at: [53.8, 58.6]
+        name: "IT wall"
+        nudge: [-1.0, 0]
+        note: "Panel 1"
+      - kind: reinforce
+        floor: 2F
+        at: [53.8, 58.6]
+        name: "IT wall"
+        nudge: [1.0, 0]
+        note: "Panel 2"
+      - kind: reinforce
+        floor: 2F
+        at: [63.8, 44.5]
+        name: "Rafters triple wall"
+        nudge: [0, -1.2]
+        note: "Left and middle panels"
+      - kind: rotate
+        floor: 2F
+        at: [63.8, 44.5]
+        name: "Rafters triple wall"
+        nudge: [0, 1.2]
+        note: "Third panel stays soft"
+      - kind: reinforce
+        floor: 2F
+        between: [Servers, Connector]
+        note: "Both panels"
+      - kind: reinforce
+        floor: 2F
+        at: [60.4, 43.4]
+        name: "Connector outer wall"
+      - kind: reinforce
+        floor: 2F
+        between: [Aqua hallway, Command Center]
+        note: "Aqua hallway wall, keep feet holes"
+      - kind: open
+        floor: 2F
+        at: [56.4, 48.4]
+        name: "Servers hatch"
+        note: "Roam route down"
+  - id: nighthaven-cc-servers-bandit-it
+    site: command_center_servers
+    side: defense
+    operators: [Bandit, Kaid]
+    title: "Batteries on the IT wall"
+    text: >-
+      Bandit puts batteries on both IT panels from the site side and re-tricks after each Thatcher; an EMP
+      only stops batteries for about 15 seconds. Watch for Zofia or Kali clearing them from 1F below.
+    placements:
+      - kind: bandit
+        floor: 2F
+        at: [53.8, 58.6]
+        name: "IT wall"
+        nudge: [-1.0, -1.2]
+        note: "Panel 1"
+      - kind: bandit
+        floor: 2F
+        at: [53.8, 58.6]
+        name: "IT wall"
+        nudge: [1.0, -1.2]
+        note: "Panel 2"
+      - kind: anchor
+        floor: 2F
+        room: Command Center
+        note: "Close to the wall for re-tricks"
+  - id: nighthaven-cc-servers-roles
+    site: command_center_servers
+    side: defense
+    operators: [Azami, Mute, Mozzie]
+    title: "Rafters, E-box and Meeting jobs"
+    text: >-
+      Azami stalls Rafters and seals the rotate with a Kiba when she leaves, Mute holds the E-box door,
+      and Mozzie plays Meeting to steal drones before falling back to Connector.
+    placements:
+      - kind: anchor
+        floor: 2F
+        room: Rafters
+        note: "Azami, Kiba on the rotate"
+      - kind: anchor
+        floor: 2F
+        room: Electrical
+        note: "Mute, E-box door"
+      - kind: anchor
+        floor: 2F
+        room: Meeting
+        note: "Mozzie, pests on drones"
+  - id: nighthaven-cc-servers-thermite-it
+    site: command_center_servers
+    side: attack
+    operators: [Thermite, Zofia, Kali, Thatcher]
+    title: "Clear IT from below, burn IT"
+    text: >-
+      Helipad spawn. Drone Meeting for Mozzie first, then IT for the batteries. Zofia or Kali clears the IT
+      wall denial (from 1F below works), Thermite burns the IT wall, and you plant behind the server stack.
+    placements:
+      - kind: drone
+        floor: 2F
+        room: Meeting
+        note: "Mozzie steals drones here"
+      - kind: drone
+        floor: 2F
+        room: IT
+        note: "Batteries on the wall"
+      - kind: thermite
+        floor: 2F
+        at: [53.8, 58.6]
+        name: "IT wall"
+        nudge: [0, 1.0]
+        note: "Inside the EMP window"
+      - kind: plant
+        floor: 2F
+        room: Servers
+        note: "Tucked behind the server stack"
+  - id: nighthaven-cc-servers-aqua-connector
+    site: command_center_servers
+    side: attack
+    operators: [Maverick, Gridlock, Capitao]
+    title: "Aqua squeeze, Connector torch"
+    text: >-
+      Gridlock takes Aqua hallway up the Fish stairs and Traxes the flank, Maverick torches the Connector
+      outer walls from outside, Capitao smokes the site doorways. Plant Servers by the IT breach.
+    placements:
+      - kind: entry
+        floor: 2F
+        at: [57.5, 43.6]
+        name: "Fish Stairs"
+        note: "Into Aqua hallway"
+      - kind: maverick
+        floor: 2F
+        at: [60.4, 43.4]
+        name: "Connector outer wall"
+        nudge: [0, -1.0]
+      - kind: drone
+        floor: 2F
+        room: Rafters
+        note: "Azami on the rail"
+      - kind: plant
+        floor: 2F
+        room: Servers
+        nudge: [-1.5, 3.0]
+        note: "By the IT side"
+  # ---------------------------------------------------------------- 1F Kitchen / 1F Cafeteria
+  - id: nighthaven-kitchen-caf-team-walls
+    site: kitchen_cafeteria
+    side: defense
+    operators: []
+    title: "Lobby wall, Games wall, outside hatch late"
+    text: >-
+      Both Lobby wall panels are the main breach. Add the Games wall to Storage and the Connector walls on
+      2F, then reinforce the outside hatch on the east walkway (usually called the Freezer hatch) at the end
+      of prep. Keep the Freezer knee holes and Cafeteria head holes for crossfires.
+    placements:
+      - kind: reinforce
+        floor: 1F
+        at: [61.3, 48.5]
+        name: "Lobby wall"
+        nudge: [0, -1.2]
+        note: "Panel 1"
+      - kind: reinforce
+        floor: 1F
+        at: [61.3, 48.5]
+        name: "Lobby wall"
+        nudge: [0, 1.2]
+        note: "Panel 2"
+      - kind: reinforce
+        floor: 1F
+        between: [Games, Storage]
+      - kind: reinforce
+        floor: 2F
+        between: [Servers, Connector]
+        note: "Connector walls"
+      - kind: hatch
+        floor: 2F
+        at: [67.2, 52.2]
+        name: "Outside hatch"
+        note: "Usually called the Freezer hatch; end of prep"
+      - kind: open
+        floor: 1F
+        room: Freezer
+        note: "Knee holes in the Freezer wall"
+  - id: nighthaven-kitchen-caf-kaid-lobby
+    site: kitchen_cafeteria
+    side: defense
+    operators: [Kaid, Bandit]
+    title: "Claw the Lobby wall"
+    text: >-
+      Since Y10S4 Mute only jams remote devices, so Thermite on the Lobby wall needs Kaid or Bandit. Claw
+      both panels low and hold the Kitchen corner off the wall.
+    placements:
+      - kind: kaid
+        floor: 1F
+        at: [61.3, 48.5]
+        name: "Lobby wall"
+        nudge: [1.0, -1.2]
+        note: "Panel 1, low"
+      - kind: kaid
+        floor: 1F
+        at: [61.3, 48.5]
+        name: "Lobby wall"
+        nudge: [1.0, 1.2]
+        note: "Panel 2, low"
+      - kind: anchor
+        floor: 1F
+        room: Kitchen
+        note: "Kitchen corner"
+  - id: nighthaven-kitchen-caf-castle-games
+    site: kitchen_cafeteria
+    side: defense
+    operators: [Castle]
+    title: "Castle the Games side"
+    text: >-
+      Castle barricades the Games side doors so Games stays a rotate for you, not an entry for them. Clash
+      holds the top of the Lobby stairs.
+    placements:
+      - kind: castle
+        floor: 1F
+        between: [Games, Lobby]
+        note: "Games door to Lobby"
+      - kind: castle
+        floor: 1F
+        between: [Games, Fork]
+        note: "Usually the Fork side door"
+  - id: nighthaven-kitchen-caf-thermite-lobby
+    site: kitchen_cafeteria
+    side: attack
+    operators: [Thermite, Kali, Sledge]
+    title: "Win Lobby stairs, burn the Lobby wall"
+    text: >-
+      Park or Generator spawn. Kill or break the Clash at the top of the Lobby stairs, Sledge opens the
+      Cafeteria floor from above, Kali lances the claws and Thermite burns the Lobby wall. Smoke-plant on the
+      breach edge.
+    placements:
+      - kind: drone
+        floor: 1F
+        room: Lobby
+        note: "Clash at the top of the stairs"
+      - kind: thermite
+        floor: 1F
+        at: [61.3, 48.5]
+        name: "Lobby wall"
+        nudge: [-1.0, 0]
+        note: "After Kali's lance"
+      - kind: plant
+        floor: 1F
+        room: Cafeteria
+        note: "Lobby breach edge, under smoke"
+  - id: nighthaven-kitchen-caf-outside-hatch
+    site: kitchen_cafeteria
+    side: attack
+    operators: [Hibana, Ace, Kali]
+    title: "Outside hatch and Kitchen window"
+    text: >-
+      From the east walkway, Hibana or Ace opens the outside hatch (it's reinforced late in prep, so check)
+      and Kali holds the Kitchen window. Drop or swing in and plant Kitchen.
+    placements:
+      - kind: hibana
+        floor: 2F
+        at: [67.2, 52.2]
+        name: "Outside hatch"
+        nudge: [1.0, 0]
+      - kind: entry
+        floor: 1F
+        at: [70.1, 46.0]
+        name: "Kitchen window"
+      - kind: plant
+        floor: 1F
+        room: Kitchen
+  # ---------------------------------------------------------------- 1F Control Room / 1F Storage
+  - id: nighthaven-control-storage-team-walls
+    site: control_room_storage
+    side: defense
+    operators: []
+    title: "Hold 2F like Servers, then drop"
+    text: >-
+      Reinforce both Garage outside walls, both IT panels and the Rafters panels upstairs, and both
+      Servers/Connector panels. Keep the Control/Storage rotate open. Play 2F until about 1:30, then drop
+      into a Storage/Control crossfire.
+    placements:
+      - kind: reinforce
+        floor: 1F
+        at: [52.0, 66.3]
+        name: "Garage outside walls"
+        note: "Both"
+      - kind: reinforce
+        floor: 2F
+        at: [53.8, 58.6]
+        name: "IT wall"
+        note: "Both panels"
+      - kind: reinforce
+        floor: 2F
+        at: [63.8, 44.5]
+        name: "Rafters triple wall"
+        note: "Third panel stays the rotate"
+      - kind: reinforce
+        floor: 2F
+        between: [Servers, Connector]
+      - kind: rotate
+        floor: 1F
+        at: [54.7, 57.2]
+        name: "Control/Storage rotate"
+  - id: nighthaven-control-storage-kaid-it
+    site: control_room_storage
+    side: defense
+    operators: [Kaid, Castle]
+    title: "Claw IT, barricade the Mud door"
+    text: >-
+      Kaid claws the IT wall and plays the E-box. Castle barricades the Mud door so the north side is slow.
+    placements:
+      - kind: kaid
+        floor: 2F
+        at: [53.8, 58.6]
+        name: "IT wall"
+        nudge: [0, -1.2]
+      - kind: castle
+        floor: 1F
+        between: [Mud, Freezer]
+        note: "Mud door, position approximate"
+      - kind: anchor
+        floor: 1F
+        room: Storage
+        note: "Warden on the Storage window late"
+  - id: nighthaven-control-storage-servers-window
+    site: control_room_storage
+    side: attack
+    operators: [Thermite, Kali, Buck]
+    title: "Win 2F, open the floor, window plant"
+    text: >-
+      Take Meeting, the Lobby stairs and Connector to cut off the E-box. Kali lances the IT claws, Thermite
+      burns IT, Buck opens the Servers floor over Storage. Then jump the Storage window and plant behind the
+      pillar.
+    placements:
+      - kind: drone
+        floor: 2F
+        room: Electrical
+        note: "Kaid on the E-box"
+      - kind: thermite
+        floor: 2F
+        at: [53.8, 58.6]
+        name: "IT wall"
+        nudge: [0, 1.0]
+      - kind: breach
+        floor: 2F
+        room: Servers
+        note: "Buck opens the floor over Storage"
+      - kind: plant
+        floor: 1F
+        room: Storage
+        note: "Behind the pillar"
+  - id: nighthaven-control-storage-garage
+    site: control_room_storage
+    side: attack
+    operators: [Hibana, Ace, Gridlock]
+    title: "Garage wall into Control"
+    text: >-
+      Second lane through Garage: drone Cargo and Garage, Hibana or Ace opens a Garage outside wall, and
+      Gridlock Traxes Aqua and the Cargo stairs. Plant Control Room.
+    placements:
+      - kind: drone
+        floor: 1F
+        room: Garage
+      - kind: hibana
+        floor: 1F
+        at: [52.0, 66.3]
+        name: "Garage outside wall"
+        nudge: [0, 1.0]
+      - kind: plant
+        floor: 1F
+        room: Control Room
+  # ---------------------------------------------------------------- B Tank / B Assembly
+  - id: nighthaven-tank-assembly-team-walls
+    site: tank_assembly
+    side: defense
+    operators: []
+    title: "Three outside walls, three hatches"
+    text: >-
+      Reinforce both outside walls (Animus and Assembly), the left Nano hallway panel and the left Exo wall,
+      then the Exo, Animus and Games hatches from 1F. Keep feet holes into Animus and the right half of Nano
+      soft for C4 lobs.
+    placements:
+      - kind: reinforce
+        floor: B
+        at: [52.4, 66.6]
+        name: "Animus outside wall"
+      - kind: reinforce
+        floor: B
+        at: [57.0, 66.6]
+        name: "Assembly outside wall"
+      - kind: reinforce
+        floor: B
+        at: [53.2, 51.3]
+        name: "Nano hallway wall"
+        note: "Left panel"
+      - kind: reinforce
+        floor: B
+        at: [59.4, 52.0]
+        name: "Left Exo wall"
+        note: "Head holes"
+      - kind: hatch
+        floor: 1F
+        at: [61.6, 54.4]
+        name: "Exo hatch"
+      - kind: hatch
+        floor: 1F
+        at: [51.9, 62.0]
+        name: "Animus hatch"
+        note: "In Garage"
+      - kind: hatch
+        floor: 1F
+        at: [51.5, 47.2]
+        name: "Games hatch"
+        note: "Usually the Cargo hatch"
+      - kind: open
+        floor: B
+        between: [Tank, Animus]
+        note: "Feet holes"
+  - id: nighthaven-tank-assembly-kaid-outside
+    site: tank_assembly
+    side: defense
+    operators: [Kaid]
+    title: "Claw the outside walls"
+    text: >-
+      Kaid claws both outside walls and anchors site, lobbing C4 through Nano on a plant.
+    placements:
+      - kind: kaid
+        floor: B
+        at: [52.4, 66.6]
+        name: "Animus outside wall"
+        nudge: [0, -1.2]
+      - kind: kaid
+        floor: B
+        at: [57.0, 66.6]
+        name: "Assembly outside wall"
+        nudge: [0, -1.2]
+      - kind: anchor
+        floor: B
+        room: Assembly
+  - id: nighthaven-tank-assembly-hatch-vert
+    site: tank_assembly
+    side: attack
+    operators: [Hibana, Buck, Capitao]
+    title: "Animus hatch and vertical from 1F"
+    text: >-
+      Take the 1F rooms over site and kill the Warden in Storage first. Hibana burns the Animus hatch in
+      Garage, Buck opens lines over Tank from Control, Capitao fires the Tank doorways. Plant under the
+      Animus hatch or tight in the Tank corner.
+    placements:
+      - kind: drone
+        floor: 1F
+        room: Storage
+        note: "Warden on the holes"
+      - kind: hibana
+        floor: 1F
+        at: [51.9, 62.0]
+        name: "Animus hatch"
+        nudge: [1.0, 0]
+      - kind: breach
+        floor: 1F
+        room: Control Room
+        note: "Buck, three lines over Tank"
+      - kind: plant
+        floor: B
+        room: Animus
+        note: "Under the hatch"
+  - id: nighthaven-tank-assembly-outside-burn
+    site: tank_assembly
+    side: attack
+    operators: [Thermite, Kali, Nomad]
+    title: "Burn an outside wall"
+    text: >-
+      Drone the outside walls for claws and Nano for the C4 player. Kali lances the claws, Thermite burns the
+      Assembly outside wall, Nomad Airjabs the flanks. Plant in Assembly with Buck covering from above.
+    placements:
+      - kind: drone
+        floor: B
+        room: Nano hallway
+        note: "C4 lobber"
+      - kind: thermite
+        floor: B
+        at: [57.0, 66.6]
+        name: "Assembly outside wall"
+        nudge: [0, 1.0]
+      - kind: plant
+        floor: B
+        room: Assembly

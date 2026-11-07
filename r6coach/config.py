@@ -108,7 +108,7 @@ class VoiceCfg(BaseModel):
     kokoro_model: str = "kokoro-v1.0.onnx"   # fp32; the int8 file is ~7x slower on CPU
     local_device: str = "cpu"                # cpu | cuda (needs onnxruntime-gpu; cpu leaves the GPU to the game)
     local_threads: int = 4                   # CPU threads for the local voice (0 = onnxruntime default)
-    speed: float = 1.05
+    speed: float = 1.25
     openai_voice: str = "onyx"
     openai_model: str = "gpt-4o-mini-tts"
     elevenlabs_voice_id: str = ""

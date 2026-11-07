@@ -1,0 +1,456 @@
+# Standard setup briefs for Kafe Dostoyevsky. See README.md in this folder for the format.
+# Positions: room boxes from layout/kafe_dostoyevsky.yaml where they fit; `at` points read off
+# Ubisoft's blueprints (data/maps/kafe_dostoyevsky/). The building is drawn small and the room boxes
+# are rough, so where the layout can't pin a named wall the icon sits in the room it belongs to and
+# the note names the wall. Slang rooms (Piano, Pillar, VIP, Small Bake, Bar Storage) have no box.
+map: kafe_dostoyevsky
+briefs:
+  # ---------------------------------------------------------------- 3F Cocktail Lounge / Bar
+  - id: kafe-cocktail-team-reinforcements
+    site: cocktail_lounge_bar
+    side: defense
+    operators: []
+    title: "Cocktail / Bar: Piano and Freezer walls"
+    text: >-
+      Reinforce both halves of the Piano wall facing Top Red, both Freezer / Bar Storage walls, the
+      left half of the Cocktail wall facing Top White and the Cocktail wall on the Trash side. The Bar
+      to Cocktail doorway is the rotate; don't open extra holes toward Cigar.
+    placements:
+      - kind: reinforce
+        floor: 3F
+        room: Bar Freezer
+        note: "Both Freezer / Bar Storage walls"
+      - kind: reinforce
+        floor: 3F
+        room: Red Stairs
+        note: "Piano wall facing Top Red, both halves"
+      - kind: reinforce
+        floor: 3F
+        between: [Cocktail Lounge, White Stairs]
+        note: "Cocktail wall facing Top White, left half"
+      - kind: rotate
+        floor: 3F
+        between: [Bar, Cocktail Lounge]
+        note: "Main rotate, keep it clean"
+  - id: kafe-cocktail-kaid-freezer
+    site: cocktail_lounge_bar
+    side: defense
+    operators: [Kaid, Bandit, Clash]
+    title: "Deny the Freezer walls"
+    text: >-
+      Claws or batteries on both Freezer / Bar Storage walls; they are the main hard-breach lane into
+      Bar. Clash can wait in Freezer to stall the Bar entry.
+    placements:
+      - kind: kaid
+        floor: 3F
+        room: Bar Freezer
+        nudge: [1.2, 0]
+        note: "Both panels, low"
+      - kind: anchor
+        floor: 3F
+        room: Bar Freezer
+        nudge: [-1.2, 0]
+        note: "Clash or Smoke"
+  - id: kafe-cocktail-azami-piano
+    site: cocktail_lounge_bar
+    side: defense
+    operators: [Azami, Thorn, Mute]
+    title: "Lock Piano, trap the hatches"
+    text: >-
+      Azami barriers close the Piano lines and hold Top Red. Thorn blooms go on the hatches and the
+      Cocktail door, and Mute jams the drone hole and hatch.
+    placements:
+      - kind: deployable
+        floor: 3F
+        room: Red Stairs
+        nudge: [0, 2.0]
+        note: "Azami barriers on Piano lines"
+      - kind: trap
+        floor: 3F
+        at: [63.6, 52.1]
+        name: "3F hatch by Top Red"
+        note: "Thorn bloom"
+      - kind: trap
+        floor: ROOF
+        room: Skylight
+        note: "Watch the Skylight take with a trap or cam"
+  - id: kafe-cocktail-attack-cigar-bar
+    site: cocktail_lounge_bar
+    side: attack
+    operators: [Hibana, Thatcher]
+    title: "Cigar to Bar"
+    text: >-
+      From Park take the roof and Cigar Lounge, Thatcher EMPs the Freezer walls and Hibana opens Bar
+      Storage. Buck opens holes into Cocktail from the roof.
+    placements:
+      - kind: entry
+        floor: ROOF
+        room: Skylight
+        note: "Skylight take"
+      - kind: entry
+        floor: 3F
+        room: Cigar Balcony
+        note: "Under the Cafe Rooftop hatch"
+      - kind: hibana
+        floor: 3F
+        room: Bar Freezer
+        nudge: [0, 2.0]
+        note: "Freezer / Bar Storage walls"
+      - kind: plant
+        floor: 3F
+        room: Bar
+        note: "Behind the counter, near Freezer"
+  - id: kafe-cocktail-attack-red-white
+    site: cocktail_lounge_bar
+    side: attack
+    operators: [Thermite, Kali, Zofia]
+    title: "Red and White pinch"
+    text: >-
+      Clear Piano from Top Red and Thermite the Piano wall, while Zofia and Kali push Top White. Plant
+      in Cocktail by the Trash side.
+    placements:
+      - kind: thermite
+        floor: 3F
+        room: Red Stairs
+        nudge: [-1.2, 0]
+        note: "Piano wall"
+      - kind: entry
+        floor: 3F
+        room: White Stairs
+        note: "Top White"
+      - kind: plant
+        floor: 3F
+        room: Cocktail Lounge
+        note: "Trash side"
+  # ---------------------------------------------------------------- 2F Fireplace Hall / Mining Room
+  - id: kafe-mining-team-reinforcements
+    site: fireplace_hall_mining_room
+    side: defense
+    operators: []
+    title: "Mining: back walls and the White double wall"
+    text: >-
+      Reinforce both Mining back walls, both White double wall panels, the big window wall and the
+      wall left of the rotate toward bottom Red. Keep the vault rotate left of the window and the
+      feet holes toward Train Museum.
+    placements:
+      - kind: reinforce
+        floor: 2F
+        between: [Mining Room, exterior]
+        edge: bottom
+        note: "Both Mining back walls"
+      - kind: reinforce
+        floor: 2F
+        between: [Mining Room, White Stairs]
+        note: "White double wall, both panels"
+      - kind: open
+        floor: 2F
+        between: [Fireplace Hall, Train Museum]
+        note: "Feet holes toward Train Museum"
+  - id: kafe-mining-mute-melusi
+    site: fireplace_hall_mining_room
+    side: defense
+    operators: [Mute, Melusi]
+    title: "Double door denial"
+    text: >-
+      Mute jammers and Melusi Banshees on the Train Museum double door; Melusi saves one for Red.
+      Mute anchors the tight window rotate in Mining.
+    placements:
+      - kind: trap
+        floor: 2F
+        between: [Fireplace Hall, Train Museum]
+        nudge: [1.2, 0]
+        note: "Banshee and jammer on the double door"
+      - kind: anchor
+        floor: 2F
+        room: Mining Room
+        note: "Window rotate"
+  - id: kafe-mining-kaid
+    site: fireplace_hall_mining_room
+    side: defense
+    operators: [Kaid]
+    title: "Claw the Mining walls"
+    text: >-
+      Claws on the White double wall and the Mining back walls, with holes kept so the claws don't
+      blind the site.
+    placements:
+      - kind: kaid
+        floor: 2F
+        between: [Mining Room, White Stairs]
+        nudge: [-1.0, 0]
+        note: "White double wall"
+      - kind: kaid
+        floor: 2F
+        between: [Mining Room, exterior]
+        edge: bottom
+        nudge: [1.2, 0]
+        note: "Back walls"
+  - id: kafe-mining-attack-vertical
+    site: fireplace_hall_mining_room
+    side: attack
+    operators: [Buck, Sledge, Hibana]
+    title: "3F vertical, then the White wall"
+    text: >-
+      Take Piano and Cocktail on 3F, Buck and Sledge open the floor over Mining, then Hibana opens the
+      White double wall after a Thatcher EMP.
+    placements:
+      - kind: breach
+        floor: 3F
+        room: Bar Freezer
+        note: "Floor over Mining"
+      - kind: hibana
+        floor: 2F
+        between: [Mining Room, White Stairs]
+        nudge: [1.0, 0]
+        note: "White double wall"
+      - kind: plant
+        floor: 2F
+        room: Mining Room
+        note: "By the window rotate"
+  - id: kafe-mining-attack-train
+    site: fireplace_hall_mining_room
+    side: attack
+    operators: [Thermite, Kali]
+    title: "Train Museum push"
+    text: >-
+      Clear Train Museum, Kali clears the denial and Thermite opens a Mining back wall. Plant in
+      Fireplace Hall by the double door if Mining is too hot.
+    placements:
+      - kind: entry
+        floor: 2F
+        room: Train Museum
+        note: "Clear it first"
+      - kind: thermite
+        floor: 2F
+        between: [Mining Room, exterior]
+        edge: bottom
+        nudge: [-1.2, 0]
+        note: "Mining back wall"
+      - kind: plant
+        floor: 2F
+        room: Fireplace Hall
+        note: "By the double door"
+  # ---------------------------------------------------------------- 2F Reading Room / Fireplace Hall
+  - id: kafe-reading-team-reinforcements
+    site: reading_room_fireplace_hall
+    side: defense
+    operators: []
+    title: "Reading: Pillar wall and the 3F lid"
+    text: >-
+      Reinforce both halves of the Reading to Pillar wall and the Reading / Laundry wall half away
+      from the cabinet. Upstairs, reinforce both 3F Freezer / Bar Storage walls and the Cocktail wall
+      facing Top White.
+    placements:
+      - kind: reinforce
+        floor: 2F
+        room: Reading Room
+        note: "Reading to Pillar wall, both halves"
+      - kind: reinforce
+        floor: 2F
+        room: Laundry Room
+        note: "Reading / Laundry wall, away from the cabinet"
+      - kind: reinforce
+        floor: 3F
+        room: Bar Freezer
+        note: "3F Freezer / Bar Storage walls"
+      - kind: reinforce
+        floor: 3F
+        between: [Cocktail Lounge, White Stairs]
+        note: "Cocktail wall facing Top White"
+  - id: kafe-reading-castle-tachanka
+    site: reading_room_fireplace_hall
+    side: defense
+    operators: [Castle, Tachanka]
+    title: "Castle the doors, Tachanka on the vert"
+    text: >-
+      Castle barricades the Reading, Cocktail and Pixel doors. Tachanka plays 3F Cocktail over the vert
+      and shoots through the Fireplace foot holes.
+    placements:
+      - kind: castle
+        floor: 2F
+        room: Reading Room
+        nudge: [0, 2.0]
+        note: "Reading door; Pixel door too"
+      - kind: anchor
+        floor: 3F
+        room: Cocktail Lounge
+        note: "Hold the vert"
+  - id: kafe-reading-kaid-melusi
+    site: reading_room_fireplace_hall
+    side: defense
+    operators: [Kaid, Melusi]
+    title: "Claw Reading, Banshee White"
+    text: >-
+      Kaid claws the Reading and Pillar walls and anchors Laundry. Melusi puts Banshees on White Stairs
+      and Pillar.
+    placements:
+      - kind: kaid
+        floor: 2F
+        room: Reading Room
+        nudge: [1.2, 0]
+        note: "Reading to Pillar wall"
+      - kind: trap
+        floor: 2F
+        room: White Stairs
+        note: "Banshee"
+  - id: kafe-reading-attack-cocktail
+    site: reading_room_fireplace_hall
+    side: attack
+    operators: [Buck, Sledge, Hibana]
+    title: "Cocktail take, open the floor"
+    text: >-
+      Take 3F Cocktail and kill the Tachanka, open the floor over Reading, then Hibana opens the Pillar
+      wall. Plant in Reading by Pillar.
+    placements:
+      - kind: entry
+        floor: 3F
+        room: Cocktail Lounge
+        note: "Kill the vert player"
+      - kind: hibana
+        floor: 2F
+        room: Reading Room
+        nudge: [-1.2, 0]
+        note: "Reading to Pillar wall"
+      - kind: plant
+        floor: 2F
+        room: Reading Room
+        nudge: [0, 2.0]
+        note: "By Pillar"
+  - id: kafe-reading-attack-pinch
+    site: reading_room_fireplace_hall
+    side: attack
+    operators: [Thermite, Kali, Zofia]
+    title: "White and Red pinch"
+    text: >-
+      Push White and Red together; Kali clears the claws and Thermite opens the Pillar wall. Plant in
+      the Fireplace Hall corner if Reading is held.
+    placements:
+      - kind: entry
+        floor: 2F
+        room: White Stairs
+        note: "White Stairs"
+      - kind: entry
+        floor: 2F
+        room: Red Stairs
+        note: "Red Stairs"
+      - kind: plant
+        floor: 2F
+        room: Fireplace Hall
+        note: "Corner"
+  # ---------------------------------------------------------------- 1F Kitchen Service / Kitchen Cooking
+  - id: kafe-kitchen-team-reinforcements
+    site: kitchen_service_kitchen_cooking
+    side: defense
+    operators: []
+    title: "Kitchen: Bakery side and the hatches"
+    text: >-
+      Reinforce the Prep wall facing Bakery, the Small Bake single wall, the Kitchen wall facing
+      Bakery, dark walls 1 and 2, the Freezer wall behind VIP and the outer Garage wall. Reinforce the
+      hatch above site and the Freezer hatch; leave the Red Hall walls open.
+    placements:
+      - kind: reinforce
+        floor: 1F
+        between: [Bakery, Kitchen Cooking]
+        note: "Kitchen wall facing Bakery"
+      - kind: reinforce
+        floor: 1F
+        room: Prep Room
+        note: "Prep wall facing Bakery"
+      - kind: reinforce
+        floor: 1F
+        room: Freezer
+        note: "Freezer wall behind VIP"
+      - kind: reinforce
+        floor: 1F
+        between: [Garage, exterior]
+        edge: bottom
+        note: "Outer Garage wall only"
+      - kind: hatch
+        floor: 2F
+        at: [67.1, 63.2]
+        name: "2F hatch over the Freezer side"
+        note: "Reinforce"
+  - id: kafe-kitchen-kaid-swap
+    site: kitchen_service_kitchen_cooking
+    side: defense
+    operators: [Kaid]
+    title: "Claw Prep and Small Bake, then swap"
+    text: >-
+      Claws on Prep and Small Bake first. If there's no Bakery pressure by about 45 seconds, swap them
+      to the dark walls and the Freezer hatch.
+    placements:
+      - kind: kaid
+        floor: 1F
+        room: Prep Room
+        nudge: [-1.2, 0]
+        note: "Prep wall"
+      - kind: kaid
+        floor: 1F
+        between: [Bakery, Kitchen Cooking]
+        nudge: [0, 3.0]
+        note: "Small Bake single wall"
+  - id: kafe-kitchen-smoke-tubarao
+    site: kitchen_service_kitchen_cooking
+    side: defense
+    operators: [Smoke, Tubarao, Aruni]
+    title: "Bakery counter and VIP feet holes"
+    text: >-
+      Smoke holds the Bakery counter and gasses the push. Tubarao freezes the Freezer drop from the VIP
+      feet holes, and Aruni holds bottom Red and Coat Check.
+    placements:
+      - kind: anchor
+        floor: 1F
+        room: Bakery
+        note: "Bakery counter"
+      - kind: anchor
+        floor: 1F
+        room: Freezer
+        nudge: [0, 1.5]
+        note: "VIP feet holes"
+      - kind: anchor
+        floor: 1F
+        room: Coat Check
+        note: "Aruni at bottom Red"
+  - id: kafe-kitchen-attack-bakery
+    site: kitchen_service_kitchen_cooking
+    side: attack
+    operators: [Thermite, Thatcher, Buck]
+    title: "Bakery breach"
+    text: >-
+      Take Bakery and Small Bake, Thatcher pops the Prep claws and Thermite opens. Buck opens the VIP
+      floor to stop the Freezer drop. Plant in Kitchen Service by the Prep wall.
+    placements:
+      - kind: entry
+        floor: 1F
+        room: Bakery
+        note: "Show pressure early"
+      - kind: thermite
+        floor: 1F
+        room: Prep Room
+        nudge: [0, 1.5]
+        note: "Prep wall facing Bakery"
+      - kind: plant
+        floor: 1F
+        room: Kitchen Service
+        note: "By the Prep wall"
+  - id: kafe-kitchen-attack-red-hall
+    site: kitchen_service_kitchen_cooking
+    side: attack
+    operators: [Ace, Kali]
+    title: "Red Hall split"
+    text: >-
+      Push Red Hall and Coat Check, Kali clears the dark-wall claws and Ace opens. Gridlock covers the
+      Bakery flank. Plant in Kitchen Cooking near Freezer, away from the VIP holes.
+    placements:
+      - kind: entry
+        floor: 1F
+        room: Coat Check
+        note: "Red Hall and Coat Check"
+      - kind: ace
+        floor: 1F
+        between: [Kitchen Cooking, Kitchen Service]
+        note: "Usually a dark wall; check which one Kaid left"
+      - kind: plant
+        floor: 1F
+        room: Kitchen Cooking
+        nudge: [0, 2.0]
+        note: "Near Freezer"

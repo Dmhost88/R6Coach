@@ -152,6 +152,8 @@ function tags(list) {
 function renderState(s) {
   currentState = s || {};
   s = currentState;
+  renderCompact(s);
+  applyGlance();
   $("score-us").textContent = s.score_us ?? 0;
   $("score-them").textContent = s.score_them ?? 0;
   const inMatch = !!s.match_id || !MENU_SCREENS.has(s.screen || "other");
@@ -335,99 +337,7 @@ function renderMemory(m) {
   $("memory").innerHTML = items.join("") || '<li class="memory__empty">Rounds appear here as they finish.</li>';
 }
 
-// ------------------------------------------------------------------ live map
-// The current map's blueprint floors with room boxes (percent of the image). Coach lines light up
-// the rooms they name, in order, with a route line; the ring is the player's HUD room.
-const mapView = { map: null, floors: [], floor: null, you: null, focus: [], focusUntil: 0, pinned: false };
-const FOCUS_MS = 25000;
-
-async function loadLayout() {
-  let lay;
-  try { lay = await api("/api/layout"); } catch (e) { return; }
-  mapView.map = lay.map;
-  mapView.floors = (lay.floors || []).filter((f) => f.url);
-  mapView.you = lay.you;
-  $("livemap").hidden = !mapView.floors.length;
-  if (!mapView.floors.length) return;
-  if (!mapView.floors.some((f) => f.floor === mapView.floor)) {
-    mapView.floor = (mapView.you && mapView.you.floor) || (mapView.floors.find((f) => f.floor === "1F") || mapView.floors[0]).floor;
-  }
-  $("map-floors").innerHTML = mapView.floors.map((f) =>
-    `<button type="button" class="rc-btn rc-btn--quiet livemap__floor" data-floor="${esc(f.floor)}">${esc(f.floor)}</button>`).join("");
-  drawMap();
-}
-
-function showFloor(floor, pinned = false) {
-  if (!mapView.floors.some((f) => f.floor === floor)) return;
-  mapView.floor = floor;
-  if (pinned) mapView.pinned = true;
-  drawMap();
-}
-
-function centre(box) { return [(box[0] + box[2]) / 2, (box[1] + box[3]) / 2]; }
-
-function drawMap() {
-  const fl = mapView.floors.find((f) => f.floor === mapView.floor);
-  if (!fl) return;
-  const img = $("map-img");
-  if (img.getAttribute("src") !== fl.url) { img.src = fl.url; img.alt = `${mapView.map || "Map"} ${fl.floor} blueprint`; }
-  $("map-floors").querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.floor === fl.floor)));
-  const live = Date.now() < mapView.focusUntil;
-  const focus = live ? mapView.focus : [];
-  // Boxes are percent of width and height; draw in a viewBox with the image's aspect so text isn't stretched.
-  const k = fl.size ? fl.size[1] / fl.size[0] : 0.5625;
-  const svgEl = $("map-svg");
-  svgEl.setAttribute("viewBox", `0 0 100 ${100 * k}`);
-  svgEl.setAttribute("preserveAspectRatio", "xMidYMid meet");
-  const box = (b) => [b[0], b[1] * k, b[2], b[3] * k];
-  const svg = [];
-  const pts = [];
-  focus.forEach((r, i) => {
-    const room = fl.rooms[r.room];
-    if (r.floor !== fl.floor || !room) return;
-    const [x0, y0, x1, y1] = box(room.box);
-    pts.push(centre([x0, y0, x1, y1]));
-    svg.push(`<rect class="livemap__room" x="${x0}" y="${y0}" width="${x1 - x0}" height="${y1 - y0}" rx="0.6"/>`);
-    svg.push(`<text class="livemap__label" x="${x0 + 0.6}" y="${y0 + 2.4}">${i + 1}. ${esc(r.room)}</text>`);
-  });
-  if (pts.length > 1) svg.unshift(`<polyline class="livemap__route" points="${pts.map((p) => p.join(",")).join(" ")}"/>`);
-  const you = mapView.you;
-  if (you && you.floor === fl.floor && fl.rooms[you.room]) {
-    const [cx, cy] = centre(box(fl.rooms[you.room].box));
-    svg.push(`<circle class="livemap__you" cx="${cx}" cy="${cy}" r="1.6"/>`);
-    svg.push(`<text class="livemap__label livemap__label--you" x="${cx + 2.2}" y="${cy + 0.8}">You</text>`);
-  }
-  svgEl.innerHTML = svg.join("");
-  const other = focus.filter((r) => r.floor !== fl.floor).map((r) => `${r.floor} ${r.room}`);
-  $("map-said").textContent = live && other.length ? `Also on another floor: ${other.join(", ")}` : "";
-}
-
-function mapFocus(d, live) {
-  if (!live || !d.rooms || !d.rooms.length) return;
-  if (d.map && d.map !== mapView.map) { loadLayout(); }
-  mapView.focus = d.rooms;
-  mapView.focusUntil = Date.now() + FOCUS_MS;
-  mapView.pinned = false;
-  showFloor(d.rooms[0].floor);
-  setTimeout(drawMap, FOCUS_MS + 50);
-}
-
-function mapState(s) {
-  if (!s) return;
-  if ((s.map || null) && !mapView.floors.length && !mapView._loading) {
-    mapView._loading = true; loadLayout().finally(() => { mapView._loading = false; });
-    return;
-  }
-  const where = s.my_location || null;
-  if (where === mapView._lastWhere) return;
-  mapView._lastWhere = where;
-  api("/api/layout").then((lay) => {
-    mapView.you = lay.you;
-    // Follow the player's floor unless a coach line or a click is showing another one.
-    if (lay.you && !mapView.pinned && Date.now() >= mapView.focusUntil) mapView.floor = lay.you.floor;
-    drawMap();
-  }).catch(() => {});
-}
+// The live map and the setup briefs are in livemap.js (loadLayout, mapFocus, mapState, mapView).
 
 // ------------------------------------------------------------------ events
 let lastRead = null;
@@ -437,7 +347,7 @@ function handle(ev, live = true) {
     case "state.updated": renderState(d.state); renderScreenPill(d.state && d.state.screen); mapState(d.state); break;
     case "map.focus": mapFocus(d, live); break;
     case "screen.changed": renderScreenPill(d.screen); refreshMemory(); break;
-    case "coach.said": coachSaid(ev, live); break;
+    case "coach.said": coachSaid(ev, live); nowSaid(ev, live); break;
     case "coach.done": if (live) stopSpeaking(); break;
     case "coach.thinking": if (live) setThinking(true, d.question ? "Thinking about your question" : "Thinking"); break;
     case "error": addError(ev.ts, `${d.source || "error"}: ${d.message || ""}`); break;
@@ -448,7 +358,7 @@ function handle(ev, live = true) {
     case "ptt.question": if (live) setListening(false); addLine(ev.ts, esc("You: " + (d.text || "")), "is-you"); break;
     case "status": if (live) renderStatus({ ...lastStatus, ...d }); break;   // old ones in history are stale
     case "match.started":
-      if (live) { addLine(ev.ts, "New match started.", "is-note"); mapView.floors = []; mapView.focus = []; }
+      if (live) { addLine(ev.ts, "New match started.", "is-note"); mapReset(); }
       refreshMemory(); break;
     case "match.ended":
       if (live) {
@@ -825,10 +735,6 @@ async function boot() {
   setInterval(async () => { try { renderStatus(await api("/api/status")); } catch (e) { /* reconnect handles it */ } }, 5000);
   loadSettings().catch((e) => console.warn("settings", e));
   loadMaps().catch((e) => console.warn("maps", e));
-  $("map-floors").addEventListener("click", (e) => {
-    const b = e.target.closest("button[data-floor]");
-    if (b) showFloor(b.dataset.floor, true);
-  });
-  loadLayout();
+  initLiveMap();
 }
 boot();

@@ -1,209 +1,75 @@
 map: nighthaven_labs
 source: Room boxes located by Claude on Ubisoft's official blueprints (grid percentages, x left->right, y top->bottom). Check against data/maps/<map>/preview/.
+# Orientation and features added 2026-11-06 from the blueprints. Room fixes the same day (read off the
+# images): B Assembly is the south-east room with the objective marker and the breakable outside wall
+# (it sits under 1F Storage), Animus the south-west room under the 1F Garage hatch; 2F Command Center
+# and Servers swapped to siegestrats' reading (Command Center west with the desks, Servers east, beside
+# Connector and holding the 2F hatch); 2F boxes tightened to the drawn walls. Still low confidence.
+sides: {top: "Park", bottom: "Helipad"}
 floors:
 - floor: B
   image: r6-maps-nighthavenlabs-blueprint-1.jpg
-  size:
-  - 1600
-  - 900
+  size: [1600, 900]
   notes: Image 1 of 4 with only a small central interior is the basement (B); room placement within it is a best guess.
   rooms:
-    Tank:
-      box:
-      - 49.5
-      - 53.5
-      - 53.5
-      - 60.0
-      confidence: 0.4
-    Assembly:
-      box:
-      - 54.5
-      - 50.0
-      - 59.5
-      - 58.0
-      confidence: 0.35
-    Animus:
-      box:
-      - 55.0
-      - 60.0
-      - 59.5
-      - 67.0
-      confidence: 0.35
-    Exo:
-      box:
-      - 60.0
-      - 47.0
-      - 65.5
-      - 59.0
-      confidence: 0.3
-    Nano hallway:
-      box:
-      - 50.5
-      - 44.5
-      - 59.5
-      - 50.0
-      confidence: 0.25
+    Tank: {box: [49.0, 53.4, 54.1, 60.4], confidence: 0.45}
+    Assembly: {box: [54.1, 57.7, 59.7, 67.0], confidence: 0.4}
+    Animus: {box: [50.5, 60.4, 54.1, 67.0], confidence: 0.35}
+    Exo: {box: [59.4, 46.5, 65.4, 60.0], confidence: 0.35}
+    Nano hallway: {box: [50.4, 44.0, 59.4, 50.1], confidence: 0.25}
+  features:
+    - {kind: stairs, name: "Exo Stairs (bottom)", at: [64.3, 56.0]}
+    - {kind: label, name: "Park", at: [50.0, 15.0]}
+    - {kind: label, name: "Helipad", at: [55.0, 85.0]}
 - floor: 1F
   image: r6-maps-nighthavenlabs-blueprint-2.jpg
-  size:
-  - 1600
-  - 900
-  notes: Image 2 of 4 in floor order (Basement, Ground, 1st, Roof) and the exterior is shown, so this is very likely the ground floor (1F). Room
-    placements are rough guesses.
+  size: [1600, 900]
+  notes: Image 2 of 4 in floor order (Basement, Ground, 1st, Roof) and the exterior is shown, so this is very likely the ground floor (1F). Room placements are rough guesses.
   rooms:
-    Kitchen:
-      box:
-      - 66.0
-      - 42.0
-      - 70.0
-      - 50.0
-      confidence: 0.4
-    Cafeteria:
-      box:
-      - 64.0
-      - 37.0
-      - 70.0
-      - 42.0
-      confidence: 0.35
-    Control Room:
-      box:
-      - 47.0
-      - 50.0
-      - 54.0
-      - 60.0
-      confidence: 0.35
-    Storage:
-      box:
-      - 54.0
-      - 55.0
-      - 60.0
-      - 66.0
-      confidence: 0.35
-    Garage:
-      box:
-      - 47.0
-      - 60.0
-      - 54.0
-      - 70.0
-      confidence: 0.25
-    Games:
-      box:
-      - 50.0
-      - 45.0
-      - 55.0
-      - 52.0
-      confidence: 0.2
-    Lobby:
-      box:
-      - 55.0
-      - 47.0
-      - 61.0
-      - 55.0
-      confidence: 0.25
-    Break:
-      box:
-      - 61.0
-      - 50.0
-      - 66.0
-      - 58.0
-      confidence: 0.2
-    Freezer:
-      box:
-      - 61.0
-      - 37.0
-      - 64.0
-      - 46.0
-      confidence: 0.2
-    Fork:
-      box:
-      - 53.0
-      - 43.0
-      - 61.0
-      - 47.0
-      confidence: 0.2
-    Mud:
-      box:
-      - 60.0
-      - 26.0
-      - 66.0
-      - 37.0
-      confidence: 0.2
+    Kitchen: {box: [66.0, 42.0, 70.0, 50.0], confidence: 0.4}
+    Cafeteria: {box: [64.0, 37.0, 70.0, 42.0], confidence: 0.35}
+    Control Room: {box: [47.0, 50.0, 54.0, 60.0], confidence: 0.35}
+    Storage: {box: [54.0, 55.0, 60.0, 66.0], confidence: 0.35}
+    Garage: {box: [47.0, 60.0, 54.0, 70.0], confidence: 0.25}
+    Games: {box: [50.0, 45.0, 55.0, 52.0], confidence: 0.2}
+    Lobby: {box: [55.0, 47.0, 61.0, 55.0], confidence: 0.25}
+    Break: {box: [61.0, 50.0, 66.0, 58.0], confidence: 0.2}
+    Freezer: {box: [61.0, 37.0, 64.0, 46.0], confidence: 0.2}
+    Fork: {box: [53.0, 43.0, 61.0, 47.0], confidence: 0.2}
+    Mud: {box: [60.0, 26.0, 66.0, 37.0], confidence: 0.2}
+  features:
+    - {kind: hatch, name: "Games hatch (to B)", at: [51.5, 47.2]}
+    - {kind: hatch, name: "Garage hatch (Animus hatch)", at: [51.9, 62.0]}
+    - {kind: hatch, name: "Exo hatch", at: [61.6, 54.4]}
+    - {kind: stairs, name: "Fish Stairs (bottom)", at: [57.5, 44.5]}
+    - {kind: stairs, name: "North stairs (Rafters side)", at: [63.0, 33.0]}
+    - {kind: stairs, name: "Exo Stairs (top)", at: [65.0, 57.0]}
+    - {kind: window, name: "Kitchen window", at: [70.1, 46.0]}
+    - {kind: label, name: "Park", at: [50.0, 15.0]}
+    - {kind: label, name: "Helipad", at: [55.0, 85.0]}
 - floor: 2F
   image: r6-maps-nighthavenlabs-blueprint-3.jpg
-  size:
-  - 1600
-  - 900
-  notes: Image 3 of 4 on a map with B, 1F, 2F and roof, so this should be 2F; the two objective markers fit the 2F Command Center/Servers site.
-    Room placements are rough guesses.
+  size: [1600, 900]
+  notes: Image 3 of 4 on a map with B, 1F, 2F and roof, so this should be 2F; the two objective markers fit the 2F Command Center/Servers site. Room placements are rough guesses.
   rooms:
-    Aqua hallway:
-      box:
-      - 47.0
-      - 41.0
-      - 56.0
-      - 46.0
-      confidence: 0.5
-    Servers:
-      box:
-      - 50.0
-      - 46.0
-      - 55.0
-      - 59.0
-      confidence: 0.45
-    Command Center:
-      box:
-      - 55.0
-      - 47.0
-      - 60.0
-      - 59.0
-      confidence: 0.45
-    Mezzanine:
-      box:
-      - 46.0
-      - 46.0
-      - 50.0
-      - 59.0
-      confidence: 0.3
-    IT:
-      box:
-      - 45.0
-      - 59.0
-      - 55.0
-      - 67.0
-      confidence: 0.3
-    Meeting:
-      box:
-      - 55.0
-      - 59.0
-      - 61.0
-      - 67.0
-      confidence: 0.3
-    Electrical:
-      box:
-      - 60.0
-      - 51.0
-      - 64.0
-      - 60.0
-      confidence: 0.3
-    Connector:
-      box:
-      - 58.0
-      - 42.0
-      - 63.0
-      - 51.0
-      confidence: 0.3
-    Rafters:
-      box:
-      - 62.0
-      - 35.0
-      - 67.0
-      - 46.0
-      confidence: 0.3
+    Aqua hallway: {box: [47.0, 41.2, 56.0, 46.0], confidence: 0.5}
+    Command Center: {box: [49.0, 46.0, 54.7, 58.4], confidence: 0.4}
+    Servers: {box: [54.7, 47.0, 59.7, 59.0], confidence: 0.4}
+    Mezzanine: {box: [46.5, 46.0, 49.0, 58.4], confidence: 0.3}
+    IT: {box: [47.2, 58.4, 54.6, 66.6], confidence: 0.35}
+    Meeting: {box: [54.8, 59.0, 60.3, 64.3], confidence: 0.35}
+    Electrical: {box: [60.0, 52.5, 64.0, 58.4], confidence: 0.3}
+    Connector: {box: [58.9, 43.5, 63.7, 52.5], confidence: 0.3}
+    Rafters: {box: [62.2, 36.0, 67.4, 46.7], confidence: 0.35}
+  features:
+    - {kind: hatch, name: "Servers hatch", at: [56.4, 48.4]}
+    - {kind: hatch, name: "Outside hatch (east walkway)", at: [67.2, 52.2]}
+    - {kind: stairs, name: "Fish Stairs (top)", at: [57.5, 43.6]}
+    - {kind: stairs, name: "North stairs (Rafters side)", at: [63.0, 33.0]}
+    - {kind: label, name: "Park", at: [50.0, 15.0]}
+    - {kind: label, name: "Helipad", at: [55.0, 85.0]}
 - floor: ROOF
   image: r6-maps-nighthavenlabs-blueprint-4.jpg
-  size:
-  - 1600
-  - 900
-  notes: Top-down roof render with no interior outlines, image 4 of 4 after B, 1F and 2F, so this is the roof; none of the listed callouts are
-    on it.
+  size: [1600, 900]
+  notes: Top-down roof render with no interior outlines, image 4 of 4 after B, 1F and 2F, so this is the roof; none of the listed callouts are on it.
   rooms: {}

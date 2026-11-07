@@ -1,0 +1,494 @@
+map: villa
+# Positions use the layout's room boxes (confidence 0.25-0.45). 1F has no room boxes yet, so 1F
+# placements are points read off the blueprint (at:) and say so; slang walls (Main, Bar, Memo, China,
+# triple wall) sit on the room they belong to, with the wall in the note.
+briefs:
+  # ------------------------------------------------------------------ 2F Aviator Room / 2F Games Room
+  - id: villa-aviator-team-reinforce
+    site: aviator_room_games_room
+    side: defense
+    operators: []
+    title: "Double Main and Bar, keep the rotates"
+    text: >-
+      Double the Main wall with foot holes left open and double the Bar wall, then the wall facing the 90
+      rappel window and the right side of Aviator to Games. Leave the Study wall soft with head holes, and keep
+      the vault and crouch rotates between Aviator and Games.
+    placements:
+      - kind: reinforce
+        floor: 2F
+        room: Games Room
+        nudge: [0, -4.0]
+        note: "Main wall, doubled, foot holes open"
+      - kind: reinforce
+        floor: 2F
+        room: Aviator Room
+        nudge: [0, 3.5]
+        note: "Bar wall, doubled"
+      - kind: reinforce
+        floor: 2F
+        room: Aviator Room
+        nudge: [-2.0, -2.0]
+        note: "Wall facing the 90 rappel window"
+      - kind: reinforce
+        floor: 2F
+        between: [Aviator Room, Games Room]
+        nudge: [0, 2.5]
+        note: "Aviator to Games, right side"
+      - kind: open
+        floor: 2F
+        between: [Aviator Room, Games Room]
+        nudge: [0, -2.0]
+        note: "Vault and crouch rotates"
+      - kind: open
+        floor: 2F
+        room: Games Room
+        nudge: [2.0, 2.0]
+        note: "Study wall soft, head holes to deny Study"
+  - id: villa-aviator-kaid-smoke
+    site: aviator_room_games_room
+    side: defense
+    operators: [Kaid, Smoke]
+    title: "Claw Main, shield Top Main"
+    text: >-
+      Kaid claws the Main wall and watches the Study head holes from Games. Smoke puts his shield at Top Main and
+      gasses the stairs and door when they push.
+    placements:
+      - kind: kaid
+        floor: 2F
+        room: Games Room
+        nudge: [1.2, -4.0]
+        note: "Main wall"
+      - kind: deployable
+        floor: 2F
+        between: [Trophy Room, Games Room]
+        note: "Smoke shield at Top Main (usually here)"
+      - kind: anchor
+        floor: 2F
+        room: Games Room
+        note: "Games, watching the Study holes"
+  - id: villa-aviator-melusi-maestro
+    site: aviator_room_games_room
+    side: defense
+    operators: [Melusi, Maestro]
+    title: "Banshee on the 90, Evil Eyes on Study"
+    text: >-
+      Melusi puts a Banshee on the 90 door to slow the Red flank. Maestro puts Evil Eyes covering Study and
+      Games and plays Bar.
+    placements:
+      - kind: trap
+        floor: 2F
+        room: Aviator Room
+        nudge: [-2.0, -4.0]
+        note: "Banshee on the 90 door"
+      - kind: camera
+        floor: 2F
+        room: Games Room
+        nudge: [2.0, 4.0]
+        note: "Evil Eye on Study"
+      - kind: camera
+        floor: 2F
+        room: Aviator Room
+        nudge: [1.5, 1.5]
+        note: "Evil Eye on Games"
+  - id: villa-aviator-attack-study-main
+    site: aviator_room_games_room
+    side: attack
+    operators: []
+    title: "Take Study and Main together"
+    text: >-
+      Take Study and Top Main at the same time and keep a cam on Red 90 for the flank. Ash or Zofia break the Top
+      Main shield; Thatcher then Thermite open the Main wall and plant by it.
+    placements:
+      - kind: drone
+        floor: 2F
+        room: Classical Hall
+        note: "Drone Top Main and cam Red 90"
+      - kind: thermite
+        floor: 2F
+        room: Games Room
+        nudge: [0, -4.0]
+        note: "Main wall, after Thatcher"
+      - kind: plant
+        floor: 2F
+        room: Aviator Room
+        nudge: [2.0, -3.0]
+        note: "Aviator by the Main wall"
+  - id: villa-aviator-attack-bar
+    site: aviator_room_games_room
+    side: attack
+    operators: [Hibana]
+    title: "Hibana on Bar, rappel the 90 window"
+    text: >-
+      Hibana opens the Bar wall while a rappel player swings the 90 window. Clear the Maestro cams first;
+      plant in Games by Study.
+    placements:
+      - kind: hibana
+        floor: 2F
+        room: Aviator Room
+        nudge: [0, 3.5]
+        note: "Bar wall"
+      - kind: entry
+        floor: 2F
+        room: Aviator Room
+        nudge: [-2.0, 0]
+        note: "90 rappel window"
+      - kind: plant
+        floor: 2F
+        room: Games Room
+        nudge: [1.5, 2.0]
+        note: "Games by Study"
+
+  # ------------------------------------------------------------------ 2F Trophy Room / 2F Statuary Room
+  - id: villa-trophy-team-reinforce
+    site: trophy_room_statuary_room
+    side: defense
+    operators: []
+    title: "Triple wall, Closet walls, Bathroom to Master"
+    text: >-
+      Reinforce the right and middle panels of the triple wall, both Closet walls doubled, and the Bathroom to
+      Master wall. Leave the triple wall's left panel for head holes and open the Astro rotate mid-round.
+    placements:
+      - kind: reinforce
+        floor: 2F
+        between: [Statuary Room, Classical Hall]
+        note: "Triple wall, right and middle panels (wall position usually here)"
+      - kind: reinforce
+        floor: 2F
+        room: Master Bedroom
+        nudge: [-1.0, 2.5]
+        note: "Both Closet walls, doubled"
+      - kind: reinforce
+        floor: 2F
+        between: [Bathroom, Master Bedroom]
+        note: "Bathroom to Master"
+      - kind: open
+        floor: 2F
+        between: [Astronomy Room, Statuary Room]
+        note: "Astro rotate, open it mid-round"
+      - kind: open
+        floor: 2F
+        between: [Statuary Room, Classical Hall]
+        nudge: [-1.5, 0]
+        note: "Triple wall left head holes"
+  - id: villa-trophy-kaid-warden
+    site: trophy_room_statuary_room
+    side: defense
+    operators: [Kaid, Warden, Jager]
+    title: "Claw the triple wall, shield Closet"
+    text: >-
+      Kaid claws the triple wall and plays Bricks. Warden puts his shield in Closet, and Jager plays Bathroom
+      with ADS so grenades through the Bathroom hole get eaten.
+    placements:
+      - kind: kaid
+        floor: 2F
+        between: [Statuary Room, Classical Hall]
+        nudge: [1.2, 0]
+        note: "Triple wall claw"
+      - kind: deployable
+        floor: 2F
+        room: Master Bedroom
+        nudge: [0, 3.0]
+        note: "Warden shield in Closet"
+      - kind: trap
+        floor: 2F
+        room: Bathroom
+        note: "Jager ADS in Bathroom"
+  - id: villa-trophy-mira
+    site: trophy_room_statuary_room
+    side: defense
+    operators: [Mira, Melusi]
+    title: "Mira on Master and Astro, Banshee the stairs"
+    text: >-
+      Instead of Warden, Mira windows the Master or Closet wall and the Astro wall. Melusi puts a Banshee on the
+      Astro stairs.
+    placements:
+      - kind: mira
+        floor: 2F
+        between: [Bathroom, Master Bedroom]
+        nudge: [0, 2.0]
+        note: "Window onto Master and Closet"
+      - kind: mira
+        floor: 2F
+        between: [Astronomy Room, Statuary Room]
+        nudge: [1.5, 0]
+        note: "Window onto Astro"
+      - kind: trap
+        floor: 2F
+        room: Astronomy Room
+        note: "Banshee on the Astro stairs"
+  - id: villa-trophy-attack-triple
+    site: trophy_room_statuary_room
+    side: attack
+    operators: []
+    title: "Pop the claw, open the triple wall"
+    text: >-
+      Clear Master and Astro first. Thatcher pops the claw and Thermite opens the triple wall while a rappel
+      player swings the Master window during the breach. Plant in Trophy by the triple wall.
+    placements:
+      - kind: drone
+        floor: 2F
+        room: Master Bedroom
+        note: "Drone Master and Astro; find the Red/Boar roamer"
+      - kind: thermite
+        floor: 2F
+        between: [Statuary Room, Classical Hall]
+        note: "Triple wall, right and middle panels"
+      - kind: entry
+        floor: 2F
+        between: [Master Bedroom, exterior]
+        edge: right
+        note: "Master window rappel"
+      - kind: plant
+        floor: 2F
+        room: Trophy Room
+        note: "By the triple wall"
+  - id: villa-trophy-attack-astro
+    site: trophy_room_statuary_room
+    side: attack
+    operators: [Ash, Hibana]
+    title: "Through Astro, plant Statuary"
+    text: >-
+      Ash or Zofia clears Melusi's Banshee on the Astro stairs, then Hibana opens the Closet walls. Shoot the
+      Jager ADS before throwing utility through Bathroom; plant in Statuary away from the Bathroom hole.
+    placements:
+      - kind: entry
+        floor: 2F
+        room: Astronomy Room
+        note: "Astro stairs"
+      - kind: hibana
+        floor: 2F
+        room: Master Bedroom
+        nudge: [-1.0, 2.5]
+        note: "Closet walls"
+      - kind: plant
+        floor: 2F
+        room: Statuary Room
+        nudge: [-1.5, 0]
+        note: "Away from the Bathroom hole"
+
+  # ------------------------------------------------------------------ 1F Dining Room / 1F Kitchen
+  - id: villa-dining-team-reinforce
+    site: dining_room_kitchen
+    side: defense
+    operators: []
+    title: "Pantry and Memo walls, Laundry hatch open"
+    text: >-
+      Reinforce the Pantry to Kitchen wall, both Memo walls doubled, the left side of the Laundry wall and the
+      Middle China wall. Upstairs, reinforce both Bathroom walls and both Trophy walls. Never reinforce the
+      Laundry hatch.
+    placements:
+      - kind: reinforce
+        floor: 1F
+        at: [68.0, 28.5]
+        name: "Pantry to Kitchen wall"
+        note: "Pantry sits under the 2F Bathroom; wall position is approximate"
+      - kind: reinforce
+        floor: 2F
+        between: [Bathroom, Master Bedroom]
+        nudge: [0, -2.0]
+        note: "Upstairs Bathroom walls"
+      - kind: reinforce
+        floor: 2F
+        between: [Trophy Room, Aviator Room]
+        note: "Upstairs Trophy walls"
+      - kind: open
+        floor: 1F
+        at: [64.8, 37.5]
+        name: "1F hatch"
+        note: "Never reinforce the Laundry hatch; which hatch is Laundry is not verified"
+  - id: villa-dining-kaid-mira
+    site: dining_room_kitchen
+    side: defense
+    operators: [Kaid, Mira, Aruni]
+    title: "Claw Pantry and Memo, Mira on China"
+    text: >-
+      Kaid claws the Pantry and Memo walls and holds Dining. Mira puts her window facing China so Kitchen can
+      watch it, and Aruni gates three doors on the Laundry side.
+    placements:
+      - kind: kaid
+        floor: 1F
+        at: [68.0, 28.5]
+        name: "Pantry to Kitchen wall"
+        nudge: [0, 1.2]
+        note: "Pantry claw"
+      - kind: mira
+        floor: 1F
+        at: [69.8, 33.5]
+        name: "Mira wall facing China"
+        note: "Approximate; the wall facing China"
+  - id: villa-dining-pulse-upstairs
+    site: dining_room_kitchen
+    side: defense
+    operators: [Pulse, Oryx]
+    title: "Two upstairs over the site"
+    text: >-
+      Pulse plays the 2F Bathroom above Pantry and denies the vertical. Oryx holds the 2F windows and drops the
+      Laundry hatch late to flank.
+    placements:
+      - kind: anchor
+        floor: 2F
+        room: Bathroom
+        note: "Pulse above Pantry"
+      - kind: anchor
+        floor: 2F
+        room: Trophy Room
+        note: "Oryx, then a late Laundry hatch drop"
+  - id: villa-dining-attack-pantry
+    site: dining_room_kitchen
+    side: attack
+    operators: []
+    title: "Garage and Kitchen Stairs, breach Pantry"
+    text: >-
+      Clear the interior Garage and the Kitchen Stairs door, then Thatcher pops the Pantry claws and Thermite
+      opens the Pantry wall. Buck clears the 2F Bathroom; plant in Kitchen by the Pantry wall.
+    placements:
+      - kind: drone
+        floor: B
+        room: Garage
+        note: "Drone Garage and the Kitchen Stairs door"
+      - kind: thermite
+        floor: 1F
+        at: [68.0, 28.5]
+        name: "Pantry to Kitchen wall"
+        note: "After Thatcher"
+      - kind: breach
+        floor: 2F
+        room: Bathroom
+        note: "Buck clears the Bathroom above Pantry"
+      - kind: plant
+        floor: 1F
+        at: [67.0, 29.0]
+        name: "Kitchen by the Pantry wall"
+        note: "Approximate"
+  - id: villa-dining-attack-memo
+    site: dining_room_kitchen
+    side: attack
+    operators: [Hibana, Kali]
+    title: "Memo breach with 2F held"
+    text: >-
+      Two players take 2F Trophy and Bathroom to stop the verticals. Hibana opens Memo and Kali lances the Mira
+      in China; plant in Dining away from the Mira window.
+    placements:
+      - kind: entry
+        floor: 2F
+        room: Trophy Room
+        note: "Take Trophy and Bathroom first"
+      - kind: hibana
+        floor: 1F
+        at: [71.7, 32.0]
+        name: "Memo wall"
+        note: "Approximate; one of the two Memo walls"
+      - kind: plant
+        floor: 1F
+        at: [70.0, 37.0]
+        name: "Dining Room"
+        note: "Approximate; away from China"
+
+  # ------------------------------------------------------------------ B Art Storage / B Old Office
+  - id: villa-basement-team-reinforce
+    site: art_storage_old_office
+    side: defense
+    operators: []
+    title: "Shut the hatches, double the Garage walls"
+    text: >-
+      Reinforce the Red Hall, Reading Room and Pantry hatches, both Garage exterior walls and both Old Office
+      walls facing Garage. Keep the Art Storage to Old Office connection open; it is the whole site.
+    placements:
+      - kind: hatch
+        floor: 1F
+        at: [64.8, 37.5]
+        name: "Hallway hatch"
+        note: "Red Hall hatch, usually"
+      - kind: hatch
+        floor: 1F
+        at: [72.2, 23.7]
+        name: "North-east hatch"
+        note: "Pantry or Reading Room hatch; name not verified"
+      - kind: reinforce
+        floor: B
+        between: [Garage, exterior]
+        edge: right
+        note: "Both Garage exterior walls"
+      - kind: reinforce
+        floor: B
+        at: [72.3, 31.0]
+        name: "Old Office walls facing Garage"
+        note: "Both panels; position approximate"
+      - kind: open
+        floor: B
+        between: [Art Storage, Old Office]
+        note: "Keep the connection"
+  - id: villa-basement-kaid-mira
+    site: art_storage_old_office
+    side: defense
+    operators: [Kaid, Mira]
+    title: "Claw the hatches, Mira on Garage"
+    text: >-
+      Kaid claws the Red Hall and Pantry hatches against Hibana. Mira puts her window on the Old Office wall
+      facing Garage, and the anchor plays between the rooms.
+    placements:
+      - kind: kaid
+        floor: 1F
+        at: [64.8, 37.5]
+        name: "Hallway hatch"
+        nudge: [1.2, 0]
+        note: "Red Hall hatch claw"
+      - kind: kaid
+        floor: 1F
+        at: [72.2, 23.7]
+        name: "North-east hatch"
+        nudge: [1.2, 0]
+        note: "Pantry hatch claw"
+      - kind: mira
+        floor: B
+        at: [72.3, 31.0]
+        name: "Old Office wall facing Garage"
+        nudge: [0, 1.5]
+        note: "Window into Garage"
+  - id: villa-basement-attack-garage
+    site: art_storage_old_office
+    side: attack
+    operators: []
+    title: "Clear Garage, then a hatch"
+    text: >-
+      Treat Garage as a room to clear, not an entry: drone it first, then take it. Hibana opens a hatch from 1F
+      so the site gets hit from two sides; plant in Art Storage or Old Office.
+    placements:
+      - kind: drone
+        floor: B
+        room: Garage
+        note: "Drone Garage first"
+      - kind: entry
+        floor: B
+        at: [77.6, 31.5]
+        name: "Garage door"
+        note: "Garage from outside"
+      - kind: hibana
+        floor: 1F
+        at: [64.8, 37.5]
+        name: "Hallway hatch"
+        note: "Burn the reinforced hatch"
+      - kind: plant
+        floor: B
+        room: Art Storage
+  - id: villa-basement-attack-west
+    site: art_storage_old_office
+    side: attack
+    operators: [Thermite, Thatcher]
+    title: "Wine Cellar and Crypt split"
+    text: >-
+      Split one through Wine Cellar and Crypt on the west while the rest hold Garage. Thatcher kills the Mira and
+      claws, Thermite opens the Old Office wall; plant in Old Office.
+    placements:
+      - kind: drone
+        floor: B
+        room: Crypt
+        note: "Drone Wine Cellar and Crypt"
+      - kind: thermite
+        floor: B
+        at: [72.3, 31.0]
+        name: "Old Office wall facing Garage"
+        note: "After Thatcher; position approximate"
+      - kind: plant
+        floor: B
+        room: Old Office

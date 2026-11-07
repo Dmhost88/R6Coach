@@ -1,228 +1,72 @@
 map: outback
 source: Room boxes located by Claude on Ubisoft's official blueprints (grid percentages, x left->right, y top->bottom). Check against data/maps/<map>/preview/.
+# Orientation and features added 2026-11-06 from the blueprints. Room fixes the same day (read off the
+# images): 1F Kitchen/Restaurant swapped (the tiled room with the stove borders Mechanic Shop and Waiting
+# through breakable walls, the room with booths is Restaurant); 1F Closet moved under the 2F Piano hatch;
+# 1F Bathroom moved to the small room north of the bedrooms (the narrow west room is the Yellow Stairs);
+# 2F Piano Room is the room with the hatch next to Laundry; Mechanical Bull is the room with the oval bull
+# mat; Party Room the dance-floor room east of it; Office Supplies the narrow strip with the outside breach.
+sides: {top: "Storage Yard", bottom: "Fuel Pumps", left: "Camping"}
 floors:
 - floor: 1F
   image: r6-maps-outback-blueprint-1.jpg
-  size:
-  - 1600
-  - 900
+  size: [1600, 900]
   notes: Outback has no basement, so image 1 of 3 is the ground floor (1F) with exterior; room placement is approximate.
   rooms:
-    Bathroom:
-      box:
-      - 34.0
-      - 25.0
-      - 38.0
-      - 40.0
-      confidence: 0.35
-    Red Bedroom:
-      box:
-      - 38.0
-      - 25.0
-      - 44.0
-      - 40.0
-      confidence: 0.5
-    Green Bedroom:
-      box:
-      - 44.0
-      - 25.0
-      - 50.0
-      - 40.0
-      confidence: 0.5
-    Closet:
-      box:
-      - 40.0
-      - 21.0
-      - 46.0
-      - 28.0
-      confidence: 0.3
-    Reptile Hallway:
-      box:
-      - 40.0
-      - 40.0
-      - 50.0
-      - 49.0
-      confidence: 0.4
-    Waiting Room:
-      box:
-      - 48.0
-      - 45.0
-      - 53.0
-      - 62.0
-      confidence: 0.3
-    Back Entrance:
-      box:
-      - 53.0
-      - 26.0
-      - 63.0
-      - 37.0
-      confidence: 0.3
-    Restaurant:
-      box:
-      - 53.0
-      - 38.0
-      - 58.0
-      - 52.0
-      confidence: 0.45
-    Kitchen:
-      box:
-      - 58.0
-      - 38.0
-      - 64.0
-      - 52.0
-      confidence: 0.45
-    Shark:
-      box:
-      - 64.0
-      - 32.0
-      - 67.0
-      - 48.0
-      confidence: 0.3
-    Mechanic Shop:
-      box:
-      - 53.0
-      - 52.0
-      - 63.0
-      - 63.0
-      confidence: 0.4
-    Garage:
-      box:
-      - 53.0
-      - 63.0
-      - 64.0
-      - 70.0
-      confidence: 0.35
-    Bike Repair:
-      box:
-      - 54.0
-      - 70.0
-      - 64.0
-      - 80.0
-      confidence: 0.4
-    Fuel Pumps:
-      box:
-      - 45.0
-      - 82.0
-      - 70.0
-      - 96.0
-      confidence: 0.3
-    Storage Yard:
-      box:
-      - 50.0
-      - 2.0
-      - 80.0
-      - 20.0
-      confidence: 0.3
-    Camping:
-      box:
-      - 10.0
-      - 15.0
-      - 21.0
-      - 60.0
-      confidence: 0.35
+    Bathroom: {box: [41.5, 21.5, 46.5, 27.8], confidence: 0.3}
+    Red Bedroom: {box: [38.0, 25.0, 44.0, 40.0], confidence: 0.5}
+    Green Bedroom: {box: [44.0, 25.0, 50.0, 40.0], confidence: 0.5}
+    Closet: {box: [49.8, 24.3, 52.6, 29.3], confidence: 0.45}
+    Reptile Hallway: {box: [40.0, 40.0, 50.0, 49.0], confidence: 0.4}
+    Waiting Room: {box: [48.0, 45.0, 53.0, 62.0], confidence: 0.3}
+    Back Entrance: {box: [53.0, 26.0, 63.0, 37.0], confidence: 0.3}
+    Kitchen: {box: [52.5, 38.5, 57.8, 52.6], confidence: 0.5}
+    Restaurant: {box: [57.8, 38.5, 63.6, 52.6], confidence: 0.45}
+    Shark: {box: [64.0, 32.0, 67.0, 48.0], confidence: 0.3}
+    Mechanic Shop: {box: [53.0, 52.6, 63.6, 60.6], confidence: 0.45}
+    Garage: {box: [53.0, 63.0, 64.0, 70.0], confidence: 0.35}
+    Bike Repair: {box: [54.0, 70.0, 64.0, 80.0], confidence: 0.4}
+    Fuel Pumps: {box: [45.0, 82.0, 70.0, 96.0], confidence: 0.3}
+    Storage Yard: {box: [50.0, 2.0, 80.0, 20.0], confidence: 0.3}
+    Camping: {box: [10.0, 15.0, 21.0, 60.0], confidence: 0.35}
+  features:
+    - {kind: stairs, name: "Yellow Stairs (bottom)", at: [36.0, 33.0]}
+    - {kind: window, name: "Bathroom window", at: [44.0, 21.6]}
+    - {kind: label, name: "Camping", at: [15.5, 38.0]}
+    - {kind: label, name: "Storage Yard", at: [65.0, 11.0]}
+    - {kind: label, name: "Fuel Pumps", at: [57.5, 89.0]}
 - floor: 2F
   image: r6-maps-outback-blueprint-2.jpg
-  size:
-  - 1600
-  - 900
+  size: [1600, 900]
   notes: Image 2 of 3 with dark roof surrounding the outlined interior points to the upper floor (2F); room placements are approximate.
   rooms:
-    Dorms:
-      box:
-      - 34.5
-      - 29.0
-      - 40.5
-      - 44.0
-      confidence: 0.4
-    Laundry:
-      box:
-      - 34.5
-      - 24.0
-      - 47.0
-      - 29.0
-      confidence: 0.3
-    Showers:
-      box:
-      - 40.5
-      - 28.0
-      - 46.5
-      - 37.0
-      confidence: 0.35
-    Motel Hallway:
-      box:
-      - 40.5
-      - 37.0
-      - 49.0
-      - 44.0
-      confidence: 0.4
-    Bathroom:
-      box:
-      - 47.0
-      - 24.0
-      - 53.0
-      - 34.0
-      confidence: 0.3
-    Piano Room:
-      box:
-      - 49.0
-      - 34.0
-      - 54.0
-      - 47.0
-      confidence: 0.3
-    Games Room:
-      box:
-      - 53.5
-      - 27.0
-      - 58.0
-      - 39.0
-      confidence: 0.3
-    Party Room:
-      box:
-      - 58.0
-      - 25.0
-      - 65.0
-      - 39.0
-      confidence: 0.3
-    Mechanical Bull:
-      box:
-      - 58.0
-      - 39.0
-      - 64.0
-      - 48.0
-      confidence: 0.3
-    Mezzanine:
-      box:
-      - 54.0
-      - 39.0
-      - 58.0
-      - 52.0
-      confidence: 0.25
-    Office Supplies:
-      box:
-      - 58.0
-      - 46.0
-      - 66.0
-      - 53.0
-      confidence: 0.25
-    Office:
-      box:
-      - 54.0
-      - 53.0
-      - 66.0
-      - 60.0
-      confidence: 0.3
-    Garage Lounge:
-      box:
-      - 53.5
-      - 60.0
-      - 66.0
-      - 80.0
-      confidence: 0.3
+    Dorms: {box: [34.5, 29.0, 40.5, 44.0], confidence: 0.4}
+    Laundry: {box: [34.5, 24.0, 47.0, 29.0], confidence: 0.4}
+    Showers: {box: [40.5, 28.0, 46.5, 37.0], confidence: 0.35}
+    Motel Hallway: {box: [40.5, 37.0, 49.0, 44.0], confidence: 0.4}
+    Bathroom: {box: [46.7, 34.0, 49.0, 37.6], confidence: 0.2}
+    Piano Room: {box: [47.0, 24.0, 53.3, 33.7], confidence: 0.45}
+    Terrace: {box: [49.1, 34.0, 54.0, 46.0], confidence: 0.25}
+    Games Room: {box: [53.5, 27.0, 58.0, 39.0], confidence: 0.35}
+    Mezzanine: {box: [58.1, 26.0, 64.5, 42.8], confidence: 0.2}
+    Mechanical Bull: {box: [54.6, 39.5, 57.9, 52.9], confidence: 0.45}
+    Party Room: {box: [58.1, 43.4, 63.9, 53.0], confidence: 0.4}
+    Office: {box: [54.0, 53.4, 64.0, 60.7], confidence: 0.45}
+    Office Supplies: {box: [64.2, 53.2, 66.3, 60.7], confidence: 0.4}
+    Garage Lounge: {box: [53.5, 60.7, 66.0, 80.0], confidence: 0.3}
+  features:
+    - {kind: hatch, name: "Piano hatch (to Closet)", at: [52.0, 25.5]}
+    - {kind: hatch, name: "Dorms hatch", at: [35.7, 41.7]}
+    - {kind: hatch, name: "Bull hatch (over Kitchen)", at: [56.3, 51.5]}
+    - {kind: window, name: "Dorms balcony", at: [38.5, 44.3]}
+    - {kind: window, name: "Office Supplies outside wall", at: [66.6, 55.3]}
+    - {kind: door, name: "Garage Lounge outside door", at: [54.2, 71.5]}
+    - {kind: label, name: "Camping", at: [15.5, 38.0]}
+    - {kind: label, name: "Storage Yard", at: [65.0, 11.0]}
+    - {kind: label, name: "Fuel Pumps", at: [57.5, 89.0]}
 - floor: ROOF
   image: r6-maps-outback-blueprint-3.jpg
-  size:
-  - 1600
-  - 900
+  size: [1600, 900]
   notes: 'Confident: top-down roof view with no interior walls drawn, the third of three images; no listed callouts belong to the roof, and EXT
     areas are assigned to the 1F image.'
   rooms: {}

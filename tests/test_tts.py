@@ -55,7 +55,7 @@ def test_local_synth_returns_wav_and_caches(tmp_path, monkeypatch):
     assert is_wav(a)
     b = s.wav("Check your flank.")
     assert a == b and len(eng.calls) == 1               # second call is a cache hit
-    assert eng.calls[0][1] == pytest.approx(1.05)        # configured speed reaches the engine
+    assert eng.calls[0][1] == pytest.approx(1.25)        # configured speed reaches the engine
     assert len(list((tmp_path / "cache").glob("*.wav"))) == 1
 
 
@@ -133,23 +133,47 @@ def test_split_sentences():
     assert split_sentences("") == []
 
 
+def test_trim_silence_keeps_the_speech():
+    from r6coach.voice.tts import trim_silence
+    rate = 1000
+    speech = np.full(300, 0.5, np.float32)
+    clip = np.concatenate([np.zeros(200, np.float32), speech, np.zeros(250, np.float32)])
+    out = trim_silence(clip, rate)
+    assert len(out) == 300 + 2 * 20 and np.count_nonzero(out) == 300
+    assert len(trim_silence(np.zeros(50, np.float32), rate)) == 50     # all quiet: left alone
+
+
 class FakeSD:
-    """Stands in for sounddevice: play() records, wait() takes a little time, stop() cuts it short."""
+    """Stands in for sounddevice: each OutputStream is one sentence played; the sentence lasts
+    `dur` seconds however long the audio is, spread over its writes."""
 
     def __init__(self, dur=0.15):
         self.played = []
         self.dur = dur
-        self._stopped = threading.Event()
+        self.threads = set()
+        fake = self
 
-    def play(self, data, rate, device=None):
-        self._stopped.clear()
-        self.played.append(len(data))
+        class OutputStream:
+            def __init__(self, samplerate, channels, dtype, device=None):
+                self.rate = samplerate
+                fake.threads.add(threading.current_thread().name)
 
-    def wait(self):
-        self._stopped.wait(self.dur)
+            def __enter__(self):
+                fake.played.append(0)
+                return self
 
-    def stop(self):
-        self._stopped.set()
+            def __exit__(self, *a):
+                return False
+
+            def write(self, block):
+                fake.played[-1] += len(block)
+                # FakeEngine makes 0.2 s of audio per sentence: scale so a sentence lasts ~dur.
+                time.sleep(len(block) / self.rate * fake.dur / 0.2)
+
+            def abort(self):
+                pass
+
+        self.OutputStream = OutputStream
 
     def query_devices(self):
         return []
@@ -217,6 +241,7 @@ def test_cancel_drops_a_phase_and_cuts_its_playing_line(tmp_path, monkeypatch):
     said = [kw["text"] for t, kw in bus.events if t == "coach.said"]
     assert said[-1] == "Two down early." and "Take Ace's claymore." not in said
     assert len(fake.played) == 2                      # 1 pick sentence, then the debrief line
+    assert fake.threads == {"speaker"}                # audio is only ever touched by the speaker thread
     sp.stop()
 
 

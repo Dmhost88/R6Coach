@@ -1,0 +1,500 @@
+map: consulate
+# Positions use the layout's room boxes, which are rough on Consulate (confidence 0.2-0.45). Where the
+# two rooms of a named wall are not neighbours in the layout, the icon sits on the room it belongs to
+# (room:) or on a point read off the blueprint (at:), and the note says which wall is meant.
+briefs:
+  # ------------------------------------------------------------------ 2F Meeting Room / 2F Consul Office
+  - id: consulate-meeting-team-reinforce
+    site: meeting_room_consul_office
+    side: defense
+    operators: []
+    title: "Lock Break-Admin and the Meeting breach wall"
+    text: >-
+      Reinforce the Break-Admin walls and the wall protecting Coffin with the hatch under it, then the Meeting
+      outside breach wall and the Consul Office window wall. Keep the Admin to Balcony rotate open so you can
+      extend and shoot Files and Coffin rappels.
+    placements:
+      - kind: reinforce
+        floor: 2F
+        between: [Break Room, Administration Office]
+        nudge: [-1.2, 0]
+        note: "Break-Admin walls 1 and 2"
+      - kind: hatch
+        floor: 2F
+        at: [51.2, 62.0]
+        name: "Hatch under Coffin"
+        note: "Reinforce it with the Break wall protecting Coffin"
+      - kind: reinforce
+        floor: 2F
+        between: [Meeting Room, Balcony]
+        note: "Meeting outside breach wall (usually the balcony side)"
+      - kind: reinforce
+        floor: 2F
+        between: [Consul Office, exterior]
+        edge: right
+        note: "CO window wall"
+      - kind: reinforce
+        floor: 2F
+        between: [Consul Office, Meeting Room]
+        note: "Consul to Meeting wall, Connector-window half"
+      - kind: open
+        floor: 2F
+        between: [Administration Office, Balcony]
+        note: "Admin to Balcony rotate for the extension"
+  - id: consulate-meeting-castle-bandit
+    site: meeting_room_consul_office
+    side: defense
+    operators: [Castle, Bandit]
+    title: "Pre-hit Coffin barricade, batteries on Meeting"
+    text: >-
+      Castle puts a barricade on Coffin and pre-hits it to about 8 of 10 hits, so the Coffin player has an
+      escape. Bandit puts batteries on the Meeting breach wall and tricks it when the Thermite or Hibana goes up.
+    placements:
+      - kind: castle
+        floor: 2F
+        between: [Break Room, Administration Office]
+        nudge: [1.2, 0]
+        note: "Coffin barricade, pre-hit to 8 of 10"
+      - kind: bandit
+        floor: 2F
+        between: [Meeting Room, Balcony]
+        nudge: [-1.2, -1.0]
+        note: "Batteries on the Meeting breach wall"
+      - kind: anchor
+        floor: 2F
+        room: Meeting Room
+        note: "Meeting power spot; Vending shield covers the doors"
+  - id: consulate-meeting-kaid-goyo
+    site: meeting_room_consul_office
+    side: defense
+    operators: [Kaid, Goyo]
+    title: "Claw off Admin, Volcan on the CO window"
+    text: >-
+      Kaid claws the Break-Admin wall from the Break side, so Ace and Thermite can't open Break from Admin.
+      Goyo puts a Volcan by the CO window to burn a hook or rappel plant.
+    placements:
+      - kind: kaid
+        floor: 2F
+        between: [Break Room, Administration Office]
+        nudge: [0, -1.0]
+        note: "Low on the Break side"
+      - kind: deployable
+        floor: 2F
+        between: [Consul Office, exterior]
+        edge: right
+        nudge: [-1.2, 0]
+        note: "Goyo Volcan on the CO window"
+  - id: consulate-meeting-attack-admin-over
+    site: meeting_room_consul_office
+    side: attack
+    operators: []
+    title: "Admin over: open Break, plant Meeting"
+    text: >-
+      Take the Balcony and Admin, clear Long Desk, then Ace opens Break from Admin while Buck verticals the
+      Break doorway from Visa below. Clear the Vending shield and Whiteboard before the default Meeting plant.
+    placements:
+      - kind: entry
+        floor: 2F
+        room: Balcony
+        note: "Balcony into Admin"
+      - kind: drone
+        floor: 2F
+        room: Administration Office
+        note: "Drone Admin and Long Desk first"
+      - kind: ace
+        floor: 2F
+        between: [Break Room, Administration Office]
+        note: "Break wall from Admin"
+      - kind: breach
+        floor: 1F
+        room: Lounge
+        note: "Buck vertical up into Break from below (the 'Visa vert'); floor under Break, usually"
+      - kind: plant
+        floor: 2F
+        room: Meeting Room
+        note: "Default Meeting plant"
+  - id: consulate-meeting-attack-meeting-wall
+    site: meeting_room_consul_office
+    side: attack
+    operators: [Thermite, Amaru]
+    title: "Burn the Meeting wall, hook the CO window"
+    text: >-
+      Thermite or Hibana opens the Meeting outside breach wall once Bandit is cleared. Amaru hooks the CO
+      window and plants behind smokes in Consul Office while the team holds Admin.
+    placements:
+      - kind: thermite
+        floor: 2F
+        between: [Meeting Room, Balcony]
+        note: "Meeting outside breach wall; EMP the batteries first"
+      - kind: entry
+        floor: 2F
+        between: [Consul Office, exterior]
+        edge: right
+        note: "CO window hook or rappel"
+      - kind: plant
+        floor: 2F
+        room: Consul Office
+        note: "Behind smokes after the window hook"
+
+  # ------------------------------------------------------------------ 1F Piano Room / 1F Exposition Room
+  - id: consulate-expo-team-reinforce
+    site: piano_room_exposition_room
+    side: defense
+    operators: []
+    title: "Double walls, Piano wall, keep the vertical"
+    text: >-
+      Reinforce the Expo-Lounge and Lounge-Visa double walls, the Piano wall up to Top Yellow and the Expo left
+      wall up to the Benches window. Upstairs, reinforce the CO wall and the balcony single wall so 2F stays
+      yours. Leave the Piano hatch soft and closed.
+    placements:
+      - kind: reinforce
+        floor: 1F
+        room: Exposition Room
+        nudge: [-1.5, 0]
+        note: "Expo-Lounge double wall"
+      - kind: reinforce
+        floor: 1F
+        between: [Lounge, Visa Office]
+        note: "Lounge-Visa double wall"
+      - kind: reinforce
+        floor: 1F
+        room: Piano Room
+        nudge: [-1.0, 0]
+        note: "Piano wall to Top Yellow and the closet wall outside Piano"
+      - kind: reinforce
+        floor: 2F
+        between: [Consul Office, Meeting Room]
+        note: "2F CO wall and the balcony single wall"
+      - kind: open
+        floor: 1F
+        at: [68.3, 57.3]
+        name: "Piano hatch"
+        note: "Soft and closed, not reinforced (sources disagree; usually left soft)"
+  - id: consulate-expo-kaid-mira
+    site: piano_room_exposition_room
+    side: defense
+    operators: [Kaid, Mira]
+    title: "Claw both double walls, Mira the Lounge wall"
+    text: >-
+      Kaid claws both double walls and holds the Expo corner. Mira puts her windows on the Lounge wall and the
+      Piano wall so Piano can watch the breach without taking a peek.
+    placements:
+      - kind: kaid
+        floor: 1F
+        room: Exposition Room
+        nudge: [-1.5, 1.2]
+        note: "Expo-Lounge double wall claw"
+      - kind: kaid
+        floor: 1F
+        between: [Lounge, Visa Office]
+        nudge: [1.2, 0]
+        note: "Lounge-Visa double wall claw"
+      - kind: mira
+        floor: 1F
+        room: Exposition Room
+        nudge: [-1.5, -1.2]
+        note: "Window on the Lounge wall"
+      - kind: mira
+        floor: 1F
+        room: Piano Room
+        nudge: [1.0, 0]
+        note: "Window on the Piano wall"
+      - kind: anchor
+        floor: 1F
+        room: Exposition Room
+        nudge: [2.0, 3.0]
+        note: "Expo corner"
+  - id: consulate-expo-castle-2f
+    site: piano_room_exposition_room
+    side: defense
+    operators: [Castle]
+    title: "Castle the 2F doors over Piano"
+    text: >-
+      Castle panels the 2F doors and plays Consul Office and Meeting above Piano, so attackers can't take 2F
+      for the vertical. Shoot down through holes when they plant.
+    placements:
+      - kind: castle
+        floor: 2F
+        between: [Consul Office, Meeting Room]
+        nudge: [0, -2.0]
+        note: "2F doors into CO and Meeting"
+      - kind: anchor
+        floor: 2F
+        room: Consul Office
+        note: "Hold 2F above Piano for the vertical"
+  - id: consulate-expo-attack-lounge-wall
+    site: piano_room_exposition_room
+    side: attack
+    operators: []
+    title: "2F first, then open the Lounge wall"
+    text: >-
+      Take 2F through Admin and pinch Meeting, then Buck opens the vertical into the closet and Piano. Ace opens
+      the Expo-Lounge wall, Kali lances its claws, and plant in the breach corner in Expo.
+    placements:
+      - kind: entry
+        floor: 2F
+        room: Balcony
+        note: "Balcony wall into Admin"
+      - kind: breach
+        floor: 2F
+        room: Consul Office
+        note: "Buck vertical down into the closet and Piano"
+      - kind: ace
+        floor: 1F
+        room: Exposition Room
+        nudge: [-1.5, 0]
+        note: "Expo-Lounge double wall"
+      - kind: plant
+        floor: 1F
+        room: Exposition Room
+        nudge: [-1.0, 2.0]
+        note: "Breach corner in Expo"
+  - id: consulate-expo-attack-hibana
+    site: piano_room_exposition_room
+    side: attack
+    operators: [Hibana]
+    title: "Clear Lounge and basement, Hibana burns Expo"
+    text: >-
+      Clear the basement under Piano and the Lounge, make the 2F vertical, then Hibana burns the Expo wall from
+      Lounge. Drone Lobby first; the Lobby desk player rotates through to cut you off.
+    placements:
+      - kind: drone
+        floor: 1F
+        room: Lobby
+        note: "Drone Lobby desk and Lounge"
+      - kind: hibana
+        floor: 1F
+        room: Exposition Room
+        nudge: [-1.5, 1.0]
+        note: "Expo wall from Lounge"
+      - kind: plant
+        floor: 1F
+        room: Piano Room
+        note: "Behind the piano"
+
+  # ------------------------------------------------------------------ 1F Tellers / B Servers
+  - id: consulate-tellers-team-reinforce
+    site: tellers_servers
+    side: defense
+    operators: []
+    title: "Secret wall first, two Visa hatches open"
+    text: >-
+      Reinforce the Secret single wall first, then both Construction to Cafe walls, the Storage wall and the top
+      of Server Stairs. Upstairs, reinforce both back-of-Tellers walls and one Visa hatch, and leave the other
+      two hatches open for rotates.
+    placements:
+      - kind: reinforce
+        floor: B
+        between: [Electrical Room, Servers]
+        note: "Electrical wall into Servers"
+      - kind: reinforce
+        floor: B
+        room: Construction
+        note: "Both Construction to Cafe end walls"
+      - kind: reinforce
+        floor: B
+        room: Storage
+        note: "Storage to Cafe hallway wall"
+      - kind: reinforce
+        floor: B
+        room: Server Stairs
+        note: "Top of Server Stairs wall"
+      - kind: reinforce
+        floor: 1F
+        between: [Lobby, Tellers]
+        note: "Back-of-Tellers walls (both)"
+      - kind: hatch
+        floor: 1F
+        at: [53.3, 63.6]
+        name: "Visa hatch"
+        note: "The corner one; attackers plant under it"
+      - kind: open
+        floor: 1F
+        at: [62.8, 57.3]
+        name: "Tellers hatch"
+        note: "Leave open for the rotate"
+  - id: consulate-tellers-mute-pulse
+    site: tellers_servers
+    side: defense
+    operators: [Mute, Pulse]
+    title: "Jam Secret and the stairs, Pulse under the desk"
+    text: >-
+      Mute jams Secret and Server Stairs so the Electrical wall and the stairs can't be droned or EMP'd. Pulse
+      bunkers in Servers under the desk holes and scans up to Tellers.
+    placements:
+      - kind: trap
+        floor: B
+        between: [Electrical Room, Servers]
+        nudge: [0, 1.2]
+        note: "Mute jammer on the Electrical side"
+      - kind: trap
+        floor: B
+        room: Server Stairs
+        nudge: [0, 2.0]
+        note: "Mute jammer at the stairs"
+      - kind: anchor
+        floor: B
+        room: Servers
+        note: "Pulse under the Tellers desk holes"
+  - id: consulate-tellers-attack-squeeze
+    site: tellers_servers
+    side: attack
+    operators: []
+    title: "Basement squeeze through Electrical"
+    text: >-
+      From Gas Station, take Garage and bottom Yellow, push Construction and open the Electrical wall with Ace
+      or Thermite after Thatcher. Buck opens the Visa floor above; plant in Servers under the Visa corner hatch.
+    placements:
+      - kind: drone
+        floor: B
+        room: Construction
+        note: "Drone Construction and Storage"
+      - kind: ace
+        floor: B
+        between: [Electrical Room, Servers]
+        note: "Electrical wall; EMP first"
+      - kind: breach
+        floor: 1F
+        room: Visa Office
+        note: "Buck opens the Visa floor"
+      - kind: plant
+        floor: B
+        room: Servers
+        note: "Under the Visa corner hatch"
+  - id: consulate-tellers-attack-zero
+    site: tellers_servers
+    side: attack
+    operators: [Zero, Thermite]
+    title: "Cam Servers, burn Electrical"
+    text: >-
+      Zero puts cams into Storage and Servers from Construction so you know where Pulse is. Thermite burns the
+      Electrical wall into Servers once the jammers are gone.
+    placements:
+      - kind: drone
+        floor: B
+        room: Storage
+        note: "Zero cam on Storage and Servers"
+      - kind: thermite
+        floor: B
+        between: [Electrical Room, Servers]
+        nudge: [1.2, 0]
+        note: "Electrical wall into Servers"
+      - kind: plant
+        floor: B
+        room: Servers
+        nudge: [0, 2.0]
+        note: "Default Servers plant"
+
+  # ------------------------------------------------------------------ B Cafeteria / B Garage
+  - id: consulate-garage-team-reinforce
+    site: cafeteria_garage
+    side: defense
+    operators: []
+    title: "Garage panels and the site hatch"
+    text: >-
+      Reinforce Garage breach panels 1 and 2, the site hatch, the Security wall left half and the wall behind
+      Pillar, plus the Storage wall to outside Cafeteria. Keep the foot holes by the site hatch soft against
+      Thermite from above.
+    placements:
+      - kind: reinforce
+        floor: B
+        between: [Garage, exterior]
+        edge: left
+        note: "Garage breach panels 1 and 2"
+      - kind: hatch
+        floor: 1F
+        at: [67.2, 69.0]
+        name: "Site hatch"
+        note: "Reinforce; which of the 1F hatches is 'the' site hatch is not verified"
+      - kind: reinforce
+        floor: B
+        room: Security Room
+        note: "Security wall, left half"
+      - kind: reinforce
+        floor: B
+        room: Storage
+        nudge: [0, 2.0]
+        note: "Storage to outside Cafeteria wall"
+      - kind: reinforce
+        floor: 1F
+        room: Tellers
+        note: "1F top Electrical wall"
+  - id: consulate-garage-kaid-mira
+    site: cafeteria_garage
+    side: defense
+    operators: [Kaid, Mira]
+    title: "Claw Garage, Mira Cafeteria"
+    text: >-
+      Kaid claws the Garage breach panels and the site hatch. Mira puts windows on Cafeteria walls 1 and 2 and
+      the anchor holds Pillar behind them.
+    placements:
+      - kind: kaid
+        floor: B
+        between: [Garage, exterior]
+        edge: left
+        nudge: [1.2, 0]
+        note: "Garage breach panels"
+      - kind: kaid
+        floor: 1F
+        at: [67.2, 69.0]
+        name: "Site hatch"
+        nudge: [1.2, 0]
+        note: "Claw the site hatch"
+      - kind: mira
+        floor: B
+        between: [Kitchen, Cafeteria]
+        note: "Cafeteria wall 1"
+      - kind: mira
+        floor: B
+        room: Cafeteria
+        nudge: [0, -3.0]
+        note: "Cafeteria wall 2"
+      - kind: anchor
+        floor: B
+        at: [54.5, 63.8]
+        name: "Pillar"
+        note: "Pillar anchor"
+  - id: consulate-garage-attack-thermite
+    site: cafeteria_garage
+    side: attack
+    operators: []
+    title: "Take 1F, then burn the Garage wall"
+    text: >-
+      Take 1F above for the vertical, then Thatcher disrupts and Thermite burns the Garage breach wall from
+      Garage Way. Flores clears the Garage gadgets; plant in Garage behind the light wall.
+    placements:
+      - kind: drone
+        floor: B
+        room: Garage
+        note: "Drone Garage and bottom Yellow"
+      - kind: thermite
+        floor: B
+        between: [Garage, exterior]
+        edge: left
+        note: "Garage breach wall from outside"
+      - kind: plant
+        floor: B
+        room: Garage
+        note: "Behind the light wall"
+  - id: consulate-garage-attack-vertical
+    site: cafeteria_garage
+    side: attack
+    operators: [Hibana, Sledge]
+    title: "Open the site hatch from 1F"
+    text: >-
+      With 1F Electrical and Piano held, Hibana opens the reinforced site hatch and Sledge or Buck open the soft
+      floor for vertical onto Pillar. Don't breach Garage until the vertical is yours.
+    placements:
+      - kind: hibana
+        floor: 1F
+        at: [67.2, 69.0]
+        name: "Site hatch"
+        note: "Burn the reinforced hatch from 1F"
+      - kind: breach
+        floor: 1F
+        room: Exposition Room
+        note: "Soft floor over the site for vertical"
+      - kind: plant
+        floor: B
+        room: Cafeteria
+        note: "Cafeteria plant under the hatch, usually"

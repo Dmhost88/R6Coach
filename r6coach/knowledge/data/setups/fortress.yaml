@@ -1,0 +1,385 @@
+map: fortress
+# Post-rework layout (Y10S4 Tenfold Pursuit). Room boxes are rough; walls are named the way the guides name them.
+briefs:
+  # ---------------------------------------------------------------- 2F Commander's Office / Bathroom
+  - id: fortress-commanders-team-walls
+    site: commanders_office_bathroom
+    side: defense
+    operators: []
+    title: "Bathroom-Briefing wall, Museum panel, Dorms walls"
+    text: >-
+      Reinforce the left and right Bathroom to Briefing panels, the left Commander's to Museum panel and Briefing to
+      Dormitory walls 1 and 2. Commander's back wall goes on late; keep the Central stairs floor holes open.
+    placements:
+      - kind: reinforce
+        floor: 2F
+        between: [Bathroom, Briefing Room]
+        nudge: [0, -1.0]
+        note: "Left and right panels"
+      - kind: reinforce
+        floor: 2F
+        between: [Commander's Office, Museum]
+        note: "Left panel"
+      - kind: reinforce
+        floor: 2F
+        between: [Briefing Room, Dormitory]
+        note: "Walls 1 and 2"
+      - kind: open
+        floor: 2F
+        between: [Bathroom, Briefing Room]
+        nudge: [0, 1.0]
+        note: "Top Bathroom-Briefing panel left soft (one deck)"
+  - id: fortress-commanders-bandit-bathroom
+    site: commanders_office_bathroom
+    side: defense
+    operators: [Bandit]
+    title: "Batteries on the Bathroom-Briefing wall"
+    text: >-
+      Batteries on both reinforced Bathroom to Briefing panels; the far-right one is the usual Thermite spot. Then
+      anchor the Bathroom corner by the tub and re-check after Thatcher's EMP.
+    placements:
+      - kind: bandit
+        floor: 2F
+        between: [Bathroom, Briefing Room]
+        nudge: [-1.2, 0]
+      - kind: bandit
+        floor: 2F
+        between: [Bathroom, Briefing Room]
+        nudge: [1.2, 0]
+        note: "Far-right panel"
+      - kind: anchor
+        floor: 2F
+        room: Bathroom
+        nudge: [-0.8, 1.0]
+        note: "Corner by the tub"
+  - id: fortress-commanders-castle
+    site: commanders_office_bathroom
+    side: defense
+    operators: [Castle]
+    title: "Barricade the Commander's hallways"
+    text: >-
+      Castle barricades the hallway doors into Commander's so the fold-back from the towers has cover, then plays the
+      black boxes in Commander's.
+    placements:
+      - kind: castle
+        floor: 2F
+        between: [Commander's Office, Museum]
+        nudge: [0, 1.5]
+        note: "Museum-side door (usually)"
+      - kind: castle
+        floor: 2F
+        between: [Commander's Office, Bathroom]
+        note: "Bathroom-side door (usually)"
+      - kind: anchor
+        floor: 2F
+        room: Commander's Office
+        note: "Black boxes"
+  - id: fortress-commanders-attack-thermite
+    site: commanders_office_bathroom
+    side: attack
+    operators: [Thermite, Thatcher]
+    title: "Old Tower clear, burn the Bathroom wall"
+    text: >-
+      Take Laundry and the Old Tower side with drones first. Thatcher EMPs the Bathroom to Briefing wall right before
+      Thermite charges the far-right panel; plant Bathroom behind the half wall and hold from the breach.
+    placements:
+      - kind: drone
+        floor: 2F
+        room: Old Tower
+      - kind: thermite
+        floor: 2F
+        between: [Bathroom, Briefing Room]
+        nudge: [1.2, 0]
+        note: "Far-right panel"
+      - kind: plant
+        floor: 2F
+        room: Bathroom
+        note: "Behind the half wall"
+  - id: fortress-commanders-attack-ace
+    site: commanders_office_bathroom
+    side: attack
+    operators: [Ace]
+    title: "Open Commander's from Museum"
+    text: >-
+      Clear Museum (Horse) and Central stairs, then Ace opens the Commander's to Museum wall. Nokk lurks Horse for the
+      rotating defenders; plant Bathroom tight on the door.
+    placements:
+      - kind: drone
+        floor: 2F
+        room: Museum
+      - kind: ace
+        floor: 2F
+        between: [Commander's Office, Museum]
+      - kind: plant
+        floor: 2F
+        room: Bathroom
+        nudge: [0, -1.5]
+        note: "Tight on the door"
+  # ---------------------------------------------------------------- 2F Dormitory / Games Room
+  - id: fortress-dorms-team-walls
+    site: dormitory_games_room
+    side: defense
+    operators: []
+    title: "Shut the Dorms breach, close the Bathroom wall"
+    text: >-
+      Reinforce the Dorms breach toward Vending and cut feet holes, reinforce the Games outside walls and the lower
+      Bathroom to Briefing panels. Leave the top panel open as a rotate.
+    placements:
+      - kind: reinforce
+        floor: 2F
+        between: [Dormitory, exterior]
+        edge: right
+        note: "Dorms breach, window side (usually)"
+      - kind: reinforce
+        floor: 2F
+        between: [Games Room, exterior]
+        edge: right
+        note: "Games outside walls"
+      - kind: reinforce
+        floor: 2F
+        between: [Bathroom, Briefing Room]
+        note: "Lower panels 1 and 2"
+      - kind: open
+        floor: 2F
+        between: [Briefing Room, Dormitory]
+        note: "Hole to Briefing; sources split on this wall"
+  - id: fortress-dorms-kaid-games
+    site: dormitory_games_room
+    side: defense
+    operators: [Kaid]
+    title: "Claw the Games outside walls"
+    text: >-
+      Claw the reinforced Games outside walls, then hold Games from inside the clawed corner.
+    placements:
+      - kind: kaid
+        floor: 2F
+        between: [Games Room, exterior]
+        edge: right
+        nudge: [-0.8, -1.0]
+      - kind: kaid
+        floor: 2F
+        between: [Games Room, exterior]
+        edge: right
+        nudge: [-0.8, 1.0]
+      - kind: anchor
+        floor: 2F
+        room: Games Room
+  - id: fortress-dorms-attack-thermite
+    site: dormitory_games_room
+    side: attack
+    operators: [Thermite, Thatcher]
+    title: "Pinch Old Tower, burn the Dorms breach"
+    text: >-
+      Zofia clears the Old Tower drop, then Vending; Flores walks Laundry stairs for the pinch. Thatcher disrupts and
+      Thermite burns the Dorms breach from the window side; Osa plants deep in Games facing Briefing.
+    placements:
+      - kind: entry
+        floor: 2F
+        room: Old Tower
+      - kind: thermite
+        floor: 2F
+        between: [Dormitory, exterior]
+        edge: right
+      - kind: plant
+        floor: 2F
+        room: Games Room
+        nudge: [2.0, 1.0]
+        note: "Deep Games corner, shield facing Briefing"
+  - id: fortress-dorms-attack-flank
+    site: dormitory_games_room
+    side: attack
+    operators: []
+    title: "Hold the Briefing flank"
+    text: >-
+      Drone Central stairs and Briefing before the plant; the Briefing flank is the usual mistake. Thatcher leaves a
+      claymore on Central stairs and one player watches Courtyard Corridor.
+    placements:
+      - kind: drone
+        floor: 2F
+        room: Briefing Room
+      - kind: anchor
+        floor: 2F
+        room: Courtyard Corridor
+        note: "Watch the Briefing flank"
+  # ---------------------------------------------------------------- 1F Waiting Room / Cafeteria
+  - id: fortress-cafe-team-walls
+    site: waiting_room_cafeteria
+    side: defense
+    operators: []
+    title: "Seal Oven, keep the Briefing hatch open"
+    text: >-
+      Reinforce all three Oven (Kitchen) triple-wall panels, both Hammam-side panels and the Cafeteria to main hallway
+      wall, plus the left and middle Bathroom-Briefing panels on 2F. Keep the Kitchen to Waiting crouch rotate and the
+      Briefing hatch open.
+    placements:
+      - kind: reinforce
+        floor: 1F
+        room: Kitchen
+        note: "Oven triple wall, all three panels"
+      - kind: reinforce
+        floor: 2F
+        between: [Bathroom, Briefing Room]
+        note: "Left and middle panels (over the site)"
+      - kind: open
+        floor: 1F
+        between: [Cafeteria, Infirmary]
+        note: "Cafeteria/Infirmary gap with head holes"
+      - kind: open
+        floor: 2F
+        at: [64.2, 63.4]
+        name: "Briefing hatch"
+        note: "Left open; Melusi holds it over Waiting"
+  - id: fortress-cafe-kaid-oven
+    site: waiting_room_cafeteria
+    side: defense
+    operators: [Kaid]
+    title: "Claw the Oven wall"
+    text: >-
+      Claw two of the three Oven wall panels, then play the Cafeteria power spot. Don't stand behind the wall itself;
+      Thermite and Hibana target it.
+    placements:
+      - kind: kaid
+        floor: 1F
+        room: Kitchen
+        nudge: [-0.8, 0]
+      - kind: kaid
+        floor: 1F
+        room: Kitchen
+        nudge: [0.8, 0]
+      - kind: anchor
+        floor: 1F
+        room: Cafeteria
+        note: "Power spot"
+  - id: fortress-cafe-attack-oven
+    site: waiting_room_cafeteria
+    side: attack
+    operators: [Hibana, Thatcher, Sledge]
+    title: "Fountain first, burn Oven"
+    text: >-
+      Sledge opens the Showers wall and holds Fountain (Hammam). Thatcher EMPs the Oven claws, Hibana opens the triple
+      wall from the Lobby side, then pinch the hallway and plant deep Cafeteria.
+    placements:
+      - kind: breach
+        floor: 1F
+        between: [Showers, Hammam]
+        note: "Sledge opens Showers into Fountain"
+      - kind: hibana
+        floor: 1F
+        room: Kitchen
+        nudge: [0, -1.0]
+        note: "Oven triple wall"
+      - kind: plant
+        floor: 1F
+        room: Cafeteria
+        note: "Deep Cafeteria, power-spot side"
+  - id: fortress-cafe-attack-briefing
+    site: waiting_room_cafeteria
+    side: attack
+    operators: []
+    title: "Take Briefing, plant Waiting"
+    text: >-
+      Drone Infirmary for the contest and Briefing for the hatch player. If you own Briefing, hold the hatch from above
+      and plant Waiting under it.
+    placements:
+      - kind: drone
+        floor: 1F
+        room: Infirmary
+      - kind: entry
+        floor: 2F
+        at: [64.2, 63.4]
+        name: "Briefing hatch"
+      - kind: plant
+        floor: 1F
+        room: Waiting Room
+  # ---------------------------------------------------------------- 1F Hammam / Sitting Room
+  - id: fortress-hammam-team-walls
+    site: hammam_sitting_room
+    side: defense
+    operators: []
+    title: "Keep the Sitting wall shut"
+    text: >-
+      Reinforce both Sitting Room outside wall panels and both Showers to Hammam panels. Never reinforce the Gun Room
+      rotate, and keep the hallway rotate beside the outside wall open.
+    placements:
+      - kind: reinforce
+        floor: 1F
+        between: [Sitting Room, exterior]
+        edge: right
+        note: "Both panels"
+      - kind: reinforce
+        floor: 1F
+        between: [Showers, Hammam]
+        note: "Both panels"
+      - kind: open
+        floor: 1F
+        between: [Gun Room, Hammam]
+        note: "Gun Room rotate, never reinforced"
+      - kind: hatch
+        floor: 2F
+        at: [62.2, 54.0]
+        name: "2F hatch over Sitting Room"
+        note: "Guides reinforce the Horse hatch; which hatch that is is not verified"
+  - id: fortress-hammam-traps
+    site: hammam_sitting_room
+    side: defense
+    operators: [Frost, Thorn]
+    title: "Trap Showers, Hammam windows and Gun Room"
+    text: >-
+      Thorn traps the Showers and Hammam windows; Frost mats Gun Room and holds it behind a shield.
+    placements:
+      - kind: trap
+        floor: 1F
+        room: Showers
+        note: "Showers windows"
+      - kind: trap
+        floor: 1F
+        between: [Hammam, exterior]
+        edge: left
+        note: "Hammam windows"
+      - kind: trap
+        floor: 1F
+        room: Gun Room
+        note: "Frost mats"
+  - id: fortress-hammam-attack-thermite
+    site: hammam_sitting_room
+    side: attack
+    operators: [Thermite]
+    title: "Burn the Sitting outside wall"
+    text: >-
+      Drone Gun Room and Showers for the Frost and the traps. Thermite burns the Sitting Room outside wall and Ying
+      candelas Hammam; plant on the Hammam steps under smoke.
+    placements:
+      - kind: drone
+        floor: 1F
+        room: Gun Room
+      - kind: thermite
+        floor: 1F
+        between: [Sitting Room, exterior]
+        edge: right
+      - kind: plant
+        floor: 1F
+        room: Hammam
+        note: "Hammam steps"
+  - id: fortress-hammam-attack-window
+    site: hammam_sitting_room
+    side: attack
+    operators: [Capitao, Glaz]
+    title: "Fire bolts on Showers, Glaz through smoke"
+    text: >-
+      Capitao fire-bolts Showers and smokes the plant; Glaz opens the Sitting window and holds through the smoke. Plant
+      on the Hammam half wall and watch the hallway flank.
+    placements:
+      - kind: entry
+        floor: 1F
+        between: [Sitting Room, exterior]
+        edge: right
+        nudge: [0, 1.5]
+        note: "Sitting window"
+      - kind: drone
+        floor: 1F
+        room: Showers
+      - kind: plant
+        floor: 1F
+        room: Hammam
+        nudge: [1.0, 1.5]
+        note: "Hammam half wall"

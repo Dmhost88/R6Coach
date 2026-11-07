@@ -1,0 +1,397 @@
+map: lair
+briefs:
+  # ---------------------------------------------------------------- 2F Master Office / R6 Room
+  - id: lair-master-team-walls
+    site: master_office_r6_room
+    side: defense
+    operators: []
+    title: "Reinforce all four Mask walls"
+    text: >-
+      Reinforce both inner and both outer Mask Room walls; older guides left one soft, current setups don't. Then the
+      left Operations panel, both Bathroom walls toward Main Stairs and the right R6 Room to Storage panel. Keep the
+      Display to Server rotate open.
+    placements:
+      - kind: reinforce
+        floor: 2F
+        between: [Mask Room, Master Office]
+        nudge: [-1.0, 0]
+        note: "Inner Mask walls, both"
+      - kind: reinforce
+        floor: 2F
+        between: [Operations, Mask Room]
+        note: "Outer Mask walls, both"
+      - kind: reinforce
+        floor: 2F
+        room: Bathroom
+        note: "Both walls toward Main Stairs"
+      - kind: reinforce
+        floor: 2F
+        between: [R6 Room, Storage]
+        note: "Right panel"
+      - kind: open
+        floor: 2F
+        between: [Display, Server]
+        note: "Display to Server rotate"
+  - id: lair-master-bandit-masks
+    site: master_office_r6_room
+    side: defense
+    operators: [Bandit]
+    title: "Batteries on the inner Mask walls"
+    text: >-
+      Put batteries on both inner Mask Room walls into Master Office and C4 Operations. Re-check after a Thatcher EMP;
+      batteries are back about 15 seconds later.
+    placements:
+      - kind: bandit
+        floor: 2F
+        between: [Mask Room, Master Office]
+        nudge: [-1.2, 0]
+        note: "Inner Mask wall 1"
+      - kind: bandit
+        floor: 2F
+        between: [Mask Room, Master Office]
+        nudge: [1.2, 0]
+        note: "Inner Mask wall 2"
+  - id: lair-master-mira-masks
+    site: master_office_r6_room
+    side: defense
+    operators: [Mira]
+    title: "Mira windows on Masks"
+    text: >-
+      Mira window on the reinforced Operations to Masks wall so the anchor watches Mask Room without peeking. A second
+      window on the Server to Display wall is also common.
+    placements:
+      - kind: mira
+        floor: 2F
+        between: [Operations, Mask Room]
+        nudge: [0, 1.0]
+        note: "Operations-Masks wall"
+      - kind: mira
+        floor: 2F
+        between: [Server, Display]
+        note: "Server-Display wall (often)"
+  - id: lair-master-attack-masks
+    site: master_office_r6_room
+    side: attack
+    operators: [Thermite, Thatcher]
+    title: "Take Masks, burn into Master Office"
+    text: >-
+      Drone Operations and Mask Room first for Azami Kibas and the roamer. Take Mask Room, Thatcher EMPs the inner
+      walls and Thermite opens into Master Office in that window; plant by the inner Mask wall.
+    placements:
+      - kind: drone
+        floor: 2F
+        room: Operations
+      - kind: entry
+        floor: 2F
+        room: Mask Room
+      - kind: thermite
+        floor: 2F
+        between: [Mask Room, Master Office]
+      - kind: plant
+        floor: 2F
+        room: Master Office
+        nudge: [0, -3.0]
+        note: "By the inner Mask wall"
+  - id: lair-master-attack-ace
+    site: master_office_r6_room
+    side: attack
+    operators: [Ace]
+    title: "Ace the outer Mask walls from Operations"
+    text: >-
+      Win Operations, then Ace opens the outer Mask walls to push the Operations defenders out and swing Masks. Clear
+      Fenrir mines on the Bathroom and Display windows before anyone rappels; plant against Cork facing the Display
+      door.
+    placements:
+      - kind: ace
+        floor: 2F
+        between: [Operations, Mask Room]
+      - kind: drone
+        floor: 2F
+        room: Display
+        note: "Fenrir mines and Banshee check"
+      - kind: plant
+        floor: 2F
+        room: R6 Room
+        note: "Against Cork, facing the Display door (usually)"
+  # ---------------------------------------------------------------- 1F Bunks / Briefing
+  - id: lair-bunks-team-walls
+    site: bunks_briefing
+    side: defense
+    operators: []
+    title: "Shut Security Terrace, keep the R6 hatch open"
+    text: >-
+      Reinforce the Security Terrace outside wall and the Briefing wall at the bottom of Yellow. Keep the high
+      Bunks/Briefing rotate and the R6 Room hatch open so the players on 2F can deny every plant from above.
+    placements:
+      - kind: reinforce
+        floor: 1F
+        between: [Security Terrace, exterior]
+        edge: left
+        note: "Security Terrace outside wall"
+      - kind: open
+        floor: 1F
+        between: [Briefing, Bunks]
+        note: "High crouch rotate with head holes"
+      - kind: open
+        floor: 2F
+        at: [55.9, 58.6]
+        name: "R6 Room hatch"
+        note: "Keep it open for the vert players"
+      - kind: anchor
+        floor: 2F
+        room: R6 Room
+        note: "Deny plants through the floor"
+  - id: lair-bunks-kaid-terrace
+    site: bunks_briefing
+    side: defense
+    operators: [Kaid]
+    title: "Claw the terrace breach"
+    text: >-
+      Claw the Security Terrace outside wall and the Briefing side, then anchor the rotate between Bunks and Briefing.
+    placements:
+      - kind: kaid
+        floor: 1F
+        between: [Security Terrace, exterior]
+        edge: left
+        nudge: [0.8, -1.0]
+      - kind: kaid
+        floor: 1F
+        between: [Security Terrace, Briefing]
+        note: "Briefing side (usually)"
+      - kind: anchor
+        floor: 1F
+        between: [Briefing, Bunks]
+        nudge: [0, 1.5]
+  - id: lair-bunks-attack-topdown
+    site: bunks_briefing
+    side: attack
+    operators: [Ace, Ram]
+    title: "Win 2F, drop the R6 hatch"
+    text: >-
+      Every 1F plant can be denied from the R6 Room holes, so take 2F first. Ace opens the outer Mask wall to clear
+      Operations, Ram opens the R6 Room floor, then drop the R6 Room hatch and plant beside it.
+    placements:
+      - kind: ace
+        floor: 2F
+        between: [Operations, Mask Room]
+        note: "Outer Mask wall"
+      - kind: breach
+        floor: 2F
+        room: R6 Room
+        note: "Ram opens the floor over site"
+      - kind: entry
+        floor: 2F
+        at: [55.9, 58.6]
+        name: "R6 Room hatch"
+      - kind: plant
+        floor: 1F
+        at: [55.9, 59.6]
+        name: "Beside the R6 Room hatch drop"
+  - id: lair-bunks-attack-terrace
+    site: bunks_briefing
+    side: attack
+    operators: [Thermite, Kali]
+    title: "Burn the Security Terrace wall"
+    text: >-
+      Clear R6 Room and Operations first. Kali lances the Kaid claws on the Security Terrace wall, Thermite opens it,
+      and plant Briefing by the breach or Bunks by the Green pillar if 2F is yours.
+    placements:
+      - kind: drone
+        floor: 2F
+        room: R6 Room
+      - kind: thermite
+        floor: 1F
+        between: [Security Terrace, exterior]
+        edge: left
+      - kind: plant
+        floor: 1F
+        room: Briefing
+        note: "By the breach"
+  # ---------------------------------------------------------------- 1F Armory / Weapon Maintenance
+  - id: lair-armory-team-walls
+    site: armory_weapon_maintenance
+    side: defense
+    operators: []
+    title: "Middle triple-wall panel and the Operations hatch"
+    text: >-
+      Reinforce the middle panel of the Armory/Weapon Maintenance triple wall and cut head holes in the left one.
+      Reinforce the Operations hatch, one Range Exit panel and the left Medical panel.
+    placements:
+      - kind: reinforce
+        floor: 1F
+        between: [Armory, Weapon Maintenance]
+        note: "Middle panel; head holes in the left one"
+      - kind: hatch
+        floor: 2F
+        at: [61.9, 58.4]
+        name: "Operations hatch"
+      - kind: reinforce
+        floor: 1F
+        room: Range
+        nudge: [0, -8.0]
+        note: "Range Exit wall, one panel"
+      - kind: reinforce
+        floor: 1F
+        between: [Medical, Armory Hall]
+        note: "Medical wall, left panel"
+  - id: lair-armory-above
+    site: armory_weapon_maintenance
+    side: defense
+    operators: [Azami, Denari]
+    title: "Two above in Operations and Mezzanine"
+    text: >-
+      Two players deny plants from Operations and Mezzanine through floor holes while three crossfire Range below.
+      Denari tripwires the Rocket side.
+    placements:
+      - kind: anchor
+        floor: 2F
+        room: Operations
+      - kind: anchor
+        floor: 2F
+        room: Mezzanine
+      - kind: trap
+        floor: 2F
+        room: Mezzanine
+        nudge: [2.0, 0]
+        note: "Tripwires on the Rocket stairs side"
+  - id: lair-armory-attack-range
+    site: armory_weapon_maintenance
+    side: attack
+    operators: [Thermite, Buck]
+    title: "Win Operations, burn Range Exit"
+    text: >-
+      Clear Operations and Mezzanine first and have Buck open the floor. Then Thermite burns the Range Exit panel and
+      you plant on the hard wall just inside, away from the rotate.
+    placements:
+      - kind: drone
+        floor: 2F
+        room: Operations
+      - kind: breach
+        floor: 2F
+        room: Operations
+        nudge: [0, 2.0]
+        note: "Buck opens the floor over site"
+      - kind: thermite
+        floor: 1F
+        room: Range
+        nudge: [0, -8.0]
+        note: "Range Exit panel"
+      - kind: plant
+        floor: 1F
+        room: Weapon Maintenance
+        nudge: [1.0, 0]
+        note: "Hard wall inside the breach"
+  - id: lair-armory-attack-hibana
+    site: armory_weapon_maintenance
+    side: attack
+    operators: [Hibana]
+    title: "Burn the Operations hatch and drop"
+    text: >-
+      Take Operations, Hibana burns the reinforced hatch, shoot Shumikha and Yokai through it, then drop and plant the
+      Armory corner while Buck holds from above.
+    placements:
+      - kind: hibana
+        floor: 2F
+        at: [61.9, 58.4]
+        name: "Operations hatch"
+      - kind: plant
+        floor: 1F
+        room: Armory
+        nudge: [1.5, 2.0]
+        note: "Armory corner"
+  # ---------------------------------------------------------------- B Lab / Lab Support
+  - id: lair-lab-team-walls
+    site: lab_lab_support
+    side: defense
+    operators: []
+    title: "Lab/Lockers wall, Missile wall, 1F hatches"
+    text: >-
+      Reinforce the Lab/Lockers site wall, the Missile wall, one Lab Exit panel and the Lockers-door panel. Reinforce
+      the hatches above the Lab from 1F; the Lab Exit rotate stays open.
+    placements:
+      - kind: reinforce
+        floor: B
+        between: [Lab, Lockers]
+      - kind: reinforce
+        floor: B
+        between: [Missile, Electrical]
+        note: "Missile wall"
+      - kind: reinforce
+        floor: B
+        between: [Lab Exit, Lab]
+        nudge: [-1.0, 0]
+        note: "One panel"
+      - kind: open
+        floor: B
+        between: [Lab Exit, Lab]
+        nudge: [1.0, 0]
+        note: "Lab Exit rotate"
+      - kind: hatch
+        floor: 1F
+        at: [58.2, 61.8]
+        name: "Armory hatch"
+      - kind: hatch
+        floor: 1F
+        at: [55.9, 56.2]
+        name: "1F hatch into B"
+        note: "Reception or Lobby hatch (name not verified)"
+  - id: lair-lab-kaid-missile
+    site: lab_lab_support
+    side: defense
+    operators: [Kaid]
+    title: "Claw the Missile wall"
+    text: >-
+      Claw the Missile wall so Thermite needs a Kali lance first, then play long Lockers angles.
+    placements:
+      - kind: kaid
+        floor: B
+        between: [Missile, Electrical]
+        nudge: [-1.0, 0]
+      - kind: anchor
+        floor: B
+        room: Lockers
+  - id: lair-lab-attack-filtration
+    site: lab_lab_support
+    side: attack
+    operators: [Hibana, Buck]
+    title: "Open the hatch, walk Filtration"
+    text: >-
+      Kill the Armory and Filtration roamers first; it's a two-up setup. Hibana opens the hatch over the Lab and the
+      Lab Exit, Buck opens the Security floor, and you plant the cabinet by the Filtration door.
+    placements:
+      - kind: hibana
+        floor: 1F
+        at: [58.2, 61.8]
+        name: "Hatch over the Lab"
+      - kind: hibana
+        floor: B
+        between: [Lab Exit, Lab]
+      - kind: breach
+        floor: 1F
+        room: Security
+        note: "Buck opens the floor"
+      - kind: plant
+        floor: B
+        room: Lab Support
+        note: "Filing cabinet by the Filtration door (usually)"
+  - id: lair-lab-attack-missile
+    site: lab_lab_support
+    side: attack
+    operators: [Thermite, Kali]
+    title: "Lance and burn the Missile wall"
+    text: >-
+      Clear Armory, push Filtration, then Kali lances the claw and Thermite opens the Missile wall. Gridlock Trax on
+      Yellow stairs stops the late flank; plant the south side of Lab behind smokes.
+    placements:
+      - kind: drone
+        floor: B
+        room: Warehouse
+        note: "Valkyrie roam and cams"
+      - kind: thermite
+        floor: B
+        between: [Missile, Electrical]
+      - kind: plant
+        floor: B
+        room: Lab
+        nudge: [0, 3.0]
+        note: "South side of Lab"

@@ -7,12 +7,13 @@ import dataclasses
 import json
 import logging
 import os
+import re
 import threading
 import time
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
-from fastapi import Body, FastAPI, HTTPException, WebSocket, WebSocketDisconnect
+from fastapi import Body, FastAPI, HTTPException, Request, WebSocket, WebSocketDisconnect
 from fastapi.responses import FileResponse, Response
 from fastapi.staticfiles import StaticFiles
 
@@ -35,6 +36,21 @@ FORWARD = {"state.updated", "screen.changed", "coach.said", "coach.advice", "coa
            "round.ended", "match.ended", "status", "killfeed", "player.died", "map.focus"}
 
 TEST_LINE = "Voice check. 3 v 2. They have to come to you."
+
+MAX_SHOT = 10 * 1024 * 1024
+FRAME_RE = re.compile(r"^(\d{4}-\d{2}-\d{2})/(\d{6}_[a-z_]+)$")
+FRAME_SKIP = {"main_menu", "matchmaking", "loading", "other"}
+
+
+def image_ext(data: bytes) -> "str | None":
+    """The file extension for a JPEG, PNG or WebP by its first bytes, else None."""
+    if data[:3] == b"\xff\xd8\xff":
+        return ".jpg"
+    if data[:8] == b"\x89PNG\r\n\x1a\n":
+        return ".png"
+    if data[:4] == b"RIFF" and data[8:12] == b"WEBP":
+        return ".webp"
+    return None
 
 
 def _jsonable(ev: Event) -> str:
@@ -254,22 +270,203 @@ def build(app: "App") -> FastAPI:
         app.knowledge.save_notes(map_id, body.get("notes", ""))
         return {"ok": "saved"}
 
+    def map_id_for(name: str) -> Any:
+        if not name:
+            return app.map_id()
+        if name in app.knowledge.maps:
+            return name
+        m = app.knowledge.find_map(name)
+        return next((k for k, v in app.knowledge.maps.items() if v is m), None) if m else None
+
+    def site_areas(mid: str) -> list[dict[str, Any]]:
+        """Each site's rooms on the layout, as one box per image, so the map can mark the sites."""
+        st = app.watcher.state
+        cur = app.knowledge.find_site(app.knowledge.maps.get(mid), st.site) if st.site else None
+        lay = app.layouts.get(mid) or {}
+        out = []
+        for i, s in enumerate(app.knowledge.maps.get(mid, {}).get("sites") or []):
+            rooms = app.layouts.mentions(mid, s.get("name", ""), s.get("floor"))
+            areas: dict[int, list[float]] = {}
+            for r in rooms:
+                fi = app.layouts.floor_index(mid, r["floor"], (r["room"],))
+                if fi is None:
+                    continue
+                b = lay["floors"][fi]["rooms"][r["room"]]["box"]
+                a = areas.get(fi)
+                areas[fi] = list(b) if a is None else [min(a[0], b[0]), min(a[1], b[1]),
+                                                       max(a[2], b[2]), max(a[3], b[3])]
+            out.append({"id": s.get("id"), "name": s.get("name"), "n": i + 1, "current": s is cur,
+                        "rooms": rooms, "areas": [{"fi": fi, "box": b} for fi, b in areas.items()]})
+        return out
+
     @api.get("/api/layout")
     def layout(map: str = "") -> dict[str, Any]:
-        """The current (or named) map's floors and room boxes, plus where the player is."""
-        if map:
-            m = app.knowledge.find_map(map)
-            mid = next((k for k, v in app.knowledge.maps.items() if v is m), None) if m else None
-        else:
-            mid = app.map_id()
+        """The current (or named) map's floors and room boxes, plus where the player is, the sites,
+        stairs, hatches and windows, and what lies off each edge of the images."""
+        mid = map_id_for(map)
         lay = app.layouts.get(mid)
         if not lay:
             return {"map": mid, "floors": []}
         floors = [{"floor": f["floor"], "size": f.get("size"), "rooms": f.get("rooms") or {},
                    "url": f"/api/blueprint/{mid}/{f['image']}" if app.layouts.image_path(mid, f["image"]) else None}
                   for f in lay["floors"]]
-        return {"map": mid, "floors": floors,
-                "you": app.layouts.locate(mid, app.watcher.state.my_location)}
+        you = app.layouts.locate(mid, app.watcher.state.my_location)
+        if you:
+            you["fi"] = app.layouts.floor_index(mid, you["floor"], (you["room"],))
+        return {"map": mid, "name": (app.knowledge.maps.get(mid) or {}).get("name", mid), "floors": floors,
+                "you": you, "sides": app.layouts.sides(mid), "features": app.layouts.features(mid),
+                "sites": site_areas(mid)}
+
+    # ------------------------------------------------------------------ setup briefs
+    def shot_url(mid: str, slot: str) -> Any:
+        p = app.setups.shot_path(mid, slot)
+        return f"/api/setups/{mid}/shot/{slot}?v={int(p.stat().st_mtime)}" if p else None
+
+    def brief_out(mid: str, b: dict[str, Any]) -> dict[str, Any]:
+        from ..setups import KINDS, describe
+        places = []
+        for i, p in enumerate(b["placements"], 1):
+            slot = f"{b['id']}-{i}"
+            places.append({"n": i, "kind": p["kind"], "team": KINDS[p["kind"]], "floor": p["floor"],
+                           "what": describe(p), "note": p.get("note", ""), "slot": slot,
+                           "shot": shot_url(mid, slot), "marks": app.setups.marks(mid, slot),
+                           "pos": app.layouts.resolve(mid, p)})
+        return {"id": b["id"], "site": b["site"], "side": b["side"], "operators": b["operators"],
+                "title": b["title"], "text": b["text"].strip(), "placements": places}
+
+    @api.get("/api/setups")
+    def setups(map: str = "", site: str = "", side: str = "", operator: str = "") -> dict[str, Any]:
+        """Setup briefs for the current situation (or the one named): map, site, side, operator.
+        Without a known site, briefs for every site the screen offered, then all of the map's."""
+        st = app.watcher.state
+        mid = map_id_for(map)
+        mdata = app.knowledge.maps.get(mid or "")
+        side = side or (st.side if not map else "") or ""
+        operator = operator or (st.my_operator if not map else "") or ""
+        site_ids: list[str] = []
+        names = [site] if site else ([st.site] if st.site else list(st.site_options)) if not map else []
+        for name in names:
+            s = next((x for x in (mdata or {}).get("sites") or [] if x.get("id") == name), None) \
+                or app.knowledge.find_site(mdata, name)
+            if s and s.get("id") not in site_ids:
+                site_ids.append(s["id"])
+        briefs = app.setups.pick(mid, site_ids or None, side or None, operator or None)
+        return {"map": mid, "site": site_ids[0] if len(site_ids) == 1 else None, "sites": site_ids,
+                "side": side or None, "operator": operator or None,
+                "site_names": {s.get("id"): s.get("name") for s in (mdata or {}).get("sites") or []},
+                "briefs": [brief_out(mid, b) for b in briefs]}
+
+    @api.get("/api/setups/{map_id}/shot/{slot}")
+    def setup_shot(map_id: str, slot: str) -> FileResponse:
+        p = app.setups.shot_path(map_id, slot)
+        if p is None:
+            raise HTTPException(404)
+        return FileResponse(p, headers={"Cache-Control": "max-age=86400"})
+
+    @api.put("/api/setups/{map_id}/shot/{slot}")
+    async def put_setup_shot(map_id: str, slot: str, request: Request) -> dict[str, Any]:
+        """Save the player's own picture for one placement (the raw image is the request body)."""
+        if not app.setups.slot_ok(map_id, slot):
+            raise HTTPException(404, "no such picture slot")
+        data = await request.body()
+        ext = image_ext(data)
+        if ext is None or len(data) > MAX_SHOT:
+            raise HTTPException(415, "send a JPEG, PNG or WebP image under 10 MB")
+        app.setups.save_shot(map_id, slot, data, ext)
+        return {"shot": shot_url(map_id, slot)}
+
+    @api.post("/api/setups/{map_id}/shot/{slot}/frame")
+    def frame_to_shot(map_id: str, slot: str, body: dict[str, str] = Body(...)) -> dict[str, Any]:
+        """Use one of the player's saved game frames as the picture for a placement."""
+        if not app.setups.slot_ok(map_id, slot):
+            raise HTTPException(404, "no such picture slot")
+        src = saved_frame(body.get("frame", ""))
+        if src is None:
+            raise HTTPException(404, "no such frame")
+        app.setups.save_shot(map_id, slot, src.read_bytes(), ".jpg")
+        return {"shot": shot_url(map_id, slot)}
+
+    @api.post("/api/setups/{map_id}/shot/{slot}/grab")
+    def grab_to_shot(map_id: str, slot: str) -> dict[str, Any]:
+        """Use what's on the game screen right now as the picture (stand where the gadget goes)."""
+        if not app.setups.slot_ok(map_id, slot):
+            raise HTTPException(404, "no such picture slot")
+        jpeg = app.watcher.current_jpeg()
+        if not jpeg:
+            raise HTTPException(409, "no game frame yet: is Siege running and being captured?")
+        app.setups.save_shot(map_id, slot, jpeg, ".jpg")
+        return {"shot": shot_url(map_id, slot)}
+
+    @api.put("/api/setups/{map_id}/shot/{slot}/marks")
+    def put_marks(map_id: str, slot: str, body: Any = Body(...)) -> dict[str, Any]:
+        """Markers on the picture: circles, arrows or boxes where the utility goes."""
+        from ..setups import SetupError
+        if app.setups.shot_path(map_id, slot) is None:
+            raise HTTPException(404, "add a picture first")
+        try:
+            return {"marks": app.setups.save_marks(map_id, slot, body.get("marks") if isinstance(body, dict) else body)}
+        except SetupError as e:
+            raise HTTPException(422, str(e))
+
+    @api.delete("/api/setups/{map_id}/shot/{slot}")
+    def delete_setup_shot(map_id: str, slot: str) -> dict[str, Any]:
+        if not app.setups.slot_ok(map_id, slot):
+            raise HTTPException(404, "no such picture slot")
+        app.setups.clear_shot(map_id, slot)
+        return {"shot": None}
+
+    # ------------------------------------------------------------------ saved frames
+    frames_root = app.cfg.storage.path() / "frames"
+
+    def saved_frame(ref: str) -> Any:
+        m = FRAME_RE.match(ref or "")
+        if not m:
+            return None
+        p = frames_root / m.group(1) / (m.group(2) + ".jpg")
+        return p if p.is_file() else None
+
+    @api.get("/api/frames")
+    def frames(map: str = "", limit: int = 60) -> list[dict[str, Any]]:
+        """The player's saved game frames, newest first; with map, only frames read on that map."""
+        mid = map_id_for(map) if map else None
+        out: list[dict[str, Any]] = []
+        if not frames_root.is_dir():
+            return out
+        limit = max(1, min(limit, 200))
+        for day in sorted((d for d in frames_root.iterdir() if d.is_dir()), reverse=True):
+            rows = []
+            match_map: dict[str, str] = {}      # most reads don't name the map; the match's other reads do
+            for j in sorted(day.glob("*.json"), reverse=True):
+                if not (day / (j.stem + ".jpg")).is_file():
+                    continue
+                try:
+                    with open(j, encoding="utf-8") as f:
+                        doc = json.load(f) or {}
+                except (OSError, ValueError):
+                    continue
+                read = doc.get("read") or {}
+                if read.get("map") and doc.get("match_id"):
+                    match_map.setdefault(doc["match_id"], read["map"])
+                rows.append((j.stem, read, doc.get("match_id")))
+            for stem, read, match in rows:
+                if read.get("screen") in FRAME_SKIP:
+                    continue
+                name = read.get("map") or match_map.get(match or "")
+                if mid and (not name or map_id_for(name) != mid):
+                    continue
+                ref = f"{day.name}/{stem}"
+                out.append({"frame": ref, "url": f"/api/frames/{ref}.jpg", "screen": read.get("screen"),
+                            "map": name, "where": read.get("my_location")})
+                if len(out) >= limit:
+                    return out
+        return out
+
+    @api.get("/api/frames/{day}/{stem}.jpg")
+    def frame_file(day: str, stem: str) -> FileResponse:
+        p = saved_frame(f"{day}/{stem}")
+        if p is None:
+            raise HTTPException(404)
+        return FileResponse(p, media_type="image/jpeg", headers={"Cache-Control": "max-age=86400"})
 
     @api.get("/api/blueprint/{map_id}/{image}")
     def blueprint(map_id: str, image: str) -> Response:

@@ -3,6 +3,20 @@
 Layouts (r6coach/knowledge/data/layout/<map>.yaml, made by tools/locate_rooms.py) hold, per floor,
 the blueprint image name and each room's box in percentages of the image. The images themselves
 are Ubisoft's and stay in data/maps/<map>/ (git-ignored, personal use).
+
+Optional orientation data, added by hand:
+
+    sides: {top: "Lakeside", bottom: "Front Yard", left: "Cliffside", right: "Campfire"}
+    floors:
+      - floor: 2F
+        features:                       # fixed map furniture, points in % of the image
+          - {kind: stairs, name: "Library Stairs", at: [64.5, 64.0]}
+          - {kind: hatch, name: "Library hatch", at: [35.5, 77.0]}
+          - {kind: window, name: "Big Window", at: [58.0, 60.0]}
+          - {kind: door, name: "Main Entrance", at: [50.0, 95.0]}
+          - {kind: label, name: "Lakeside", at: [80.0, 10.0]}   # an outside area
+
+`sides` says what lies beyond each edge of the images (all floors of a map share an orientation).
 """
 
 from __future__ import annotations
@@ -15,6 +29,36 @@ import yaml
 
 FLOOR_PREFIXES = ("B", "1F", "2F", "3F", "EXT", "ROOF")
 _PREFIX_RE = re.compile(r"^(B|1F|2F|3F|EXT|ROOF)\s+(.*)$", re.I)
+FEATURE_KINDS = ("stairs", "hatch", "window", "door", "label")
+EDGES = ("top", "bottom", "left", "right")
+
+
+def _box_centre(b: list[float]) -> tuple[float, float]:
+    return ((b[0] + b[2]) / 2, (b[1] + b[3]) / 2)
+
+
+def wall_point(a: list[float], b: list[float]) -> tuple[float, float]:
+    """Middle of the wall between two room boxes: the centre of their overlap when the boxes touch
+    or overlap a little; otherwise the middle of the gap between them."""
+    x0, x1 = max(a[0], b[0]), min(a[2], b[2])
+    y0, y1 = max(a[1], b[1]), min(a[3], b[3])
+    if x0 <= x1 and y0 <= y1:                       # boxes overlap
+        return ((x0 + x1) / 2, (y0 + y1) / 2)
+    if x0 <= x1:                                    # stacked: shared x span, gap in y
+        return ((x0 + x1) / 2, (y0 + y1) / 2)
+    if y0 <= y1:                                    # side by side: shared y span, gap in x
+        return ((x0 + x1) / 2, (y0 + y1) / 2)
+    ca, cb = _box_centre(a), _box_centre(b)          # diagonal neighbours
+    return ((ca[0] + cb[0]) / 2, (ca[1] + cb[1]) / 2)
+
+
+def edge_point(box: list[float], edge: Optional[str]) -> tuple[float, float]:
+    """Middle of one side of a room box; without an edge, the side nearest the image border."""
+    if edge not in EDGES:
+        dist = {"left": box[0], "top": box[1], "right": 100 - box[2], "bottom": 100 - box[3]}
+        edge = min(dist, key=dist.get)
+    cx, cy = _box_centre(box)
+    return {"top": (cx, box[1]), "bottom": (cx, box[3]), "left": (box[0], cy), "right": (box[2], cy)}[edge]
 
 
 class MapLayouts:
@@ -92,6 +136,64 @@ class MapLayouts:
                 seen.add((floor, room))
                 out.append({"floor": floor, "room": room})
         return out
+
+    # ------------------------------------------------------------------ positions
+    def floor_index(self, map_id: Optional[str], floor: str, rooms: tuple[str, ...] = ()) -> Optional[int]:
+        """Which image a floor name means. Some maps have two images with the same floor name; the
+        one holding the named rooms wins."""
+        lay = self.get(map_id)
+        if not lay:
+            return None
+        cands = [i for i, f in enumerate(lay["floors"]) if f["floor"].upper() == str(floor).upper()]
+        for i in cands:
+            have = lay["floors"][i].get("rooms") or {}
+            if rooms and all(r in have for r in rooms):
+                return i
+        return cands[0] if cands else None
+
+    def resolve(self, map_id: Optional[str], place: dict[str, Any]) -> Optional[dict[str, Any]]:
+        """Where a placement or feature goes: {'fi': image index, 'floor', 'x', 'y'} in % of the
+        image, or None when it can't be placed (unknown floor or room)."""
+        named = tuple(r for r in (place.get("between") or []) if str(r).lower() != "exterior")
+        if place.get("room"):
+            named = (place["room"],)
+        fi = self.floor_index(map_id, place.get("floor", ""), named)
+        if fi is None:
+            return None
+        rooms = self.layouts[map_id]["floors"][fi].get("rooms") or {}
+        pt: Optional[tuple[float, float]] = None
+        if place.get("at"):
+            pt = (float(place["at"][0]), float(place["at"][1]))
+        elif place.get("between"):
+            a, b = place["between"]
+            if a in rooms and str(b).lower() == "exterior":
+                pt = edge_point(rooms[a]["box"], place.get("edge"))
+            elif a in rooms and b in rooms:
+                pt = wall_point(rooms[a]["box"], rooms[b]["box"])
+        elif place.get("room") in rooms:
+            pt = _box_centre(rooms[place["room"]]["box"])
+        if pt is None:
+            return None
+        dx, dy = place.get("nudge") or (0, 0)
+        x = min(100.0, max(0.0, pt[0] + dx))
+        y = min(100.0, max(0.0, pt[1] + dy))
+        return {"fi": fi, "floor": self.layouts[map_id]["floors"][fi]["floor"], "x": round(x, 2), "y": round(y, 2)}
+
+    def features(self, map_id: Optional[str]) -> list[dict[str, Any]]:
+        """Stairs, hatches, windows, doors and outside labels from the layout, placed."""
+        lay = self.get(map_id)
+        out = []
+        for fi, fl in enumerate((lay or {}).get("floors") or []):
+            for feat in fl.get("features") or []:
+                at = feat.get("at")
+                if feat.get("kind") in FEATURE_KINDS and isinstance(at, list) and len(at) == 2:
+                    out.append({"fi": fi, "floor": fl["floor"], "kind": feat["kind"], "name": feat.get("name", ""),
+                                "x": float(at[0]), "y": float(at[1])})
+        return out
+
+    def sides(self, map_id: Optional[str]) -> dict[str, str]:
+        s = (self.get(map_id) or {}).get("sides") or {}
+        return {k: str(v) for k, v in s.items() if k in EDGES and v}
 
     def locate(self, map_id: Optional[str], location: Optional[str]) -> Optional[dict[str, str]]:
         """The player's HUD room ('2F Office', 'EXT Campfire') on the layout."""

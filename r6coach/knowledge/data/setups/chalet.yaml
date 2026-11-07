@@ -1,0 +1,488 @@
+map: chalet
+briefs:
+  # ------------------------------------------------------------------ 2F Master Bedroom / 2F Office
+  - id: chalet-office-team-reinforce
+    site: master_bedroom_office
+    side: defense
+    operators: []
+    title: "Double the Library wall, keep the Library hatch open"
+    text: >-
+      Reinforce both Office-Library panels first, then the Closet walls facing the Bathroom windows and the
+      Ivy hallway panel next to the head holes. Leave the Library hatch open and the Ivy holes soft for
+      rotates and vertical on Library.
+    placements:
+      - kind: reinforce
+        floor: 2F
+        between: [Office, Library]
+        nudge: [0, -2.5]
+        note: "Both panels; this is the wall attackers want"
+      - kind: reinforce
+        floor: 2F
+        between: [Master Bathroom, Office]
+        note: "Closet walls facing the Bathroom windows (usually two)"
+      - kind: reinforce
+        floor: 2F
+        between: [Bedroom Hallway, Master Bedroom]
+        nudge: [-3.0, 0]
+        note: "Ivy hallway panel beside the head holes"
+      - kind: open
+        floor: 2F
+        at: [35.3, 77.5]
+        name: "Library hatch"
+        note: "Leave open: vertical onto Gaming and a fast drop out of Library"
+      - kind: open
+        floor: 2F
+        between: [Bedroom Hallway, Master Bedroom]
+        nudge: [1.5, 0]
+        note: "Ivy head holes for the hallway crossfire"
+  - id: chalet-office-kaid-library-wall
+    site: master_bedroom_office
+    side: defense
+    operators: [Kaid]
+    title: "Claw the Office-Library wall"
+    text: >-
+      Once both Office-Library panels are up, claw the lower one from the Office side so Thermite or Hibana
+      can't open it. Then play the Half Wall in Master and keep your second claw for a hatch or the Closet wall.
+    placements:
+      - kind: reinforce
+        floor: 2F
+        between: [Office, Library]
+        nudge: [0, -2.5]
+        note: "Both panels"
+      - kind: kaid
+        floor: 2F
+        between: [Office, Library]
+        nudge: [1.2, 1.5]
+        note: "Low on the Office side"
+      - kind: anchor
+        floor: 2F
+        between: [Office, Master Bedroom]
+        note: "Half Wall: hold Office and the breach"
+  - id: chalet-office-library-contest
+    site: master_bedroom_office
+    side: defense
+    operators: []
+    title: "Contest Library, leave by 1:15"
+    text: >-
+      One roamer contests Library early and gets out through Piano by about 1:15-1:30, sealing it behind with
+      utility; the anchor holds Office behind the desk and lances Library through the wall when it opens.
+    placements:
+      - kind: anchor
+        floor: 2F
+        room: Library
+        note: "Early contest, out by 1:15-1:30"
+      - kind: anchor
+        floor: 2F
+        room: Office
+        nudge: [0, 4.0]
+        note: "Behind the desk, watching the Library wall"
+      - kind: trap
+        floor: 2F
+        at: [33.8, 80.0]
+        name: "Library windows"
+        note: "Lasers or traps on the rappel windows (Denari, Thorn)"
+  - id: chalet-office-attack-library-wall
+    site: master_bedroom_office
+    side: attack
+    operators: [Hibana, Thermite, Thatcher]
+    title: "Take Library, open the Office wall"
+    text: >-
+      Rappel into Library, clear it, and have Thatcher or Kali clear the claw before Hibana or Thermite opens
+      the Office-Library wall from the Library side. Plant behind the Office desk and hold from the breach.
+    placements:
+      - kind: entry
+        floor: 2F
+        at: [33.8, 80.0]
+        name: "Library windows"
+        note: "Rappel in; drone Library first in prep"
+      - kind: hibana
+        floor: 2F
+        between: [Office, Library]
+        nudge: [-1.2, 0]
+        note: "From the Library side, after the claw is cleared"
+      - kind: plant
+        floor: 2F
+        room: Office
+        nudge: [0, 3.0]
+        note: "Behind the desk"
+  - id: chalet-office-attack-vertical
+    site: master_bedroom_office
+    side: attack
+    operators: [Buck, Ace]
+    title: "Clear the Half Wall and the Closet"
+    text: >-
+      While Library falls, clear the Half Wall: Buck from below or utility from Ivy. Ace can open the Closet
+      wall into Master. Plant in the Master corner once Piano and the Ivy holes are cleared.
+    placements:
+      - kind: ace
+        floor: 2F
+        between: [Master Bathroom, Office]
+        nudge: [0, 1.0]
+        note: "Closet wall into Master (if it is left soft or for the second wall)"
+      - kind: drone
+        floor: 2F
+        room: Bedroom Hallway
+        note: "Drone Ivy holes and the Half Wall"
+      - kind: plant
+        floor: 2F
+        room: Master Bedroom
+        note: "Master corner after the Half Wall is cleared"
+
+  # ------------------------------------------------------------------ 1F Bar / 1F Gaming Room
+  - id: chalet-bar-team-reinforce
+    site: bar_gaming_room
+    side: defense
+    operators: []
+    title: "Seal both hatches and the Gaming wall"
+    text: >-
+      Reinforce the Library hatch over Gaming and the Bathroom hatch over Bar, then both Gaming exterior
+      panels and the Bar to Fireplace wall. Keep the Bar to Gaming door open as your rotate.
+    placements:
+      - kind: hatch
+        floor: 2F
+        at: [35.3, 77.5]
+        name: "Library hatch"
+        note: "Over Gaming; Buck and Hibana play it"
+      - kind: hatch
+        floor: 2F
+        at: [45.5, 70.5]
+        name: "Bathroom hatch"
+        note: "Over Bar"
+      - kind: reinforce
+        floor: 1F
+        between: [Gaming Room, exterior]
+        edge: left
+        note: "Both Gaming exterior panels"
+      - kind: reinforce
+        floor: 1F
+        between: [Bar, Fireplace]
+        note: "Both panels"
+      - kind: rotate
+        floor: 1F
+        between: [Gaming Room, Bar]
+        note: "Bar to Gaming stays open"
+  - id: chalet-bar-mira-gaming
+    site: bar_gaming_room
+    side: defense
+    operators: [Mira]
+    title: "Mira from Bar onto Gaming"
+    text: >-
+      Reinforce the Bar to Gaming wall and put a Mira in it so the Bar anchor can see Gaming and the deep
+      corner plant. Expect Hibana to spend pellets on it from the Library side.
+    placements:
+      - kind: reinforce
+        floor: 1F
+        between: [Gaming Room, Bar]
+        nudge: [0, -3.0]
+        note: "Usually the panel next to the door"
+      - kind: mira
+        floor: 1F
+        between: [Gaming Room, Bar]
+        nudge: [0.8, 3.0]
+        note: "Face it into Gaming"
+      - kind: anchor
+        floor: 1F
+        room: Bar
+        nudge: [1.5, 3.0]
+        note: "Deep Bar behind the counter"
+  - id: chalet-bar-castle-hallway
+    site: bar_gaming_room
+    side: defense
+    operators: [Castle, Mute]
+    title: "Block the hallway doors"
+    text: >-
+      Castle the Bar door off the Gaming hallway and the Gaming window side doors so attackers have to break
+      utility to walk in; Mute or Goyo cover the two Gaming entries.
+    placements:
+      - kind: castle
+        floor: 1F
+        between: [Gaming Room Hallway, Bar]
+        note: "Bar door from the hallway"
+      - kind: castle
+        floor: 1F
+        between: [Gaming Room Hallway, Gaming Room]
+        nudge: [0, 3.0]
+        note: "Usually the hallway door toward Gaming"
+      - kind: trap
+        floor: 1F
+        room: Gaming Room
+        note: "Jammer or Volcan covering the window entry"
+  - id: chalet-bar-attack-gaming-wall
+    site: bar_gaming_room
+    side: attack
+    operators: [Thermite, Hibana]
+    title: "Open the Gaming exterior wall"
+    text: >-
+      With Library and Mezzanine won, Thermite or Hibana opens the Gaming exterior wall while a teammate
+      pressures the Gaming window. Plant deep in the Gaming corner and hold from outside.
+    placements:
+      - kind: drone
+        floor: 2F
+        room: Library
+        note: "Drone Library and Mezzanine in prep"
+      - kind: thermite
+        floor: 1F
+        between: [Gaming Room, exterior]
+        edge: left
+        note: "Gaming exterior wall"
+      - kind: entry
+        floor: 1F
+        between: [Gaming Room, exterior]
+        edge: bottom
+        note: "Games window pressure"
+      - kind: plant
+        floor: 1F
+        at: [36.5, 87.0]
+        name: "Deep Gaming corner"
+        note: "Deep corner past the vault-up"
+  - id: chalet-bar-attack-vertical
+    site: bar_gaming_room
+    side: attack
+    operators: [Buck, Hibana]
+    title: "Vertical from Library and Office"
+    text: >-
+      From 2F, Hibana or Buck opens the Library hatch and the floor over Bar to shoot down into the deep
+      spots. Set cut-off cams at Piano and bottom Trophy before you commit.
+    placements:
+      - kind: hibana
+        floor: 2F
+        at: [35.3, 77.5]
+        name: "Library hatch"
+        note: "Open it to play Gaming from above"
+      - kind: breach
+        floor: 2F
+        at: [45.5, 70.5]
+        name: "Bathroom hatch"
+        note: "Buck or a hatch breach over Bar"
+      - kind: plant
+        floor: 1F
+        between: [Gaming Room, Bar]
+        nudge: [-2.0, 0]
+        note: "Gaming wall plant"
+
+  # ------------------------------------------------------------------ 1F Kitchen / 1F Dining Room
+  - id: chalet-kitchen-bandit-fireplace
+    site: kitchen_dining_room
+    side: defense
+    operators: [Bandit]
+    title: "Trick the Dining-Fireplace wall"
+    text: >-
+      Reinforce both Dining-Fireplace panels and trick them with batteries. Kali will lance batteries before
+      Hibana opens it, so keep one battery in hand to replace them late.
+    placements:
+      - kind: reinforce
+        floor: 1F
+        between: [Dining Room, Fireplace]
+        nudge: [-1.5, 0]
+        note: "Both panels"
+      - kind: bandit
+        floor: 1F
+        between: [Dining Room, Fireplace]
+        nudge: [1.0, -1.5]
+        note: "Batteries on both panels, from the Dining side"
+  - id: chalet-kitchen-team-reinforce
+    site: kitchen_dining_room
+    side: defense
+    operators: []
+    title: "Fireplace wall, Trophy wall, Kitchen hatch soft"
+    text: >-
+      Reinforce the Dining-Fireplace panels, the third wall in the row and the Trophy wall, and leave head
+      holes on them. Keep the Kitchen hatch soft and never open it early; play 2F Office for vertical.
+    placements:
+      - kind: reinforce
+        floor: 1F
+        between: [Dining Room, Fireplace]
+        nudge: [-1.5, 0]
+        note: "Panels one and two"
+      - kind: reinforce
+        floor: 1F
+        between: [Kitchen, Dining Room]
+        note: "Kitchen-Dining wall (usually one of the 'two Dining walls')"
+      - kind: open
+        floor: 1F
+        between: [Dining Room, Fireplace]
+        nudge: [2.0, 0]
+        note: "Feet and head holes on the soft panel"
+      - kind: anchor
+        floor: 2F
+        room: Piano Room
+        note: "Play above for vertical on the dining-table plant"
+  - id: chalet-kitchen-smoke-rotate
+    site: kitchen_dining_room
+    side: defense
+    operators: [Smoke]
+    title: "Shield the second rotate, gas late"
+    text: >-
+      Put your shield on the second rotate into Kitchen and gas the dining-table plant late from there. Don't
+      burn gas early on the Fireplace wall.
+    placements:
+      - kind: deployable
+        floor: 1F
+        between: [Kitchen, Dining Room]
+        nudge: [1.5, 0.5]
+        note: "Second rotate"
+      - kind: anchor
+        floor: 1F
+        room: Kitchen
+        note: "Kitchen counters"
+  - id: chalet-kitchen-attack-fireplace-wall
+    site: kitchen_dining_room
+    side: attack
+    operators: [Hibana, Kali, Buck]
+    title: "Open the Fireplace wall last"
+    text: >-
+      Take Lobby, Library and top Mezzanine and play 2F vertical first. Kali lances the batteries, then Hibana
+      opens the Fireplace wall from the Fireplace side. Plant by the dining table.
+    placements:
+      - kind: drone
+        floor: 1F
+        room: Fireplace
+        note: "Drone the wall and Trophy"
+      - kind: hibana
+        floor: 1F
+        between: [Dining Room, Fireplace]
+        nudge: [0, 1.5]
+        note: "After the batteries are lanced"
+      - kind: plant
+        floor: 1F
+        room: Dining Room
+        note: "By the dining table"
+  - id: chalet-kitchen-attack-hatch
+    site: kitchen_dining_room
+    side: attack
+    operators: [Ace, Ying]
+    title: "Drop the Kitchen hatch"
+    text: >-
+      Clear Solarium and the bedroom over Kitchen, then Ace opens the Kitchen hatch (or Ying drops it) to
+      clear Kitchen from above. Plant in Kitchen if they collapse on Dining.
+    placements:
+      - kind: ace
+        floor: 2F
+        at: [65.5, 37.5]
+        name: "Kitchen hatch"
+        note: "Over Kitchen"
+      - kind: plant
+        floor: 1F
+        room: Kitchen
+        note: "Kitchen plant after the drop"
+
+  # ------------------------------------------------------------------ B Wine Cellar / B Snowmobile Garage
+  - id: chalet-basement-bandit-snowmobile
+    site: wine_cellar_snowmobile_garage
+    side: defense
+    operators: [Bandit]
+    title: "Trick the Snowmobile exterior wall"
+    text: >-
+      Reinforce both Snowmobile exterior panels and trick them. Thatcher and Thermite come together here, so
+      wait for the EMP and reset batteries if you can.
+    placements:
+      - kind: reinforce
+        floor: B
+        between: [Snowmobile Garage, exterior]
+        edge: bottom
+        note: "Both panels"
+      - kind: bandit
+        floor: B
+        between: [Snowmobile Garage, exterior]
+        edge: bottom
+        nudge: [1.5, -1.5]
+        note: "From inside the garage"
+  - id: chalet-basement-mira-wine
+    site: wine_cellar_snowmobile_garage
+    side: defense
+    operators: [Mira]
+    title: "Mira the Wine-Snowmobile wall"
+    text: >-
+      Reinforce both Wine-Snowmobile panels and window one so the Wine Cellar anchor can shoot the
+      Snowmobile planter. A second window toward Main Stairs or Blue is optional.
+    placements:
+      - kind: reinforce
+        floor: B
+        between: [Wine Cellar, Snowmobile Garage]
+        nudge: [0, -1.5]
+        note: "Both panels"
+      - kind: mira
+        floor: B
+        between: [Wine Cellar, Snowmobile Garage]
+        nudge: [0.8, 1.5]
+        note: "Facing into Snowmobile"
+      - kind: anchor
+        floor: B
+        room: Wine Cellar
+        note: "Behind the Mira window"
+  - id: chalet-basement-team-reinforce
+    site: wine_cellar_snowmobile_garage
+    side: defense
+    operators: []
+    title: "Hatch, Snowmobile walls, one door open"
+    text: >-
+      Reinforce the hatch over the basement next to Snowmobile, both Snowmobile walls and the Stock wall at the
+      bottom of the Main Stairs. Leave one basement corridor door and the Wine to Wine Stock path open to rotate.
+    placements:
+      - kind: hatch
+        floor: 1F
+        at: [59.9, 85.3]
+        name: "Fireplace hatch"
+        note: "Over the basement; guides also reinforce the Dining and Connector hatches"
+      - kind: reinforce
+        floor: B
+        between: [Snowmobile Garage, exterior]
+        edge: bottom
+        nudge: [-2.0, 0]
+        note: "Exterior wall"
+      - kind: reinforce
+        floor: B
+        between: [Wine Cellar, Snowmobile Garage]
+        nudge: [0, -1.5]
+        note: "Wine side"
+      - kind: rotate
+        floor: B
+        between: [Wine Cellar, Wine Stock]
+        note: "Keep this path open"
+  - id: chalet-basement-attack-snowmobile-wall
+    site: wine_cellar_snowmobile_garage
+    side: attack
+    operators: [Thermite, Thatcher, Osa]
+    title: "EMP and burn the Snowmobile wall"
+    text: >-
+      Drone the garage-door window for a Vigil pick first. Thatcher EMPs the batteries and Thermite opens the
+      Snowmobile exterior wall; Osa shields the breach and the plant behind the snowmobiles.
+    placements:
+      - kind: drone
+        floor: B
+        between: [Snowmobile Garage, exterior]
+        edge: left
+        note: "Garage-door window side"
+      - kind: thermite
+        floor: B
+        between: [Snowmobile Garage, exterior]
+        edge: bottom
+        nudge: [1.5, 0]
+        note: "Exterior wall, after the EMP"
+      - kind: plant
+        floor: B
+        room: Snowmobile Garage
+        nudge: [0, 4.0]
+        note: "Behind the snowmobiles, Osa shield facing Wine"
+  - id: chalet-basement-attack-vertical
+    site: wine_cellar_snowmobile_garage
+    side: attack
+    operators: [Hibana, Buck, Fuze]
+    title: "Win 1F and play down"
+    text: >-
+      Take Fireplace and the 1F rooms above site, then open the hatch over the basement and play vertical on
+      Wine. Fuze from the Fireplace floor into Wine Cellar is a common idea but unverified; drone first.
+    placements:
+      - kind: hibana
+        floor: 1F
+        at: [59.9, 85.3]
+        name: "Fireplace hatch"
+        note: "Open the hatch over the basement"
+      - kind: drone
+        floor: B
+        room: Wine Cellar
+        note: "Find the Mira anchor"
+      - kind: plant
+        floor: B
+        room: Wine Cellar
+        note: "Wine Cellar once the Mira is cleared"

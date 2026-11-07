@@ -124,6 +124,34 @@ def test_own_operator_is_not_a_teammate(bus):
     assert w.state.teammate_operators == ["Rauora", "Fuze", "Buck", "Deimos"]
 
 
+def test_pick_screen_after_a_stray_frame_is_the_same_round(bus):
+    w = make_watcher(bus)
+    w.apply(ScreenRead(screen=Screen.main_menu, confidence=0.9))
+    w.apply(ScreenRead(screen=Screen.operator_select, side="attack", round_number=7, confidence=0.9))
+    w.apply(ScreenRead(screen=Screen.operator_select, my_operator="Thermite", confidence=0.9))
+    # One misread frame between two pick screens (seen live in rounds 7 and 8).
+    w.apply(ScreenRead(screen=Screen.other, confidence=0.9))
+    w.apply(ScreenRead(screen=Screen.operator_select, side="attack", confidence=0.9))
+    assert w.state.round_number == 7 and w.state.my_operator == "Thermite"
+    # Round 7 was overtime's first round (attack, the first side): round 8 is defense.
+    w.apply(ScreenRead(screen=Screen.action_phase, confidence=0.9))
+    w.apply(ScreenRead(screen=Screen.round_end, confidence=0.9))
+    w.apply(ScreenRead(screen=Screen.operator_ban, confidence=0.9))
+    assert w.state.round_number == 8 and w.state.side == "defense"
+
+
+def test_round_count_follows_the_score(bus):
+    w = make_watcher(bus)
+    # Started mid-match (a restart): the count says round 1, the score says round 4.
+    w.apply(ScreenRead(screen=Screen.operator_ban, confidence=0.9))
+    w.apply(ScreenRead(screen=Screen.operator_select, side="defense", score_us=2, score_them=1, confidence=0.9))
+    assert w.state.round_number == 4
+    w.apply(ScreenRead(screen=Screen.prep_phase, confidence=0.9))
+    w.apply(ScreenRead(screen=Screen.round_end, confidence=0.9))
+    w.apply(ScreenRead(screen=Screen.operator_ban, confidence=0.9))
+    assert w.state.round_number == 5 and w.state.side == "defense"
+
+
 def test_low_confidence_reads_are_ignored(bus):
     w = make_watcher(bus)
     w.apply(ScreenRead(screen=Screen.operator_select, map="Bank", confidence=0.1))

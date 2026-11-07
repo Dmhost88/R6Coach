@@ -1,13 +1,17 @@
 map: bank
 source: Room boxes located by Claude on Ubisoft's official blueprints (grid percentages, x left->right, y top->bottom). Check against data/maps/<map>/preview/.
+sides: {top: "Boulevard", bottom: "Back Alley (Garage Ramp, Terrace)", right: "Jewelry Front (Sewer)"}
 floors:
 - floor: 1F
   image: r6-maps-bank-blueprint-1.jpg
   size:
   - 1600
   - 900
-  notes: 'Moderately sure this is the ground floor (1F), despite being image 1 of 4: the front columns, grand curved staircase, lobby and street-level
-    exterior suggest it. The room placements are rough guesses because the layout differs from my memory of Bank.'
+  notes: 'Ground floor (1F): front colonnade, ATMs vestibule, Lobby with the grand stairs and the curved bulletproof Tellers counter. Floor
+    hatches line up with the hatches on 2F (Stock, Janitor) and the rooms in B (Lobby hatch over Vault, Square hatch over Server, Admin hatch
+    over CCTV). 2026-11-06: names of three boxes fixed from that hatch evidence: the shelved room by the Square is Archives (was Staff Room),
+    the small room with the Admin hatch is Admin Office (was Archives), the big room with the kitchen counters is Staff Room (was Admin
+    Office). Outside areas moved here from image 2.'
   rooms:
     ATMs:
       box:
@@ -71,14 +75,14 @@ floors:
       - 60.0
       - 62.0
       - 78.0
-      confidence: 0.25
-    Admin Office:
+      confidence: 0.4
+    Staff Room:
       box:
       - 62.0
       - 60.0
       - 73.0
       - 73.0
-      confidence: 0.25
+      confidence: 0.45
     Printer Room:
       box:
       - 62.0
@@ -86,27 +90,27 @@ floors:
       - 68.0
       - 78.0
       confidence: 0.2
-    Staff Room:
+    Archives:
       box:
       - 55.0
       - 36.0
       - 63.0
       - 54.0
-      confidence: 0.2
-    Archives:
+      confidence: 0.45
+    Admin Office:
       box:
       - 55.0
       - 54.0
       - 62.0
       - 60.0
-      confidence: 0.15
+      confidence: 0.4
     Skylight Stairwell:
       box:
       - 63.0
       - 36.0
       - 72.0
       - 54.0
-      confidence: 0.2
+      confidence: 0.5
     Electrical Room:
       box:
       - 70.0
@@ -114,112 +118,13 @@ floors:
       - 76.0
       - 60.0
       confidence: 0.15
-- floor: 1F
-  image: r6-maps-bank-blueprint-2.jpg
-  size:
-  - 1600
-  - 900
-  notes: Image 2 of 4 for Bank (Basement, Ground, 1st, Roof) with streets and parking shown, so this is the ground floor (1F); interior room placements
-    are rough guesses.
-  rooms:
-    Lobby:
-      box:
-      - 30.0
-      - 20.0
-      - 50.0
-      - 60.0
-      confidence: 0.5
-    Main Stairs:
-      box:
-      - 35.0
-      - 36.0
-      - 41.0
-      - 56.0
-      confidence: 0.4
     Main Entrance:
       box:
       - 34.0
       - 15.0
       - 45.0
       - 20.0
-      confidence: 0.5
-    Loan Office:
-      box:
-      - 30.0
-      - 61.0
-      - 39.0
-      - 69.0
-      confidence: 0.25
-    Office Hallway:
-      box:
-      - 40.0
-      - 37.0
-      - 49.0
-      - 63.0
-      confidence: 0.25
-    Tellers:
-      box:
-      - 49.0
-      - 38.0
-      - 56.0
-      - 54.0
-      confidence: 0.3
-    Tellers' Office:
-      box:
-      - 46.0
-      - 54.0
-      - 55.0
-      - 62.0
-      confidence: 0.25
-    Open Area:
-      box:
-      - 55.0
-      - 37.0
-      - 63.0
-      - 54.0
-      confidence: 0.2
-    Admin Office:
-      box:
-      - 55.0
-      - 54.0
-      - 62.0
-      - 62.0
-      confidence: 0.2
-    ATMs:
-      box:
-      - 63.0
-      - 37.0
-      - 74.0
-      - 56.0
-      confidence: 0.3
-    Archives:
-      box:
-      - 74.0
-      - 37.0
-      - 77.0
-      - 61.0
-      confidence: 0.15
-    Elevators:
-      box:
-      - 40.0
-      - 67.0
-      - 47.0
-      - 75.0
-      confidence: 0.3
-    Staff Room:
-      box:
-      - 47.0
-      - 63.0
-      - 61.0
-      - 70.0
-      confidence: 0.15
-    Electrical Room:
-      box:
-      - 52.0
-      - 71.0
-      - 61.0
-      - 81.0
-      confidence: 0.2
+      confidence: 0.4
     Boulevard:
       box:
       - 0.0
@@ -241,13 +146,6 @@ floors:
       - 80.0
       - 34.0
       confidence: 0.4
-    Alley:
-      box:
-      - 62.0
-      - 58.0
-      - 80.0
-      - 80.0
-      confidence: 0.25
     Garage Ramp:
       box:
       - 5.0
@@ -255,105 +153,216 @@ floors:
       - 20.0
       - 80.0
       confidence: 0.2
+  features:
+  - {kind: stairs, name: "Lobby Stairs", at: [36.5, 50.0]}
+  - {kind: stairs, name: "Square Stairs", at: [67.0, 38.0]}
+  - {kind: hatch, name: "Lobby hatch (into Vault)", at: [44.0, 38.5]}
+  - {kind: hatch, name: "Square hatch (into Server)", at: [66.5, 44.5]}
+  - {kind: hatch, name: "Admin hatch (into CCTV)", at: [59.0, 57.5]}
+  - {kind: hatch, name: "Elevator hatch", at: [44.5, 70.5]}
+  - {kind: door, name: "Main Entrance", at: [39.5, 18.0]}
+  - {kind: window, name: "Printer window", at: [68.0, 76.5]}
+  - {kind: door, name: "Electrical door", at: [76.0, 56.0]}
+  - {kind: label, name: "Boulevard", at: [50.0, 4.0]}
+  - {kind: label, name: "Plaza", at: [66.0, 22.0]}
+  - {kind: label, name: "Parking", at: [12.0, 35.0]}
+  - {kind: label, name: "Garage Ramp", at: [12.0, 72.0]}
 - floor: 2F
+  image: r6-maps-bank-blueprint-2.jpg
+  size:
+  - 1600
+  - 900
+  notes: '2026-11-06: was labelled 1F, but this is 2F: the Terrace (umbrellas) is outside here and sits on top of the 1F Staff Room, the
+    curved Banana hallway wraps the Front Desk, and its hatches stack on the 1F ones (Stock hatch over Open Area, Janitor hatch over the Admin
+    hatch). Rooms re-placed by Claude on this image from the walls and the callout adjacencies (Lounge-CEO, CEO-Top Square, CEO-Janitor,
+    Conference-Front Desk/Janitor/Meeting Hallway); the old boxes here had 1F names.'
+  rooms:
+    Banana:
+      box:
+      - 39.5
+      - 36.5
+      - 47.5
+      - 46.0
+      confidence: 0.4
+    Front Desk:
+      box:
+      - 42.5
+      - 46.0
+      - 47.5
+      - 61.0
+      confidence: 0.4
+    Executive Lounge:
+      box:
+      - 47.5
+      - 37.0
+      - 54.5
+      - 52.5
+      confidence: 0.5
+    CEO Office:
+      box:
+      - 54.5
+      - 37.0
+      - 62.5
+      - 53.0
+      confidence: 0.5
+    Conference Room:
+      box:
+      - 48.0
+      - 53.0
+      - 54.5
+      - 62.0
+      confidence: 0.5
+    Janitor Closet:
+      box:
+      - 54.5
+      - 53.0
+      - 62.0
+      - 62.0
+      confidence: 0.45
+    Skylight Stairwell:
+      box:
+      - 62.5
+      - 37.0
+      - 73.0
+      - 55.0
+      confidence: 0.6
+    Meeting Hallway:
+      box:
+      - 40.0
+      - 62.0
+      - 62.0
+      - 67.0
+      confidence: 0.4
+    Elevators:
+      box:
+      - 40.0
+      - 67.0
+      - 48.0
+      - 74.0
+      confidence: 0.45
+    Stock Hallway:
+      box:
+      - 48.0
+      - 67.0
+      - 51.5
+      - 77.0
+      confidence: 0.3
+    Stock Trading Room:
+      box:
+      - 51.5
+      - 70.5
+      - 61.5
+      - 81.0
+      confidence: 0.55
+    Terrace:
+      box:
+      - 62.0
+      - 57.0
+      - 78.0
+      - 78.0
+      confidence: 0.45
+  features:
+  - {kind: stairs, name: "Lobby Stairs (top)", at: [40.0, 45.0]}
+  - {kind: stairs, name: "Square Stairs", at: [68.0, 38.0]}
+  - {kind: hatch, name: "Janitor hatch (over Admin)", at: [57.5, 59.0]}
+  - {kind: hatch, name: "Stock hatch (over Open Area)", at: [52.5, 77.0]}
+  - {kind: hatch, name: "Elevator hatch", at: [41.0, 71.0]}
+  - {kind: window, name: "CEO window", at: [58.5, 36.5]}
+  - {kind: window, name: "Top Square windows", at: [68.0, 36.5]}
+  - {kind: door, name: "Terrace door", at: [69.0, 55.5]}
+  - {kind: window, name: "Stock window", at: [61.5, 76.0]}
+  - {kind: label, name: "Terrace", at: [69.0, 68.0]}
+- floor: B
   image: r6-maps-bank-blueprint-3.jpg
   size:
   - 1600
   - 900
-  notes: Image 3 of 4 in the Bank set (B, ground, 1st, roof) and the footprint is small with an upper terrace, so this is 2F; confident on floor,
-    room placements approximate.
+  notes: '2026-11-06: was labelled 2F, but this is the basement: the surroundings are shaded as underground, the bottom room is the
+    parking Garage with a car and the curved Garage Ramp, and the top-right L is the Sewer tunnel with its manhole. 1F hatches land in the
+    right rooms (Lobby hatch in Vault, Square hatch in Server, Admin hatch in CCTV). Rooms re-placed by Claude; the old boxes here had 2F
+    names. Vault / Vault Entrance / Vault Lobby assignment is the least sure.'
   rooms:
-    CEO Office:
+    Vault:
       box:
       - 40.0
-      - 35.0
-      - 50.0
-      - 49.0
-      confidence: 0.5
-    Conference Room:
-      box:
-      - 51.0
       - 36.0
-      - 60.0
-      - 48.0
-      confidence: 0.35
-    Executive Lounge:
-      box:
-      - 60.0
-      - 38.0
-      - 72.0
-      - 53.0
+      - 51.0
+      - 47.0
       confidence: 0.4
-    Executive Hallway:
-      box:
-      - 44.0
-      - 48.0
-      - 64.0
-      - 52.0
-      confidence: 0.3
-    Front Desk:
+    Vault Entrance:
       box:
       - 39.0
       - 49.0
-      - 46.0
-      - 58.0
+      - 45.5
+      - 57.0
       confidence: 0.3
-    Banana:
+    Vault Lobby:
       box:
       - 39.0
-      - 57.0
+      - 57.5
       - 50.0
       - 65.0
-      confidence: 0.3
-    Skylight Stairwell:
+      confidence: 0.25
+    Lockers:
       box:
-      - 53.0
-      - 50.0
-      - 57.0
+      - 46.0
+      - 49.5
+      - 51.5
+      - 60.0
+      confidence: 0.45
+    Red Hallway:
+      box:
+      - 53.5
+      - 49.5
+      - 56.5
+      - 60.0
+      confidence: 0.5
+    CCTV Room:
+      box:
+      - 56.8
+      - 49.0
+      - 64.3
+      - 60.0
+      confidence: 0.45
+    Server Room:
+      box:
+      - 60.5
+      - 40.5
+      - 71.0
+      - 52.0
+      confidence: 0.45
+    Lockers Hallway:
+      box:
+      - 50.5
       - 61.0
+      - 57.0
+      - 65.0
       confidence: 0.3
     Elevators:
       box:
-      - 47.0
-      - 68.0
-      - 51.0
-      - 76.0
+      - 39.5
+      - 66.5
+      - 50.0
+      - 73.0
       confidence: 0.3
-    Meeting Hallway:
-      box:
-      - 40.0
-      - 65.0
-      - 47.0
-      - 77.0
-      confidence: 0.3
-    Janitor Closet:
-      box:
-      - 51.0
-      - 65.0
-      - 55.0
-      - 76.0
-      confidence: 0.25
-    Stock Hallway:
-      box:
-      - 23.0
-      - 69.0
-      - 36.0
-      - 85.0
-      confidence: 0.35
-    Stock Trading Room:
+    Garage:
       box:
       - 34.0
-      - 76.0
+      - 73.0
       - 56.0
       - 92.0
-      confidence: 0.45
-    Terrace:
+      confidence: 0.55
+    Tunnel:
       box:
-      - 67.0
+      - 70.0
       - 3.0
-      - 79.0
-      - 35.0
+      - 78.0
+      - 36.0
       confidence: 0.4
+  features:
+  - {kind: stairs, name: "Server Stairs", at: [64.5, 38.0]}
+  - {kind: hatch, name: "Sewer manhole", at: [75.5, 14.5]}
+  - {kind: door, name: "Garage Ramp", at: [29.0, 80.0]}
 - floor: ROOF
   image: r6-maps-bank-blueprint-4.jpg
   size:

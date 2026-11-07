@@ -1,0 +1,494 @@
+map: coastline
+# Positions use the layout's room boxes (confidence 0.25-0.5). Walls the callout data names by slang
+# (Pink Bar quad wall, Back Barrels, the 90) sit on the room they belong to, with the wall in the note.
+briefs:
+  # ------------------------------------------------------------------ 2F Hookah Lounge / 2F Billiards Room
+  - id: coastline-hookah-team-reinforce
+    site: hookah_billiards
+    side: defense
+    operators: []
+    title: "Quad wall, Hookah door wall, keep the rotate"
+    text: >-
+      Reinforce all four Pink Bar quad wall panels, both halves of the Hookah door wall, the Billiards section
+      of the Hookah triple wall and both VIP walls. On the Hookah to Billiards wall, reinforce only the half
+      that isn't the rotate, and cut foot holes onto Aqua.
+    placements:
+      - kind: reinforce
+        floor: 2F
+        room: Billiards Room
+        nudge: [0, 3.0]
+        note: "Pink Bar quad wall, all four panels"
+      - kind: reinforce
+        floor: 2F
+        room: Hookah Lounge
+        nudge: [-2.0, -3.0]
+        note: "Hookah door wall, both halves"
+      - kind: reinforce
+        floor: 2F
+        between: [Hookah Lounge, Billiards Room]
+        nudge: [-1.5, 0]
+        note: "The half that is not the rotate"
+      - kind: open
+        floor: 2F
+        between: [Hookah Lounge, Billiards Room]
+        nudge: [1.5, 0]
+        note: "Hookah to Billiards rotate"
+      - kind: reinforce
+        floor: 2F
+        between: [VIP Lounge, Hookah Lounge]
+        note: "Both VIP walls"
+      - kind: open
+        floor: 2F
+        room: Aquarium
+        note: "Foot holes onto Aqua"
+  - id: coastline-hookah-kaid-mute
+    site: hookah_billiards
+    side: defense
+    operators: [Kaid, Mute]
+    title: "Claw the quad wall, jam VIP"
+    text: >-
+      Kaid claws the Pink Bar quad wall and the Hookah door wall, so Ace from the roof can't open them. Mute
+      jams the VIP doors and wall and holds VIP behind his jammers.
+    placements:
+      - kind: kaid
+        floor: 2F
+        room: Billiards Room
+        nudge: [1.2, 3.0]
+        note: "Pink Bar quad wall"
+      - kind: kaid
+        floor: 2F
+        room: Hookah Lounge
+        nudge: [-0.8, -3.0]
+        note: "Hookah door wall"
+      - kind: trap
+        floor: 2F
+        between: [VIP Lounge, Hookah Lounge]
+        nudge: [0, 1.5]
+        note: "Mute jammers on the VIP doors and wall"
+      - kind: anchor
+        floor: 2F
+        room: VIP Lounge
+        note: "Hold VIP behind the jammers"
+  - id: coastline-hookah-azami
+    site: hookah_billiards
+    side: defense
+    operators: [Azami, Jager]
+    title: "Kiba the window and Aqua, ADS on the door"
+    text: >-
+      Azami barriers the Hookah window and the Aqua side so the rappel and the Aqua push are slowed. Jager puts
+      ADS on the Hookah door and Aqua, then roams shallow on Aqua. Kibas can be shot, so don't rely on them for
+      cover.
+    placements:
+      - kind: deployable
+        floor: 2F
+        between: [Hookah Lounge, exterior]
+        edge: top
+        note: "Kiba on the Hookah window"
+      - kind: deployable
+        floor: 2F
+        room: Aquarium
+        nudge: [2.0, 0]
+        note: "Kiba on the Aqua side"
+      - kind: trap
+        floor: 2F
+        room: Hookah Lounge
+        nudge: [-2.0, 0]
+        note: "Jager ADS on the Hookah door"
+  - id: coastline-hookah-attack-quad
+    site: hookah_billiards
+    side: attack
+    operators: []
+    title: "Fake the door, Ace the quad wall from the roof"
+    text: >-
+      Montagne fakes the Hookah door while Ace opens the quad wall from the roof and clears Aqua. Nomad jabs the
+      doors and rappels Billiards; Osa shields the Billiards window and plants behind it.
+    placements:
+      - kind: drone
+        floor: 2F
+        room: Aquarium
+        note: "Drone Aqua from the roof"
+      - kind: ace
+        floor: 2F
+        room: Billiards Room
+        nudge: [0, 3.0]
+        note: "Pink Bar quad wall from the roof"
+      - kind: entry
+        floor: 2F
+        room: Billiards Room
+        nudge: [2.5, 0]
+        note: "Billiards window rappel"
+      - kind: plant
+        floor: 2F
+        room: Billiards Room
+        note: "Behind the Osa shield at the window"
+  - id: coastline-hookah-attack-triple
+    site: hookah_billiards
+    side: attack
+    operators: [Thermite, Thatcher]
+    title: "Burn the Hookah triple wall"
+    text: >-
+      Thatcher EMPs the claw, then Thermite burns the Hookah triple wall. Plant the Hookah default under smoke
+      while the team holds Aqua.
+    placements:
+      - kind: thermite
+        floor: 2F
+        room: Hookah Lounge
+        nudge: [0, 4.0]
+        note: "Hookah triple wall, Billiards section"
+      - kind: plant
+        floor: 2F
+        room: Hookah Lounge
+        note: "Hookah default plant under smoke"
+
+  # ------------------------------------------------------------------ 2F Theater / 2F Penthouse
+  - id: coastline-theater-team-reinforce
+    site: theater_penthouse
+    side: defense
+    operators: []
+    title: "VIP walls first, then the stairs and corridor"
+    text: >-
+      The VIP walls matter most: reinforce both, plus the VIP side wall toward Billiards. Then the Theater to top
+      Main Stairs wall, right half, both outer corridor panels and Penthouse wall panels 1 and 2. Keep the back
+      of Theater rotate and the VIP hallway head holes.
+    placements:
+      - kind: reinforce
+        floor: 2F
+        between: [VIP Lounge, exterior]
+        edge: top
+        note: "Both VIP outer walls"
+      - kind: reinforce
+        floor: 2F
+        between: [Penthouse, VIP Lounge]
+        note: "Penthouse to VIP middle wall"
+      - kind: reinforce
+        floor: 2F
+        room: Theater
+        nudge: [3.0, -2.0]
+        note: "Theater to top Main Stairs, right half"
+      - kind: reinforce
+        floor: 2F
+        room: Penthouse
+        nudge: [-2.0, 0]
+        note: "Penthouse wall, panels 1 and 2"
+      - kind: open
+        floor: 2F
+        room: Theater
+        nudge: [0, 6.0]
+        note: "Back of Theater rotate to the 90"
+  - id: coastline-theater-castle-kaid
+    site: theater_penthouse
+    side: defense
+    operators: [Castle, Kaid]
+    title: "Castle the doors, claw VIP"
+    text: >-
+      Castle panels the Bathroom door and the top doors, then plays Penthouse. Kaid claws the VIP walls and the
+      Main Stairs wall so Thermite can't open VIP.
+    placements:
+      - kind: castle
+        floor: 2F
+        between: [Penthouse Bathroom, Penthouse]
+        note: "Bathroom door"
+      - kind: castle
+        floor: 2F
+        room: Hall of Fame
+        note: "Top doors"
+      - kind: kaid
+        floor: 2F
+        between: [VIP Lounge, exterior]
+        edge: top
+        nudge: [1.2, 0]
+        note: "VIP walls"
+      - kind: kaid
+        floor: 2F
+        room: Theater
+        nudge: [3.0, -0.8]
+        note: "Main Stairs wall"
+  - id: coastline-theater-melusi-mira
+    site: theater_penthouse
+    side: defense
+    operators: [Melusi, Mira]
+    title: "Banshee the walk-in, Mira into VIP"
+    text: >-
+      Melusi puts a Banshee on the corridor walk-in and plays the 90 crossfire. Mira puts a window into VIP so
+      the site can watch the VIP breach without peeking.
+    placements:
+      - kind: trap
+        floor: 2F
+        room: Hall of Fame
+        nudge: [-2.0, 0]
+        note: "Banshee on the corridor walk-in"
+      - kind: mira
+        floor: 2F
+        between: [Penthouse, VIP Lounge]
+        nudge: [0, 2.0]
+        note: "Window into VIP"
+      - kind: anchor
+        floor: 2F
+        room: Theater
+        note: "The 90 crossfire"
+  - id: coastline-theater-attack-vip
+    site: theater_penthouse
+    side: attack
+    operators: []
+    title: "Burn VIP, plant the bed"
+    text: >-
+      Win the Hookah-side hallway, then Thatcher EMPs and Thermite burns the VIP wall. Buck verticals Theater
+      from below onto the DJ booth and bookshelves; clear Penthouse and plant on the bed.
+    placements:
+      - kind: thermite
+        floor: 2F
+        between: [Penthouse, VIP Lounge]
+        note: "VIP wall from the VIP side"
+      - kind: breach
+        floor: 1F
+        between: [Sunrise Bar, Blue Bar]
+        note: "Buck vertical up into Theater, usually from below the DJ booth"
+      - kind: plant
+        floor: 2F
+        room: Penthouse
+        note: "Penthouse bed under Thermite smoke"
+  - id: coastline-theater-attack-window
+    site: theater_penthouse
+    side: attack
+    operators: []
+    title: "Big window and the Bathroom hatch"
+    text: >-
+      Drone Penthouse through the big window, then split one through the big window and one down the Bathroom
+      hatch while the team pushes Main Stairs.
+    placements:
+      - kind: drone
+        floor: 2F
+        room: Penthouse
+        nudge: [-3.0, 0]
+        note: "Drone through the big window"
+      - kind: entry
+        floor: 2F
+        room: Penthouse Bathroom
+        note: "Bathroom hatch entry"
+      - kind: entry
+        floor: 1F
+        room: Main Stairs
+        note: "Main Stairs push"
+
+  # ------------------------------------------------------------------ 1F Kitchen / 1F Service Entrance
+  - id: coastline-kitchen-team-reinforce
+    site: kitchen_service_entrance
+    side: defense
+    operators: []
+    title: "Kitchen exterior walls and Back Barrels"
+    text: >-
+      Reinforce both Kitchen exterior walls, both back Barrels walls and the Kitchen-Service half wall, keeping
+      the rotate. Upstairs, reinforce the VIP outer walls and the Penthouse-VIP middle wall so attackers can't
+      take the floor above.
+    placements:
+      - kind: reinforce
+        floor: 1F
+        between: [Kitchen, exterior]
+        edge: top
+        note: "Both Kitchen exterior walls"
+      - kind: reinforce
+        floor: 1F
+        room: Service Entrance
+        nudge: [3.0, 0]
+        note: "Both back Barrels walls"
+      - kind: reinforce
+        floor: 1F
+        between: [Kitchen, Service Entrance]
+        nudge: [0, -2.0]
+        note: "Half by the rotate"
+      - kind: open
+        floor: 1F
+        between: [Kitchen, Service Entrance]
+        nudge: [0, 2.5]
+        note: "Service to Kitchen rotate"
+      - kind: reinforce
+        floor: 2F
+        between: [Penthouse, VIP Lounge]
+        note: "Penthouse-VIP middle wall"
+  - id: coastline-kitchen-goyo-aruni
+    site: kitchen_service_entrance
+    side: defense
+    operators: [Goyo, Aruni, Kaid]
+    title: "Volcans on the plants, gates on the doors"
+    text: >-
+      Goyo plays behind the bomb with Volcans on both plant spots. Aruni gates the Kitchen and Service doors,
+      and Kaid claws the Barrels walls then holds VIP above.
+    placements:
+      - kind: deployable
+        floor: 1F
+        room: Kitchen
+        note: "Volcan on the Kitchen plant"
+      - kind: deployable
+        floor: 1F
+        room: Service Entrance
+        note: "Volcan on the Service plant"
+      - kind: trap
+        floor: 1F
+        between: [Kitchen, exterior]
+        edge: top
+        nudge: [-2.0, 0.5]
+        note: "Aruni gate on the Kitchen door"
+      - kind: kaid
+        floor: 1F
+        room: Service Entrance
+        nudge: [4.2, 0]
+        note: "Barrels walls"
+  - id: coastline-kitchen-attack-barrels
+    site: kitchen_service_entrance
+    side: attack
+    operators: []
+    title: "Take VIP, then open Barrels"
+    text: >-
+      Take VIP and the floor over site first, play vertical onto the corners, then Thatcher EMPs and Ace opens
+      the Back Barrels wall. Plant behind the Kitchen counter, away from the Volcans.
+    placements:
+      - kind: entry
+        floor: 2F
+        room: VIP Lounge
+        note: "Take VIP above"
+      - kind: breach
+        floor: 2F
+        room: VIP Lounge
+        nudge: [0, 3.0]
+        note: "Vertical onto Kitchen"
+      - kind: ace
+        floor: 1F
+        room: Service Entrance
+        nudge: [3.0, 1.5]
+        note: "Back Barrels wall"
+      - kind: plant
+        floor: 1F
+        room: Kitchen
+        note: "Behind the counter"
+  - id: coastline-kitchen-attack-hibana
+    site: kitchen_service_entrance
+    side: attack
+    operators: [Hibana, Fuze]
+    title: "Hibana on Barrels, Fuze the soft walls"
+    text: >-
+      Hibana opens the Barrels wall from outside while Fuze clusters the soft Kitchen walls. Drone Sunrise and
+      Security first for the roamer.
+    placements:
+      - kind: drone
+        floor: 1F
+        room: Sunrise Bar
+        note: "Drone Sunrise and Security"
+      - kind: hibana
+        floor: 1F
+        room: Service Entrance
+        nudge: [3.0, -1.5]
+        note: "Back Barrels wall"
+      - kind: plant
+        floor: 1F
+        room: Service Entrance
+        note: "Service Entrance default"
+
+  # ------------------------------------------------------------------ 1F Blue Bar / 1F Sunrise Bar
+  - id: coastline-blue-team-reinforce
+    site: blue_bar_sunrise_bar
+    side: defense
+    operators: []
+    title: "Blue main wall, keep the Hookah hatch open"
+    text: >-
+      Reinforce the Blue Bar main wall, the Sunrise to Blue wall half that isn't the rotate and the couch-corner
+      wall. Upstairs, reinforce Hookah to Billiards and leave the Hookah hatch open to watch the Sunrise door.
+    placements:
+      - kind: reinforce
+        floor: 1F
+        room: Blue Bar
+        nudge: [0, -2.0]
+        note: "Blue Bar main wall"
+      - kind: reinforce
+        floor: 1F
+        between: [Sunrise Bar, Blue Bar]
+        nudge: [-1.5, 0]
+        note: "Non-rotate half"
+      - kind: open
+        floor: 1F
+        between: [Sunrise Bar, Blue Bar]
+        nudge: [1.5, 0]
+        note: "Sunrise to Blue rotate"
+      - kind: reinforce
+        floor: 2F
+        between: [Hookah Lounge, Billiards Room]
+        note: "Hookah to Billiards upstairs"
+      - kind: open
+        floor: 2F
+        at: [36.5, 44.0]
+        name: "Hookah hatch"
+        note: "Keep open; watch the Sunrise door from above (hatch position on the layout is usually this one)"
+  - id: coastline-blue-smoke-kaid-castle
+    site: blue_bar_sunrise_bar
+    side: defense
+    operators: [Smoke, Kaid, Castle]
+    title: "Smoke behind the Sunrise bar"
+    text: >-
+      Smoke shields behind the Sunrise bar and gasses the plants. Kaid claws the Blue main wall and holds
+      Kitchen with C4; Castle panels the Blue window and the Office door.
+    placements:
+      - kind: deployable
+        floor: 1F
+        room: Sunrise Bar
+        note: "Shield behind the bar"
+      - kind: kaid
+        floor: 1F
+        room: Blue Bar
+        nudge: [1.2, -2.0]
+        note: "Blue main wall"
+      - kind: castle
+        floor: 1F
+        between: [Blue Bar, exterior]
+        edge: bottom
+        note: "Blue window"
+  - id: coastline-blue-attack-floor
+    site: blue_bar_sunrise_bar
+    side: attack
+    operators: []
+    title: "Win Hookah, open the floor over the bar"
+    text: >-
+      Win Hookah first. Sledge opens the floor over the bar, Thermite burns Blue main on his call and Thatcher
+      holds the Sunrise window. Plant behind the bomb in Sunrise.
+    placements:
+      - kind: entry
+        floor: 2F
+        room: Hookah Lounge
+        note: "Win Hookah first"
+      - kind: breach
+        floor: 2F
+        at: [36.5, 44.0]
+        name: "Floor over the bar"
+        nudge: [1.5, 0]
+        note: "Sledge opens it on call"
+      - kind: thermite
+        floor: 1F
+        room: Blue Bar
+        nudge: [0, -2.0]
+        note: "Blue Bar main wall"
+      - kind: plant
+        floor: 1F
+        room: Sunrise Bar
+        note: "Behind the bomb"
+  - id: coastline-blue-attack-window
+    site: blue_bar_sunrise_bar
+    side: attack
+    operators: [Zero]
+    title: "Open the Blue window early"
+    text: >-
+      Open the Blue Bar window early from Pool Side and drone behind the couches. Zero cams Cool Vibes and White
+      for the roamer; plant on the couches if Sunrise is held.
+    placements:
+      - kind: entry
+        floor: 1F
+        between: [Blue Bar, exterior]
+        edge: bottom
+        nudge: [1.5, 0]
+        note: "Blue Bar window"
+      - kind: drone
+        floor: 1F
+        room: Blue Bar
+        note: "Drone behind the couches"
+      - kind: plant
+        floor: 1F
+        room: Blue Bar
+        nudge: [0, 2.0]
+        note: "On the couches"

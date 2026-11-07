@@ -68,6 +68,9 @@ class Knowledge:
                         self.callouts[p.stem] = yaml.safe_load(f) or {}
                 except yaml.YAMLError:
                     log.exception("bad callouts file %s", p)
+        # Standard setup briefs (where each piece of utility goes), shown on the dashboard too.
+        from ..setups import SetupLibrary
+        self.setups = SetupLibrary(self.data_dir / "setups")
         self._ops_dossier: Optional[str] = None
 
     # ------------------------------------------------------------------ lookups
@@ -187,6 +190,9 @@ class Knowledge:
                 out.append("Unverified callouts (refer to these by their common name; don't claim which "
                            "rooms they connect):")
                 out.append(yaml.safe_dump(c["uncertain"], sort_keys=False, allow_unicode=True, width=140))
+        briefs = self.setups.dossier(m.get("id"))
+        if briefs:
+            out.append(briefs)
         if rooms_seen:
             out.append("Room names read off the player's own HUD on this map (the game's exact wording; "
                        "prefer these spellings): " + ", ".join(rooms_seen))

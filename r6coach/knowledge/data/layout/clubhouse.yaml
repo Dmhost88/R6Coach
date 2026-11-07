@@ -1,5 +1,6 @@
 map: clubhouse
 source: Room boxes located by Claude on Ubisoft's official blueprints (grid percentages, x left->right, y top->bottom). Check against data/maps/<map>/preview/.
+sides: {bottom: "Main Gate", left: "Construction Site", right: "Warehouse (top) / Shipping Dock (bottom)"}
 floors:
 - floor: B
   image: r6-maps-clubhouse-blueprint-1.jpg
@@ -8,6 +9,10 @@ floors:
   - 900
   notes: 'Confident this is the basement: it is the first image, shows a small underground footprint, and has the long escape tunnel running south
     to an exit.'
+  features:
+  - {kind: stairs, name: "Central Stairs", at: [46.5, 47.5]}
+  - {kind: stairs, name: "Stairs up from Escape Tunnel", at: [74.5, 46.0]}
+  - {kind: door, name: "Escape Tunnel exit", at: [64.4, 77.5]}
   rooms:
     Church:
       box:
@@ -58,6 +63,17 @@ floors:
   - 900
   notes: 'Image 2 of 4 with outdoor surroundings, garage and stage spotlight visible: confident this is the ground floor (1F). Some room placements
     and the EXT areas are best guesses.'
+  features:
+  - {kind: hatch, name: "Kitchen hatch", at: [56.6, 18.3]}
+  - {kind: hatch, name: "Bar hatch", at: [47.5, 45.9]}
+  - {kind: hatch, name: "Lounge hatch", at: [65.8, 43.0]}
+  - {kind: stairs, name: "Central Stairs", at: [72.5, 42.8]}
+  - {kind: stairs, name: "Garage Stairs", at: [71.0, 66.0]}
+  - {kind: door, name: "Garage door", at: [66.5, 86.7]}
+  - {kind: label, name: "Main Gate", at: [50.0, 93.0]}
+  - {kind: label, name: "Construction Site", at: [8.0, 45.0]}
+  - {kind: label, name: "Warehouse", at: [95.0, 25.0]}
+  - {kind: label, name: "Shipping Dock", at: [88.0, 68.0]}
   rooms:
     Strip Club:
       box:
@@ -150,6 +166,9 @@ floors:
   - 900
   notes: Image 3 of 4 with the garage rafters and upper rooms shown above the ground layout, so this is Ubisoft's 1ST FLOOR (in-game 2F). The
     floor call is fairly confident; the individual room positions are rough guesses.
+  features:
+  - {kind: stairs, name: "Central Stairs (top)", at: [73.1, 36.7]}
+  - {kind: window, name: "CCTV window", at: [66.0, 50.0]}
   rooms:
     Bedroom:
       box:
@@ -221,4 +240,7 @@ floors:
   - 900
   notes: Image 4 of 4 is a top-down roof view showing rooftops, AC units and roof hatches with no interior rooms, so this is clearly the ROOF.
     None of the listed callouts are on the roof.
+  features:
+  - {kind: hatch, name: "Roof hatch (guides: Logistic hatch)", at: [57.9, 12.8]}
+  - {kind: hatch, name: "Roof hatch over Stock Room", at: [35.3, 72.4]}
   rooms: {}

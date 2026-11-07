@@ -25,7 +25,7 @@ from .hud import HudRead
 from .live import KillTracker
 from .llm import Claude
 from .models import PRE_ROUND, GameState, Screen, ScreenRead
-from .rounds import first_side_from, side_for
+from .rounds import first_side_from, round_from_score, side_for
 from .screens import LocalScreen
 
 log = logging.getLogger(__name__)
@@ -36,6 +36,7 @@ STABLE_THRESHOLD = 6.0    # difference between consecutive samples to count as "
 REFRESH_FACTOR = 2.5      # refresh interval = min interval * factor, even without change
 MATCH_RESET_SCREENS = {Screen.main_menu, Screen.matchmaking, Screen.match_end}
 ROUND_START = {Screen.operator_ban, Screen.operator_select}
+ROUND_PLAYED = {Screen.prep_phase, Screen.action_phase, Screen.spectating, Screen.round_end}
 DETAIL_READ_SCREENS = {Screen.map_ban, Screen.operator_ban, Screen.operator_select, Screen.loadout}
 CARD_SCREENS = {Screen.operator_ban, Screen.operator_select, Screen.loadout}
 CARD_PERIOD = 0.8           # s between local operator-card reads (each costs ~30-200 ms)
@@ -155,6 +156,10 @@ class Watcher:
         self._last_cloud_screen: Optional[Screen] = None
         self._match_over = False         # a menu / match end was seen since the last match started
         self._round_n = 0                # rounds started this match (corrected by "ROUND n" reads)
+        # Has the current round been played (prep/action/round end seen)? A pick screen that comes
+        # back after a misclassified frame (pick -> other -> pick) is the same round, not a new one:
+        # counting it cleared the lock mid-pick and put the round count one ahead (2026-11-06).
+        self._round_played = False
         self._first_side: Optional[str] = None   # the side the player started the match on
         self._once_done: set[str] = set()   # sub-screens already read this round (see ROUND_KEYS)
         self._cloud_ok_ts = 0.0          # last successful cloud read
@@ -415,6 +420,7 @@ class Watcher:
         if new_match:
             self._match_over = False
             self._round_n = 0
+            self._round_played = False
             self._first_side = None
             self._op_local_round = -1
             self.state = s = GameState(match_id=uuid.uuid4().hex[:10])
@@ -425,7 +431,10 @@ class Watcher:
         # Round boundary: the first pre-round screen (ban phase or op select) after anything else
         # starts a new round and clears round-scoped info. Bans are kept: an operator banned in an
         # earlier round stays unavailable for the rest of the match (cleared with the match state).
-        if screen in ROUND_START and prev not in PRE_ROUND:
+        if screen in ROUND_PLAYED:
+            self._round_played = True
+        if screen in ROUND_START and prev not in PRE_ROUND and (self._round_played or self._round_n == 0):
+            self._round_played = False
             s.my_operator = None
             s.teammate_operators = []
             s.enemy_operators = []
@@ -653,6 +662,14 @@ class Watcher:
                 setattr(s, field, val)
         if read.round_number and screen in PRE_ROUND:
             self._round_n = read.round_number      # "ROUND n" on the ban card beats our count
+        elif screen in PRE_ROUND and self._round_n:
+            # The score on the ban/pick screens is the rounds played so far: it fixes a count that
+            # drifted (a restart mid-match, a missed or doubled boundary).
+            n = round_from_score(read.score_us, read.score_them)
+            if n and n != self._round_n:
+                log.info("round count %d corrected to %d from the score %s-%s",
+                         self._round_n, n, read.score_us, read.score_them)
+                self._round_n = s.round_number = n
         self._observe_side(s, read.side, screen)
         if read.teammate_operators:
             s.teammate_operators = read.teammate_operators

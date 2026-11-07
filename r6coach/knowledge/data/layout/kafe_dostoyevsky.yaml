@@ -1,5 +1,6 @@
 map: kafe_dostoyevsky
 source: Room boxes located by Claude on Ubisoft's official blueprints (grid percentages, x left->right, y top->bottom). Check against data/maps/<map>/preview/.
+sides: {top: "River Docks", left: "Christmas Market", bottom: "Park"}
 floors:
 - floor: 1F
   image: r6-maps-kafe-blueprint-1.jpg
@@ -8,6 +9,13 @@ floors:
   - 900
   notes: 'Fairly confident: first of four images, shows full exterior surroundings (river, street, market) with the ground floor interior, so
     it is the in-game 1F; room placements inside are approximate.'
+  features:
+  - {kind: stairs, name: "Red Stairs", at: [58.0, 51.5]}
+  - {kind: stairs, name: "White Stairs", at: [67.0, 62.0]}
+  - {kind: stairs, name: "Main Stairs", at: [69.5, 62.0]}
+  - {kind: label, name: "River Docks", at: [65.5, 30.0]}
+  - {kind: label, name: "Christmas Market", at: [47.0, 52.0]}
+  - {kind: label, name: "Park", at: [65.0, 78.0]}
   rooms:
     Reception:
       box:
@@ -121,6 +129,10 @@ floors:
   - 900
   notes: Kafe has no basement, so image 2 of 4 should be Ubisoft's 1ST FLOOR, which is in-game 2F. The floor call is fairly confident, but the
     room placement is a rough guess because the building is drawn very small.
+  features:
+  - {kind: hatch, name: "2F hatch over the Freezer side", at: [67.1, 63.2]}
+  - {kind: stairs, name: "Red Stairs", at: [70.5, 56.5]}
+  - {kind: stairs, name: "White Stairs", at: [70.5, 59.8]}
   rooms:
     Train Museum:
       box:
@@ -185,6 +197,12 @@ floors:
   - 900
   notes: Image 3 of 4 for Kafe (Ground, 1st, 2nd, Roof) is the 2nd Floor file, which is 3F in-game. The small top-floor footprint fits that call.
     Placement of individual rooms within the building is approximate.
+  features:
+  - {kind: hatch, name: "3F hatch by Top Red", at: [63.6, 52.1]}
+  - {kind: hatch, name: "Bathroom hatch", at: [63.4, 62.0]}
+  - {kind: hatch, name: "3F hatch by Top White", at: [70.9, 60.1]}
+  - {kind: stairs, name: "Top Red", at: [62.5, 54.5]}
+  - {kind: stairs, name: "Top White", at: [70.8, 57.5]}
   rooms:
     Cigar Lounge:
       box:
@@ -249,6 +267,10 @@ floors:
   - 900
   notes: Last of 4 images, showing a top-down satellite view with the red rooftop of the Kafe building, so this is clearly the roof level. Other
     EXT areas are assigned to 1F.
+  features:
+  - {kind: hatch, name: "Roof hatch over Cigar Lounge", at: [64.0, 48.6]}
+  - {kind: hatch, name: "Roof hatch (west)", at: [61.3, 52.0]}
+  - {kind: window, name: "Skylight", at: [66.5, 53.2]}
   rooms:
     Roof:
       box:

@@ -1,5 +1,6 @@
 map: oregon
 source: Room boxes located by Claude on Ubisoft's official blueprints (grid percentages, x left->right, y top->bottom). Check against data/maps/<map>/preview/.
+sides: {bottom: "Street", left: "Junkyard", right: "Construction Site"}
 floors:
 - floor: B
   image: r6-maps-oregon-blueprint-1.jpg
@@ -8,6 +9,10 @@ floors:
   - 900
   notes: First of five images with a small, compact interior outline typical of Oregon's basement; floor call fairly confident, room placements
     are approximate.
+  features:
+  - {kind: stairs, name: "Tower Stairs", at: [54.0, 28.5]}
+  - {kind: stairs, name: "Freezer Stairs", at: [42.5, 69.0]}
+  - {kind: stairs, name: "Laundry Stairs", at: [56.0, 70.0]}
   rooms:
     Blue Bunker:
       box:
@@ -72,6 +77,16 @@ floors:
   - 900
   notes: Image 2 of 5 with outdoor terrain visible, so this is Ubisoft's GROUND floor = in-game 1F; floor call is confident, but individual room
     placements are rough guesses.
+  features:
+  - {kind: hatch, name: "Dining Hall hatch", at: [55.8, 41.0]}
+  - {kind: hatch, name: "Showers hatch", at: [46.3, 62.7]}
+  - {kind: hatch, name: "Lobby hatch", at: [55.5, 67.5]}
+  - {kind: stairs, name: "White Stairs", at: [54.0, 57.0]}
+  - {kind: stairs, name: "Main Stairs", at: [57.5, 69.0]}
+  - {kind: stairs, name: "Tower Stairs", at: [56.5, 27.0]}
+  - {kind: label, name: "Junkyard", at: [8.0, 60.0]}
+  - {kind: label, name: "Street", at: [45.0, 90.0]}
+  - {kind: label, name: "Construction Site", at: [75.0, 22.0]}
   rooms:
     Kitchen:
       box:
@@ -192,6 +207,11 @@ floors:
   - 900
   notes: Image 3 of 5 in Oregon's B/1F/2F/3F/ROOF order with a reduced upper-floor footprint, so 2F is fairly likely; room placements are low-confidence
     guesses.
+  features:
+  - {kind: hatch, name: "Kids hatch", at: [40.9, 54.2]}
+  - {kind: hatch, name: "Attic hatch", at: [54.7, 42.2]}
+  - {kind: hatch, name: "Master Bedroom hatch", at: [63.4, 67.6]}
+  - {kind: window, name: "Big Window", at: [40.0, 53.0]}
   rooms:
     Kids' Dorms:
       box:

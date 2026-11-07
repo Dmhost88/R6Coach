@@ -1,120 +1,135 @@
 map: kanal
 source: Room boxes located by Claude on Ubisoft's official blueprints (grid percentages, x left->right, y top->bottom). Check against data/maps/<map>/preview/.
+sides:
+  top: "Canal and submarine docks (water)"
+  bottom: "Floating Dock side (water)"
+  right: "Construction Site"
 floors:
+- floor: B
+  image: r6-maps-kanal-blueprint-2.jpg
+  size:
+  - 1600
+  - 900
+  notes: >-
+    Floor labels fixed 2026-11-06. Image 2 of 5 is the basement, not 1F: the 1F image (3) has the Coast Guard and
+    Lounge hatches and soft floor over this level's left (Coast Guard) building, and this image's right (Control)
+    building is mostly empty void, so it cannot hold the 1F Security / Map Room site. Rooms re-placed on this image;
+    which basement room is which is a reasoned guess (Supply Room sits under the Coast Guard hatch, Lockers under the
+    Lounge hatch, breakable walls match the Kayaks/Supply and Diving walls).
+  rooms:
+    Diving Room:
+      box:
+      - 52.7
+      - 43.2
+      - 56.7
+      - 51.2
+      confidence: 0.25
+    Kayaks:
+      box:
+      - 52.7
+      - 51.3
+      - 56.7
+      - 56.6
+      confidence: 0.3
+    Supply Room:
+      box:
+      - 52.7
+      - 56.7
+      - 56.7
+      - 62.1
+      confidence: 0.35
+    Lockers:
+      box:
+      - 58.0
+      - 51.2
+      - 60.4
+      - 55.6
+      confidence: 0.35
+    Showers:
+      box:
+      - 58.0
+      - 55.8
+      - 60.4
+      - 59.5
+      confidence: 0.2
+  features: []
 - floor: B
   image: r6-maps-kanal-blueprint-1.jpg
   size:
   - 1600
   - 900
-  notes: First of five images in floor order with only a small isolated interior outline and darkened exterior, so this is most likely the basement;
-    individual room placement inside the tiny L-shaped outline is a guess.
-  rooms:
-    Kayaks:
-      box:
-      - 55.5
-      - 47.0
-      - 57.2
-      - 53.0
-      confidence: 0.2
-    Diving Room:
-      box:
-      - 55.5
-      - 53.0
-      - 57.2
-      - 57.0
-      confidence: 0.2
-    Supply Room:
-      box:
-      - 55.5
-      - 56.0
-      - 57.5
-      - 59.0
-      confidence: 0.15
-    Lockers:
-      box:
-      - 57.0
-      - 56.0
-      - 58.5
-      - 59.0
-      confidence: 0.15
-    Showers:
-      box:
-      - 58.2
-      - 57.0
-      - 59.4
-      - 59.0
-      confidence: 0.15
+  notes: >-
+    Image 1 of 5 shows only a small L-shaped passage under the left building, below or beside the main basement
+    (image 2). Labelled B as a second basement image; it holds no callout rooms. What it is in game is not verified.
+  rooms: {}
 - floor: 1F
-  image: r6-maps-kanal-blueprint-2.jpg
+  image: r6-maps-kanal-blueprint-3.jpg
   size:
   - 1600
   - 900
-  notes: Image 2 of 5 should be Ubisoft's GROUND file, i.e. in-game 1F; the small interior outlines make this uncertain. Room placements inside
-    both buildings are rough guesses.
+  notes: >-
+    Floor labels fixed 2026-11-06: image 3 of 5 is in-game 1F (was labelled 2F). Its left (Coast Guard) building has the
+    two floor hatches into the basement site and a lower bridge across the canal to the right (Control) building.
+    Rooms re-placed: Coast Guard Meeting Room (round table, Coast Guard hatch), Lounge (Lounge hatch), Printer Hallway
+    between them; Map Room and Security Room under the three 2F hatches. Radio Room, Radio Hallway and Reception are
+    reasoned guesses.
   rooms:
+    Radio Room:
+      box:
+      - 52.7
+      - 44.5
+      - 55.8
+      - 54.6
+      confidence: 0.25
+    Radio Hallway:
+      box:
+      - 55.8
+      - 44.5
+      - 56.9
+      - 52.1
+      confidence: 0.15
     Coast Guard Meeting Room:
       box:
-      - 52.5
-      - 43.0
-      - 56.5
-      - 49.0
-      confidence: 0.3
-    Kitchen:
-      box:
-      - 56.5
-      - 43.0
-      - 60.5
-      - 49.0
-      confidence: 0.25
-    Lounge:
-      box:
-      - 52.5
-      - 50.0
-      - 57.0
-      - 56.0
-      confidence: 0.25
-    Reception:
-      box:
-      - 52.5
-      - 56.5
-      - 57.0
-      - 64.5
-      confidence: 0.25
+      - 52.7
+      - 55.0
+      - 56.9
+      - 61.3
+      confidence: 0.45
     Printer Hallway:
       box:
-      - 57.0
-      - 50.0
-      - 60.5
+      - 56.9
+      - 50.5
       - 58.0
+      - 61.3
+      confidence: 0.3
+    Lounge:
+      box:
+      - 58.1
+      - 51.2
+      - 60.4
+      - 55.6
+      confidence: 0.4
+    Reception:
+      box:
+      - 57.1
+      - 61.8
+      - 60.4
+      - 64.7
       confidence: 0.2
     Map Room:
       box:
-      - 64.5
-      - 46.0
-      - 69.0
-      - 54.0
-      confidence: 0.25
+      - 64.8
+      - 46.6
+      - 70.8
+      - 52.2
+      confidence: 0.35
     Security Room:
       box:
-      - 69.0
-      - 48.0
-      - 74.0
-      - 55.0
-      confidence: 0.2
-    Radio Room:
-      box:
-      - 64.5
-      - 55.0
-      - 68.5
-      - 63.0
-      confidence: 0.2
-    Radio Hallway:
-      box:
-      - 68.5
-      - 55.0
-      - 71.0
-      - 63.0
-      confidence: 0.15
+      - 70.8
+      - 46.6
+      - 73.3
+      - 52.2
+      confidence: 0.3
     Floating Dock:
       box:
       - 43.0
@@ -129,50 +144,65 @@ floors:
       - 68.0
       - 100.0
       confidence: 0.25
+  features:
+  - {kind: hatch, name: "Coast Guard hatch", at: [53.1, 57.6]}
+  - {kind: hatch, name: "Lounge hatch", at: [59.9, 52.0]}
+  - {kind: stairs, name: "Stairs by Lounge (likely Printer Stairs)", at: [59.3, 57.2]}
+  - {kind: label, name: "Lower bridge", at: [62.6, 60.2]}
+  - {kind: label, name: "Construction Site", at: [86.0, 50.0]}
 - floor: 2F
-  image: r6-maps-kanal-blueprint-3.jpg
-  size:
-  - 1600
-  - 900
-  notes: Image 3 of 5 maps to Ubisoft's 1ST FLOOR, which is in-game 2F; two separate buildings linked by a narrow bridge fits Kanal's upper floor.
-    Fairly sure of the floor; individual room placements are rough guesses.
-  rooms:
-    Control Room:
-      box:
-      - 52.0
-      - 46.0
-      - 57.5
-      - 65.0
-      confidence: 0.4
-    Skybridge:
-      box:
-      - 60.5
-      - 58.0
-      - 64.5
-      - 62.0
-      confidence: 0.55
-    Server Room:
-      box:
-      - 64.5
-      - 46.0
-      - 70.0
-      - 55.0
-      confidence: 0.35
-    Radar Room:
-      box:
-      - 70.0
-      - 46.0
-      - 75.0
-      - 56.0
-      confidence: 0.35
-- floor: 3F
   image: r6-maps-kanal-blueprint-4.jpg
   size:
   - 1600
   - 900
-  notes: Image 4 of 5 maps to Ubisoft's 2ND FLOOR, which is 3F in-game; only a small partial interior is outlined, consistent with a top level.
-    Moderately sure of the floor call. None of the listed callouts (which stop at 2F) belong to 3F, so no rooms are given.
-  rooms: {}
+  notes: >-
+    Floor labels fixed 2026-11-06: image 4 of 5 is in-game 2F (was labelled 3F). Only the right (Control) building has
+    a full floor here, with three hatches over the 1F Security / Map Room site and the Skybridge at the top; the left
+    building is rooftop with two small stair rooms. Radar Room holds the hatch over Map Room; Server Room is the room
+    on the outside (canal-side) wall; Kitchen holds the third hatch. Control Room is a low-confidence guess (it may be
+    the room guides call Killbox).
+  rooms:
+    Skybridge:
+      box:
+      - 60.9
+      - 44.9
+      - 65.0
+      - 48.1
+      confidence: 0.6
+    Radar Room:
+      box:
+      - 65.2
+      - 46.6
+      - 68.7
+      - 49.9
+      confidence: 0.3
+    Server Room:
+      box:
+      - 65.2
+      - 50.0
+      - 70.2
+      - 55.7
+      confidence: 0.3
+    Control Room:
+      box:
+      - 68.7
+      - 46.6
+      - 72.8
+      - 52.9
+      confidence: 0.1
+    Kitchen:
+      box:
+      - 65.2
+      - 55.9
+      - 67.1
+      - 59.3
+      confidence: 0.25
+  features:
+  - {kind: hatch, name: "Radar site hatch", at: [66.5, 47.3]}
+  - {kind: hatch, name: "Killbox site hatch", at: [71.4, 47.3]}
+  - {kind: hatch, name: "Kitchen hatch", at: [65.5, 56.9]}
+  - {kind: stairs, name: "Stairs (Control building)", at: [69.4, 58.5]}
+  - {kind: stairs, name: "Top of stairs (Coast Guard building roof)", at: [59.3, 46.0]}
 - floor: ROOF
   image: r6-maps-kanal-blueprint-5.jpg
   size:

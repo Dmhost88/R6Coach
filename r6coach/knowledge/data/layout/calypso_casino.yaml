@@ -1,168 +1,80 @@
 map: calypso_casino
 source: Room boxes located by Claude on Ubisoft's official blueprints (grid percentages, x left->right, y top->bottom). Check against data/maps/<map>/preview/.
+# Floor labels fixed 2026-11-06: R6S_Maps_CalypsoCasino_1F.png is the casino floor (red carpets, card
+# tables) = 1F, and R6S_Maps_CalypsoCasino_Basement.png (bare concrete, the drill tunnel) = B. The basement
+# rooms that sat on the 1F image were re-read off the Basement image; the 2F duplicates that sat on the
+# Basement image were dropped. 2F re-read too: Pool is the billiards room in the middle of 2F (the outdoor
+# swimming pool is outside the building), Cigar Room is west of it, Kitchen north of Cigar with the
+# breakable outside wall, Barista north of Pool with the hatch over Bar, Humidor the small room in Aqua
+# with the hatch over Blackjack. 1F rooms added. All names are from guides, not Ubisoft; low confidence.
+sides: {top: "Casino street (facade)", left: "Pool Side"}
 floors:
 - floor: B
-  image: R6S_Maps_CalypsoCasino_1F.png
-  size:
-  - 1600
-  - 900
-  notes: Image 1 of 4 with floors B/1F/2F/ROOF in order, and the interior is many small rooms rather than an open casino floor, so likely basement;
-    room placements are rough guesses.
+  image: R6S_Maps_CalypsoCasino_Basement.png
+  size: [1600, 900]
+  notes: Bare concrete rooms and the dug tunnel with the drill on the south-east side, so this is the basement. Room names placed from the
+    guides' adjacencies (Cash Counting under Bar beside the site, Servers under Janitor); best guesses.
   rooms:
-    Vault:
-      box:
-      - 66.0
-      - 40.0
-      - 73.0
-      - 58.0
-      confidence: 0.35
-    Vault Checkpoint:
-      box:
-      - 61.0
-      - 40.0
-      - 66.0
-      - 50.0
-      confidence: 0.25
-    CCTV:
-      box:
-      - 52.0
-      - 26.0
-      - 56.0
-      - 34.0
-      confidence: 0.2
-    Manager's Office:
-      box:
-      - 55.0
-      - 27.0
-      - 63.0
-      - 40.0
-      confidence: 0.25
-    Servers:
-      box:
-      - 52.0
-      - 51.0
-      - 57.0
-      - 62.0
-      confidence: 0.2
-    Lockers:
-      box:
-      - 50.0
-      - 42.0
-      - 56.0
-      - 50.0
-      confidence: 0.2
-    Cash Counting:
-      box:
-      - 61.0
-      - 51.0
-      - 67.0
-      - 60.0
-      confidence: 0.25
+    Servers: {box: [63.5, 23.8, 69.7, 31.5], confidence: 0.3}
+    Cash Counting: {box: [63.5, 31.6, 69.7, 38.0], confidence: 0.3}
+    Manager's Office: {box: [63.5, 38.2, 67.3, 46.7], confidence: 0.3}
+    Vault Checkpoint: {box: [67.3, 38.2, 71.4, 46.7], confidence: 0.3}
+    CCTV: {box: [71.4, 38.2, 76.4, 46.7], confidence: 0.3}
+    Lockers: {box: [58.9, 38.2, 63.4, 51.0], confidence: 0.25}
+    Vault: {box: [63.5, 46.8, 67.0, 51.1], confidence: 0.15}
+  features:
+    - {kind: stairs, name: "Stairs to 1F Janitor", at: [66.9, 25.3]}
+    - {kind: stairs, name: "West stairs (by Lockers)", at: [61.7, 52.8]}
+    - {kind: stairs, name: "East stairs (tunnel side)", at: [76.6, 51.5]}
+    - {kind: label, name: "Drill tunnel", at: [71.5, 56.0]}
+- floor: 1F
+  image: R6S_Maps_CalypsoCasino_1F.png
+  size: [1600, 900]
+  notes: The casino floor (red carpet, card tables), so this is 1F. Rooms placed from guide adjacencies (Blackjack under the Humidor hatch with
+    Poker beside it, Bar under the Barista hatch next to Janitor stairs); best guesses.
+  rooms:
+    Bar: {box: [59.6, 24.0, 65.6, 40.7], confidence: 0.3}
+    Betting: {box: [55.0, 31.5, 59.6, 40.7], confidence: 0.25}
+    Janitor: {box: [65.7, 24.0, 70.0, 31.5], confidence: 0.3}
+    Roulette: {box: [56.0, 40.7, 59.7, 51.1], confidence: 0.25}
+    Bathroom: {box: [51.8, 51.1, 57.4, 57.2], confidence: 0.2}
+    Secret: {box: [54.6, 57.2, 57.4, 64.5], confidence: 0.25}
+    Blackjack: {box: [57.4, 51.1, 61.5, 64.5], confidence: 0.35}
+    Poker: {box: [61.5, 51.1, 66.6, 60.6], confidence: 0.35}
+    Lobby: {box: [66.2, 41.6, 73.0, 58.0], confidence: 0.25}
+  features:
+    - {kind: hatch, name: "Roulette hatch (to B)", at: [58.3, 46.8]}
+    - {kind: hatch, name: "Poker hatch (to B)", at: [62.1, 52.1]}
+    - {kind: stairs, name: "Janitor Stairs", at: [67.7, 25.5]}
+    - {kind: stairs, name: "Outside stairs (north-west)", at: [48.4, 31.8]}
+    - {kind: stairs, name: "Outside stairs (south-west)", at: [48.4, 54.5]}
+    - {kind: window, name: "Secret window", at: [56.0, 64.5]}
+    - {kind: door, name: "Lobby entrance", at: [75.0, 47.4]}
+    - {kind: label, name: "Pool Side", at: [38.0, 58.0]}
 - floor: 2F
   image: R6S_Maps_CalypsoCasino_2F.png
-  size:
-  - 1600
-  - 900
-  notes: Rooftop terrace with outdoor pool and small red-floored interior suggests the upper floor (2F), despite being image 2 of 4; moderate
-    confidence.
+  size: [1600, 900]
+  notes: Upper floor with the billiards room (Pool) in the middle; the outdoor swimming pool deck to the west is outside the building.
+    Room placements from guide adjacencies; moderate to low confidence.
   rooms:
-    Pool:
-      box:
-      - 31.0
-      - 49.0
-      - 45.0
-      - 71.0
-      confidence: 0.5
-    Aqua:
-      box:
-      - 51.5
-      - 51.0
-      - 57.5
-      - 61.0
-      confidence: 0.35
-    Humidor:
-      box:
-      - 53.0
-      - 26.0
-      - 59.0
-      - 35.0
-      confidence: 0.3
-    Kitchen:
-      box:
-      - 57.5
-      - 36.0
-      - 62.0
-      - 42.0
-      confidence: 0.3
-    Cigar Room:
-      box:
-      - 62.0
-      - 41.0
-      - 66.0
-      - 51.0
-      confidence: 0.35
-    Barista:
-      box:
-      - 66.0
-      - 36.0
-      - 73.0
-      - 58.0
-      confidence: 0.25
-- floor: 2F
-  image: R6S_Maps_CalypsoCasino_Basement.png
-  size:
-  - 1600
-  - 900
-  notes: Image 3 of 4 with only a small upper-storey interior outlined and a rooftop pool deck, so this should be Ubisoft's 1ST FLOOR (in-game
-    2F); fairly confident. Room positions are mostly guesses, apart from Pool.
-  rooms:
-    Pool:
-      box:
-      - 30.0
-      - 48.0
-      - 46.0
-      - 72.0
-      confidence: 0.45
-    Kitchen:
-      box:
-      - 63.0
-      - 38.0
-      - 71.0
-      - 50.0
-      confidence: 0.3
-    Cigar Room:
-      box:
-      - 71.0
-      - 38.0
-      - 77.0
-      - 47.0
-      confidence: 0.3
-    Humidor:
-      box:
-      - 63.0
-      - 31.0
-      - 70.0
-      - 38.0
-      confidence: 0.25
-    Barista:
-      box:
-      - 58.0
-      - 50.0
-      - 71.0
-      - 64.0
-      confidence: 0.25
-    Aqua:
-      box:
-      - 53.0
-      - 24.0
-      - 63.0
-      - 38.0
-      confidence: 0.25
+    Kitchen: {box: [57.4, 35.8, 62.1, 42.3], confidence: 0.35}
+    Cigar Room: {box: [57.4, 42.3, 62.1, 52.4], confidence: 0.35}
+    Pool: {box: [62.1, 42.3, 66.2, 52.6], confidence: 0.4}
+    Barista: {box: [62.0, 32.1, 66.2, 42.3], confidence: 0.3}
+    Humidor: {box: [57.6, 52.8, 60.9, 58.0], confidence: 0.3}
+    Aqua: {box: [51.7, 51.0, 57.6, 61.7], confidence: 0.3}
+    Lobby: {box: [66.2, 42.0, 73.3, 52.6], confidence: 0.25}
+  features:
+    - {kind: hatch, name: "Barista hatch (over Bar)", at: [63.4, 33.4]}
+    - {kind: hatch, name: "Humidor hatch (over Blackjack)", at: [60.2, 56.7]}
+    - {kind: stairs, name: "Aqua Stairs", at: [51.1, 58.7]}
+    - {kind: stairs, name: "Outside stairs (north-west)", at: [48.4, 32.5]}
+    - {kind: label, name: "Pool Side (outdoor pool)", at: [38.0, 58.0]}
 - floor: ROOF
   image: R6S_Maps_CalypsoCasino_Roof.png
-  size:
-  - 1600
-  - 900
+  size: [1600, 900]
   notes: 'Fairly confident: this is the last of 4 images and shows the building top-down with rooftops, AC units and the open-air pool terrace.
     None of the listed callouts belong to the roof level, so no rooms are mapped.'
   rooms: {}
+  features:
+    - {kind: label, name: "Crane", at: [70.6, 72.0]}

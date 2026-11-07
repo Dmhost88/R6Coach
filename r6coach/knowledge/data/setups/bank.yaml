@@ -1,0 +1,481 @@
+map: bank
+briefs:
+  # ------------------------------------------------------------------ 2F CEO Office / 2F Executive Lounge
+  - id: bank-ceo-team-reinforce
+    site: ceo_executive_lounge
+    side: defense
+    operators: []
+    title: "Top Square wall, Lounge walls, Janitor hatch open"
+    text: >-
+      Reinforce both CEO-Top Square panels first, then Lounge to Front Desk and the CEO-Janitor wall. Keep the
+      Janitor hatch open with murder holes so a player below can gas or shoot up, and keep the Lounge to
+      Conference hallway open for the swing onto CEO.
+    placements:
+      - kind: reinforce
+        floor: 2F
+        between: [CEO Office, Skylight Stairwell]
+        nudge: [0, -2.0]
+        note: "Both panels; the main hard breach"
+      - kind: reinforce
+        floor: 2F
+        between: [Executive Lounge, Front Desk]
+        note: "Both panels"
+      - kind: reinforce
+        floor: 2F
+        between: [CEO Office, Janitor Closet]
+        nudge: [-1.5, 0]
+        note: "CEO wall to Janitor"
+      - kind: open
+        floor: 2F
+        at: [57.5, 59.0]
+        name: "Janitor hatch"
+        note: "Open, with murder holes for play from 1F Admin"
+      - kind: rotate
+        floor: 2F
+        between: [Conference Room, Meeting Hallway]
+        note: "Lounge-Conference hallway stays open"
+  - id: bank-ceo-kaid-top-square
+    site: ceo_executive_lounge
+    side: defense
+    operators: [Kaid]
+    title: "Claw the Top Square wall"
+    text: >-
+      Claw the CEO-Top Square wall low from the CEO side, then put the second claw on the Janitor hatch area or
+      the CEO-Janitor wall. Don't stand behind the Top Square wall when Ace or Thermite blows it; fight from Janitor.
+    placements:
+      - kind: kaid
+        floor: 2F
+        between: [CEO Office, Skylight Stairwell]
+        nudge: [-1.2, 1.5]
+        note: "Low, CEO side"
+      - kind: kaid
+        floor: 2F
+        between: [CEO Office, Janitor Closet]
+        nudge: [1.5, -1.0]
+        note: "Second claw, Janitor side wall"
+      - kind: anchor
+        floor: 2F
+        room: Janitor Closet
+        note: "Contest the breacher from Janitor, not behind the wall"
+  - id: bank-ceo-mira-lounge
+    site: ceo_executive_lounge
+    side: defense
+    operators: [Mira]
+    title: "Mira from Lounge into CEO"
+    text: >-
+      Reinforce the Lounge-CEO wall and window it so the Lounge anchor sees the CEO bookshelf plant. A second
+      window on the Conference south wall to the hallway is optional.
+    placements:
+      - kind: reinforce
+        floor: 2F
+        between: [CEO Office, Executive Lounge]
+        nudge: [0, -2.5]
+        note: "Both panels"
+      - kind: mira
+        floor: 2F
+        between: [CEO Office, Executive Lounge]
+        nudge: [-0.8, 2.0]
+        note: "Face it into CEO"
+      - kind: mira
+        floor: 2F
+        between: [Conference Room, Meeting Hallway]
+        nudge: [1.5, 0]
+        note: "Optional, Conference south wall"
+      - kind: anchor
+        floor: 2F
+        room: Executive Lounge
+        note: "Behind the Mira"
+  - id: bank-ceo-attack-top-square
+    site: ceo_executive_lounge
+    side: attack
+    operators: [Ace, Thermite, Thatcher, Buck]
+    title: "Stock from below, open Top Square"
+    text: >-
+      From Back Alley, win Stock with Buck shooting up from 1F, then take Top Square. Thatcher EMPs the claws
+      and Ace or Thermite opens the far CEO-Top Square panel; plant by the bookshelf and watch Main Stairs.
+    placements:
+      - kind: entry
+        floor: 2F
+        at: [61.5, 76.0]
+        name: "Stock window"
+        note: "Phantom pressure and the way in from Terrace"
+      - kind: drone
+        floor: 2F
+        room: Skylight Stairwell
+        note: "Drone Top Square and Janitor"
+      - kind: ace
+        floor: 2F
+        between: [CEO Office, Skylight Stairwell]
+        nudge: [1.2, 0]
+        note: "From Top Square, after the EMP"
+      - kind: plant
+        floor: 2F
+        room: CEO Office
+        nudge: [2.5, -3.0]
+        note: "Bookshelf by the far Top Square panel"
+  - id: bank-ceo-attack-windows
+    site: ceo_executive_lounge
+    side: attack
+    operators: [Hibana, Nomad]
+    title: "CEO window and the E3 wall"
+    text: >-
+      A rappeller on the CEO window cuts Janitor and the Lounge swing while the team works Top Square. Hibana
+      can open the E3 elevator wall as a fallback breach to cut rotates.
+    placements:
+      - kind: entry
+        floor: 2F
+        at: [58.5, 36.5]
+        name: "CEO window"
+        note: "Rappel; drone Front Desk first"
+      - kind: breach
+        floor: 2F
+        room: Elevators
+        note: "E3 elevator wall (usually opened by Hibana)"
+
+  # ------------------------------------------------------------------ 1F Open Area / 1F Staff Room
+  - id: bank-staff-team-reinforce
+    site: open_area_staff_room
+    side: defense
+    operators: []
+    title: "Hatches first, then the Square wall"
+    text: >-
+      Prep is short: reinforce the Stock hatch and the Janitor hatch on 2F first. Then three of the four Square
+      wall panels, the Staff wall facing Electrical and the Printer panel in line with the window.
+    placements:
+      - kind: hatch
+        floor: 2F
+        at: [52.5, 77.0]
+        name: "Stock hatch"
+        note: "First thing in prep"
+      - kind: hatch
+        floor: 2F
+        at: [57.5, 59.0]
+        name: "Janitor hatch"
+        note: "Second"
+      - kind: reinforce
+        floor: 1F
+        at: [66.0, 55.0]
+        name: "Square wall"
+        note: "Panels 1-3"
+      - kind: reinforce
+        floor: 1F
+        between: [Staff Room, Electrical Room]
+        note: "Staff wall facing Electrical"
+      - kind: reinforce
+        floor: 1F
+        between: [Staff Room, Printer Room]
+        note: "Printer panel in line with the window"
+      - kind: rotate
+        floor: 1F
+        between: [Open Area, Staff Room]
+        note: "Crouch rotate Open Area-Staff"
+  - id: bank-staff-kaid-square
+    site: open_area_staff_room
+    side: defense
+    operators: [Kaid]
+    title: "Claw Square wall panel 1"
+    text: >-
+      Claw the first Square wall panel and keep the second claw for whichever hatch they go for. Head holes above
+      the Square wall let you C4 or gas the breacher.
+    placements:
+      - kind: kaid
+        floor: 1F
+        at: [64.0, 55.5]
+        name: "Square wall, panel 1"
+        note: "Low, Staff side"
+      - kind: open
+        floor: 1F
+        at: [68.0, 55.0]
+        name: "Square wall head holes"
+        note: "Above the reinforced panels"
+  - id: bank-staff-mira-rotate
+    site: open_area_staff_room
+    side: defense
+    operators: [Mira]
+    title: "Mira the rotate and Printer panels"
+    text: >-
+      Window the Open Area-Staff panel beside the rotate and the Printer panel so the Staff Room anchor behind the
+      counter sees both Open Area and the Printer window hop.
+    placements:
+      - kind: mira
+        floor: 1F
+        between: [Open Area, Staff Room]
+        nudge: [0, -2.5]
+        note: "Beside the rotate"
+      - kind: mira
+        floor: 1F
+        between: [Staff Room, Printer Room]
+        nudge: [1.5, 0]
+        note: "In line with the Printer window"
+      - kind: anchor
+        floor: 1F
+        room: Staff Room
+        note: "Behind the kitchen counter"
+  - id: bank-staff-attack-vertical
+    site: open_area_staff_room
+    side: attack
+    operators: [Ram, Buck, Ash]
+    title: "Win 2F, open the Stock floor"
+    text: >-
+      Take Stock and Top Square on 2F first, then Ram or Buck opens the Stock floor onto the Mira and the anchor.
+      Ash opens the Printer window and Electrical early for lines.
+    placements:
+      - kind: breach
+        floor: 2F
+        at: [52.5, 77.0]
+        name: "Stock hatch / Stock floor"
+        note: "Ram or Buck the floor around it"
+      - kind: breach
+        floor: 1F
+        at: [68.0, 76.5]
+        name: "Printer window"
+        note: "Open early for phantom pressure"
+      - kind: drone
+        floor: 1F
+        room: Open Area
+        note: "Pre-place for the vertical"
+  - id: bank-staff-attack-square-wall
+    site: open_area_staff_room
+    side: attack
+    operators: [Ace, Brava, Thatcher]
+    title: "Burn the Square wall, plant the counter"
+    text: >-
+      With 2F won, Brava or Thatcher clears the claw and Ace opens the Square wall from Bottom Square. Plant
+      behind the Staff Room counter and hold from the vertical above.
+    placements:
+      - kind: ace
+        floor: 1F
+        at: [66.0, 54.5]
+        name: "Square wall"
+        note: "From Bottom Square"
+      - kind: plant
+        floor: 1F
+        room: Staff Room
+        nudge: [3.0, 0]
+        note: "Behind the counter"
+
+  # ------------------------------------------------------------------ 1F Tellers' Office / 1F Archives
+  - id: bank-tellers-team-reinforce
+    site: tellers_archives
+    side: defense
+    operators: []
+    title: "Archives Square wall and the hatches"
+    text: >-
+      Reinforce both Archives-Square panels and the Tellers' Office walls, plus the Janitor hatch above Admin.
+      Keep the Archives-Admin-Open Area rotate open and the Lobby hatch watched rather than reinforced.
+    placements:
+      - kind: reinforce
+        floor: 1F
+        between: [Archives, Skylight Stairwell]
+        note: "Both panels"
+      - kind: reinforce
+        floor: 1F
+        between: [Tellers' Office, Tellers]
+        note: "Tellers' Office wall toward Lobby"
+      - kind: hatch
+        floor: 2F
+        at: [57.5, 59.0]
+        name: "Janitor hatch"
+        note: "Over Admin"
+      - kind: rotate
+        floor: 1F
+        between: [Archives, Admin Office]
+        note: "Archives-Admin-Open Area stays open"
+  - id: bank-tellers-kaid-archives
+    site: tellers_archives
+    side: defense
+    operators: [Kaid]
+    title: "Claw the Archives Square wall"
+    text: >-
+      Claw the Archives-Square wall from the Archives side; anchor off the shelves. Castle or Noor in the
+      Executive Lounge above holds vertical.
+    placements:
+      - kind: kaid
+        floor: 1F
+        between: [Archives, Skylight Stairwell]
+        nudge: [-1.2, 1.5]
+        note: "Archives side"
+      - kind: anchor
+        floor: 1F
+        room: Archives
+        note: "Off the shelves"
+      - kind: anchor
+        floor: 2F
+        room: Executive Lounge
+        note: "Vertical over site"
+  - id: bank-tellers-attack-lobby
+    site: tellers_archives
+    side: attack
+    operators: [Ace, Buck, Thatcher]
+    title: "Lobby take, Lounge vertical"
+    text: >-
+      Win Lobby and the Executive Lounge, play Buck vertical down onto Tellers' Office, then Thatcher and Ace open
+      the Tellers' Office wall. Plant behind the bulletproof projector and watch E2 and Main Stairs.
+    placements:
+      - kind: drone
+        floor: 1F
+        room: Lobby
+        note: "Lobby, Lobby stairs and E2"
+      - kind: ace
+        floor: 1F
+        between: [Tellers' Office, Tellers]
+        nudge: [-1.0, 0]
+        note: "Tellers' Office wall"
+      - kind: plant
+        floor: 1F
+        room: Tellers' Office
+        note: "Behind the projector unit"
+  - id: bank-tellers-attack-archives
+    site: tellers_archives
+    side: attack
+    operators: [Hibana, Gridlock]
+    title: "Admin side into Archives"
+    text: >-
+      Open Printer and Electrical, clear Open Area, then go through Admin and open the Archives walls; often only
+      the last wall is hard. Hold Top Square and bottom Blue as the flanks.
+    placements:
+      - kind: entry
+        floor: 1F
+        at: [68.0, 76.5]
+        name: "Printer window"
+        note: "Way in from the Alley"
+      - kind: hibana
+        floor: 1F
+        between: [Archives, Admin Office]
+        note: "Admin walls into Archives"
+      - kind: plant
+        floor: 1F
+        room: Archives
+        note: "Archives after the wall"
+
+  # ------------------------------------------------------------------ B CCTV Room / B Lockers
+  - id: bank-basement-kaid-server-wall
+    site: cctv_lockers
+    side: defense
+    operators: [Kaid]
+    title: "Claw the Server wall and Admin hatch"
+    text: >-
+      Reinforce both CCTV-Server panels and claw them from CCTV, then claw the Admin hatch above. Re-claw after
+      Thatcher's EMP if you can.
+    placements:
+      - kind: reinforce
+        floor: B
+        between: [CCTV Room, Server Room]
+        nudge: [-1.5, 0]
+        note: "Both panels"
+      - kind: kaid
+        floor: B
+        between: [CCTV Room, Server Room]
+        nudge: [-1.0, 1.5]
+        note: "CCTV side"
+      - kind: kaid
+        floor: 1F
+        at: [59.0, 57.5]
+        name: "Admin hatch"
+        note: "Reinforce and claw"
+  - id: bank-basement-mira-red-hallway
+    site: cctv_lockers
+    side: defense
+    operators: [Mira]
+    title: "Mira on Red Hallway"
+    text: >-
+      Window the Red Hallway panel on the CCTV side so the CCTV anchor sees the rotate and the Lockers door; a
+      second window on the Lockers side or the Lockers south wall is common.
+    placements:
+      - kind: reinforce
+        floor: B
+        between: [Red Hallway, CCTV Room]
+        note: "CCTV side"
+      - kind: mira
+        floor: B
+        between: [Red Hallway, CCTV Room]
+        nudge: [0, 2.0]
+        note: "Face it into Red Hallway"
+      - kind: mira
+        floor: B
+        between: [Red Hallway, Lockers]
+        note: "Optional, Lockers side"
+  - id: bank-basement-team-hatches
+    site: cctv_lockers
+    side: defense
+    operators: []
+    title: "Hatches, Vault walls, Lobby hatch watched"
+    text: >-
+      Reinforce the Admin hatch, the Open Area hatch and the Elevator hatch, both Lockers-Vault Entrance panels
+      and the Loading Dock to Lockers Hallway wall. Keep Red Hallway open and watch the Lobby hatch into Vault.
+    placements:
+      - kind: hatch
+        floor: 1F
+        at: [59.0, 57.5]
+        name: "Admin hatch"
+      - kind: hatch
+        floor: 1F
+        at: [44.5, 70.5]
+        name: "Elevator hatch"
+      - kind: reinforce
+        floor: B
+        between: [Lockers, Vault Entrance]
+        note: "Two panels"
+      - kind: reinforce
+        floor: B
+        between: [Garage, Lockers Hallway]
+        note: "Loading Dock wall"
+      - kind: rotate
+        floor: B
+        room: Red Hallway
+        note: "Lockers to CCTV stays open"
+      - kind: camera
+        floor: 1F
+        at: [44.0, 38.5]
+        name: "Lobby hatch"
+        note: "Left open, watched"
+  - id: bank-basement-attack-server
+    site: cctv_lockers
+    side: attack
+    operators: [Ace, Thatcher, Hibana]
+    title: "Sewer into Server, open CCTV"
+    text: >-
+      From Jewelry Front, take the Sewer into Server. Thatcher EMPs the Server wall, Ace opens it, and Hibana opens
+      the Admin hatch from 1F to shoot down. Plant tight to the Server wall.
+    placements:
+      - kind: entry
+        floor: B
+        at: [75.5, 14.5]
+        name: "Sewer manhole"
+        note: "Drone Server and the stairs first"
+      - kind: ace
+        floor: B
+        between: [CCTV Room, Server Room]
+        nudge: [1.2, 0]
+        note: "From Server, after the EMP"
+      - kind: hibana
+        floor: 1F
+        at: [59.0, 57.5]
+        name: "Admin hatch"
+        note: "Vertical onto CCTV"
+      - kind: plant
+        floor: B
+        room: CCTV Room
+        nudge: [1.5, -2.5]
+        note: "Tight to the Server wall"
+  - id: bank-basement-attack-garage
+    site: cctv_lockers
+    side: attack
+    operators: [Twitch, Nomad]
+    title: "Garage pressure, Lockers side"
+    text: >-
+      A second group drones the Garage ramp and pushes late once drones have popped the utility; Twitch counters
+      Mira and Goyo here. Watch the Lobby hatch and Square on the way.
+    placements:
+      - kind: drone
+        floor: B
+        room: Garage
+        note: "Garage ramp drone"
+      - kind: breach
+        floor: B
+        between: [Garage, Lockers Hallway]
+        note: "Loading Dock wall"
+      - kind: plant
+        floor: B
+        room: Lockers
+        note: "After clearing Red Hallway"

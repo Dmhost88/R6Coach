@@ -1,5 +1,7 @@
 map: fortress
 source: Room boxes located by Claude on Ubisoft's official blueprints (grid percentages, x left->right, y top->bottom). Check against data/maps/<map>/preview/.
+sides:
+  left: "Sea (coast)"
 floors:
 - floor: 1F
   image: r6-maps-fortress-blueprint-1.jpg
@@ -86,6 +88,9 @@ floors:
       - 65.5
       - 64.0
       confidence: 0.2
+  features:
+  - {kind: label, name: "Courtyard (open-air, tiled)", at: [61.2, 49.8]}
+  - {kind: label, name: "Hammam fountain", at: [55.2, 58.4]}
 - floor: 2F
   image: r6-maps-fortress-blueprint-2.jpg
   size:
@@ -157,6 +162,10 @@ floors:
       - 66.0
       - 65.0
       confidence: 0.2
+  features:
+  - {kind: hatch, name: "Briefing hatch (over Waiting Room, not verified)", at: [64.2, 63.4]}
+  - {kind: hatch, name: "2F hatch over Sitting Room side (Horse hatch per guides, not verified)", at: [62.2, 54.0]}
+  - {kind: hatch, name: "2F hatch over Gun Room side", at: [57.4, 53.2]}
 - floor: ROOF
   image: r6-maps-fortress-blueprint-3.jpg
   size:

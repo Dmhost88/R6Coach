@@ -69,8 +69,42 @@ KOKORO_SHA256 = {
     "voices-v1.0.bin": "bca610b8308e8d99f32e6fe4197e7ec01679264efed0cac9140fe9c29f1fbf7d",
 }
 
-SENTENCE_PAUSE = 0.15     # seconds of silence between split sentences
-SPLIT_MIN_CHARS = 60      # shorter lines are synthesised whole (better prosody, one cache entry)
+SENTENCE_PAUSE = 0.08     # seconds of silence between split sentences
+SILENCE_LEVEL = 0.01      # leading/trailing samples quieter than this are trimmed before playing
+
+
+def trim_silence(data: np.ndarray, rate: int, keep: float = 0.02) -> np.ndarray:
+    """Cut the silence voices put at the start and end of a clip (Piper adds ~0.2 s each side),
+    keeping a few ms so words don't click."""
+    level = np.abs(data) if data.ndim == 1 else np.abs(data).max(axis=1)
+    loud = np.flatnonzero(level > SILENCE_LEVEL)
+    if loud.size == 0:
+        return data
+    pad = int(keep * rate)
+    return data[max(0, loud[0] - pad): loud[-1] + 1 + pad]
+PLAY_BLOCK_S = 0.05        # audio is written in blocks this long; a cut-off lands within one block
+
+
+class _Prefetch:
+    """Runs one synthesis on a helper thread so the next sentence is ready when this one ends."""
+
+    def __init__(self, fn, arg):
+        self._out = None
+        self._t = threading.Thread(target=self._go, args=(fn, arg), name="tts-prefetch", daemon=True)
+        self._t.start()
+
+    def _go(self, fn, arg):
+        try:
+            self._out = fn(arg)
+        except Exception:
+            log.exception("prefetch synthesis failed")
+
+    def result(self):
+        self._t.join()
+        return self._out
+
+
+SPLIT_MIN_CHARS = 60     # shorter lines are synthesised whole (better prosody, one cache entry)
 
 
 def pcm16_to_wav(pcm: bytes, rate: int) -> bytes:
@@ -440,9 +474,11 @@ class Speaker:
         self._interrupt()
 
     def _interrupt(self) -> None:
+        # Only the speaker thread touches PortAudio: calling sd.stop() from another thread while
+        # the speaker is in sd.play/sd.wait corrupted the heap and killed the process (0xc0000374).
+        # Bumping the epoch makes the speaker stop writing within one block.
         with self._play_lock:
             self._epoch += 1
-            sd.stop()
 
     def say(self, text: str, priority: int = 2, ttl: float = 20.0, phase: str = "") -> None:
         text = text.strip()
@@ -470,8 +506,7 @@ class Speaker:
         with self._play_lock:
             # Checked under the play lock, so a line that started in the meantime isn't cut by mistake.
             if self._playing_phase in phases:
-                self._epoch += 1
-                sd.stop()
+                self._epoch += 1           # the speaker thread stops writing; see _interrupt
 
     def skip(self) -> None:
         self._interrupt()
@@ -522,7 +557,7 @@ class Speaker:
                 nxt = self.synth.wav(chunks[i + 1]) if i + 1 < len(chunks) else None
                 continue
             data, rate = sf.read(io.BytesIO(wav), dtype="float32")
-            data = np.clip(data * float(self.cfg.volume), -1.0, 1.0)
+            data = trim_silence(np.clip(data * float(self.cfg.volume), -1.0, 1.0), rate)
             if i + 1 < len(chunks):
                 pad = np.zeros((int(SENTENCE_PAUSE * rate),) + data.shape[1:], dtype=data.dtype)
                 data = np.concatenate([data, pad])
@@ -532,14 +567,32 @@ class Speaker:
                 if not announced:
                     self.bus.publish("coach.said", text=item.text, phase=item.phase, audio=True)
                     announced = True
-                sd.play(data, rate, device=self._device())
             # Synthesise the next sentence while this one plays.
-            nxt = self.synth.wav(chunks[i + 1]) if i + 1 < len(chunks) else None
-            sd.wait()
-            if epoch != self._epoch:
+            nxt_job = None
+            if i + 1 < len(chunks):
+                nxt_job = _Prefetch(self.synth.wav, chunks[i + 1])
+            ok = self._play_blocking(data, rate, epoch)
+            nxt = nxt_job.result() if nxt_job else None
+            if not ok or epoch != self._epoch:
                 return
         if not announced:
             self.bus.publish("coach.said", text=item.text, phase=item.phase, audio=False)
+
+    def _play_blocking(self, data: np.ndarray, rate: int, epoch: int) -> bool:
+        """Play on a stream this thread owns, in short blocks, so a cut-off only stops writing.
+        Returns False if the line was cut off."""
+        if data.ndim == 1:
+            data = data[:, None]
+        data = np.ascontiguousarray(data, dtype=np.float32)
+        block = max(256, int(rate * PLAY_BLOCK_S))
+        with sd.OutputStream(samplerate=rate, channels=data.shape[1], dtype="float32",
+                             device=self._device()) as stream:
+            for s in range(0, len(data), block):
+                if epoch != self._epoch or self.muted or self._stop:
+                    stream.abort()
+                    return False
+                stream.write(data[s:s + block])
+        return True
 
     def idle(self) -> bool:
         with self._cv:

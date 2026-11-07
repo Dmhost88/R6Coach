@@ -1,0 +1,463 @@
+# Standard setup briefs for Oregon. See README.md in this folder for the format.
+# Positions: room boxes from layout/oregon.yaml where they fit; `at` points read off Ubisoft's
+# blueprints (data/maps/oregon/, which date from 2020). Where the layout can't pin a named wall,
+# the icon sits in the room it belongs to and the note names the wall. "Usually" in a note marks a
+# common spot not verified on the current (2026) map version.
+map: oregon
+briefs:
+  # ---------------------------------------------------------------- 2F Kids' Dorms / Dorms Main Hall
+  - id: oregon-dorms-team-reinforcements
+    site: kids_dorms_dorms_main_hall
+    side: defense
+    operators: []
+    title: "Dorms: deny Master and Attic"
+    text: >-
+      Reinforce both halves of the Master breach wall, the left side of the Armory wall, both Attic
+      walls facing Big Tower and the Master/Attic wall. Keep the Kids' Dorms rotate and its feet
+      holes toward Big Window.
+    placements:
+      - kind: reinforce
+        floor: 2F
+        room: Master Bedroom
+        note: "Master breach wall into Dorms, both halves"
+      - kind: reinforce
+        floor: 2F
+        between: [Armory, Dorms Main Hall]
+        note: "Armory wall, left side"
+      - kind: reinforce
+        floor: 2F
+        room: Attic
+        nudge: [0, -6.0]
+        note: "Both Attic walls facing Big Tower"
+      - kind: open
+        floor: 2F
+        between: [Kids' Dorms, Trophy Room]
+        note: "Kids' Dorms rotate and feet holes"
+      - kind: hatch
+        floor: 2F
+        at: [40.9, 54.2]
+        name: "Kids hatch"
+        note: "Team call: reinforce it, or leave it soft as a drop"
+  - id: oregon-dorms-kaid-master
+    site: kids_dorms_dorms_main_hall
+    side: defense
+    operators: [Kaid, Bandit]
+    title: "Claw the Master breach wall"
+    text: >-
+      Claws on the Master breach wall, then the Attic walls. If they bring Thatcher or Kali, re-claw
+      or switch to Bandit batteries after the disruptor.
+    placements:
+      - kind: kaid
+        floor: 2F
+        room: Master Bedroom
+        nudge: [1.2, 0]
+        note: "Master breach wall, low"
+      - kind: kaid
+        floor: 2F
+        room: Attic
+        nudge: [1.2, -6.0]
+        note: "Attic walls"
+  - id: oregon-dorms-mira-azami
+    site: kids_dorms_dorms_main_hall
+    side: defense
+    operators: [Mira, Azami, Thorn]
+    title: "Window onto the plant, close Big Window"
+    text: >-
+      Mira on the Dorms Main Hall wall facing Kids' Dorms watches the default plant. Azami closes the
+      Kids-Trophy and Big Window lines, and Thorn blooms Big Window, White Stairs and the Trophy door.
+    placements:
+      - kind: mira
+        floor: 2F
+        between: [Kids' Dorms, Dorms Main Hall]
+        note: "Dorms Main Hall side"
+      - kind: deployable
+        floor: 2F
+        between: [Kids' Dorms, exterior]
+        edge: left
+        note: "Azami barrier on the Big Window line"
+      - kind: trap
+        floor: 2F
+        between: [Kids' Dorms, Trophy Room]
+        nudge: [0, 2.0]
+        note: "Thorn bloom by the Trophy door"
+  - id: oregon-dorms-attack-big-tower-master
+    site: kids_dorms_dorms_main_hall
+    side: attack
+    operators: [Thermite, Thatcher]
+    title: "Big Tower, Attic, then the Master wall"
+    text: >-
+      From Junkyard take Big Tower, clear Attic and Master, then Thatcher pops the claws and Thermite
+      opens the Master wall. Plant on the Dorms Main Hall bunk line.
+    placements:
+      - kind: entry
+        floor: 3F
+        room: Big Tower
+        note: "Clear the roam first"
+      - kind: entry
+        floor: 2F
+        room: Attic
+        note: "Clear the Attic player"
+      - kind: thermite
+        floor: 2F
+        room: Master Bedroom
+        nudge: [-1.2, 0]
+        note: "Master breach wall into Dorms"
+      - kind: plant
+        floor: 2F
+        room: Dorms Main Hall
+        note: "Bunk line by the Master breach"
+  - id: oregon-dorms-attack-armory-split
+    site: kids_dorms_dorms_main_hall
+    side: attack
+    operators: [Hibana, Kali]
+    title: "Armory plus Big Window split"
+    text: >-
+      Hibana opens the Armory wall while Kali shoots the denial. A rappel player swings Big Window on
+      the breach so Kids and Trophy have to split their attention.
+    placements:
+      - kind: hibana
+        floor: 2F
+        between: [Armory, Dorms Main Hall]
+        nudge: [1.2, 0]
+        note: "Armory wall, left side"
+      - kind: entry
+        floor: 2F
+        between: [Kids' Dorms, exterior]
+        edge: left
+        nudge: [-1.0, 0]
+        note: "Big Window rappel"
+      - kind: plant
+        floor: 2F
+        room: Kids' Dorms
+        note: "Corner by Big Window once Kids is clear"
+  # ---------------------------------------------------------------- 1F Kitchen / Dining Hall
+  - id: oregon-dining-team-reinforcements
+    site: kitchen_dining_hall
+    side: defense
+    operators: []
+    title: "Kitchen / Dining: Small Tower side"
+    text: >-
+      Reinforce both Small Tower wall panels, both Meeting-side back wall panels and the right half of
+      the Showers wall, plus the Kids hatch above Kitchen. Keep the two Security rotates and the
+      Showers rotate with its left foot hole open.
+    placements:
+      - kind: reinforce
+        floor: 1F
+        between: [Dining Hall, Small Tower]
+        note: "Small Tower wall, both panels"
+      - kind: reinforce
+        floor: 1F
+        between: [Kitchen, Meeting Hall]
+        note: "Meeting-side back wall"
+      - kind: reinforce
+        floor: 1F
+        between: [Dining Hall, Showers]
+        note: "Showers wall, right half"
+      - kind: hatch
+        floor: 2F
+        at: [40.9, 54.2]
+        name: "Kids hatch"
+        note: "Reinforce so nobody drops onto site"
+      - kind: open
+        floor: 1F
+        between: [Security, Dining Hall]
+        note: "Two Security rotates"
+  - id: oregon-dining-kaid-small-tower
+    site: kitchen_dining_hall
+    side: defense
+    operators: [Kaid, Bandit]
+    title: "Claw the Small Tower wall"
+    text: >-
+      Claws on the Small Tower wall, the first thing attackers hit from Street. Bandit is the backup
+      if there's no Kaid.
+    placements:
+      - kind: kaid
+        floor: 1F
+        between: [Dining Hall, Small Tower]
+        nudge: [-1.2, 0]
+        note: "Dining side"
+  - id: oregon-dining-castle-freezer
+    site: kitchen_dining_hall
+    side: defense
+    operators: [Castle, Pulse]
+    title: "Close Freezer, play the floor above"
+    text: >-
+      Castle barricades the Freezer door so the basement lurk can't walk in. Pulse plays 2F above the
+      Dining wall and shoots the Thermite through the floor around 1:30.
+    placements:
+      - kind: castle
+        floor: B
+        room: Freezer Stairs
+        note: "Freezer door; usually barricaded at the stairs, with wire on Z"
+      - kind: anchor
+        floor: 2F
+        room: Attic
+        nudge: [0, 4.0]
+        note: "Above Dining"
+  - id: oregon-dining-attack-small-tower-dining
+    site: kitchen_dining_hall
+    side: attack
+    operators: [Thermite, Thatcher, Hibana]
+    title: "Small Tower, then the Dining wall"
+    text: >-
+      From Street clear Small Tower and Showers, Thatcher pops the claws, then Thermite or Hibana
+      opens the Dining exterior wall. Plant against the breached wall.
+    placements:
+      - kind: entry
+        floor: 1F
+        room: Small Tower
+        note: "Clear the Clash contest"
+      - kind: thermite
+        floor: 1F
+        between: [Dining Hall, exterior]
+        edge: right
+        note: "Dining exterior wall"
+      - kind: plant
+        floor: 1F
+        room: Dining Hall
+        note: "Against the breached wall"
+  - id: oregon-dining-attack-vertical
+    site: kitchen_dining_hall
+    side: attack
+    operators: [Buck, Sledge]
+    title: "Take 2F above site"
+    text: >-
+      Take the floor above Kitchen to stop the Pulse vertical and open lines down. Someone watches the
+      Freezer stairs flank.
+    placements:
+      - kind: breach
+        floor: 2F
+        room: Kids' Dorms
+        note: "Floor above Kitchen"
+      - kind: drone
+        floor: B
+        room: Freezer Stairs
+        note: "Freezer stairs flank"
+  # ---------------------------------------------------------------- 1F Meeting Hall / Kitchen
+  - id: oregon-meeting-team-reinforcements
+    site: meeting_hall_kitchen
+    side: defense
+    operators: []
+    title: "Meeting: shut Stage and Split"
+    text: >-
+      Reinforce two Stage wall panels, both Split walls, the Meeting Garage wall and the Kitchen-side Z
+      wall. Keep the box-side Kitchen/Meeting crouch rotate and the Meeting hatch open for the
+      upstairs player.
+    placements:
+      - kind: reinforce
+        floor: 1F
+        between: [Rear Stage, Meeting Hall]
+        note: "Stage wall, two panels"
+      - kind: reinforce
+        floor: 1F
+        between: [Meeting Hall, Garage]
+        note: "Meeting Garage wall"
+      - kind: reinforce
+        floor: 1F
+        room: Kitchen
+        nudge: [0, 3.0]
+        note: "Z corridor wall, Kitchen side (exact panel not marked)"
+      - kind: open
+        floor: 1F
+        between: [Kitchen, Meeting Hall]
+        note: "Box-side crouch rotate"
+  - id: oregon-meeting-bandit-stage
+    site: meeting_hall_kitchen
+    side: defense
+    operators: [Bandit]
+    title: "Batteries on the Stage wall"
+    text: >-
+      Bandit batteries on the two Stage panels, then play the box-side rotate. Trick when the
+      Thermite or Hibana goes up.
+    placements:
+      - kind: bandit
+        floor: 1F
+        between: [Rear Stage, Meeting Hall]
+        nudge: [1.2, 0]
+        note: "Both Stage panels"
+      - kind: anchor
+        floor: 1F
+        between: [Kitchen, Meeting Hall]
+        nudge: [0, 2.0]
+        note: "Box-side rotate"
+  - id: oregon-meeting-castle-kaid
+    site: meeting_hall_kitchen
+    side: defense
+    operators: [Castle, Kaid]
+    title: "Castle Split, Kaid on the Meeting hatch"
+    text: >-
+      Castle barricades the Split door and Garage-side doors. Kaid claws the Attic walls and holds the
+      Meeting hatch from upstairs.
+    placements:
+      - kind: castle
+        floor: 1F
+        between: [Meeting Hall, Garage]
+        nudge: [0, -2.0]
+        note: "Garage double doors; Split door too"
+      - kind: kaid
+        floor: 2F
+        room: Attic
+        nudge: [-1.2, -6.0]
+        note: "Attic walls"
+  - id: oregon-meeting-attack-garage
+    site: meeting_hall_kitchen
+    side: attack
+    operators: [Ash, Zofia, Thermite]
+    title: "Garage take"
+    text: >-
+      Ash and Zofia break the barricade at the Garage doors and Thermite opens the Meeting Garage
+      wall. Gridlock watches White Stairs. Plant by the Garage doors or on Stage.
+    placements:
+      - kind: entry
+        floor: 1F
+        room: Garage
+        note: "Double doors"
+      - kind: thermite
+        floor: 1F
+        between: [Meeting Hall, Garage]
+        nudge: [-1.2, 0]
+        note: "Meeting Garage wall"
+      - kind: plant
+        floor: 1F
+        room: Meeting Hall
+        note: "By the Garage doors"
+  - id: oregon-meeting-attack-over
+    site: meeting_hall_kitchen
+    side: attack
+    operators: [Hibana, Buck]
+    title: "Meeting over from Big Tower"
+    text: >-
+      Take Big Tower, push Rear Stage and Attic, Hibana opens the Stage wall while Buck plays vertical
+      through the Meeting hatch.
+    placements:
+      - kind: entry
+        floor: 1F
+        room: Big Tower
+        note: "Start here"
+      - kind: hibana
+        floor: 1F
+        between: [Rear Stage, Meeting Hall]
+        nudge: [-1.2, 0]
+        note: "Stage wall"
+      - kind: plant
+        floor: 1F
+        room: Rear Stage
+        note: "Stage side"
+  # ---------------------------------------------------------------- B Laundry Room / Supply Room
+  - id: oregon-laundry-team-reinforcements
+    site: laundry_room_supply_room
+    side: defense
+    operators: []
+    title: "Laundry / Supply: deny every hatch"
+    text: >-
+      Reinforce the Freezer, Electrical and Laundry hatches, the right half of the Electrical wall
+      facing Blue Bunker, the right half of the Supply wall and both Pillar panels. Keep the Elbow
+      rotate open.
+    placements:
+      - kind: hatch
+        floor: 1F
+        at: [46.3, 62.7]
+        name: "Showers hatch"
+        note: "Reinforce; which guide name (Freezer, Laundry, Electrical) fits each 1F hatch is not verified"
+      - kind: hatch
+        floor: 1F
+        at: [55.8, 41.0]
+        name: "Dining Hall hatch"
+        note: "Reinforce"
+      - kind: hatch
+        floor: 1F
+        at: [55.5, 67.5]
+        name: "Lobby hatch"
+        note: "Reinforce"
+      - kind: reinforce
+        floor: B
+        between: [Electric Room, Blue Bunker]
+        nudge: [1.0, 0]
+        note: "Right half"
+      - kind: reinforce
+        floor: B
+        between: [Supply Room, Freezer]
+        note: "Supply wall, right half"
+      - kind: open
+        floor: B
+        between: [Laundry Room, Supply Room]
+        note: "Elbow rotate"
+  - id: oregon-laundry-mira-bunker
+    site: laundry_room_supply_room
+    side: defense
+    operators: [Mira, Jager]
+    title: "Mirror Blue Bunker"
+    text: >-
+      Mira on the right half of the Electrical wall watches Blue Bunker. Jager ADS on the Blue door
+      keeps the grenades off it.
+    placements:
+      - kind: mira
+        floor: B
+        between: [Electric Room, Blue Bunker]
+        nudge: [1.0, 1.0]
+        note: "Right half, Electrical side"
+      - kind: anchor
+        floor: B
+        room: Blue Bunker
+        nudge: [0, 2.0]
+        note: "Jager ADS by the Blue door"
+  - id: oregon-laundry-kaid-hatches
+    site: laundry_room_supply_room
+    side: defense
+    operators: [Kaid, Smoke]
+    title: "Claw the hatches, hold Pillar and Elbow"
+    text: >-
+      Kaid claws the Electrical and Freezer hatches and holds Pillar in Supply. Smoke holds Elbow and
+      saves gas for the plant.
+    placements:
+      - kind: kaid
+        floor: B
+        room: Electric Room
+        note: "Under the Electrical hatch"
+      - kind: anchor
+        floor: B
+        room: Supply Room
+        note: "Pillar"
+  - id: oregon-laundry-attack-bunker
+    site: laundry_room_supply_room
+    side: attack
+    operators: [Hibana, Thatcher, Buck]
+    title: "Bunker breach"
+    text: >-
+      From Construction Site take Blue Bunker, Thatcher EMPs the Electrical wall and Hibana opens it
+      to kill the Mira. Buck plays vertical from 1F. Plant in Supply near Pillar.
+    placements:
+      - kind: entry
+        floor: B
+        room: Blue Bunker
+        note: "Through the Blue door"
+      - kind: hibana
+        floor: B
+        between: [Electric Room, Blue Bunker]
+        nudge: [-1.0, 0]
+        note: "Electrical wall, Mira side"
+      - kind: plant
+        floor: B
+        room: Supply Room
+        note: "Near Pillar"
+  - id: oregon-laundry-attack-stairs-split
+    site: laundry_room_supply_room
+    side: attack
+    operators: []
+    title: "Laundry and Freezer stairs split"
+    text: >-
+      Clear the Banshees and traps on the stairs, then push Laundry Stairs and Freezer Stairs at once
+      while someone opens a 1F hatch over site. Plant in the Laundry corner.
+    placements:
+      - kind: entry
+        floor: B
+        room: Laundry Stairs
+        note: "Clear the Banshee"
+      - kind: entry
+        floor: B
+        room: Freezer Stairs
+        note: "Watch the Freezer swing"
+      - kind: plant
+        floor: B
+        room: Laundry Room
+        note: "Laundry corner"

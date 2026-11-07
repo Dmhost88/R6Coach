@@ -1,5 +1,9 @@
 map: coastline
 source: Room boxes located by Claude on Ubisoft's official blueprints (grid percentages, x left->right, y top->bottom). Check against data/maps/<map>/preview/.
+sides:
+  top: Pool Side
+  left: Ruins
+  right: Main Entrance / Courtyard
 floors:
 - floor: 1F
   image: r6-maps-coastline-blueprint-1.jpg
@@ -8,6 +12,14 @@ floors:
   - 900
   notes: 'Ground floor confidently: first of three images, full exterior surroundings visible (pool area north, ruins west, courtyard east), so
     this is 1F; interior room placements are best guesses.'
+  features:
+  - {kind: stairs, name: Main Stairs, at: [57.5, 56.5]}
+  - {kind: door, name: Main Entrance door, at: [65.2, 56.5]}
+  - {kind: door, name: Kitchen door, at: [46.5, 26.0]}
+  - {kind: label, name: Pool Side, at: [32.0, 12.0]}
+  - {kind: label, name: Ruins, at: [12.0, 50.0]}
+  - {kind: label, name: Courtyard, at: [80.0, 52.0]}
+  - {kind: label, name: Main Entrance, at: [72.0, 66.0]}
   rooms:
     Sunrise Bar:
       box:
@@ -86,6 +98,11 @@ floors:
   - 900
   notes: Image 2 of 3 on a two-storey map; smaller upper footprint with the open courtyard and palms visible below, so this is 2F (Ubisoft 1ST
     FLOOR). Room placements are best guesses.
+  features:
+  - {kind: hatch, name: Hookah hatch (over Sunrise), at: [36.5, 44.0]}
+  - {kind: hatch, name: Hatch by Hall of Fame, at: [57.0, 44.5]}
+  - {kind: hatch, name: Aquarium hatch, at: [51.5, 64.5]}
+  - {kind: hatch, name: Theater hatch, at: [33.0, 69.5]}
   rooms:
     Penthouse Bathroom:
       box:
@@ -150,4 +167,7 @@ floors:
   - 900
   notes: 'Very confident this is the roof: the image shows the building''s rooftop with AC units, the open courtyard skylight and a roof hatch,
     and it is the last of 3 images. None of the listed callouts are on the roof, so no rooms are given.'
+  features:
+  - {kind: hatch, name: Roof hatch, at: [62.7, 28.0]}
+  - {kind: label, name: Open courtyard (skylight), at: [48.0, 55.0]}
   rooms: {}

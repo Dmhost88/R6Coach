@@ -1,0 +1,464 @@
+# Standard setup briefs for Clubhouse. See README.md in this folder for the format.
+# Positions: room boxes from layout/clubhouse.yaml where they fit; `at` points read off Ubisoft's
+# blueprints (data/maps/clubhouse/). Spots marked "usually" in a note are common but not verified
+# on the current map version.
+map: clubhouse
+briefs:
+  # ---------------------------------------------------------------- 2F Gym / Bedroom
+  - id: clubhouse-gym-team-reinforcements
+    site: gym_bedroom
+    side: defense
+    operators: []
+    title: "Gym / Bedroom: walls and feet holes"
+    text: >-
+      Reinforce the Jacuzzi walls, the Construction panel and the Logistic Office single, plus the Gym
+      panel by the rotate. Open feet holes on the Bedroom-Gym wall and the mid-wall vault rotate so
+      Bedroom and Gym can crossfire the half-wall plant.
+    placements:
+      - kind: reinforce
+        floor: 2F
+        at: [40.2, 30.0]
+        name: "Jacuzzi wall"
+        note: "Both Jacuzzi exterior walls; usually the outer wall on the terrace side"
+      - kind: reinforce
+        floor: 2F
+        between: [Logistic Office, exterior]
+        edge: left
+        note: "Logistic Office single"
+      - kind: reinforce
+        floor: 2F
+        between: [Cash Room, Construction]
+        note: "Construction panel right of the rotate"
+      - kind: open
+        floor: 2F
+        between: [Gym, Bedroom]
+        note: "Feet holes and the mid-wall vault rotate"
+      - kind: hatch
+        floor: ROOF
+        at: [57.9, 12.8]
+        name: "Roof hatch"
+        note: "Guides call it the Logistic hatch; contest it or reinforce it if nobody holds Logistic"
+  - id: clubhouse-gym-kaid-jacuzzi
+    site: gym_bedroom
+    side: defense
+    operators: [Kaid]
+    title: "Claw the Jacuzzi walls"
+    text: >-
+      Claws go low on both reinforced Jacuzzi walls, then hold Logistic Office with C4. Re-claw after
+      a Thatcher EMP, because Ace stacks on Jacuzzi once the claws are gone.
+    placements:
+      - kind: kaid
+        floor: 2F
+        at: [40.2, 30.0]
+        name: "Jacuzzi wall"
+        nudge: [1.2, 0]
+        note: "Low, room side; usually two claws to cover both walls"
+      - kind: anchor
+        floor: 2F
+        room: Logistic Office
+        note: "Hold with C4"
+  - id: clubhouse-gym-mira-construction
+    site: gym_bedroom
+    side: defense
+    operators: [Mira]
+    title: "Mira the Construction panel"
+    text: >-
+      Put the Black Mirror on the reinforced Construction panel right of the rotate, so the site sees
+      Construction and Main stairs pushes without peeking.
+    placements:
+      - kind: mira
+        floor: 2F
+        between: [Cash Room, Construction]
+        nudge: [1.2, 0]
+        note: "Head height, Gym side of the panel"
+  - id: clubhouse-gym-castle-tubarao
+    site: gym_bedroom
+    side: defense
+    operators: [Castle, Tubarao]
+    title: "Shoot feet through the holes"
+    text: >-
+      Castle shoots feet from Bedroom through the Gym holes and blocks the main door. Tubarao plays
+      Bedroom from the Construction-side rotate.
+    placements:
+      - kind: castle
+        floor: 2F
+        room: Bedroom
+        note: "Bedroom main door"
+      - kind: anchor
+        floor: 2F
+        between: [Gym, Bedroom]
+        nudge: [0, -1.2]
+        note: "Bedroom side of the feet holes"
+  - id: clubhouse-gym-attack-logi-jacuzzi
+    site: gym_bedroom
+    side: attack
+    operators: []
+    title: "Logistics drop, Jacuzzi wall"
+    text: >-
+      From Construction Site take the roof and drop the Logistic hatch while the breach team works
+      Jacuzzi. Plant on the Gym half wall by the weights.
+    placements:
+      - kind: drone
+        floor: ROOF
+        at: [57.9, 12.8]
+        name: "Roof hatch"
+        note: "Drone down before dropping"
+      - kind: entry
+        floor: 2F
+        room: Logistic Office
+        note: "Drop and clear the C4 anchor"
+      - kind: plant
+        floor: 2F
+        room: Gym
+        note: "Half wall by the weights"
+  - id: clubhouse-gym-ace-jacuzzi
+    site: gym_bedroom
+    side: attack
+    operators: [Ace, Thatcher, Hibana]
+    title: "Open Jacuzzi, then the Bathroom wall"
+    text: >-
+      Thatcher EMPs the Jacuzzi claws, Ace opens Jacuzzi, then Ace or Hibana opens the Bathroom wall
+      into Bedroom. Zofia impacts the window panels.
+    placements:
+      - kind: ace
+        floor: 2F
+        at: [40.2, 30.0]
+        name: "Jacuzzi wall"
+        nudge: [-1.2, 0]
+        note: "After the EMP"
+      - kind: hibana
+        floor: 2F
+        between: [Bathroom, Bedroom]
+        note: "Bathroom wall into Bedroom"
+  # ---------------------------------------------------------------- 2F CCTV / Cash
+  - id: clubhouse-cctv-team-reinforcements
+    site: cctv_cash_room
+    side: defense
+    operators: []
+    title: "CCTV / Cash: walls to reinforce"
+    text: >-
+      Reinforce the two CCTV exterior panels, both Cash to Construction Connector panels, the Server
+      panel facing Garage Rafters and the two Server roof panels. Keep the two crouch rotations
+      between CCTV and Cash open.
+    placements:
+      - kind: reinforce
+        floor: 2F
+        between: [CCTV Room, exterior]
+        edge: right
+        note: "Two CCTV exterior panels"
+      - kind: reinforce
+        floor: 2F
+        between: [Cash Room, Construction]
+        note: "Cash to Construction Connector, both panels"
+      - kind: reinforce
+        floor: 2F
+        room: Server Room
+        note: "Server panel facing Rafters and the two Server roof panels"
+      - kind: open
+        floor: 2F
+        between: [CCTV Room, Cash Room]
+        note: "Two crouch rotations"
+  - id: clubhouse-cctv-garage-door-panels
+    site: cctv_cash_room
+    side: defense
+    operators: []
+    title: "Reinforce the Garage door panels"
+    text: >-
+      All four Garage door panels go down so attackers can't clear Garage from outside. Garage
+      Rafters is the zombie spot that holds Garage stairs.
+    placements:
+      - kind: reinforce
+        floor: 1F
+        between: [Garage, exterior]
+        edge: bottom
+        note: "All four Garage door panels"
+      - kind: anchor
+        floor: 2F
+        room: Garage (Rafters)
+        note: "Rafters zombie (Jager) on Garage stairs"
+  - id: clubhouse-cctv-bandit-trick
+    site: cctv_cash_room
+    side: defense
+    operators: [Bandit]
+    title: "Trick the CCTV exterior"
+    text: >-
+      Batteries on the two CCTV exterior panels, then trick them when the Thermite starts. Keep one
+      back for the main Cash wall if they go there instead.
+    placements:
+      - kind: bandit
+        floor: 2F
+        between: [CCTV Room, exterior]
+        edge: right
+        nudge: [-1.2, 0]
+        note: "Both panels, trick on the charge"
+  - id: clubhouse-cctv-mira-stairs
+    site: cctv_cash_room
+    side: defense
+    operators: [Mira]
+    title: "Mira on Eastern Stairs"
+    text: >-
+      Window on the Eastern Stairs side so CCTV sees the stairs push; Lesion mines both stairs below
+      it.
+    placements:
+      - kind: mira
+        floor: 2F
+        at: [70.0, 38.0]
+        name: "Eastern Stairs wall"
+        note: "Usually the CCTV wall facing the stairs"
+  - id: clubhouse-cctv-attack-garage-main-wall
+    site: cctv_cash_room
+    side: attack
+    operators: [Thermite, Thatcher, Capitao]
+    title: "Garage first, then the main Cash wall"
+    text: >-
+      Clear the Garage floor with Capitao, take Rafters, then Thatcher EMPs and Thermite burns the
+      main Cash wall. Save one EMP for Rafters.
+    placements:
+      - kind: entry
+        floor: 1F
+        room: Garage
+        note: "Clear the floor first"
+      - kind: entry
+        floor: 2F
+        room: Garage (Rafters)
+        note: "Take Rafters"
+      - kind: thermite
+        floor: 2F
+        between: [Cash Room, exterior]
+        edge: bottom
+        note: "Main Cash wall; usually burned after Rafters is clear"
+  - id: clubhouse-cctv-attack-plants
+    site: cctv_cash_room
+    side: attack
+    operators: []
+    title: "Plant tucked by the breach"
+    text: >-
+      Plant tucked beside the Cash breach and hold Lounge, or hop the CCTV window from Rafters and
+      plant the CCTV corner.
+    placements:
+      - kind: plant
+        floor: 2F
+        room: Cash Room
+        nudge: [0, 6.0]
+        note: "Tucked beside the breach"
+      - kind: entry
+        floor: 2F
+        between: [CCTV Room, exterior]
+        edge: bottom
+        note: "CCTV window from Rafters"
+      - kind: plant
+        floor: 2F
+        room: CCTV Room
+        note: "Corner after the window hop"
+  # ---------------------------------------------------------------- 1F Bar / Stock Room
+  - id: clubhouse-bar-team-reinforcements
+    site: bar_stock_room
+    side: defense
+    operators: []
+    title: "Bar / Stock: walls and the Gym lid"
+    text: >-
+      Reinforce the two outer Strip Club walls, the two Kitchen-hallway walls, both Stage walls and
+      the main Stock exterior wall. Keep the Strip to site rotate and Bar head holes open.
+    placements:
+      - kind: reinforce
+        floor: 1F
+        between: [Stock Room, exterior]
+        edge: bottom
+        note: "Main Stock exterior wall"
+      - kind: reinforce
+        floor: 1F
+        between: [Kitchen, Bar]
+        note: "Two Kitchen-hallway walls"
+      - kind: reinforce
+        floor: 1F
+        between: [Stage, exterior]
+        edge: left
+        note: "Both Stage walls"
+      - kind: reinforce
+        floor: 1F
+        between: [Strip Club, exterior]
+        edge: top
+        note: "Two outer Strip Club walls"
+      - kind: open
+        floor: 1F
+        between: [Strip Club, Bar]
+        note: "Strip to site rotate"
+  - id: clubhouse-bar-kaid-stock
+    site: bar_stock_room
+    side: defense
+    operators: [Kaid]
+    title: "Claw the Stock wall"
+    text: >-
+      Claw the main Stock exterior wall low on the inside. Hibana is the usual threat there, so watch
+      for Thatcher first.
+    placements:
+      - kind: kaid
+        floor: 1F
+        between: [Stock Room, exterior]
+        edge: bottom
+        nudge: [1.2, 0]
+        note: "Low, inside"
+  - id: clubhouse-bar-castle-pulse
+    site: bar_stock_room
+    side: defense
+    operators: [Castle, Pulse]
+    title: "Castle the Kitchen hallway, Pulse in Gym"
+    text: >-
+      Castle panels the Kitchen hallway doors. Pulse plays Gym above over the open Gym-side hatch and
+      C4s the plant from above.
+    placements:
+      - kind: castle
+        floor: 1F
+        between: [Kitchen, Bar]
+        nudge: [1.2, 0]
+        note: "Kitchen hallway doors"
+      - kind: anchor
+        floor: 2F
+        room: Gym
+        note: "Vertical over Bar"
+  - id: clubhouse-bar-attack-gym-stock
+    site: bar_stock_room
+    side: attack
+    operators: [Hibana, Thatcher, Buck]
+    title: "Gym first, then burn Stock"
+    text: >-
+      Buck takes Gym and opens the floor over Bar. Thatcher EMPs and Hibana opens the main Stock wall
+      while Ash breaks the Strip panels.
+    placements:
+      - kind: entry
+        floor: 2F
+        room: Gym
+        note: "Take Gym, open the floor"
+      - kind: hibana
+        floor: 1F
+        between: [Stock Room, exterior]
+        edge: bottom
+        nudge: [-1.2, 0]
+        note: "After the EMP"
+      - kind: breach
+        floor: 1F
+        between: [Strip Club, exterior]
+        edge: top
+        note: "Ash on the Strip panels"
+  - id: clubhouse-bar-attack-plant
+    site: bar_stock_room
+    side: attack
+    operators: []
+    title: "Plant behind the bar"
+    text: >-
+      Plant behind the bar by the bar machine, then hold it from the Gym holes and the Stock breach.
+    placements:
+      - kind: plant
+        floor: 1F
+        room: Bar
+        note: "By the bar machine"
+      - kind: anchor
+        floor: 1F
+        room: Stock Room
+        note: "Hold from the breach"
+  # ---------------------------------------------------------------- B Church / Arsenal Room
+  - id: clubhouse-church-team-reinforcements
+    site: church_arsenal_room
+    side: defense
+    operators: []
+    title: "Church / Arsenal: walls and hatches"
+    text: >-
+      Reinforce all three Church to Memorial panels, both Escape Tunnel panels and the Kitchen, Bar
+      and Stock Room hatches. Leave the Moto hatch open and keep the Church feet holes.
+    placements:
+      - kind: reinforce
+        floor: B
+        between: [Church, Memorial]
+        note: "All three panels"
+      - kind: reinforce
+        floor: B
+        between: [Church, Escape Tunnel]
+        nudge: [0, 1.5]
+        note: "Escape Tunnel, both panels"
+      - kind: hatch
+        floor: 1F
+        at: [56.6, 18.3]
+        name: "Kitchen hatch"
+        note: "Reinforce"
+      - kind: hatch
+        floor: 1F
+        at: [47.5, 45.9]
+        name: "Bar hatch"
+        note: "Reinforce"
+      - kind: open
+        floor: B
+        between: [Church, Arsenal Room]
+        note: "Church to Arsenal door stays a rotate"
+  - id: clubhouse-church-kaid-memorial
+    site: church_arsenal_room
+    side: defense
+    operators: [Kaid]
+    title: "Claw the Memorial wall"
+    text: >-
+      Claws on the Church to Memorial wall; it is the default Ace and Thermite target. Save one claw
+      for the Kitchen hatch if the team runs short.
+    placements:
+      - kind: kaid
+        floor: B
+        between: [Church, Memorial]
+        nudge: [-1.2, 0]
+        note: "Low, Church side"
+  - id: clubhouse-church-mira-smoke
+    site: church_arsenal_room
+    side: defense
+    operators: [Mira, Smoke]
+    title: "Mira the Church wall, gas the Kitchen hatch"
+    text: >-
+      Mira window on the Church wall so the table sees Memorial. Smoke saves gas for the Kitchen
+      hatch and the table plant.
+    placements:
+      - kind: mira
+        floor: B
+        between: [Church, Memorial]
+        nudge: [-1.2, -2.0]
+        note: "Usually the middle panel"
+      - kind: anchor
+        floor: B
+        room: Arsenal Room
+        note: "Smoke under the Kitchen hatch"
+  - id: clubhouse-church-attack-three-lanes
+    site: church_arsenal_room
+    side: attack
+    operators: [Ace, Thatcher, Hibana]
+    title: "Three lanes: Memorial, Kitchen hatch, Blue"
+    text: >-
+      Thatcher EMPs and Ace opens the Memorial wall. Hibana opens the Kitchen hatch to shoot into
+      Arsenal, and Nomad clears Garage and Oil Pit then pushes Blue.
+    placements:
+      - kind: ace
+        floor: B
+        between: [Church, Memorial]
+        nudge: [1.2, 0]
+        note: "From Memorial after the EMP"
+      - kind: hibana
+        floor: 1F
+        at: [56.6, 18.3]
+        name: "Kitchen hatch"
+        nudge: [1.2, 0]
+        note: "Open it, shoot down"
+      - kind: drone
+        floor: B
+        room: Oil Pit
+        note: "Clear Oil Pit for the Blue push"
+  - id: clubhouse-church-attack-plants
+    site: church_arsenal_room
+    side: attack
+    operators: []
+    title: "Plant behind the table"
+    text: >-
+      Plant behind the Church table or in Arsenal under the Kitchen hatch. After planting, cover the
+      Moto hatch and the Blue generator.
+    placements:
+      - kind: plant
+        floor: B
+        room: Church
+        note: "Behind the table"
+      - kind: plant
+        floor: B
+        room: Arsenal Room
+        note: "Under the Kitchen hatch"

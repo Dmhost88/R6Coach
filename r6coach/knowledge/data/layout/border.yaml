@@ -1,5 +1,6 @@
 map: border
 source: Room boxes located by Claude on Ubisoft's official blueprints (grid percentages, x left->right, y top->bottom). Check against data/maps/<map>/preview/.
+sides: {left: "West Vehicle Exit", right: "East Vehicle Entrance"}
 floors:
 - floor: 1F
   image: r6-maps-border-blueprint-1.jpg
@@ -86,6 +87,11 @@ floors:
       - 60.0
       - 59.0
       confidence: 0.25
+  features:
+  - {kind: stairs, name: "Central stairs (Metal Stairs)", at: [42.0, 44.0]}
+  - {kind: stairs, name: "East Stairs", at: [70.0, 64.0]}
+  - {kind: label, name: "West Vehicle Exit", at: [12.0, 45.0]}
+  - {kind: label, name: "East Vehicle Entrance", at: [86.0, 50.0]}
 - floor: 2F
   image: r6-maps-border-blueprint-2.jpg
   size:
@@ -150,6 +156,16 @@ floors:
       - 70.0
       - 20.0
       confidence: 0.3
+  features:
+  - {kind: stairs, name: "Central stairs (Metal Stairs)", at: [42.5, 45.0]}
+  - {kind: stairs, name: "East Stairs", at: [70.5, 68.0]}
+  - {kind: hatch, name: "Archives hatch", at: [53.8, 27.5]}
+  - {kind: hatch, name: "Hatch over the Bathroom side", at: [64.3, 34.5]}
+  - {kind: hatch, name: "Hatch by the central stairs", at: [41.8, 38.5]}
+  - {kind: hatch, name: "CC hatch (north)", at: [43.3, 52.5]}
+  - {kind: hatch, name: "CC hatch (south)", at: [43.3, 72.5]}
+  - {kind: label, name: "West Balcony", at: [30.2, 60.0]}
+  - {kind: label, name: "East Balcony", at: [64.0, 15.5]}
 - floor: ROOF
   image: r6-maps-border-blueprint-3.jpg
   size:

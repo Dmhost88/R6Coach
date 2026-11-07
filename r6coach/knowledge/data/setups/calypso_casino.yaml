@@ -1,0 +1,512 @@
+map: calypso_casino
+# Standard setups for Calypso Casino (launched June 2026). Built 2026-11-06 from maps/calypso_casino.yaml,
+# callouts/calypso_casino.yaml and the blueprints. New map: room names come from guides, not Ubisoft, and
+# setups are still settling, so treat these as the common starting point rather than the meta.
+briefs:
+  # ---------------------------------------------------------------- 2F Cigar Room / 2F Pool
+  - id: calypso-cigar-pool-team-walls
+    site: cigar_room_pool
+    side: defense
+    operators: []
+    title: "Kitchen wall, Lobby walls, Barista half"
+    text: >-
+      Reinforce both Kitchen outside wall panels and both Pool walls to Lobby first. Then the Pool-bar half
+      of the Barista/Pool wall, one half of the Cigar/Pool wall and the Humidor hatch. Keep the small
+      Barista/Pool rotate, the Cigar/Pool high holes and the Kitchen/Cigar low holes.
+    placements:
+      - kind: reinforce
+        floor: 2F
+        between: [Kitchen, exterior]
+        edge: left
+        nudge: [0, -1.2]
+        note: "Kitchen outside wall, panel 1"
+      - kind: reinforce
+        floor: 2F
+        between: [Kitchen, exterior]
+        edge: left
+        nudge: [0, 1.2]
+        note: "Panel 2"
+      - kind: reinforce
+        floor: 2F
+        between: [Pool, Lobby]
+        nudge: [0, -1.2]
+        note: "Lobby wall 1"
+      - kind: reinforce
+        floor: 2F
+        between: [Pool, Lobby]
+        nudge: [0, 1.2]
+        note: "Lobby wall 2"
+      - kind: reinforce
+        floor: 2F
+        between: [Barista, Pool]
+        nudge: [1.0, 0]
+        note: "Pool-bar half"
+      - kind: rotate
+        floor: 2F
+        between: [Barista, Pool]
+        nudge: [-1.0, 0]
+        note: "Small Barista/Pool rotate"
+      - kind: reinforce
+        floor: 2F
+        between: [Cigar Room, Pool]
+        nudge: [0, 1.2]
+        note: "One half"
+      - kind: open
+        floor: 2F
+        between: [Cigar Room, Pool]
+        nudge: [0, -1.2]
+        note: "Rotate and high holes"
+      - kind: open
+        floor: 2F
+        between: [Kitchen, Cigar Room]
+        note: "Low holes for the Cigar desk"
+      - kind: hatch
+        floor: 2F
+        at: [60.2, 56.7]
+        name: "Humidor hatch"
+  - id: calypso-cigar-pool-kaid-kitchen
+    site: cigar_room_pool
+    side: defense
+    operators: [Kaid, Mute]
+    title: "Claw the Kitchen wall, hold from the Cigar desk"
+    text: >-
+      Kaid claws the Kitchen outside wall and holds it from the Cigar desk through the low holes, not from
+      the wall itself: Thermite hits hard through it. Mute can jam the wall instead if Kaid is banned.
+    placements:
+      - kind: kaid
+        floor: 2F
+        between: [Kitchen, exterior]
+        edge: left
+        nudge: [1.0, -1.2]
+        note: "Panel 1, low"
+      - kind: kaid
+        floor: 2F
+        between: [Kitchen, exterior]
+        edge: left
+        nudge: [1.0, 1.2]
+        note: "Panel 2, low"
+      - kind: anchor
+        floor: 2F
+        room: Cigar Room
+        note: "Cigar desk"
+  - id: calypso-cigar-pool-mira-lobby
+    site: cigar_room_pool
+    side: defense
+    operators: [Mira]
+    title: "Mira on the Lobby-facing Pool wall"
+    text: >-
+      The Lobby-facing Pool wall is the usual Mira spot; put it on a reinforced Lobby panel to watch the
+      Lobby side. Guides disagree on how high, so test the angle in a custom.
+    placements:
+      - kind: mira
+        floor: 2F
+        between: [Pool, Lobby]
+        nudge: [-1.0, 0]
+        note: "On a reinforced Lobby panel"
+      - kind: anchor
+        floor: 2F
+        room: Pool
+        note: "Pool bar"
+  - id: calypso-cigar-pool-thermite-kitchen
+    site: cigar_room_pool
+    side: attack
+    operators: [Thermite, Thatcher, Rauora]
+    title: "Clear Tequila, burn the Kitchen wall"
+    text: >-
+      Pool Side spawn. Drone Tequila and Barista first; clear Tequila before the burn. Thatcher EMPs the
+      Kitchen wall, Thermite opens the left side, and Rauora panels Tequila to stop the rotate.
+    placements:
+      - kind: drone
+        floor: 2F
+        room: Barista
+        note: "Azami stall"
+      - kind: thermite
+        floor: 2F
+        between: [Kitchen, exterior]
+        edge: left
+        nudge: [-0.8, 0]
+        note: "Left side, after the EMP"
+      - kind: entry
+        floor: 2F
+        room: Kitchen
+      - kind: plant
+        floor: 2F
+        room: Cigar Room
+        nudge: [0, -2.0]
+        note: "Behind the Kitchen breach, once Cigar is clear"
+  - id: calypso-cigar-pool-ace-barista
+    site: cigar_room_pool
+    side: attack
+    operators: [Ace, Capitao]
+    title: "Pinch Barista, Ace opens Pool"
+    text: >-
+      Take Barista, then Ace opens the Barista/Pool wall (and the far-side Pool wall if it's reinforced).
+      Capitao smokes the plant: Pool beside the Barista opening.
+    placements:
+      - kind: drone
+        floor: 2F
+        room: Aqua
+        note: "Aqua wire holder"
+      - kind: ace
+        floor: 2F
+        between: [Barista, Pool]
+        nudge: [0, -1.0]
+      - kind: plant
+        floor: 2F
+        room: Pool
+        nudge: [0, -2.5]
+        note: "By the Barista opening, under smoke"
+  # ---------------------------------------------------------------- 1F Blackjack / 1F Poker
+  - id: calypso-blackjack-poker-team-walls
+    site: blackjack_poker
+    side: defense
+    operators: []
+    title: "Blackjack exterior, Bathroom and Roulette walls"
+    text: >-
+      Reinforce both halves of the Blackjack exterior wall, the Bathroom north double wall, the right side
+      of the Roulette/Bathroom wall and one half of Blackjack/Secret. Leave the Humidor hatch open and play
+      it from above, and keep Blackjack to Poker open.
+    placements:
+      - kind: reinforce
+        floor: 1F
+        between: [Blackjack, exterior]
+        edge: bottom
+        nudge: [-1.0, 0]
+        note: "Left half"
+      - kind: reinforce
+        floor: 1F
+        between: [Blackjack, exterior]
+        edge: bottom
+        nudge: [1.0, 0]
+        note: "Right half"
+      - kind: reinforce
+        floor: 1F
+        at: [54.0, 51.1]
+        name: "Bathroom north wall"
+        note: "Both, position approximate"
+      - kind: reinforce
+        floor: 1F
+        between: [Roulette, Bathroom]
+        note: "Right side"
+      - kind: reinforce
+        floor: 1F
+        between: [Blackjack, Secret]
+        note: "One half; rotate into Secret"
+      - kind: open
+        floor: 2F
+        at: [60.2, 56.7]
+        name: "Humidor hatch"
+        note: "Held open from above"
+      - kind: rotate
+        floor: 1F
+        between: [Blackjack, Poker]
+  - id: calypso-blackjack-poker-kaid-blackjack
+    site: blackjack_poker
+    side: defense
+    operators: [Kaid, Bandit, Mute]
+    title: "Deny the Blackjack exterior"
+    text: >-
+      The Blackjack exterior is the Thermite wall; put claws or batteries low on both halves, or Mute
+      jammers if Ace is expected. Kaid usually then plays Roulette and Poker.
+    placements:
+      - kind: kaid
+        floor: 1F
+        between: [Blackjack, exterior]
+        edge: bottom
+        nudge: [-1.0, -1.2]
+      - kind: bandit
+        floor: 1F
+        between: [Blackjack, exterior]
+        edge: bottom
+        nudge: [1.0, -1.2]
+        note: "If Bandit instead"
+      - kind: anchor
+        floor: 1F
+        room: Roulette
+        note: "Kaid after the claws"
+  - id: calypso-blackjack-poker-thermite
+    site: blackjack_poker
+    side: attack
+    operators: [Thermite, Thatcher, Ram]
+    title: "Take Humidor, burn Blackjack"
+    text: >-
+      Garden Ruins spawn. Take Humidor first so nobody plays vertical on you; Ram can open the floor. Thatcher
+      EMPs and Thermite burns the Blackjack exterior wall, left side first. Plant tight to the breach.
+    placements:
+      - kind: drone
+        floor: 2F
+        room: Humidor
+        note: "Vertical players over site"
+      - kind: breach
+        floor: 2F
+        room: Humidor
+        nudge: [0, 1.5]
+        note: "Ram opens the floor"
+      - kind: thermite
+        floor: 1F
+        between: [Blackjack, exterior]
+        edge: bottom
+        nudge: [-1.0, 0.8]
+        note: "Left side first"
+      - kind: plant
+        floor: 1F
+        room: Blackjack
+        nudge: [0, 4.0]
+        note: "Tight to the breach"
+  - id: calypso-blackjack-poker-secret
+    site: blackjack_poker
+    side: attack
+    operators: [Ying, Ace, Nomad]
+    title: "Flush Secret through the window"
+    text: >-
+      Ying throws Candelas through the Secret window to clear the side room, Ace can open the Blackjack/Secret
+      wall from Secret, and Nomad Airjabs the Aqua stairs for the rotate.
+    placements:
+      - kind: entry
+        floor: 1F
+        at: [56.0, 64.5]
+        name: "Secret window"
+      - kind: ace
+        floor: 1F
+        between: [Blackjack, Secret]
+        nudge: [-0.8, 0]
+      - kind: plant
+        floor: 1F
+        room: Blackjack
+        nudge: [-1.0, 1.5]
+  # ---------------------------------------------------------------- 1F Bar / 1F Betting
+  - id: calypso-bar-betting-team-walls
+    site: bar_betting
+    side: defense
+    operators: []
+    title: "Janitor wall, the floor above, Bathroom wall"
+    text: >-
+      Reinforce both Bar/Janitor panels, the hatch over Bar on 2F and both Bathroom/Blackjack panels. Keep
+      the Bar/Betting counter rotate and the Betting to Roulette head holes. Nobody stands on the Janitor
+      wall: Thermite and Hibana go through it.
+    placements:
+      - kind: reinforce
+        floor: 1F
+        between: [Bar, Janitor]
+        nudge: [0, -1.2]
+        note: "Panel 1"
+      - kind: reinforce
+        floor: 1F
+        between: [Bar, Janitor]
+        nudge: [0, 1.2]
+        note: "Panel 2"
+      - kind: hatch
+        floor: 2F
+        at: [63.4, 33.4]
+        name: "Barista hatch (over Bar)"
+        note: "Guides call it the Kitchen-floor hatch"
+      - kind: reinforce
+        floor: 1F
+        between: [Bathroom, Blackjack]
+        note: "Both panels"
+      - kind: rotate
+        floor: 1F
+        between: [Bar, Betting]
+        note: "Counter rotate"
+      - kind: open
+        floor: 1F
+        between: [Betting, Roulette]
+        note: "Rotate with head holes"
+  - id: calypso-bar-betting-kaid-janitor
+    site: bar_betting
+    side: defense
+    operators: [Kaid]
+    title: "Claw the Janitor wall"
+    text: >-
+      Kaid claws both Janitor panels and plays the thick Bar pillar, off the wall. Expect Kali to lance the
+      claws from Garden Ruins before Hibana.
+    placements:
+      - kind: kaid
+        floor: 1F
+        between: [Bar, Janitor]
+        nudge: [-1.0, -1.2]
+      - kind: kaid
+        floor: 1F
+        between: [Bar, Janitor]
+        nudge: [-1.0, 1.2]
+      - kind: anchor
+        floor: 1F
+        room: Bar
+        note: "Bar pillar"
+  - id: calypso-bar-betting-mira-bathroom
+    site: bar_betting
+    side: defense
+    operators: [Mira, Castle]
+    title: "Mira on Bathroom/Blackjack, Castle on Roulette"
+    text: >-
+      The late anchor falls to Bathroom by about 1:45 with a Mira on the Bathroom/Blackjack wall. Castle
+      panels the Roulette doors for the crossfire.
+    placements:
+      - kind: mira
+        floor: 1F
+        between: [Bathroom, Blackjack]
+        nudge: [-1.0, 0]
+      - kind: castle
+        floor: 1F
+        between: [Roulette, Bathroom]
+        nudge: [0, -1.2]
+        note: "Roulette door, approximate"
+  - id: calypso-bar-betting-hibana-janitor
+    site: bar_betting
+    side: attack
+    operators: [Hibana, Kali, Ram]
+    title: "Kitchen floor, then the Janitor wall"
+    text: >-
+      Garden Ruins spawn. Drone Servers under Janitor and upstairs Kitchen. Ram opens the floor over Bar, Kali
+      lances the claws, Hibana opens the right side of the Janitor wall. Plant just inside the breach in
+      smoke.
+    placements:
+      - kind: drone
+        floor: B
+        room: Servers
+        note: "Under Janitor"
+      - kind: breach
+        floor: 2F
+        room: Kitchen
+        note: "Ram opens the floor over Bar"
+      - kind: hibana
+        floor: 1F
+        between: [Bar, Janitor]
+        nudge: [1.0, 0]
+        note: "Right, dartboard side"
+      - kind: plant
+        floor: 1F
+        room: Bar
+        nudge: [2.0, -3.5]
+        note: "Just inside the breach, Bar side"
+  - id: calypso-bar-betting-roulette-side
+    site: bar_betting
+    side: attack
+    operators: [Capitao, Gridlock, Ace]
+    title: "Clear Wine Stock, push the Roulette side"
+    text: >-
+      Second group clears Wine Stock before anyone plants, then works Roulette. Ace can open the Betting side
+      if the Roulette rotate is reinforced; Gridlock Traxes the Aqua stairs. Plant Betting.
+    placements:
+      - kind: drone
+        floor: 1F
+        room: Roulette
+        note: "Castle panels"
+      - kind: ace
+        floor: 1F
+        between: [Betting, Roulette]
+        nudge: [0, 1.0]
+      - kind: plant
+        floor: 1F
+        room: Betting
+  # ---------------------------------------------------------------- B CCTV / B Vault Checkpoint
+  - id: calypso-cctv-vc-team-walls
+    site: cctv_vault_checkpoint
+    side: defense
+    operators: []
+    title: "Vault wall, Manager's Office, the Cash side"
+    text: >-
+      Reinforce both halves of the Vault exterior wall and both halves of the Manager's Office wall, then the
+      site wall to Cash Counting. Keep the Cash Counting to site path open until late.
+    placements:
+      - kind: reinforce
+        floor: B
+        at: [68.7, 46.6]
+        name: "Vault exterior wall"
+        note: "Both halves; position approximate"
+      - kind: reinforce
+        floor: B
+        between: [Lockers, Manager's Office]
+        note: "Manager's Office wall, both halves"
+      - kind: reinforce
+        floor: B
+        between: [Cash Counting, Vault Checkpoint]
+        note: "Late, beside the site desk"
+  - id: calypso-cctv-vc-kaid-vault
+    site: cctv_vault_checkpoint
+    side: defense
+    operators: [Kaid]
+    title: "Claw the Vault wall"
+    text: >-
+      Kaid claws the Vault exterior wall, then boosts to watch Lockers. Flores drones go for the claws, so
+      shoot them on sight.
+    placements:
+      - kind: kaid
+        floor: B
+        at: [68.7, 46.6]
+        name: "Vault exterior wall"
+        nudge: [-1.0, -1.2]
+      - kind: kaid
+        floor: B
+        at: [68.7, 46.6]
+        name: "Vault exterior wall"
+        nudge: [1.0, -1.2]
+      - kind: anchor
+        floor: B
+        room: Vault Checkpoint
+        note: "Boost, watching Lockers"
+  - id: calypso-cctv-vc-castle-manager
+    site: cctv_vault_checkpoint
+    side: defense
+    operators: [Castle, Azami]
+    title: "Block the Manager's window"
+    text: >-
+      Castle (or Azami with a Kiba) blocks the Manager's window and plays Cash Counting behind it.
+    placements:
+      - kind: castle
+        floor: B
+        between: [Manager's Office, Cash Counting]
+        note: "Manager's window, approximate"
+      - kind: anchor
+        floor: B
+        room: Cash Counting
+  - id: calypso-cctv-vc-green-cash
+    site: cctv_vault_checkpoint
+    side: attack
+    operators: [Thermite, Sledge, Rauora, Flores]
+    title: "Green side: Cash vertical, burn Manager's"
+    text: >-
+      Sledge takes Bar Stock and opens the Bar floor over Cash. Flores clears the claws, Thermite burns
+      Manager's Office and then the site wall from Cash Counting. Rauora panels the site doors; plant just
+      inside the Cash breach under smoke.
+    placements:
+      - kind: breach
+        floor: 1F
+        at: [64.5, 35.0]
+        name: "Bar floor over Cash"
+      - kind: thermite
+        floor: B
+        between: [Lockers, Manager's Office]
+        nudge: [-0.8, 0]
+        note: "Manager's Office wall"
+      - kind: thermite
+        floor: B
+        between: [Cash Counting, Vault Checkpoint]
+        nudge: [0, -0.8]
+        note: "Site wall from Cash"
+      - kind: plant
+        floor: B
+        room: Vault Checkpoint
+        nudge: [0, -2.5]
+        note: "Just inside the Cash breach"
+  - id: calypso-cctv-vc-stairs
+    site: cctv_vault_checkpoint
+    side: attack
+    operators: [Nomad, Ram, Gridlock]
+    title: "Pressure Green and Yellow"
+    text: >-
+      Drone Green stairs, Break Room and the Yellow shield before committing. Two players pressure Lockers
+      and Yellow while the Cash side burns; Nomad holds bottom Green after the plant.
+    placements:
+      - kind: drone
+        floor: B
+        room: Lockers
+        note: "Wire and Smoke on the Lockers stairs"
+      - kind: entry
+        floor: B
+        at: [61.7, 52.8]
+        name: "West stairs"
+        note: "Name not verified"
+      - kind: drone
+        floor: B
+        room: CCTV
