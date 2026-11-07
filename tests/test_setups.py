@@ -208,6 +208,57 @@ def test_setups_endpoint_and_pictures(tmp_path, monkeypatch):
     assert client.post(url + "/frame", json={"frame": "../../x"}).status_code == 404
 
 
+def test_reload_when_the_yaml_changes_and_source_lines(tmp_path):
+    import os
+    s = lib(tmp_path)
+    assert s.reload_if_changed() is False
+    src = s.source("chalet", "chalet-office-kaid")
+    path = tmp_path / "setups" / "chalet.yaml"
+    lines = path.read_text(encoding="utf-8").splitlines()
+    assert lines[src["line"] - 1].strip() == "- id: chalet-office-kaid"
+    assert src["file"] == "r6coach/knowledge/data/setups/chalet.yaml"
+    assert src["url"].endswith(f"/blob/main/r6coach/knowledge/data/setups/chalet.yaml#L{src['line']}")
+    assert s.source("chalet", "nope") is None
+    # An edit (a git pull) shows without a restart.
+    data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    data["briefs"] = data["briefs"][:1]
+    path.write_text(yaml.safe_dump(data), encoding="utf-8")
+    st = path.stat()
+    os.utime(path, ns=(st.st_atime_ns, st.st_mtime_ns + 10_000_000))
+    assert s.reload_if_changed() is True
+    assert [b["id"] for b in s.for_map("chalet")] == ["chalet-office-team"]
+    (tmp_path / "setups" / "bank.yaml").write_text("map: bank\nbriefs: []\n", encoding="utf-8")
+    assert s.reload_if_changed() is True and "bank" in s.briefs
+
+
+def test_library_endpoints(tmp_path, monkeypatch):
+    from fastapi.testclient import TestClient
+
+    from r6coach.app import App
+    from r6coach.config import Config
+    from r6coach.dashboard.server import build
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    cfg = Config()
+    cfg.storage.data_dir = str(tmp_path / "data")
+    app = App(cfg, replay=tmp_path, enable_ptt=False)
+    app.setups = lib(tmp_path)
+    client = TestClient(build(app))
+    client.put("/api/setups/chalet/shot/chalet-office-hibana-2", content=b"\x89PNG\r\n\x1a\n....")
+    d = client.get("/api/library").json()
+    assert [m["id"] for m in d["maps"]] == ["chalet"]
+    assert any(s["id"] == "master_bedroom_office" for s in d["maps"][0]["sites"])
+    hib = next(b for b in d["briefs"] if b["id"] == "chalet-office-hibana")
+    assert hib["operators"] == ["Hibana"] and hib["steps"] == 2 and hib["shots"] == 1
+    assert hib["kinds"] == ["hibana", "plant"] and hib["side"] == "attack"
+    assert d["repo"]["url"].startswith("https://github.com/")
+    b = client.get("/api/library/chalet/chalet-office-hibana").json()
+    assert b["map_name"] == "Chalet" and b["source"]["line"] > 1
+    assert b["placements"][1]["shot"] and b["placements"][0]["shot"] is None
+    assert all("fi" in f and f["url"].startswith("/api/blueprint/chalet/") for f in b["floors"])
+    assert client.get("/api/library/chalet/nope").status_code == 404
+    assert client.get("/api/library/bank/chalet-office-hibana").status_code == 404
+
+
 def test_layout_endpoint_has_sites_features_and_sides(tmp_path, monkeypatch):
     from fastapi.testclient import TestClient
 

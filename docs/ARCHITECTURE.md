@@ -125,13 +125,14 @@ All HUD/screen regions are measured on 3440×1440 and stored **relative to the s
 
 ## Dashboard
 
-[r6coach/dashboard/server.py](../r6coach/dashboard/server.py) is FastAPI bound to `127.0.0.1`. Static files are in `dashboard/static/` (`index.html`, `js/app.js`, `js/livemap.js`, `css/app.css`, design tokens and fonts in `ds/`). There is no build step. The page gets live updates over `/ws` and reads everything else from `/api/*`:
+[r6coach/dashboard/server.py](../r6coach/dashboard/server.py) is FastAPI bound to `127.0.0.1`. Static files are in `dashboard/static/` (`index.html`, `js/app.js`, `js/livemap.js`, `js/library.js`, `css/app.css`, design tokens and fonts in `ds/`). There is no build step. The page gets live updates over `/ws` and reads everything else from `/api/*`:
 
 - `/api/status`, `/api/setup`, `/api/memory`, `/api/history`, `/api/frame.jpg`
 - `/api/settings` (GET/POST) — writes `config.yaml`
 - `/api/maps`, `/api/maps/{id}`, `/api/maps/{id}/notes`
 - `/api/layout`, `/api/blueprint/{map}/{image}` — the live map
 - `/api/setups`, `/api/setups/{map}/shot/{slot}` (+ `/frame`, `/grab`, `/marks`) — setup briefs and the player's own pictures
+- `/api/library`, `/api/library/{map}/{brief}` — the Setups tab (`js/library.js`): every brief's summary, and one brief in full with its floors and its file and line in the repository. Both re-read the setup YAML when a file changed (`SetupLibrary.reload_if_changed`), so no restart is needed after a pull.
 - `/api/frames`, `/api/matches`, `/api/control/{action}`
 
 Secrets never reach the page: `tests/test_dashboard.py` checks that an API key in the environment does not leak into any response.

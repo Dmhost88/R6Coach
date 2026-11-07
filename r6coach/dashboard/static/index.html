@@ -41,7 +41,8 @@
 
 <nav class="rc-tabs tabs" role="tablist" aria-label="Dashboard sections">
   <button role="tab" id="tab-btn-live" aria-controls="tab-live" aria-selected="true" data-tab="live">Live</button>
-  <button role="tab" id="tab-btn-sees" aria-controls="tab-sees" aria-selected="false" data-tab="sees" tabindex="-1">What the coach sees</button>
+  <button role="tab" id="tab-btn-setups" aria-controls="tab-setups" aria-selected="false" data-tab="setups" tabindex="-1">Setups</button>
+  <button role="tab" id="tab-btn-sees"aria-controls="tab-sees" aria-selected="false" data-tab="sees" tabindex="-1">What the coach sees</button>
   <button role="tab" id="tab-btn-settings" aria-controls="tab-settings" aria-selected="false" data-tab="settings" tabindex="-1">Settings</button>
   <button role="tab" id="tab-btn-maps" aria-controls="tab-maps" aria-selected="false" data-tab="maps" tabindex="-1">Map notes</button>
   <button role="tab" id="tab-btn-matches" aria-controls="tab-matches" aria-selected="false" data-tab="matches" tabindex="-1">Matches</button>
@@ -291,6 +292,39 @@
     </div>
   </section>
 
+  <!-- ======================================================== Setups (the setup library) -->
+  <section class="panel" id="tab-setups" role="tabpanel" aria-labelledby="tab-btn-setups" hidden>
+    <div class="layout lib">
+      <div class="col col--state">
+        <section class="rc-card" aria-labelledby="lib-title">
+          <h2 class="rc-card__title" id="lib-title"><span class="ic" data-icon="phase-prep"></span>Setup library</h2>
+          <p class="card-lede" id="lib-count">Loading the setups…</p>
+          <div class="lib-filters">
+            <label class="lib-field"><span>Map</span><select class="rc-select" id="lib-map"></select></label>
+            <label class="lib-field"><span>Bomb site</span><select class="rc-select" id="lib-site"></select></label>
+            <label class="lib-field"><span>Operator</span><select class="rc-select" id="lib-op"></select></label>
+            <div class="lib-field"><span id="lib-side-label">Side</span>
+              <div class="setups__sides lib-sides" role="group" aria-labelledby="lib-side-label">
+                <button type="button" class="livemap__toggle" data-libside="" aria-pressed="true">Both</button>
+                <button type="button" class="livemap__toggle" data-libside="attack" aria-pressed="false">Attack</button>
+                <button type="button" class="livemap__toggle" data-libside="defense" aria-pressed="false">Defence</button>
+              </div>
+            </div>
+            <label class="lib-field"><span>Search</span><input class="rc-input" type="search" id="lib-q" autocomplete="off" placeholder="Thermite, Library wall, hatch…"></label>
+          </div>
+          <div class="lib-list" id="lib-list" aria-label="Setups"></div>
+          <p class="hint-sm lib-repo" id="lib-repo"></p>
+        </section>
+      </div>
+      <div class="col col--feed">
+        <section class="rc-card lib-brief" id="lib-brief" aria-labelledby="lib-brief-title" aria-live="polite">
+          <h2 class="rc-card__title" id="lib-brief-title">Pick a setup</h2>
+          <p class="hint-sm">Choose a map, a bomb site, a side or an operator on the left to see where each piece of utility goes, with pictures.</p>
+        </section>
+      </div>
+    </div>
+  </section>
+
   <!-- ======================================================== Map notes -->
   <section class="panel" id="tab-maps" role="tabpanel" aria-labelledby="tab-btn-maps" hidden>
     <div class="layout">
@@ -385,9 +419,19 @@
   </div>
 </dialog>
 
+<dialog class="rc-card shotdlg shotdlg--view" id="lib-view" aria-labelledby="lib-view-title">
+  <div class="shotdlg__head">
+    <h2 class="rc-card__title" id="lib-view-title">Picture</h2>
+    <button type="button" class="rc-btn rc-btn--quiet" data-close>Close</button>
+  </div>
+  <p class="card-lede" id="lib-view-note"></p>
+  <div class="shotframe lib-shot" id="lib-view-frame"></div>
+</dialog>
+
 <input type="file" id="shot-file" accept="image/jpeg,image/png,image/webp" hidden>
 
 <script src="/static/js/livemap.js" defer></script>
+<script src="/static/js/library.js" defer></script>
 <script src="/static/js/app.js" defer></script>
 </body>
 </html>
