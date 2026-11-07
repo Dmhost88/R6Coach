@@ -338,6 +338,7 @@ def build(app: "App") -> FastAPI:
     def setups(map: str = "", site: str = "", side: str = "", operator: str = "") -> dict[str, Any]:
         """Setup briefs for the current situation (or the one named): map, site, side, operator.
         Without a known site, briefs for every site the screen offered, then all of the map's."""
+        app.setups.reload_if_changed()
         st = app.watcher.state
         mid = map_id_for(map)
         mdata = app.knowledge.maps.get(mid or "")
@@ -355,6 +356,46 @@ def build(app: "App") -> FastAPI:
                 "side": side or None, "operator": operator or None,
                 "site_names": {s.get("id"): s.get("name") for s in (mdata or {}).get("sites") or []},
                 "briefs": [brief_out(mid, b) for b in briefs]}
+
+    # The setup library: every brief on every map, to browse by map, site, side and operator.
+    def site_names(mid: str) -> dict[str, str]:
+        return {s.get("id"): s.get("name") for s in (app.knowledge.maps.get(mid) or {}).get("sites") or []}
+
+    @api.get("/api/library")
+    def library() -> dict[str, Any]:
+        """Every setup brief, without its steps: the index the Setups tab filters."""
+        app.setups.reload_if_changed()
+        maps, briefs = [], []
+        for mid in sorted(app.setups.briefs):
+            names = site_names(mid)
+            maps.append({"id": mid, "name": (app.knowledge.maps.get(mid) or {}).get("name", mid),
+                         "sites": [{"id": k, "name": v} for k, v in names.items()]})
+            for b in app.setups.for_map(mid):
+                slots = [f"{b['id']}-{i}" for i in range(1, len(b["placements"]) + 1)]
+                briefs.append({"map": mid, "id": b["id"], "site": b["site"], "site_name": names.get(b["site"], b["site"]),
+                               "side": b["side"], "operators": b["operators"], "title": b["title"],
+                               "steps": len(slots), "shots": sum(1 for s in slots if app.setups.shot_path(mid, s)),
+                               "kinds": sorted({p["kind"] for p in b["placements"]})})
+        from ..setups import REPO_URL, SOURCE_DIR
+        return {"maps": maps, "briefs": briefs, "errors": app.setups.errors,
+                "repo": {"url": REPO_URL, "dir": f"{REPO_URL}/tree/main/{SOURCE_DIR}"}}
+
+    @api.get("/api/library/{map_id}/{brief_id}")
+    def library_brief(map_id: str, brief_id: str) -> dict[str, Any]:
+        """One brief in full: steps with pictures, marks and map positions, the map's floor images,
+        and where the brief lives in the repository."""
+        app.setups.reload_if_changed()
+        b = app.setups.brief(map_id, brief_id)
+        if b is None:
+            raise HTTPException(404)
+        lay = app.layouts.get(map_id) or {}
+        floors = [{"fi": fi, "floor": f["floor"], "url": f"/api/blueprint/{map_id}/{f['image']}"}
+                  for fi, f in enumerate(lay.get("floors") or []) if app.layouts.image_path(map_id, f["image"])]
+        return {**brief_out(map_id, b), "map": map_id,
+                "map_name": (app.knowledge.maps.get(map_id) or {}).get("name", map_id),
+                "site_name": site_names(map_id).get(b["site"], b["site"]),
+                "floors": floors, "sides": app.layouts.sides(map_id) if lay else {},
+                "source": app.setups.source(map_id, brief_id)}
 
     @api.get("/api/setups/{map_id}/shot/{slot}")
     def setup_shot(map_id: str, slot: str) -> FileResponse:

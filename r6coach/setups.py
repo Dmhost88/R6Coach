@@ -2,7 +2,9 @@
 
 Briefs are data (r6coach/knowledge/data/setups/<map>.yaml, format in the README there). Pictures
 are the player's own (data/setups/<map>/<slot>.jpg|png|webp, git-ignored): one slot per placement,
-named <brief id>-<placement number>.
+named <brief id>-<placement number>. The library re-reads the YAML when it changes
+(`reload_if_changed`), and knows each brief's line in the repository (`source`) so the dashboard's
+setup library can link to it.
 """
 
 from __future__ import annotations
@@ -30,6 +32,10 @@ KINDS = {
 SHOT_EXTS = (".jpg", ".jpeg", ".png", ".webp")
 ID_RE = re.compile(r"^[a-z0-9][a-z0-9-]{1,80}$")
 SLOT_RE = re.compile(r"^([a-z0-9][a-z0-9-]{1,80})-(\d{1,2})$")
+ID_LINE_RE = re.compile(r"^\s*-\s+id:\s*['\"]?([a-z0-9][a-z0-9-]{1,80})", re.M)
+# The repository the briefs live in, for "view the source" links in the dashboard's setup library.
+REPO_URL = "https://github.com/Dmhost88/R6Coach"
+SOURCE_DIR = "r6coach/knowledge/data/setups"
 
 
 def _norm(s: Any) -> str:
@@ -97,14 +103,55 @@ class SetupLibrary:
         self.shots_dir = Path(shots_dir) if shots_dir else None
         self.briefs: dict[str, list[dict[str, Any]]] = {}
         self.errors: dict[str, str] = {}
-        if self.setups_dir.exists():
-            for p in sorted(self.setups_dir.glob("*.yaml")):
-                try:
-                    with p.open(encoding="utf-8") as f:
-                        self.briefs[p.stem] = validate(p.stem, yaml.safe_load(f) or {})
-                except (yaml.YAMLError, SetupError, AttributeError, TypeError) as e:
-                    self.errors[p.stem] = str(e)
-                    log.warning("bad setups file %s: %s", p, e)
+        self.lines: dict[str, dict[str, int]] = {}   # map -> brief id -> line of its "- id:" in the file
+        self._stamp: tuple = ()
+        self._load()
+
+    def _files(self) -> list[Path]:
+        return sorted(self.setups_dir.glob("*.yaml")) if self.setups_dir.exists() else []
+
+    def _stamp_now(self) -> tuple:
+        out = []
+        for p in self._files():
+            try:
+                out.append((p.name, p.stat().st_mtime_ns))
+            except OSError:
+                pass
+        return tuple(out)
+
+    def _load(self) -> None:
+        briefs: dict[str, list[dict[str, Any]]] = {}
+        errors: dict[str, str] = {}
+        lines: dict[str, dict[str, int]] = {}
+        self._stamp = self._stamp_now()
+        for p in self._files():
+            try:
+                with p.open(encoding="utf-8") as f:
+                    text = f.read()
+                briefs[p.stem] = validate(p.stem, yaml.safe_load(text) or {})
+                lines[p.stem] = {m.group(1): text.count("\n", 0, m.start()) + 1
+                                 for m in ID_LINE_RE.finditer(text)}
+            except (yaml.YAMLError, SetupError, AttributeError, TypeError) as e:
+                errors[p.stem] = str(e)
+                log.warning("bad setups file %s: %s", p, e)
+        # Swap whole dicts so a reader on another thread sees the old library or the new one.
+        self.briefs, self.errors, self.lines = briefs, errors, lines
+
+    def reload_if_changed(self) -> bool:
+        """Re-read the YAML when a file was added, removed or edited (a git pull, a hand edit), so
+        the dashboard shows the repository's current setups without a restart. True when it did."""
+        if self._stamp_now() == self._stamp:
+            return False
+        self._load()
+        return True
+
+    def source(self, map_id: str, brief_id: str) -> Optional[dict[str, Any]]:
+        """Where a brief lives in the repository: its file, line and a GitHub link to it."""
+        line = self.lines.get(map_id, {}).get(brief_id)
+        if line is None:
+            return None
+        path = f"{SOURCE_DIR}/{map_id}.yaml"
+        return {"file": path, "line": line, "url": f"{REPO_URL}/blob/main/{path}#L{line}"}
 
     def for_map(self, map_id: Optional[str]) -> list[dict[str, Any]]:
         return self.briefs.get(map_id or "", [])

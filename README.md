@@ -62,8 +62,9 @@ The coach sits in the system tray and opens the dashboard in your browser at htt
 | Ctrl+Alt+R | Repeat the last advice |
 | Ctrl+Alt+S | Skip the line being spoken |
 
-The dashboard has five tabs:
+The dashboard has six tabs:
 - **Live**: match state, what the coach said, and a live map: Ubisoft's blueprint of your floor with the rooms the coach names lit up in order and a ring on your own room. Fetch the blueprints once with `.venv/Scripts/python -I tools/fetch_blueprints.py` (about 70 MB into `data/maps/`, personal use only, never committed); room positions are in `r6coach/knowledge/data/layout/` (made by `tools/locate_rooms.py`).
+- **Setups**: the setup library. Browse every standard setup by map, bomb site, side and operator, or search ("Thermite", "hatch"). A setup shows its strategy, each step on the blueprint, and each step's picture with its marks; click a picture to see it large. It reads the setup files in this repository (`r6coach/knowledge/data/setups/`) and links to each setup's line on GitHub; after a `git pull` or an edit, reopen the tab to see the change. Links like `http://127.0.0.1:8765/#setups/chalet/<setup id>` open one setup.
 - **What the coach sees**: the current frame and the last screen read, for checking detection.
 - **Settings**: operator pool, chattiness per phase, skill level, volume.
 - **Map notes**: your own notes per map. The coach trusts these over its database.

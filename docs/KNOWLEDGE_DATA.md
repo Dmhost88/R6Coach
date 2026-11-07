@@ -60,7 +60,7 @@ The format is documented in full in the docstring of [r6coach/maplayout.py](../r
 
 ## setups/
 
-Standard setup briefs. The format, with every field explained, is in [setups/README.md](../r6coach/knowledge/data/setups/README.md). Each placement is placed on the map `between` two rooms (a wall), at a `room` (the centre of its box), or `at` an explicit point. The player can attach their own picture per placement from the dashboard; those go to `data/setups/` and are never committed.
+Standard setup briefs. The format, with every field explained, is in [setups/README.md](../r6coach/knowledge/data/setups/README.md). Each placement is placed on the map `between` two rooms (a wall), at a `room` (the centre of its box), or `at` an explicit point. The player can attach their own picture per placement from the dashboard; those go to `data/setups/` and are never committed. The dashboard's Setups tab shows every brief and picks up edits to these files without a restart; it links each brief to its line on GitHub, so keep each brief's `- id:` as the first line of its entry.
 
 ## Checking a change
 

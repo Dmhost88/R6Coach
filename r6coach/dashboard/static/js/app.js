@@ -74,6 +74,9 @@ $("btn-theme").onclick = () => setTheme(document.documentElement.dataset.theme =
 const tabButtons = [...document.querySelectorAll('.tabs [role="tab"]')];
 let frameTimer = null;
 function selectTab(name, focus = false) {
+  // "setups/<map>/<brief>" opens one setup in the library; the rest of the hash is its route.
+  const [base, ...route] = String(name || "").split("/");
+  name = base;
   if (!tabButtons.some((b) => b.dataset.tab === name)) name = "live";
   tabButtons.forEach((b) => {
     const on = b.dataset.tab === name;
@@ -86,7 +89,8 @@ function selectTab(name, focus = false) {
   if (name === "sees") { refreshFrame(); frameTimer = setInterval(refreshFrame, 3000); }
   if (name === "matches") loadMatches();
   if (name === "settings") loadSetup();
-  if (location.hash.slice(1) !== name) history.replaceState(null, "", name === "live" ? location.pathname : "#" + name);
+  if (name === "setups") libLoad(route);
+  if (location.hash.slice(1).split("/")[0] !== name) history.replaceState(null, "", name === "live" ? location.pathname : "#" + name);
 }
 tabButtons.forEach((b, i) => {
   b.addEventListener("click", () => selectTab(b.dataset.tab));
