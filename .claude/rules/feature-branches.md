@@ -12,7 +12,7 @@ The player runs the coach from a clone of `main`, so `main` must always work. Th
 
 ### While working
 
-- Never commit to `main` directly. Never push to `main`. Never force-push `main`. GitHub does not block this on this repository (free private repo); the `.githooks/` pre-commit and pre-push hooks do, when `core.hooksPath` is set. Never bypass them with `--no-verify`. If `git config core.hooksPath` is not `.githooks`, tell the user once.
+- Never commit to `main` directly. Never push to `main`. Never force-push `main`. GitHub's "Protect main" ruleset blocks direct and force pushes. The `.githooks/` pre-commit and pre-push hooks stop you earlier, when `core.hooksPath` is set. Never bypass them with `--no-verify`. If `git config core.hooksPath` is not `.githooks`, tell the user once.
 - Commit in small steps that each leave `pytest -q` passing. Subject in the imperative, under about 70 characters; a body when the why isn't obvious; end with the `Co-Authored-By:` line for the agent.
 - Never commit `.env`, `config.yaml`, anything under `data/`, or blueprint images. Check `git status` before every commit.
 - Commit and push only when the user asked for it or the task clearly includes it.

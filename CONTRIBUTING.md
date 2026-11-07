@@ -97,7 +97,11 @@ There are no versioned releases yet. When the coach is shared beyond the owner, 
 
 **On GitHub** (already set): squash merging is the only merge method allowed, the squash commit takes the PR's title and description, and branches are deleted automatically once merged.
 
-GitHub does **not** protect `main` against direct pushes. Branch protection and rulesets need GitHub Pro on a private repository, and this one is private on a free account. If the repository goes public or the account moves to Pro, turn them on: require a pull request into `main` (0 approvals is fine for a solo owner), block force pushes and deletion, and require the test check once there is CI.
+A ruleset ("Protect main") protects `main`:
+- every change goes through a pull request (0 approvals needed, squash only);
+- force pushes and deletion are blocked.
+
+Add "require the test check" to it once there is CI.
 
 **On your PC** (once per clone): the repository has git hooks in `.githooks/` that refuse a commit while you are on `main` and refuse any push to `main`. Turn them on:
 
