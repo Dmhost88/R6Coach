@@ -1,5 +1,6 @@
 """Check the setup briefs and layout features: every file loads, every brief names a real site,
-and every placement lands on the map.
+every operator it names is in operators.yaml (spelled the same) and plays its side, and every
+placement lands on the map.
 
     .venv\\Scripts\\python tools\\check_setups.py [map_id ...]
 
@@ -19,10 +20,22 @@ from r6coach.maplayout import FEATURE_KINDS, MapLayouts  # noqa: E402
 from r6coach.setups import SetupLibrary, describe  # noqa: E402
 
 
+def operator_problems(brief: dict, roster: dict[str, str]) -> list[str]:
+    """Operators a brief names that aren't in the roster by their exact name, or play the other side."""
+    out = []
+    for name in brief.get("operators") or []:
+        if name not in roster:
+            out.append(f"operator {name!r} is not in operators.yaml")
+        elif roster[name] != brief["side"]:
+            out.append(f"operator {name} plays {roster[name]}, not {brief['side']}")
+    return out
+
+
 def main(only: list[str]) -> int:
     kb = Knowledge(notes_dir=ROOT / "data" / "notes")
     lays = MapLayouts(DATA / "layout", ROOT / "data" / "maps")
     lib = SetupLibrary(DATA / "setups")
+    roster = {op["name"]: op.get("side") for op in kb.operators.values()}
     bad = 0
     for mid, err in lib.errors.items():
         if not only or mid in only:
@@ -46,6 +59,9 @@ def main(only: list[str]) -> int:
         for b in briefs:
             if b["site"] not in sites:
                 print(f"  {b['id']}: site {b['site']!r} not in maps/{mid}.yaml ({sorted(sites)})")
+                bad += 1
+            for problem in operator_problems(b, roster):
+                print(f"  {b['id']}: {problem}")
                 bad += 1
             for i, p in enumerate(b["placements"], 1):
                 if lays.resolve(mid, p) is None:

@@ -314,13 +314,13 @@ briefs:
   - id: border-customs-attack-passport
     site: customs_supply
     side: attack
-    operators: [Thermite, Thatcher, Aurora, Gridlock]
+    operators: [Thermite, Thatcher, Rauora, Gridlock]
     title: "Passport wall with Tellers control"
     text: >-
       Get Passport and Tellers control: open the Passport wall while one or two come in from Tellers, make
       sure nobody's East and cut off site, bottom Metal and Workshop. The Tellers player holds and never lets
       them reach the double door; the breacher plants right at the Passport wall, watching Small Office as
-      he passes. If they play vertical on Passport, open the barricade, or Aurora or Gridlock the double door late.
+      he passes. If they play vertical on Passport, open the barricade, or Rauora or Gridlock the double door late.
     placements:
       - kind: anchor
         floor: 1F

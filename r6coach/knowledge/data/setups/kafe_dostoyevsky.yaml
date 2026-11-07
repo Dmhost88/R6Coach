@@ -463,12 +463,12 @@ briefs:
   - id: kafe-kitchen-attack-bakery
     site: kitchen_service_kitchen_cooking
     side: attack
-    operators: [Nomad, Fuse, Buck]
+    operators: [Nomad, Fuze, Buck]
     title: "Bakery push with Small and vertical from Mining"
     text: >-
-      Open Reception early for late phantom pressure. Nomad or Aruni starts in Small Bakery and airjabs
+      Open Reception early for late phantom pressure. Nomad starts in Small Bakery and airjabs
       the double door while the team opens the Bakery barricade, clears the area and opens the Bakery
-      wall. A Fuse or Buck with a drone in R90 opens the Mining hatch and makes vertical on the chassis,
+      wall. A Fuze or Buck with a drone in R90 opens the Mining hatch and makes vertical on the chassis,
       the coffee machine and the sinks; if Bakery stalls, flip the take and drop the hatch. Plant on the
       chassis or behind the sinks.
     placements:
