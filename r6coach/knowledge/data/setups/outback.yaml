@@ -73,60 +73,66 @@ briefs:
         floor: 2F
         room: Laundry
         note: "Hold the washer, watch the Dorms door"
+  # Attack briefs on this map follow Garfieldisdoc, "How to Attack EVERY Bombsite in Rainbow Six Siege
+  # (2026)", https://www.youtube.com/watch?v=1qCEYZwQzes (Outback from 3:37:35; reworked Outback).
   - id: outback-piano-laundry-thermite-dorms
     site: piano_room_laundry_room
     side: attack
-    operators: [Thermite, Hibana, Thatcher]
-    title: "Take Dorms, burn the Dorms breach"
+    operators: [Thermite, Thatcher, Nomad]
+    title: "Main wall from the Motel Balcony, then win yellow"
     text: >-
-      Spawn Camping, drone Dorms and Motel Hallway, then take the Dorms balcony. Thatcher clears the
-      batteries or claws, Thermite or Hibana opens the Dorms breach, and you plant Laundry from Dorms.
+      Bring a hard breacher plus pocket EMPs or someone to go below, and open the main wall from the Motel
+      Balcony. Have a teammate spawn Garage side and claymore the jump-out window. After the wall, put someone
+      on the Dorms window for a free pick, then collapse on whoever holds yellow stairs from the window and the
+      breach. Win that pinch point and feed in from the breach to cut off Laundry; plant far back or right
+      beside the reinforcement.
     placements:
-      - kind: drone
-        floor: 2F
-        room: Motel Hallway
-        note: "Find the Dorms anchor and the Games roamer"
-      - kind: entry
-        floor: 2F
-        at: [38.5, 44.6]
-        name: "Dorms balcony"
-        nudge: [0, 1.0]
-        note: "Stack outside the breach"
       - kind: thermite
         floor: 2F
         at: [38.5, 43.9]
-        name: "Dorms breach"
-        note: "After Thatcher's EMP"
+        name: "Main wall (Motel Balcony)"
+        note: "Watch the jump-out window while it burns"
+      - kind: anchor
+        floor: 2F
+        between: [Dorms, exterior]
+        edge: left
+        note: "Dorms window: free pick, then util onto yellow"
+      - kind: anchor
+        floor: 2F
+        room: Motel Hallway
+        note: "Win yellow stairs (HUD: Back Stairs)"
       - kind: plant
         floor: 2F
         room: Laundry
-        note: "Hold it from Dorms"
-  - id: outback-piano-laundry-games-bull
+        note: "Far back or right beside the reinforcement"
+  - id: outback-piano-laundry-buck-vert
     site: piano_room_laundry_room
     side: attack
-    operators: [Ace, Buck]
-    title: "Pressure from Games and Bull"
+    operators: [Buck, Gridlock]
+    title: "Buck vertical from the bedrooms below"
     text: >-
-      Second group drones Games early, kills the Games roamer, then pushes Bull. Ace can open the Piano wall
-      from Showers if it's left soft (usually it isn't), and the Piano plant is covered from Bull.
+      Time it with a teammate pushing Picnic: go below and Buck under the double-door rotate, the chassis and
+      the piano, and make vertical on the stalls for the Bathroom rotate. Gridlock the staircase, Motel and
+      Reptile hallway, because the yellow player will come down for you. With even numbers, go back up yellow
+      and hold across so the team can plant; plant in the open and keep playing vertical if you want.
     placements:
-      - kind: drone
-        floor: 2F
-        room: Games Room
-        note: "Roamer here for the first 30 s"
-      - kind: entry
-        floor: 2F
-        room: Mechanical Bull
-        note: "Through Games"
-      - kind: ace
-        floor: 2F
-        at: [46.8, 31.5]
-        name: "Piano wall to Showers"
-        nudge: [-1.2, 0]
-        note: "Only if it's reinforced"
+      - kind: breach
+        floor: 1F
+        room: Green Bedroom
+        note: "Vertical on the double door, the chassis and the piano"
+      - kind: breach
+        floor: 1F
+        room: Red Bedroom
+        note: "Vertical on the stalls for the Bathroom rotate"
+      - kind: anchor
+        floor: 1F
+        room: Reptile Hallway
+        note: "Gridlock the staircase, Motel and Reptile hallway"
       - kind: plant
         floor: 2F
-        room: Piano Room
+        room: Laundry
+        nudge: [2.0, 0]
+        note: "In the open, covered by the vertical"
   # ---------------------------------------------------------------- 2F Party Room / 2F Office
   - id: outback-party-office-team-walls
     site: party_room_office
@@ -201,55 +207,70 @@ briefs:
   - id: outback-party-office-thermite-supply
     site: party_room_office
     side: attack
-    operators: [Thermite, Thatcher, Kali]
-    title: "Take Garage Lounge, burn Supply"
+    operators: [Thermite, Buck, Gridlock]
+    title: "Main wall, Garage control and the sidewall"
     text: >-
-      Storage Yard or Fuel Pumps spawn. Kill the Garage roamer and take Garage Lounge, Thatcher or Kali
-      clears the claws, then Thermite opens the Office Supplies breach from outside. Plant in Office by the
-      breach.
+      Open the main breach and, unless they play vertical, go below and make vert on the players tricking the
+      main wall. Send one player down to jump in near Motel to hold the flank. Cam Garage and find the gap: if
+      the staircase is clear, a teammate jumps in a Garage window while you clear bottom Garage and walk up once
+      the utility is gone. Then open the sidewall so nobody can play there and fight Party and Bull side.
     placements:
-      - kind: drone
-        floor: 2F
-        room: Garage Lounge
-        note: "Frost mats on the stairs, Valkyrie cams"
-      - kind: entry
-        floor: 2F
-        at: [54.2, 71.5]
-        name: "Garage Lounge door"
       - kind: thermite
         floor: 2F
         between: [Office Supplies, exterior]
         edge: right
         nudge: [0.8, 0]
-        note: "From outside, after the EMP"
+        note: "The main breach"
+      - kind: breach
+        floor: 1F
+        room: Waiting Room
+        note: "Vert on the main-wall tricker from below"
+      - kind: drone
+        floor: 2F
+        room: Garage Lounge
+        note: "Cam Garage, look for the gap"
+      - kind: entry
+        floor: 2F
+        room: Garage Lounge
+        nudge: [3.0, 3.0]
+        note: "Jump in a Garage window once the stairs are clear"
+      - kind: breach
+        floor: 2F
+        between: [Office, Garage Lounge]
+        note: "Open the sidewall so nobody plays there"
       - kind: plant
         floor: 2F
         room: Office
         nudge: [3.0, 0]
-        note: "Near the Supply breach"
+        note: "Near the main breach"
   - id: outback-party-office-bull-pinch
     site: party_room_office
     side: attack
-    operators: [Hibana, Ace, Buck]
-    title: "Open Party from Bull"
+    operators: [Hibana, Ace, Gridlock]
+    title: "Games take: Games wall, then Party wall"
     text: >-
-      Two players push Games into Bull while the rest hit Garage. Hibana or Ace opens the Party wall from
-      Bull; Buck can punish Bull peekers through the soft outer Party walls. Plant Party near the Bull wall.
+      The less common take. Set up for Dorms and bottom yellow: drone it out with a pre-place around Dorms
+      while teammates push bottom yellow and take yellow, with one outside Picnic for rotators. Then work all the
+      way up and open the Games wall and the Party wall, take up to Party Hall and plant behind it.
     placements:
       - kind: drone
         floor: 2F
-        room: Games Room
-        note: "Clear the roamer first"
+        room: Dorms
+        note: "Pre-place around Dorms; others push bottom yellow"
+      - kind: breach
+        floor: 2F
+        between: [Games Room, Mechanical Bull]
+        note: "Open the Games wall"
       - kind: hibana
         floor: 2F
         between: [Mechanical Bull, Party Room]
         nudge: [-0.8, 0]
-        note: "From Bull"
+        note: "Then the Party wall"
       - kind: plant
         floor: 2F
         room: Party Room
         nudge: [-1.5, 0]
-        note: "By the Bull wall"
+        note: "Behind the wall, from Party Hall"
   # ---------------------------------------------------------------- 1F Green Bedroom / 1F Red Bedroom
   - id: outback-bedrooms-team-walls
     site: green_bedroom_red_bedroom
@@ -329,56 +350,52 @@ briefs:
   - id: outback-bedrooms-thermite-reptile
     site: green_bedroom_red_bedroom
     side: attack
-    operators: [Thermite, Thatcher, Ash]
-    title: "Take Dorms, burn the Reptile wall"
+    operators: [Thermite, Ash, Buck]
+    title: "Open the main wall, run in and plant"
     text: >-
-      Camping spawn. One or two take Dorms upstairs first to stop the vertical, then Thatcher clears the
-      batteries and Thermite burns the Red Bedroom wall from Reptile Hallway. Plant tucked by the breach.
+      Expect Mira on Reptile, Castles on the window, double door and Reptile side, and the main wall reinforced.
+      If the Castle is up, wait for the players above to make vertical: they cover the swing and can pop the
+      hatch. Then open the main wall, run in and plant, with vertical right above, someone on the staircase and
+      counter angles all round.
     placements:
       - kind: drone
-        floor: 2F
-        room: Dorms
-        note: "Pulse and Castle over site"
-      - kind: entry
-        floor: 2F
-        at: [38.5, 44.6]
-        name: "Dorms balcony"
-        nudge: [0, 1.0]
+        floor: 1F
+        room: Reptile Hallway
+        note: "Find the Miras and Castles"
       - kind: thermite
         floor: 1F
         between: [Red Bedroom, Reptile Hallway]
         nudge: [0, 0.8]
-        note: "From Reptile Hallway"
+        note: "The main wall; wait for the vertical if it's Castled"
       - kind: plant
         floor: 1F
         room: Red Bedroom
         nudge: [0, 4.0]
-        note: "Tucked beside the breach"
-  - id: outback-bedrooms-closet-hibana
+        note: "Run in and plant; vertical covers it from above"
+  - id: outback-bedrooms-vertical-above
     site: green_bedroom_red_bedroom
     side: attack
-    operators: [Hibana, Ace]
-    title: "Open Closet from Reptile Hallway"
+    operators: [Thermite, Buck, Gridlock]
+    title: "Take Dorms and Piano, vertical on everything"
     text: >-
-      Second breach on the Closet wall from the east end of Reptile Hallway; Hibana or Ace once Bandit is
-      dealt with. Drone the Bathroom window for a Banshee first. Plant in the Green Bedroom corner, away from
-      the vertical holes.
+      Thermite opens the upstairs Dorms wall for the vertical players and you drone them in with a pre-place
+      around there. Take everything up to Piano and Picnic, with a Gridlock, Nomad or Bull flank on Shark. Pop
+      the hatch and make vertical on yellow, the side door, the A chassis and the Bathroom door; only Reptile has
+      almost no vertical.
     placements:
-      - kind: drone
-        floor: 1F
-        at: [44.0, 21.6]
-        name: "Bathroom window"
-        note: "Banshee spot"
-      - kind: hibana
-        floor: 1F
-        at: [51.3, 30.0]
-        name: "Closet to Reptile Hallway"
-        nudge: [0, 1.0]
-      - kind: plant
-        floor: 1F
-        room: Green Bedroom
-        nudge: [1.5, 4.0]
-        note: "Corner, away from the holes"
+      - kind: thermite
+        floor: 2F
+        at: [38.5, 43.9]
+        name: "Dorms wall (Motel Balcony)"
+        note: "Opens the way for the vertical players"
+      - kind: anchor
+        floor: 2F
+        room: Piano Room
+        note: "Hold Piano and Picnic; Gridlock or Nomad the Shark flank"
+      - kind: breach
+        floor: 2F
+        room: Dorms
+        note: "Pop the hatch, vert on yellow, side door, A chassis, Bathroom door"
   # ---------------------------------------------------------------- 1F Mechanic Shop / 1F Kitchen
   - id: outback-mechanic-kitchen-team-walls
     site: mechanic_shop_kitchen
@@ -452,53 +469,56 @@ briefs:
   - id: outback-mechanic-kitchen-thermite-waiting
     site: mechanic_shop_kitchen
     side: attack
-    operators: [Thermite, Thatcher, Buck]
-    title: "Clear Office, burn Waiting"
+    operators: [Thermite, Thatcher, Gridlock]
+    title: "Reptile side, burn the Kitchen wall"
     text: >-
-      Fuel Pumps spawn. Take Waiting and Reptile Hallway, send Buck or a pair into Office to stop the
-      vertical, Thatcher clears the claws and Thermite burns a Mechanic Shop wall from Waiting. Plant Kitchen
-      by the crouch rotate.
+      Pre-place a cam Reptile side so nobody runs Reptile hall, takes bottom yellow or walks Green, then take
+      the area fast with one player in Motel Reception and one outside the window for the swing. Thermite opens
+      the Kitchen wall; take Reptile hallway for anyone trying to retake or C4. If it's soft, open the line of
+      sight with a shotgun to cut the rotate and the door, and plant if they aren't playing vertical.
     placements:
       - kind: drone
-        floor: 2F
-        room: Office
-        note: "Pulse and Noor above site"
-      - kind: entry
+        floor: 1F
+        room: Reptile Hallway
+        note: "Pre-placed cam Reptile side"
+      - kind: anchor
         floor: 1F
         room: Waiting Room
+        note: "Take Motel Reception (HUD name); one outside the window"
       - kind: thermite
         floor: 1F
-        between: [Mechanic Shop, Waiting Room]
-        nudge: [-0.8, 0]
-        note: "From Waiting"
+        between: [Kitchen, Waiting Room]
+        nudge: [0, -2.0]
+        note: "The Kitchen wall"
+      - kind: breach
+        floor: 1F
+        room: Reptile Hallway
+        nudge: [3.0, 0]
+        note: "Shotgun the soft wall to cut the rotate and door"
       - kind: plant
         floor: 1F
-        at: [54.0, 47.0]
-        name: "Kitchen by the Waiting rotate"
-  - id: outback-mechanic-kitchen-restaurant-ace
+        room: Kitchen
+        note: "Only if they aren't playing vertical"
+  - id: outback-mechanic-kitchen-bull-window
     site: mechanic_shop_kitchen
     side: attack
-    operators: [Ace, Hibana, Sledge]
-    title: "Restaurant wall and vertical from Office"
+    operators: [Buck, Ash]
+    title: "Clear their vertical from the Bull window"
     text: >-
-      Second lane: Ace or Hibana opens the Restaurant wall behind the bar while Sledge opens the floor from
-      Office. Plant in Mechanic Shop away from the hatch above.
+      They'll usually play vertical over Kitchen, and their spot is right in front of the Bull window. Open
+      the Bull window and fight or Buck them off it; if they hold the far angle, take Games as well. Once the
+      vertical is gone, plant Kitchen off the open wall.
     placements:
-      - kind: drone
-        floor: 1F
-        room: Restaurant
-        note: "Jäger ADS behind the bar"
-      - kind: ace
-        floor: 1F
-        at: [59.1, 39.2]
-        name: "Restaurant wall behind the bar"
-        nudge: [0, -1.0]
-      - kind: breach
+      - kind: entry
         floor: 2F
-        room: Office
-        note: "Open the floor over site"
+        room: Mechanical Bull
+        note: "Open the Bull window; their vertical sits right in front"
+      - kind: entry
+        floor: 2F
+        room: Games Room
+        note: "Take Games for the far angle"
       - kind: plant
         floor: 1F
-        room: Mechanic Shop
-        nudge: [3.0, 0]
-        note: "Away from the hatch"
+        room: Kitchen
+        nudge: [0, 3.0]
+        note: "After the vertical player is cleared"

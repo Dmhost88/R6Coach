@@ -101,61 +101,64 @@ briefs:
         floor: 2F
         room: Meeting
         note: "Mozzie, pests on drones"
+  # Attack briefs on this map follow Garfieldisdoc, "How to Attack EVERY Bombsite in Rainbow Six Siege
+  # (2026)", https://www.youtube.com/watch?v=1qCEYZwQzes (Nighthaven Labs from 3:11:24).
   - id: nighthaven-cc-servers-thermite-it
     site: command_center_servers
     side: attack
-    operators: [Thermite, Zofia, Kali, Thatcher]
-    title: "Clear IT from below, burn IT"
+    operators: [Thermite, Montagne, Thatcher, Zofia]
+    title: "Open the IT wall, plant on the rotate"
     text: >-
-      Helipad spawn. Drone Meeting for Mozzie first, then IT for the batteries. Zofia or Kali clears the IT
-      wall denial (from 1F below works), Thermite burns the IT wall, and you plant behind the server stack.
+      The whole round is the IT wall: if it doesn't open you lose, so bring Thermite and Thatcher and a shield.
+      Montagne walks up bottom Warehouse for intel while it burns, and if they Bandit or Tubarao trick it someone
+      rappels the Warehouse window and bangs it. Keep a charge for the single they reinforce last, frag the
+      A-chassis player with Monty pushing Blue, and plant on the rotate.
     placements:
-      - kind: drone
-        floor: 2F
-        room: Meeting
-        note: "Mozzie steals drones here"
-      - kind: drone
-        floor: 2F
-        room: IT
-        note: "Batteries on the wall"
       - kind: thermite
         floor: 2F
         at: [53.8, 58.6]
         name: "IT wall"
         nudge: [0, 1.0]
-        note: "Inside the EMP window"
+        note: "The main breach; it has to open"
+      - kind: anchor
+        floor: 2F
+        at: [47.5, 52.0]
+        name: "Warehouse window"
+        note: "Rappel here and bang the wall if they Bandit or Tubarao trick it (position approximate)"
       - kind: plant
         floor: 2F
-        room: Servers
-        note: "Tucked behind the server stack"
-  - id: nighthaven-cc-servers-aqua-connector
+        room: Command Center
+        note: "On the rotate, beside the last reinforced single"
+  - id: nighthaven-cc-servers-connector-split
     site: command_center_servers
     side: attack
-    operators: [Maverick, Gridlock, Capitao]
-    title: "Aqua squeeze, Connector torch"
+    operators: [Thermite, Hibana, Gridlock]
+    title: "Connector wall, then the Electrical split"
     text: >-
-      Gridlock takes Aqua hallway up the Fish stairs and Traxes the flank, Maverick torches the Connector
-      outer walls from outside, Capitao smokes the site doorways. Plant Servers by the IT breach.
+      Once IT is open, Thermite comes over and opens the Connector wall for phantom pressure while one player
+      walks Meeting side through Connector. If the IT take stalls, flip to the Electrical split: same two walls,
+      sandwich Electrical and Connector, open the Servers wall from Connector and plant on the server. Bring
+      flashes and smokes; the head holes, door and pillar all need clearing.
     placements:
+      - kind: thermite
+        floor: 2F
+        between: [Servers, Connector]
+        nudge: [0, -3.0]
+        note: "Connector wall, after IT is open"
       - kind: entry
         floor: 2F
-        at: [57.5, 43.6]
-        name: "Fish Stairs"
-        note: "Into Aqua hallway"
-      - kind: maverick
+        room: Meeting
+        note: "One player walks Meeting side into Connector"
+      - kind: breach
         floor: 2F
-        at: [60.4, 43.4]
-        name: "Connector outer wall"
-        nudge: [0, -1.0]
-      - kind: drone
-        floor: 2F
-        room: Rafters
-        note: "Azami on the rail"
+        between: [Servers, Connector]
+        nudge: [0, 2.0]
+        note: "Open the Servers wall from Connector"
       - kind: plant
         floor: 2F
         room: Servers
-        nudge: [-1.5, 3.0]
-        note: "By the IT side"
+        nudge: [1.5, 0]
+        note: "Up on the server once Electrical is cleared"
   # ---------------------------------------------------------------- 1F Kitchen / 1F Cafeteria
   - id: nighthaven-kitchen-caf-team-walls
     site: kitchen_cafeteria
@@ -240,48 +243,55 @@ briefs:
   - id: nighthaven-kitchen-caf-thermite-lobby
     site: kitchen_cafeteria
     side: attack
-    operators: [Thermite, Kali, Sledge]
-    title: "Win Lobby stairs, burn the Lobby wall"
+    operators: [Thermite, Thatcher, Ash]
+    title: "Lobby wall with a player on the Kitchen window"
     text: >-
-      Park or Generator spawn. Kill or break the Clash at the top of the Lobby stairs, Sledge opens the
-      Cafeteria floor from above, Kali lances the claws and Thermite burns the Lobby wall. Smoke-plant on the
-      breach edge.
+      The primary hard breacher comes up Lobby, clears the area and nades the shield or Clash on the 90,
+      then opens the Lobby wall. One player sits outside the Kitchen window: anyone on or behind the B chassis
+      has to rotate into him or past the main-breach head holes. Watch Vending for the rotate and plant on
+      the main breach.
     placements:
-      - kind: drone
-        floor: 1F
-        room: Lobby
-        note: "Clash at the top of the stairs"
       - kind: thermite
         floor: 1F
         at: [61.3, 48.5]
         name: "Lobby wall"
         nudge: [-1.0, 0]
-        note: "After Kali's lance"
+        note: "Clear Lobby and the 90 shield first"
+      - kind: anchor
+        floor: 1F
+        at: [70.1, 46.0]
+        name: "Kitchen window"
+        note: "Outside the window, cutting the B-chassis player"
       - kind: plant
         floor: 1F
         room: Cafeteria
-        note: "Lobby breach edge, under smoke"
+        note: "On the main breach"
   - id: nighthaven-kitchen-caf-outside-hatch
     site: kitchen_cafeteria
     side: attack
-    operators: [Hibana, Ace, Kali]
-    title: "Outside hatch and Kitchen window"
+    operators: [Hibana, Gridlock, Buck]
+    title: "Freezer hatch and Connector from above"
     text: >-
-      From the east walkway, Hibana or Ace opens the outside hatch (it's reinforced late in prep, so check)
-      and Kali holds the Kitchen window. Drop or swing in and plant Kitchen.
+      While the main breach works Lobby, the second hard breacher opens the Freezer hatch from the Electrical
+      Side roof (it's usually reinforced) and someone opens the 2F Connector wall to cut off roamers. Gridlock
+      Connector and Electrical, then make vertical on everything over site.
     placements:
       - kind: hibana
         floor: 2F
         at: [67.2, 52.2]
-        name: "Outside hatch"
+        name: "Freezer hatch"
         nudge: [1.0, 0]
-      - kind: entry
-        floor: 1F
-        at: [70.1, 46.0]
-        name: "Kitchen window"
-      - kind: plant
-        floor: 1F
-        room: Kitchen
+        note: "From the Electrical Side roof; usually reinforced"
+      - kind: breach
+        floor: 2F
+        at: [60.4, 43.4]
+        name: "Connector outer wall"
+        nudge: [0, -1.0]
+        note: "From the Connector terrace, to cut off roamers"
+      - kind: anchor
+        floor: 2F
+        room: Connector
+        note: "Gridlock Connector and Electrical, then play vertical"
   # ---------------------------------------------------------------- 1F Control Room / 1F Storage
   - id: nighthaven-control-storage-team-walls
     site: control_room_storage
@@ -339,50 +349,67 @@ briefs:
   - id: nighthaven-control-storage-servers-window
     site: control_room_storage
     side: attack
-    operators: [Thermite, Kali, Buck]
-    title: "Win 2F, open the floor, window plant"
+    operators: [Thermite, Buck, Sledge]
+    title: "Win 2F, play vertical, window plant on the pillar"
     text: >-
-      Take Meeting, the Lobby stairs and Connector to cut off the E-box. Kali lances the IT claws, Thermite
-      burns IT, Buck opens the Servers floor over Storage. Then jump the Storage window and plant behind the
-      pillar.
+      They make vertical and play above, so feed into it: take 2F. One player opens IT to cut off anyone
+      playing vertical on the window, the rest push Meeting side or top Lobby and open the Connector wall to
+      cut off Electrical. Clear Rafters and Blue, make vertical on back site and the rotate while someone
+      watches Blue stairs, then jump in the Storage window and plant on the pillar.
     placements:
-      - kind: drone
-        floor: 2F
-        room: Electrical
-        note: "Kaid on the E-box"
       - kind: thermite
         floor: 2F
         at: [53.8, 58.6]
         name: "IT wall"
         nudge: [0, 1.0]
+        note: "Cuts off anyone playing vertical on the window"
       - kind: breach
         floor: 2F
-        room: Servers
-        note: "Buck opens the floor over Storage"
+        between: [Servers, Connector]
+        nudge: [0, -3.0]
+        note: "Connector wall; cut off the Electrical player"
+      - kind: breach
+        floor: 2F
+        room: Command Center
+        note: "Vertical on back site and the rotate; watch Blue stairs"
+      - kind: entry
+        floor: 1F
+        at: [57.5, 66.0]
+        name: "Storage window"
+        note: "Jump in once the vertical is made (position approximate)"
       - kind: plant
         floor: 1F
         room: Storage
-        note: "Behind the pillar"
-  - id: nighthaven-control-storage-garage
+        note: "On the pillar"
+  - id: nighthaven-control-storage-below-pressure
     site: control_room_storage
     side: attack
-    operators: [Hibana, Ace, Gridlock]
-    title: "Garage wall into Control"
+    operators: [Ace, Zofia, Nomad]
+    title: "Early walls and a cam below for the C4 player"
     text: >-
-      Second lane through Garage: drone Cargo and Garage, Hibana or Ace opens a Garage outside wall, and
-      Gridlock Traxes Aqua and the Cargo stairs. Plant Control Room.
+      Open the bottom Warehouse wall and the Storage window early for phantom pressure later in the round.
+      If you know they have a Pulse, Valkyrie or C4 player downstairs, send one attacker down with a pre-placed
+      cam to bang him, or just open the lines from the Delivery Area to scare him off. That player is the only
+      gap once you're on the window plant.
     placements:
+      - kind: entry
+        floor: 1F
+        at: [57.5, 66.0]
+        name: "Storage window"
+        note: "Open it early for phantom pressure"
       - kind: drone
-        floor: 1F
-        room: Garage
-      - kind: hibana
-        floor: 1F
-        at: [52.0, 66.3]
-        name: "Garage outside wall"
-        nudge: [0, 1.0]
+        floor: B
+        room: Assembly
+        note: "Pre-placed cam on the player below site"
+      - kind: breach
+        floor: B
+        at: [55.0, 67.5]
+        name: "Delivery Area wall"
+        note: "Open lines on the player below (position approximate)"
       - kind: plant
         floor: 1F
-        room: Control Room
+        room: Storage
+        note: "On the pillar"
   # ---------------------------------------------------------------- B Tank / B Assembly
   - id: nighthaven-tank-assembly-team-walls
     site: tank_assembly
@@ -454,48 +481,66 @@ briefs:
   - id: nighthaven-tank-assembly-hatch-vert
     site: tank_assembly
     side: attack
-    operators: [Hibana, Buck, Capitao]
-    title: "Animus hatch and vertical from 1F"
+    operators: [Buck, Gridlock, Zofia, Hibana]
+    title: "Take 1F, pop Cargo, vertical, plant behind the pillar"
     text: >-
-      Take the 1F rooms over site and kill the Warden in Storage first. Hibana burns the Animus hatch in
-      Garage, Buck opens lines over Tank from Control, Capitao fires the Tank doorways. Plant under the
-      Animus hatch or tight in the Tank corner.
+      Pre-place a cut-off cam in Rafters, open the soft IT wall and Zofia the player contesting the Storage
+      window. Drone Warehouse entrance and Cargo, Gridlock the Cargo stairs and pop the Cargo hatch so nobody can
+      retake. Make vertical from Control Room on the single pillar, the door and the default corner, then open
+      the hatch over the weaker site (usually Animus) and plant behind the pillar.
     placements:
       - kind: drone
+        floor: 2F
+        room: Rafters
+        note: "Pre-placed cut-off cam for roamers"
+      - kind: breach
+        floor: 1F
+        at: [51.5, 47.2]
+        name: "Cargo hatch"
+        note: "Gridlock the Cargo stairs, then pop it"
+      - kind: breach
+        floor: 1F
+        room: Control Room
+        note: "Vertical on the single pillar, the door and the jump-up"
+      - kind: breach
         floor: 1F
         room: Storage
-        note: "Warden on the holes"
+        note: "Vertical on the default corner plant"
       - kind: hibana
         floor: 1F
         at: [51.9, 62.0]
         name: "Animus hatch"
         nudge: [1.0, 0]
-      - kind: breach
-        floor: 1F
-        room: Control Room
-        note: "Buck, three lines over Tank"
+        note: "Open the hatch over the weaker site"
       - kind: plant
         floor: B
         room: Animus
-        note: "Under the hatch"
-  - id: nighthaven-tank-assembly-outside-burn
+        note: "Behind the pillar"
+  - id: nighthaven-tank-assembly-main-wall
     site: tank_assembly
     side: attack
-    operators: [Thermite, Kali, Nomad]
-    title: "Burn an outside wall"
+    operators: [Thermite, Thatcher, Buck]
+    title: "Main wall, Exo hatch and Vending stairs"
     text: >-
-      Drone the outside walls for claws and Nano for the C4 player. Kali lances the claws, Thermite burns the
-      Assembly outside wall, Nomad Airjabs the flanks. Plant in Assembly with Buck covering from above.
+      For the main wall, make vertical first, then open it with a teammate covering the breacher. Drone Exo
+      and the Vending area, open the Exo hatch and push down Vending stairs to cut everyone back. Walk up to the
+      Assembly door and plant; if someone holds the main breach, smoke the head holes and far door.
     placements:
-      - kind: drone
-        floor: B
-        room: Nano hallway
-        note: "C4 lobber"
       - kind: thermite
         floor: B
-        at: [57.0, 66.6]
-        name: "Assembly outside wall"
-        nudge: [0, 1.0]
+        at: [53.2, 51.3]
+        name: "Main wall (Nano hallway)"
+        note: "Open it after the vertical; which panel is approximate"
+      - kind: drone
+        floor: B
+        room: Exo
+        note: "Drone Exo and the Vending area"
+      - kind: breach
+        floor: 1F
+        at: [61.6, 54.4]
+        name: "Exo hatch"
+        note: "Then push down Vending stairs"
       - kind: plant
         floor: B
         room: Assembly
+        note: "At the door; smoke the head holes and far door"

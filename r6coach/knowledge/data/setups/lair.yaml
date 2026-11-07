@@ -69,50 +69,62 @@ briefs:
         floor: 2F
         between: [Server, Display]
         note: "Server-Display wall (often)"
+  # Attack briefs on this map follow Garfieldisdoc, "How to Attack EVERY Bombsite in Rainbow Six Siege
+  # (2026)", https://www.youtube.com/watch?v=1qCEYZwQzes (Lair from 2:53:30).
   - id: lair-master-attack-masks
     site: master_office_r6_room
     side: attack
-    operators: [Thermite, Thatcher]
-    title: "Take Masks, burn into Master Office"
+    operators: [Thermite, Thatcher, Gridlock, Brava]
+    title: "Default: Skybridge entry, main wall, Operational push"
     text: >-
-      Drone Operations and Mask Room first for Azami Kibas and the roamer. Take Mask Room, Thatcher EMPs the inner
-      walls and Thermite opens into Master Office in that window; plant by the inner Mask wall.
+      Put a drone on Skybridge in prep and have the entry sit on it; Gridlock can Trax the stairs, Green stairs and
+      Skybridge. The hard breach and Thatcher work the main wall from Mezzanine while one or two push Operational,
+      clear its utility and push top Mez and the Operational double door back; open the second wall only if they
+      reinforce the double. Plant in Master Office, and send one player down to Range to stop the C4 and pinch top Mez.
     placements:
       - kind: drone
         floor: 2F
-        room: Operations
-      - kind: entry
-        floor: 2F
-        room: Mask Room
+        at: [61.5, 50.5]
+        name: "Skybridge"
+        note: "Pre-placed drone; the entry sits on it"
       - kind: thermite
         floor: 2F
-        between: [Mask Room, Master Office]
+        between: [Mezzanine, Master Office]
+        note: "The main wall; Thatcher clears it first"
+      - kind: entry
+        floor: 2F
+        room: Operations
+        note: "Push top Mez and the Operational double door back"
       - kind: plant
         floor: 2F
         room: Master Office
-        nudge: [0, -3.0]
-        note: "By the inner Mask wall"
+        note: "Right inside the breach"
+      - kind: entry
+        floor: 1F
+        room: Range
+        note: "Take Range so nobody C4s from Weapons below"
   - id: lair-master-attack-ace
     site: master_office_r6_room
     side: attack
-    operators: [Ace]
-    title: "Ace the outer Mask walls from Operations"
+    operators: [Gridlock, Ace]
+    title: "Flip to R6 Room and the Storage wall"
     text: >-
-      Win Operations, then Ace opens the outer Mask walls to push the Operations defenders out and swing Masks. Clear
-      Fenrir mines on the Bathroom and Display windows before anyone rappels; plant against Cork facing the Display
-      door.
+      If the breacher dies or Operational still has head holes, flip the push. The Gridlock watching the windows
+      drones R6 Room and, if it's a gap with little utility, crouch-walks up to pick the people on site. Open the
+      Storage wall to cut every line of sight and fight your way to a plant in R6 Room.
     placements:
-      - kind: ace
-        floor: 2F
-        between: [Operations, Mask Room]
       - kind: drone
         floor: 2F
-        room: Display
-        note: "Fenrir mines and Banshee check"
+        room: R6 Room
+        note: "Check for a gap with little utility"
+      - kind: ace
+        floor: 2F
+        between: [R6 Room, Storage]
+        note: "Storage wall: cuts the lines of sight"
       - kind: plant
         floor: 2F
         room: R6 Room
-        note: "Against Cork, facing the Display door (usually)"
+        note: "Fight through for an easy plant"
   # ---------------------------------------------------------------- 1F Bunks / Briefing
   - id: lair-bunks-team-walls
     site: bunks_briefing
@@ -165,48 +177,64 @@ briefs:
   - id: lair-bunks-attack-topdown
     site: bunks_briefing
     side: attack
-    operators: [Ace, Ram]
-    title: "Win 2F, drop the R6 hatch"
+    operators: [Buck, Sledge, Nomad]
+    title: "Top-down clear: R6 balcony, Display, Operational"
     text: >-
-      Every 1F plant can be denied from the R6 Room holes, so take 2F first. Ace opens the outer Mask wall to clear
-      Operations, Ram opens the R6 Room floor, then drop the R6 Room hatch and plant beside it.
+      When they make vertical from above, collapse on them. Open the Green window early for phantom pressure; one player
+      comes over to the R6 Room balcony to drone and work vertical, one pushes the Display window to hold crosses, and
+      two push from Operational to clear Master Office and Masks. Then open the hatch, play the vertical with the main
+      wall open, and jump the Green window to collapse on site.
     placements:
-      - kind: ace
-        floor: 2F
-        between: [Operations, Mask Room]
-        note: "Outer Mask wall"
-      - kind: breach
-        floor: 2F
-        room: R6 Room
-        note: "Ram opens the floor over site"
       - kind: entry
+        floor: 2F
+        at: [51.0, 47.0]
+        name: "R6 Room balcony"
+        note: "Drone it out, then work vertical"
+      - kind: entry
+        floor: 2F
+        room: Display
+        note: "Display window: hold anyone leaving or rotating"
+      - kind: entry
+        floor: 2F
+        room: Operations
+        note: "Two push here to clear Master Office and Masks"
+      - kind: breach
         floor: 2F
         at: [55.9, 58.6]
         name: "R6 Room hatch"
-      - kind: plant
+        note: "Open it, then play vertical on site"
+      - kind: entry
         floor: 1F
-        at: [55.9, 59.6]
-        name: "Beside the R6 Room hatch drop"
+        between: [Bunks, exterior]
+        edge: right
+        note: "Green window: opened early, jump in late"
   - id: lair-bunks-attack-terrace
     site: bunks_briefing
     side: attack
-    operators: [Thermite, Kali]
-    title: "Burn the Security Terrace wall"
+    operators: [Thermite, Thatcher]
+    title: "Main Briefing wall, take Security and top Yellow"
     text: >-
-      Clear R6 Room and Operations first. Kali lances the Kaid claws on the Security Terrace wall, Thermite opens it,
-      and plant Briefing by the breach or Bunks by the Green pillar if 2F is yours.
+      Work the main Briefing wall from Security Terrace. They extend a lot, so take Security and clear top Yellow with a
+      teammate pushing Lobby to pinch whoever plays Security or Yellow back onto site. If needed, open the Security wall
+      as well to collapse on anyone rotating between the rooms, then plant.
     placements:
-      - kind: drone
-        floor: 2F
-        room: R6 Room
       - kind: thermite
         floor: 1F
         between: [Security Terrace, exterior]
         edge: left
+        note: "The main Briefing wall"
+      - kind: entry
+        floor: 1F
+        room: Lobby
+        note: "Pinch Security and top Yellow"
+      - kind: breach
+        floor: 1F
+        between: [Security, Bunks]
+        note: "Security wall, if you need to collapse on the rotate"
       - kind: plant
         floor: 1F
         room: Briefing
-        note: "By the breach"
+        note: "Inside the main breach"
   # ---------------------------------------------------------------- 1F Armory / Weapon Maintenance
   - id: lair-armory-team-walls
     site: armory_weapon_maintenance
@@ -257,48 +285,58 @@ briefs:
   - id: lair-armory-attack-range
     site: armory_weapon_maintenance
     side: attack
-    operators: [Thermite, Buck]
-    title: "Win Operations, burn Range Exit"
+    operators: [Thermite, Gridlock, Ying]
+    title: "Range Booth entry, Range Exit wall, tucked plant"
     text: >-
-      Clear Operations and Mezzanine first and have Buck open the floor. Then Thermite burns the Range Exit panel and
-      you plant on the hard wall just inside, away from the rotate.
+      Enter through Range Booth with a cam pre-placed, and open the Range Exit wall. Plant tucked on the hard wall, in
+      front of the breach, or vault onto the table; don't plant by the rotate, they will cut you off, so smoke it. One
+      player comes down Missile stairs and Gridlocks the flanks while one plays vertical.
     placements:
-      - kind: drone
-        floor: 2F
-        room: Operations
-      - kind: breach
-        floor: 2F
-        room: Operations
-        nudge: [0, 2.0]
-        note: "Buck opens the floor over site"
+      - kind: entry
+        floor: 1F
+        room: Range
+        note: "Through Range Booth with a pre-placed cam"
       - kind: thermite
         floor: 1F
         room: Range
         nudge: [0, -8.0]
-        note: "Range Exit panel"
+        note: "The Range Exit wall"
+      - kind: anchor
+        floor: 1F
+        room: Lobby
+        note: "Missile stairs: Gridlock off the flanks and watch"
       - kind: plant
         floor: 1F
         room: Weapon Maintenance
         nudge: [1.0, 0]
-        note: "Hard wall inside the breach"
+        note: "Tucked on the hard wall, or on the table"
   - id: lair-armory-attack-hibana
     site: armory_weapon_maintenance
     side: attack
-    operators: [Hibana]
-    title: "Burn the Operations hatch and drop"
+    operators: [Buck, Fuse, Gridlock, Nomad]
+    title: "Vertical control from OP and Mask"
     text: >-
-      Take Operations, Hibana burns the reinforced hatch, shoot Shumikha and Yokai through it, then drop and plant the
-      Armory corner while Buck holds from above.
+      Get vertical control: someone goes through OP and someone opens up the Mask area to fight the top Mez player, with
+      cut-off cams for anyone coming upstairs. Open the hatch and make vertical on the site door. Trax the hallway and
+      take top Missile to cut off Lobby, or Nomad airjabs the top Yellow door to cut the rotate.
     placements:
-      - kind: hibana
+      - kind: entry
+        floor: 2F
+        room: Operations
+        note: "Through OP; fight top Mez"
+      - kind: breach
         floor: 2F
         at: [61.9, 58.4]
         name: "Operations hatch"
+        note: "Open it, then vertical on the site door"
+      - kind: anchor
+        floor: 2F
+        room: Mezzanine
+        note: "Gridlock the hallway, take top Missile"
       - kind: plant
         floor: 1F
-        room: Armory
-        nudge: [1.5, 2.0]
-        note: "Armory corner"
+        room: Weapon Maintenance
+        note: "Behind smokes once the vertical cuts them off"
   # ---------------------------------------------------------------- B Lab / Lab Support
   - id: lair-lab-team-walls
     site: lab_lab_support
@@ -353,45 +391,70 @@ briefs:
   - id: lair-lab-attack-filtration
     site: lab_lab_support
     side: attack
-    operators: [Hibana, Buck]
-    title: "Open the hatch, walk Filtration"
+    operators: [Striker, Zofia, Ram]
+    title: "Vertical Filtration take"
     text: >-
-      Kill the Armory and Filtration roamers first; it's a two-up setup. Hibana opens the hatch over the Lab and the
-      Lab Exit, Buck opens the Security floor, and you plant the cabinet by the Filtration door.
+      Pre-place a cam in Range and sit on it to take that space; a five-stack also puts a cut-off cam upstairs in the
+      90. Bring hard breach that can make vertical and open the Armory hatch and the main Lobby hatch; skip the
+      vulnerable Reception hatch. Make all the vertical you can to cut the rotate, the site door and the main rotate,
+      open the Filtration wall for a line on Closet if you're five, then plant from Filtration.
     placements:
-      - kind: hibana
+      - kind: drone
         floor: 1F
-        at: [58.2, 61.8]
-        name: "Hatch over the Lab"
-      - kind: hibana
-        floor: B
-        between: [Lab Exit, Lab]
+        room: Range
+        note: "Pre-placed cam; take this space"
       - kind: breach
         floor: 1F
-        room: Security
-        note: "Buck opens the floor"
+        at: [58.2, 61.8]
+        name: "Armory hatch"
+        note: "Open it for vertical"
+      - kind: breach
+        floor: 1F
+        at: [55.9, 56.2]
+        name: "Main Lobby hatch"
+        note: "Open it; avoid the Reception hatch"
+      - kind: breach
+        floor: B
+        at: [66.0, 63.0]
+        name: "Filtration wall"
+        note: "Five-man only: a line on Closet while you plant"
       - kind: plant
         floor: B
         room: Lab Support
-        note: "Filing cabinet by the Filtration door (usually)"
+        note: "From Filtration once the vertical has them cut off"
   - id: lair-lab-attack-missile
     site: lab_lab_support
     side: attack
-    operators: [Thermite, Kali]
-    title: "Lance and burn the Missile wall"
+    operators: [Thermite, Gridlock, Nomad]
+    title: "Warehouse take: Missile door, Lockers wall"
     text: >-
-      Clear Armory, push Filtration, then Kali lances the claw and Thermite opens the Missile wall. Gridlock Trax on
-      Yellow stairs stops the late flank; plant the south side of Lab behind smokes.
+      Start Barrels or Lockers, try to bang someone through the Barrels window and drone the area. The team opens the
+      Warehouse wall, drones from the single door, then opens the single Missile wall to push the hallway player back to
+      site; Gridlock or Nomad covers the staircase. Thermite opens the Lockers wall so you walk in and plant in front
+      of the breach, and a top-floor player bangs the long angle onto the Lockers door from Storage.
     placements:
-      - kind: drone
+      - kind: entry
+        floor: B
+        room: Garage
+        note: "Barrels window: bang through, drone the area"
+      - kind: breach
         floor: B
         room: Warehouse
-        note: "Valkyrie roam and cams"
-      - kind: thermite
+        note: "Warehouse wall, then drone from the single door"
+      - kind: breach
         floor: B
         between: [Missile, Electrical]
+        note: "Single Missile wall: push the hallway back"
+      - kind: thermite
+        floor: B
+        between: [Lab, Lockers]
+        note: "The Lockers wall; big hole, no vault noise"
       - kind: plant
         floor: B
         room: Lab
         nudge: [0, 3.0]
-        note: "South side of Lab"
+        note: "In front of the breach"
+      - kind: anchor
+        floor: 2F
+        room: Storage
+        note: "Bang the long angle onto the Lockers door"

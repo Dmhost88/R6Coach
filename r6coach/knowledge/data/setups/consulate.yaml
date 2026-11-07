@@ -84,57 +84,73 @@ briefs:
         edge: right
         nudge: [-1.2, 0]
         note: "Goyo Volcan on the CO window"
+  # Attack briefs on this map follow Garfieldisdoc, "How to Attack EVERY Bombsite in Rainbow Six Siege
+  # (2026)", https://www.youtube.com/watch?v=1qCEYZwQzes (Consulate from 1:37:02).
   - id: consulate-meeting-attack-admin-over
     site: meeting_room_consul_office
     side: attack
-    operators: []
-    title: "Admin over: open Break, plant Meeting"
+    operators: [Thermite, Flores, Buck]
+    title: "Admin over: catering wall, Break wall, push to Long Desk"
     text: >-
-      Take the Balcony and Admin, clear Long Desk, then Ace opens Break from Admin while Buck verticals the
-      Break doorway from Visa below. Clear the Vending shield and Whiteboard before the default Meeting plant.
+      Hard breach opens the catering wall from East Front Yard for phantom pressure while you drone Admin; if
+      it's stacked, drone a teammate into bottom Visa and vert above the Mira to cut Break. With Admin yours,
+      a second hard breach opens the Break wall for the Long Desk angle, Flores drones out the Vending shield
+      and Whiteboard, a teammate takes Spiral to hold the cross, then plant default in Consul Office.
     placements:
-      - kind: entry
+      - kind: breach
         floor: 2F
-        room: Balcony
-        note: "Balcony into Admin"
+        between: [Administration Office, exterior]
+        edge: bottom
+        note: "Catering wall from East Front Yard: phantom pressure"
       - kind: drone
         floor: 2F
         room: Administration Office
-        note: "Drone Admin and Long Desk first"
-      - kind: ace
+        note: "Drone Admin; get control before you push"
+      - kind: breach
         floor: 2F
         between: [Break Room, Administration Office]
-        note: "Break wall from Admin"
-      - kind: breach
-        floor: 1F
-        room: Lounge
-        note: "Buck vertical up into Break from below (the 'Visa vert'); floor under Break, usually"
+        note: "Break hard wall: angle on the Long Desk rotate"
+      - kind: anchor
+        floor: 2F
+        room: Spiral Stairs
+        note: "Rotate Spiral, hold the Long Desk cross"
       - kind: plant
         floor: 2F
-        room: Meeting Room
-        note: "Default Meeting plant"
-  - id: consulate-meeting-attack-meeting-wall
+        room: Consul Office
+        note: "Default, once Whiteboard is cleared"
+  - id: consulate-meeting-attack-consul-window
     site: meeting_room_consul_office
     side: attack
-    operators: [Thermite, Amaru]
-    title: "Burn the Meeting wall, hook the CO window"
+    operators: [Buck, Nomad]
+    title: "Consul flip: Yellow, the connector, rappel the CO window"
     text: >-
-      Thermite or Hibana opens the Meeting outside breach wall once Bandit is cleared. Amaru hooks the CO
-      window and plants behind smokes in Consul Office while the team holds Admin.
+      If Admin is too strong, flip to Consul: take Yellow stairs and clear the Melusi and Thorn utility while
+      one player cuts off Bathroom and Secretary. Win the connector (vert the jump-up player from below if you
+      must), then rappel in the Consul window and plant; Buck verts the door and desk players.
     placements:
-      - kind: thermite
+      - kind: entry
         floor: 2F
-        between: [Meeting Room, Balcony]
-        note: "Meeting outside breach wall; EMP the batteries first"
+        room: Yellow Stairs
+        note: "Take Yellow; clear Melusi and Thorn utility"
+      - kind: anchor
+        floor: 2F
+        room: Bathroom
+        note: "Cut off Bathroom and Secretary"
+      - kind: entry
+        floor: 2F
+        at: [66.0, 63.0]
+        name: "Connector (Consul Side Room)"
+        note: "Win the connector; vert the jump-up player"
       - kind: entry
         floor: 2F
         between: [Consul Office, exterior]
         edge: right
-        note: "CO window hook or rappel"
+        note: "Rappel in the Consul window"
       - kind: plant
         floor: 2F
         room: Consul Office
-        note: "Behind smokes after the window hook"
+        nudge: [0, 2.0]
+        note: "Plant once connector and Secretary are yours"
 
   # ------------------------------------------------------------------ 1F Piano Room / 1F Exposition Room
   - id: consulate-expo-team-reinforce
@@ -225,52 +241,59 @@ briefs:
   - id: consulate-expo-attack-lounge-wall
     site: piano_room_exposition_room
     side: attack
-    operators: []
-    title: "2F first, then open the Lounge wall"
+    operators: [Thermite, Gridlock, Nomad]
+    title: "Visa over: lock Visa, open the wall, take Spiral"
     text: >-
-      Take 2F through Admin and pinch Meeting, then Buck opens the vertical into the closet and Piano. Ace opens
-      the Expo-Lounge wall, Kali lances its claws, and plant in the breach corner in Expo.
+      If they aren't holding vert from above, get one or two players into Visa and lock it down so you aren't
+      flanked: Gridlock Trax and an air jab for sound. Open the wall toward Lounge, take Spiral stairs so
+      nobody flanks Benches, then open the Expo wall and plant, smoking off the rotate or yourself.
     placements:
       - kind: entry
-        floor: 2F
-        room: Balcony
-        note: "Balcony wall into Admin"
-      - kind: breach
-        floor: 2F
-        room: Consul Office
-        note: "Buck vertical down into the closet and Piano"
-      - kind: ace
         floor: 1F
-        room: Exposition Room
-        nudge: [-1.5, 0]
-        note: "Expo-Lounge double wall"
+        room: Visa Office
+        note: "Lock Visa down; Trax and a jab for sound"
+      - kind: breach
+        floor: 1F
+        room: Lounge
+        note: "Open the wall and take Lounge control"
+      - kind: anchor
+        floor: 1F
+        room: Spiral Stairs
+        note: "Spiral control: stops the Benches flank"
       - kind: plant
         floor: 1F
         room: Exposition Room
         nudge: [-1.0, 2.0]
-        note: "Breach corner in Expo"
+        note: "Off the wall, smoke the rotate"
   - id: consulate-expo-attack-hibana
     site: piano_room_exposition_room
     side: attack
-    operators: [Hibana]
-    title: "Clear Lounge and basement, Hibana burns Expo"
+    operators: [Montagne, Gridlock, Buck]
+    title: "Vs vertical: bottom-up Yellow to the single wall"
     text: >-
-      Clear the basement under Piano and the Lounge, make the 2F vertical, then Hibana burns the Expo wall from
-      Lounge. Drone Lobby first; the Lobby desk player rotates through to cut you off.
+      When they play vert from above, open the closet and the Yellow window early for phantom pressure, then
+      go bottom-up with a shield through all of Yellow, Trax on the stairs. Work the single wall from West
+      Corridor with a player outside the hallway window for the Benches flank; or go Admin over, clear 2F,
+      open the Piano hatch and drop a teammate to plant behind the piano.
     placements:
-      - kind: drone
+      - kind: entry
         floor: 1F
-        room: Lobby
-        note: "Drone Lobby desk and Lounge"
-      - kind: hibana
+        room: Yellow Stairs
+        note: "Open the Yellow window early; shield takes all of Yellow"
+      - kind: breach
         floor: 1F
-        room: Exposition Room
-        nudge: [-1.5, 1.0]
-        note: "Expo wall from Lounge"
+        at: [56.0, 66.0]
+        name: "West Corridor single wall"
+        note: "Your breach once Yellow is yours"
+      - kind: anchor
+        floor: 1F
+        at: [50.5, 60.0]
+        name: "Outside the hallway window"
+        note: "Sit out here for the Benches flank"
       - kind: plant
         floor: 1F
         room: Piano Room
-        note: "Behind the piano"
+        note: "Behind the piano (drop through the hatch late)"
 
   # ------------------------------------------------------------------ 1F Tellers / B Servers
   - id: consulate-tellers-team-reinforce
@@ -339,51 +362,67 @@ briefs:
   - id: consulate-tellers-attack-squeeze
     site: tellers_servers
     side: attack
-    operators: []
-    title: "Basement squeeze through Electrical"
+    operators: [Thermite, Ace]
+    title: "Basement pinch: Dirt, bottom Yellow, the Electrical wall"
     text: >-
-      From Gas Station, take Garage and bottom Yellow, push Construction and open the Electrical wall with Ace
-      or Thermite after Thatcher. Buck opens the Visa floor above; plant in Servers under the Visa corner hatch.
+      Open Dirt into Construction and have one player slowly take that space while the rest take bottom Yellow
+      and Garage with a pre-placed cam. Drone Construction through the outside drone hole, open the single
+      wall and hold it while you clear Lockers and Coffee; then the Electrical player opens the Electrical wall
+      and the bomb carrier plants under the hatch, watching the stairs and the Visa hatch flank.
     placements:
-      - kind: drone
+      - kind: entry
         floor: B
         room: Construction
-        note: "Drone Construction and Storage"
-      - kind: ace
+        note: "Open Dirt; one player slowly takes the space"
+      - kind: entry
         floor: B
-        between: [Electrical Room, Servers]
-        note: "Electrical wall; EMP first"
+        room: Garage
+        note: "Bottom Yellow and Garage with a pre-placed cam"
       - kind: breach
-        floor: 1F
-        room: Visa Office
-        note: "Buck opens the Visa floor"
-      - kind: plant
         floor: B
-        room: Servers
-        note: "Under the Visa corner hatch"
-  - id: consulate-tellers-attack-zero
-    site: tellers_servers
-    side: attack
-    operators: [Zero, Thermite]
-    title: "Cam Servers, burn Electrical"
-    text: >-
-      Zero puts cams into Storage and Servers from Construction so you know where Pulse is. Thermite burns the
-      Electrical wall into Servers once the jammers are gone.
-    placements:
-      - kind: drone
-        floor: B
-        room: Storage
-        note: "Zero cam on Storage and Servers"
+        room: Construction
+        nudge: [2.0, 2.0]
+        note: "Single wall; hold it while you clear Construction utility"
       - kind: thermite
         floor: B
         between: [Electrical Room, Servers]
-        nudge: [1.2, 0]
-        note: "Electrical wall into Servers"
+        note: "Electrical wall for the line of sight"
       - kind: plant
         floor: B
         room: Servers
-        nudge: [0, 2.0]
-        note: "Default Servers plant"
+        note: "Under the hatch; watch the stairs and the Visa hatch"
+  - id: consulate-tellers-attack-lobby
+    site: tellers_servers
+    side: attack
+    operators: [Thermite, Montagne]
+    title: "Lobby take: Lounge double, staircase wall, Spiral"
+    text: >-
+      If they don't play proper vert, take Main Entrance, drone out Lobby and the hallway and work the Lounge
+      double. Clear the bottom Visa stairs shield or open the Visa window and hold the cross, open the Lobby
+      wall to the staircase to cut the flank, push Spiral and its Castle, and plant on the Tellers desk or
+      the middle pillar.
+    placements:
+      - kind: entry
+        floor: 1F
+        room: Lobby
+        note: "Main Entrance; drone out for random vert"
+      - kind: entry
+        floor: 1F
+        room: Visa Office
+        note: "Open the Visa window and hold the cross"
+      - kind: breach
+        floor: 1F
+        at: [60.0, 61.0]
+        name: "Lobby wall to the staircase"
+        note: "Cuts off anyone trying to flank"
+      - kind: entry
+        floor: 1F
+        room: Spiral Stairs
+        note: "Push Spiral, clear the Castle"
+      - kind: plant
+        floor: 1F
+        room: Tellers
+        note: "On the desk or the middle pillar; watch the window"
 
   # ------------------------------------------------------------------ B Cafeteria / B Garage
   - id: consulate-garage-team-reinforce
@@ -457,44 +496,47 @@ briefs:
   - id: consulate-garage-attack-thermite
     site: cafeteria_garage
     side: attack
-    operators: []
-    title: "Take 1F, then burn the Garage wall"
+    operators: [Thermite]
+    title: "Main Garage breach once the vert is yours"
     text: >-
-      Take 1F above for the vertical, then Thatcher disrupts and Thermite burns the Garage breach wall from
-      Garage Way. Flores clears the Garage gadgets; plant in Garage behind the light wall.
+      Work for the main Garage wall, but if they Tubarao or Bandit trick it, wait for your teammates to get
+      vertical control first. Open the main breach, let the vert player pop any Mira, push Yellow with one or
+      two and walk in to plant. It's a gunfight site and the round runs long, so expect to play it out.
     placements:
-      - kind: drone
-        floor: B
-        room: Garage
-        note: "Drone Garage and bottom Yellow"
       - kind: thermite
         floor: B
         between: [Garage, exterior]
         edge: left
-        note: "Garage breach wall from outside"
+        note: "Main Garage wall; wait for vert if it's tricked"
+      - kind: entry
+        floor: B
+        at: [55.0, 58.0]
+        name: "Bottom Yellow"
+        note: "One or two push Yellow and cut lines of sight"
       - kind: plant
         floor: B
         room: Garage
-        note: "Behind the light wall"
+        note: "Walk in once you have control"
   - id: consulate-garage-attack-vertical
     site: cafeteria_garage
     side: attack
-    operators: [Hibana, Sledge]
-    title: "Open the site hatch from 1F"
+    operators: [Hibana, Buck]
+    title: "Top-down from Yellow: hatch and vert from Expo"
     text: >-
-      With 1F Electrical and Piano held, Hibana opens the reinforced site hatch and Sledge or Buck open the soft
-      floor for vertical onto Pillar. Don't breach Garage until the vertical is yours.
+      If you need to go top-down, drone your teammates in from top Yellow, destroy the utility and get the
+      hatch. Play the hatch and make vert from Expo onto back site, pop the Mira and cut off anyone playing
+      back site while the main breach opens.
     placements:
+      - kind: drone
+        floor: 1F
+        room: Yellow Stairs
+        note: "Drone teammates in from top Yellow"
       - kind: hibana
         floor: 1F
         at: [67.2, 69.0]
         name: "Site hatch"
-        note: "Burn the reinforced hatch from 1F"
+        note: "Open the hatch and play it"
       - kind: breach
         floor: 1F
         room: Exposition Room
-        note: "Soft floor over the site for vertical"
-      - kind: plant
-        floor: B
-        room: Cafeteria
-        note: "Cafeteria plant under the hatch, usually"
+        note: "Vert onto back site; pop the Mira"

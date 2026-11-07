@@ -74,54 +74,74 @@ briefs:
         floor: ROOF
         room: Skylight
         note: "Watch the Skylight take with a trap or cam"
+  # Attack briefs on this map follow Garfieldisdoc, "How to Attack EVERY Bombsite in Rainbow Six Siege
+  # (2026)", https://www.youtube.com/watch?v=1qCEYZwQzes (Kafe from 2:23:05).
   - id: kafe-cocktail-attack-cigar-bar
     site: cocktail_lounge_bar
     side: attack
-    operators: [Hibana, Thatcher]
-    title: "Cigar to Bar"
+    operators: [Thermite, Brava, Nomad]
+    title: "Cigar Shop over: hatches, Cigar windows, Freezer wall"
     text: >-
-      From Park take the roof and Cigar Lounge, Thatcher EMPs the Freezer walls and Hibana opens Bar
-      Storage. Buck opens holes into Cocktail from the roof.
+      Pop the roof hatches, open the main wall and the Cigar windows at the start and pressure whoever
+      contests Cigar Shop; Brava is strong against all the utility. Rappel Cigar side, shoot the default
+      camera and have a teammate watch the bottom White window, then Thermite the Freezer wall with
+      someone on White flank and plant on the trash bags or default.
+    placements:
+      - kind: breach
+        floor: ROOF
+        at: [61.3, 52.0]
+        name: "Roof hatch over Top Red"
+        note: "Pop the hatches at the start"
+      - kind: entry
+        floor: 3F
+        room: Cigar Balcony
+        note: "Cigar-side rappel: open the windows, shoot the default camera"
+      - kind: anchor
+        floor: 2F
+        at: [72.5, 59.8]
+        name: "Bottom White window (Terrace)"
+        note: "Teammate watches it to cut anyone running down to the rappel"
+      - kind: thermite
+        floor: 3F
+        room: Bar Freezer
+        nudge: [0, 2.0]
+        note: "Freezer wall; someone watches White flank"
+      - kind: plant
+        floor: 3F
+        room: Bar
+        note: "On the trash bags if the wall gives space, else default"
+  - id: kafe-cocktail-attack-skylight
+    site: cocktail_lounge_bar
+    side: attack
+    operators: [Ying, Nomad, Buck]
+    title: "Cocktail over: Skylight rappels and the White window"
+    text: >-
+      Put people on the Skylight rappels and claymore or open the bottom White window, with one player
+      on it to cut the stairs. Someone gets in below on the Reading side to play vertical while another
+      walks up White behind the window cut-off. The Skylight player watches the Freezer, Trash and Cigar
+      Shop doors; rappel in and plant for the window across from you.
     placements:
       - kind: entry
         floor: ROOF
         room: Skylight
-        note: "Skylight take"
+        note: "Rappel here; swap between the Freezer, Trash and CS doors"
+      - kind: anchor
+        floor: 2F
+        at: [72.5, 59.8]
+        name: "Bottom White window (Terrace)"
+        note: "Open it and claymore it to cut the staircase"
       - kind: entry
-        floor: 3F
-        room: Cigar Balcony
-        note: "Under the Cafe Rooftop hatch"
-      - kind: hibana
-        floor: 3F
-        room: Bar Freezer
-        nudge: [0, 2.0]
-        note: "Freezer / Bar Storage walls"
-      - kind: plant
-        floor: 3F
-        room: Bar
-        note: "Behind the counter, near Freezer"
-  - id: kafe-cocktail-attack-red-white
-    site: cocktail_lounge_bar
-    side: attack
-    operators: [Thermite, Kali, Zofia]
-    title: "Red and White pinch"
-    text: >-
-      Clear Piano from Top Red and Thermite the Piano wall, while Zofia and Kali push Top White. Plant
-      in Cocktail by the Trash side.
-    placements:
-      - kind: thermite
-        floor: 3F
-        room: Red Stairs
-        nudge: [-1.2, 0]
-        note: "Piano wall"
+        floor: 2F
+        room: Reading Room
+        note: "Get in below and play vertical"
       - kind: entry
         floor: 3F
         room: White Stairs
-        note: "Top White"
+        note: "Walk up White once the window has them cut off"
       - kind: plant
         floor: 3F
         room: Cocktail Lounge
-        note: "Trash side"
+        note: "Plant for the window across from you"
   # ---------------------------------------------------------------- 2F Fireplace Hall / Mining Room
   - id: kafe-mining-team-reinforcements
     site: fireplace_hall_mining_room
@@ -187,48 +207,69 @@ briefs:
   - id: kafe-mining-attack-vertical
     site: fireplace_hall_mining_room
     side: attack
-    operators: [Buck, Sledge, Hibana]
-    title: "3F vertical, then the White wall"
+    operators: [Sledge, Buck, Montagne]
+    title: "Top down: hatch, Red wall, Cigar vertical"
     text: >-
-      Take Piano and Cocktail on 3F, Buck and Sledge open the floor over Mining, then Hibana opens the
-      White double wall after a Thatcher EMP.
+      Open the roof hatch and work the Red wall; if it's soft with key holes, just open it. Pre-place a
+      cut-off cam in the drone phase to hear anyone coming down Brown or Red, then walk up Red. Once you
+      have Cigar control, make vertical on B site and Train, and if you see a gap, Sledge, Buck or a
+      Montagne goes in to plant; smoke off the vertical if it's strong.
     placements:
       - kind: breach
-        floor: 3F
-        room: Bar Freezer
-        note: "Floor over Mining"
-      - kind: hibana
+        floor: ROOF
+        at: [61.3, 52.0]
+        name: "Roof hatch over Top Red"
+        note: "Open it at the start"
+      - kind: breach
         floor: 2F
-        between: [Mining Room, White Stairs]
-        nudge: [1.0, 0]
-        note: "White double wall"
+        at: [69.3, 56.5]
+        name: "Red wall"
+        note: "Open it if it's soft; they may reinforce it or play phantom there"
+      - kind: entry
+        floor: 1F
+        room: Red Stairs
+        note: "Walk up Red behind the cut-off cam"
+      - kind: breach
+        floor: 3F
+        room: Cigar Lounge
+        note: "Cigar control: vertical on site and Train"
       - kind: plant
         floor: 2F
         room: Mining Room
-        note: "By the window rotate"
-  - id: kafe-mining-attack-train
+        note: "On the hard side, or behind smokes at an off angle"
+  - id: kafe-mining-attack-pillar
     site: fireplace_hall_mining_room
     side: attack
-    operators: [Thermite, Kali]
-    title: "Train Museum push"
+    operators: [Buck, Sledge]
+    title: "Window info, then vertical on Pillar"
     text: >-
-      Clear Train Museum, Kali clears the denial and Thermite opens a Mining back wall. Plant in
-      Fireplace Hall by the double door if Mining is too hot.
+      Put people on the main windows early for information and an early AC-window angle on the White
+      hallway to pinch the upstairs defenders. With all of upstairs cleared, make vertical on the Pillar
+      rotate door and the dark spot from 3F Bar, take Pillar control, and walk in to plant while the
+      window players fight the rotators.
     placements:
       - kind: entry
         floor: 2F
-        room: Train Museum
-        note: "Clear it first"
-      - kind: thermite
-        floor: 2F
         between: [Mining Room, exterior]
         edge: bottom
-        nudge: [-1.2, 0]
-        note: "Mining back wall"
+        note: "Main windows: info first, fight rotators later"
+      - kind: anchor
+        floor: 3F
+        room: White Stairs
+        note: "AC window angle on the White hallway"
+      - kind: breach
+        floor: 3F
+        room: Bar
+        note: "Vertical on the Pillar rotate door and the dark spot"
+      - kind: anchor
+        floor: 2F
+        at: [69.0, 56.0]
+        name: "Pillar"
+        note: "Pillar control usually wins the round"
       - kind: plant
         floor: 2F
         room: Fireplace Hall
-        note: "By the double door"
+        note: "Walk in from Pillar"
   # ---------------------------------------------------------------- 2F Reading Room / Fireplace Hall
   - id: kafe-reading-team-reinforcements
     site: reading_room_fireplace_hall
@@ -295,47 +336,56 @@ briefs:
   - id: kafe-reading-attack-cocktail
     site: reading_room_fireplace_hall
     side: attack
-    operators: [Buck, Sledge, Hibana]
-    title: "Cocktail take, open the floor"
+    operators: [Buck, Sledge]
+    title: "Top down: clear 3F, then vertical on Reading"
     text: >-
-      Take 3F Cocktail and kill the Tachanka, open the floor over Reading, then Hibana opens the Pillar
-      wall. Plant in Reading by Pillar.
+      Open the hatches and drone all of 3F with cut-off cams: Cigar Shop, under Skylight, Piano. Push the
+      upstairs defenders off, keep one player on Red flank and one on White flank, then make vertical
+      on site until they fall back to 90 and Pillar. Plant on the Reading bookshelf; it's bangable, so
+      keep the vert players covering it.
     placements:
-      - kind: entry
+      - kind: breach
+        floor: ROOF
+        at: [61.3, 52.0]
+        name: "Roof hatches"
+        note: "Open them, then drone out 3F"
+      - kind: drone
+        floor: 3F
+        room: Cigar Lounge
+        note: "Cut-off cams: Cigar Shop, under Skylight, Piano"
+      - kind: breach
         floor: 3F
         room: Cocktail Lounge
-        note: "Kill the vert player"
-      - kind: hibana
+        note: "Vertical onto site once 3F is yours"
+      - kind: plant
         floor: 2F
         room: Reading Room
-        nudge: [-1.2, 0]
-        note: "Reading to Pillar wall"
+        note: "On the bookshelf (it's bangable)"
+  - id: kafe-reading-attack-pinch
+    site: reading_room_fireplace_hall
+    side: attack
+    operators: []
+    title: "Snow window cut-off and late Brown"
+    text: >-
+      Open the Reception double and the Dining window at the start for phantom pressure. While the vert
+      player works, teammates outside the Snow window cut anyone rotating to Pillar, and one walks up
+      Brown late through the open barricade to crouch in behind them. Plant on the bookshelf with every
+      line covered.
+    placements:
+      - kind: entry
+        floor: 1F
+        room: Reception
+        note: "Open the double (and the Dining window) at the start"
+      - kind: anchor
+        floor: 2F
+        at: [69.0, 56.0]
+        name: "Snow window (Pillar side)"
+        note: "Cut off rotations to Pillar"
       - kind: plant
         floor: 2F
         room: Reading Room
         nudge: [0, 2.0]
-        note: "By Pillar"
-  - id: kafe-reading-attack-pinch
-    site: reading_room_fireplace_hall
-    side: attack
-    operators: [Thermite, Kali, Zofia]
-    title: "White and Red pinch"
-    text: >-
-      Push White and Red together; Kali clears the claws and Thermite opens the Pillar wall. Plant in
-      the Fireplace Hall corner if Reading is held.
-    placements:
-      - kind: entry
-        floor: 2F
-        room: White Stairs
-        note: "White Stairs"
-      - kind: entry
-        floor: 2F
-        room: Red Stairs
-        note: "Red Stairs"
-      - kind: plant
-        floor: 2F
-        room: Fireplace Hall
-        note: "Corner"
+        note: "On the bookshelf"
   # ---------------------------------------------------------------- 1F Kitchen Service / Kitchen Cooking
   - id: kafe-kitchen-team-reinforcements
     site: kitchen_service_kitchen_cooking
@@ -413,44 +463,60 @@ briefs:
   - id: kafe-kitchen-attack-bakery
     site: kitchen_service_kitchen_cooking
     side: attack
-    operators: [Thermite, Thatcher, Buck]
-    title: "Bakery breach"
+    operators: [Nomad, Fuse, Buck]
+    title: "Bakery push with Small and vertical from Mining"
     text: >-
-      Take Bakery and Small Bake, Thatcher pops the Prep claws and Thermite opens. Buck opens the VIP
-      floor to stop the Freezer drop. Plant in Kitchen Service by the Prep wall.
+      Open Reception early for late phantom pressure. Nomad or Aruni starts in Small Bakery and airjabs
+      the double door while the team opens the Bakery barricade, clears the area and opens the Bakery
+      wall. A Fuse or Buck with a drone in R90 opens the Mining hatch and makes vertical on the chassis,
+      the coffee machine and the sinks; if Bakery stalls, flip the take and drop the hatch. Plant on the
+      chassis or behind the sinks.
     placements:
       - kind: entry
         floor: 1F
-        room: Bakery
-        note: "Show pressure early"
-      - kind: thermite
+        at: [58.5, 57.0]
+        name: "Small Bakery window"
+        note: "Nomad or Aruni: airjab or gadget the double door"
+      - kind: breach
         floor: 1F
-        room: Prep Room
-        nudge: [0, 1.5]
-        note: "Prep wall facing Bakery"
+        between: [Bakery, Kitchen Cooking]
+        note: "Bakery wall once the area is clear"
+      - kind: breach
+        floor: 2F
+        at: [67.1, 63.2]
+        name: "Mining hatch over Kitchen"
+        note: "Open it; drop it if you flip the take"
+      - kind: anchor
+        floor: 2F
+        room: Mining Room
+        note: "Vertical on the chassis, coffee machine prone spot and sinks"
       - kind: plant
         floor: 1F
         room: Kitchen Service
-        note: "By the Prep wall"
+        note: "On the chassis or behind the sinks"
   - id: kafe-kitchen-attack-red-hall
     site: kitchen_service_kitchen_cooking
     side: attack
-    operators: [Ace, Kali]
-    title: "Red Hall split"
+    operators: [Ying, Ace]
+    title: "White take: cut Coat Check, open the Freezer walls"
     text: >-
-      Push Red Hall and Coat Check, Kali clears the dark-wall claws and Ace opens. Gridlock covers the
-      Bakery flank. Plant in Kitchen Cooking near Freezer, away from the VIP holes.
+      Take VIP, Dining and Reception control and open White. Cut the Coat Check player off: a teammate on
+      the window while you throw a Candela from the Reception hallway, then pre-fire both head holes.
+      Open the Freezer walls but leave the hatch soft so a flank can't drop on you, watch Red, and plant.
     placements:
-      - kind: entry
+      - kind: anchor
+        floor: 1F
+        room: Reception
+        note: "Candela down the hallway toward Coat Check"
+      - kind: anchor
         floor: 1F
         room: Coat Check
-        note: "Red Hall and Coat Check"
-      - kind: ace
+        note: "Pre-fire both head holes, then hold the rotate"
+      - kind: breach
         floor: 1F
-        between: [Kitchen Cooking, Kitchen Service]
-        note: "Usually a dark wall; check which one Kaid left"
+        room: Freezer
+        note: "Open the Freezer walls; leave the hatch above soft"
       - kind: plant
         floor: 1F
         room: Kitchen Cooking
-        nudge: [0, 2.0]
-        note: "Near Freezer"
+        note: "Once Coat Check is yours; watch Red"
