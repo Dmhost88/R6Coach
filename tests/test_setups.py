@@ -135,17 +135,22 @@ def test_call_by_counters_and_names():
 
 
 def test_shipped_setups_are_valid_and_land_on_the_map():
-    """Every brief in the repo loads, names a real site and every placement is on the blueprint."""
+    """Every brief in the repo loads, names a real site and real operators of its side, and every
+    placement is on the blueprint."""
     from r6coach.knowledge import DATA
     from r6coach.maplayout import MapLayouts
     s = SetupLibrary(DATA / "setups")
     assert not s.errors, s.errors
     lays = MapLayouts(DATA / "layout", DATA / "no-images")
+    with open(DATA / "operators.yaml", encoding="utf-8") as f:
+        roster = {o["name"]: o["side"] for o in yaml.safe_load(f)["operators"]}
     for mid, briefs in s.briefs.items():
         with open(DATA / "maps" / f"{mid}.yaml", encoding="utf-8") as f:
             sites = {x["id"] for x in (yaml.safe_load(f) or {}).get("sites") or []}
         for b in briefs:
             assert b["site"] in sites, (mid, b["id"], b["site"])
+            for name in b["operators"]:
+                assert roster.get(name) == b["side"], (mid, b["id"], name, roster.get(name))
             for i, p in enumerate(b["placements"], 1):
                 assert p["kind"] in KINDS
                 assert lays.resolve(mid, p) is not None, (mid, b["id"], i, describe(p))

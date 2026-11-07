@@ -430,11 +430,11 @@ briefs:
   - id: kanal-kayaks-attack-split
     site: kayaks_supply_room
     side: attack
-    operators: [Smoke, Capitao, Buck]
+    operators: [Capitao, Buck]
     title: "Yellow push and the chassis plant"
     text: >-
       Make vertical on everything and come down Yellow; make sure Scuba is clear, and someone can jump the Scuba window
-      late. Defenders end up by the door, Closet or Main Stairs, so smoke off the double and the Lockers door and plant
+      late. Defenders end up by the door, Closet or Main Stairs, so smoke off the double and the Lockers door (Capitao's smoke bolt or smoke grenades) and plant
       the cheeky spot on the bomb chassis: retaking it means jumping up to defuse at an awkward angle.
     placements:
       - kind: entry

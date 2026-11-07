@@ -313,7 +313,7 @@ briefs:
   - id: lair-armory-attack-hibana
     site: armory_weapon_maintenance
     side: attack
-    operators: [Buck, Fuse, Gridlock, Nomad]
+    operators: [Buck, Fuze, Gridlock, Nomad]
     title: "Vertical control from OP and Mask"
     text: >-
       Get vertical control: someone goes through OP and someone opens up the Mask area to fight the top Mez player, with

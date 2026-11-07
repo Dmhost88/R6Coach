@@ -76,7 +76,7 @@ Always run both after editing any of these files:
 .venv/Scripts/python -m pytest -q tests/test_knowledge.py tests/test_setups.py tests/test_maplayout.py
 ```
 
-`check_setups.py` exits 1 if a file does not load, a brief names a site that does not exist, or a placement does not land on the map. Then look at the result in the dashboard preview:
+`check_setups.py` exits 1 if a file does not load, a brief names a site that does not exist, a brief names an operator not spelled as in `operators.yaml` (Capitao, not Capitão) or from the other side, or a placement does not land on the map. Then look at the result in the dashboard preview:
 
 ```bash
 .venv/Scripts/python tools/preview_dashboard.py --map Chalet --side defense --site "Master Bedroom" --op Kaid --screen prep_phase --port 8766
