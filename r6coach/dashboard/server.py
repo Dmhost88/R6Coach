@@ -33,7 +33,7 @@ STATIC = Path(__file__).resolve().parent / "static"
 # Events forwarded to the page. vision.read carries the full read, which the detection view uses.
 FORWARD = {"state.updated", "screen.changed", "coach.said", "coach.advice", "coach.thinking", "vision.read",
            "llm.usage", "error", "ptt.listening", "ptt.question", "ptt.ready", "match.started",
-           "round.ended", "match.ended", "status", "killfeed", "player.died", "map.focus"}
+           "round.ended", "match.ended", "status", "killfeed", "player.died", "map.focus", "budget.level"}
 
 TEST_LINE = "Voice check. 3 v 2. They have to come to you."
 

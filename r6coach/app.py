@@ -38,7 +38,7 @@ class App:
         self.bus = Bus()
         self.claude = Claude(self.bus)
         self.claude.budget = cfg.coach.budget_per_match
-        self.bus.subscribe("match.started", lambda ev: setattr(self.claude, "match_cost", 0.0))
+        self.bus.subscribe("match.started", lambda ev: self.claude.reset_match())
         self._last_room: Optional[str] = None
         self.bus.subscribe("state.updated", self._record_room)
         self.knowledge = Knowledge(notes_dir=data / "notes")
@@ -161,6 +161,7 @@ class App:
             "match_cost": round(self.claude.match_cost, 4),
             "budget_per_match": self.cfg.coach.budget_per_match,
             "budget_level": self.claude.budget_level(),
+            "startup_cost": round(self.claude.startup_cost, 4),
             "calls": self.claude.calls,
             "ptt_key": self.cfg.push_to_talk.key if self.ptt else "off",
             "ptt_ready": self.ptt_ready,

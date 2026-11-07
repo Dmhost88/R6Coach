@@ -77,6 +77,8 @@ Components talk through the bus or through the callables `App` hands them (`curr
 | `map.focus` | app | which rooms the last line named, for the live map |
 | `ptt.listening` / `ptt.question` / `ptt.ready` | ptt | push-to-talk state and transcribed questions |
 | `status` | app | mute/pause/cost changes |
+| `llm.usage` | llm | one Claude call's tokens and cost, plus the match cost and budget level |
+| `budget.level` | llm | the per-match budget level changed (`ok` / `tight` / `spent`); the coach says so once |
 | `error` | anywhere | logged as a warning and shown on the dashboard |
 
 When you add an event, add it to this table.
@@ -100,7 +102,7 @@ Cloud screen reads cost about $0.012 each and take 3–8 s, so the app avoids th
 3. **Local operator cards** ([opcards.py](../r6coach/opcards.py)): reads your pick, teammates' picks and bans in ~100 ms, so the coach knows your lock before the cloud read lands.
 4. **Local HUD reader** ([hud.py](../r6coach/hud.py)): everything in-round. Live rounds need almost no cloud reads (`vision.min_interval.action_phase: 90`).
 5. **`ReadGate`** enforces `vision.min_interval` per screen.
-6. **Per-match budget** (`coach.budget_per_match`, USD): at 80% live calls and debriefs pause; at 100% only bans and picks run. The dashboard header shows the running cost.
+6. **Per-match budget** (`coach.budget_per_match`, USD): at 80% live calls and debriefs pause; at 100% only bans and picks run. Each change is logged, spoken once ("Budget's tight. Coaching the essentials from here.") and shown in the dashboard header next to the match cost. The first call per model after the app starts writes the cached prompt prefix; that write is counted as start-up cost (`status.startup_cost`), not against the match, so a restart mid-match doesn't eat its budget.
 
 All HUD/screen regions are measured on 3440×1440 and stored **relative to the screen centre in units of screen height**, which is how Siege lays out its HUD. Other 21:9 sizes should land in the same place; 16:9 is unverified.
 

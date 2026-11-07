@@ -170,6 +170,7 @@ class Coach:
         bus.subscribe("coach.said", self._on_said)
         bus.subscribe("player.died", self._on_died)
         bus.subscribe("memory.round", self._on_memory_round)
+        bus.subscribe("budget.level", self._on_budget)
 
     # ------------------------------------------------------------------ event handlers
     def _on_match_started(self, ev: Event) -> None:
@@ -240,6 +241,15 @@ class Coach:
         # Spotted only once spectating, the kill cam is already over: go now.
         threading.Timer(1.5 if kill_cam else 0.0, lambda: self.pool.submit(
             self._run, "death", self._advise_death, state, killer, kill_cam)).start()
+
+    BUDGET_LINES = {"tight": "Budget's tight. Coaching the essentials from here.",
+                    "spent": "Budget's spent. Bans and picks only from here."}
+
+    def _on_budget(self, ev: Event) -> None:
+        """The per-match budget closed a gate: say so once, so silence is never a mystery."""
+        level = ev.data.get("level")
+        if level in self.BUDGET_LINES and self._once(f"budget:{level}"):
+            self.speaker.say(self.BUDGET_LINES[level], priority=1, ttl=30.0, phase="status")
 
     def _on_said(self, ev: Event) -> None:
         self.profile.log_line(self.current_state().match_id, ev.data.get("phase", ""), ev.data["text"])
