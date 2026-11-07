@@ -41,6 +41,8 @@ DETAIL_READ_SCREENS = {Screen.map_ban, Screen.operator_ban, Screen.operator_sele
 CARD_SCREENS = {Screen.operator_ban, Screen.operator_select, Screen.loadout}
 CARD_PERIOD = 0.8           # s between local operator-card reads (each costs ~30-200 ms)
 IN_ROUND_SCREENS = {Screen.prep_phase, Screen.action_phase, Screen.spectating, Screen.round_end}
+ROUND_CLOCK_FIELDS = {"timer_seconds", "alive_us", "alive_them"}
+VS_KILL_WINDOW = 6.0        # s: a VS count read this soon after a killfeed line needs no second read
 
 
 def thumbnail(img: np.ndarray) -> np.ndarray:
@@ -144,6 +146,8 @@ class Watcher:
         self.kills = KillTracker(cfg.player_name)
         self._lock = threading.RLock()   # cloud reads and HUD reads merge from different threads
         self._last_timer: Optional[int] = None
+        self._vs_pending: Optional[tuple] = None   # a VS count seen once, waiting to be confirmed
+        self._last_kill_ts = 0.0
         self._hud_in_round_ts = 0.0      # last time the HUD saw a round in progress
         # Local screen classifier (screens.ScreenClassifier); built on the watcher thread if None.
         self.screens = screens
@@ -446,6 +450,11 @@ class Watcher:
             s.health = None
             s.player_alive = True
             s.defuser_planted = False
+            # Counts and the clock belong to the round: R7 once opened with R6's "5 v 1".
+            s.alive_us = s.alive_them = None
+            s.timer_seconds = None
+            self._last_timer = None
+            self._vs_pending = None
             self._next_round(s)
             self.bus.publish("live.event", kind="round_reset")
             if self.kills:
@@ -595,10 +604,6 @@ class Watcher:
             s.site = h.site
         if h.side:   # banner subtitles ("FORTIFY BOMB SITES") are reliable
             self._observe_side(s, h.side, s.screen)
-        if h.alive_us is not None:
-            if (h.alive_us, h.alive_them) != (s.alive_us, s.alive_them):
-                s.alive_us, s.alive_them = h.alive_us, h.alive_them
-                live("vs", alive_us=h.alive_us, alive_them=h.alive_them, player_alive=s.player_alive)
         if "planted" in h.events and not s.defuser_planted:
             s.defuser_planted = True
             live("planted")
@@ -606,7 +611,12 @@ class Watcher:
             live("found_bombs")
 
         me = self.cfg.player_name.lower()
-        for k in self.kills.new_kills(h.kills):
+        new_kills = self.kills.new_kills(h.kills)
+        if new_kills:
+            self._last_kill_ts = time.time()
+        if h.alive_us is not None:
+            self._take_vs(s, (h.alive_us, h.alive_them))
+        for k in new_kills:
             mine = bool(me) and k.killer.lower() == me
             died = bool(me) and k.victim.lower() == me
             if died:
@@ -622,6 +632,7 @@ class Watcher:
         if new_screen == Screen.prep_phase and prev_screen not in PRE_ROUND | {Screen.prep_phase,
                                                                               Screen.action_phase}:
             s.alive_us = s.alive_them = None
+            self._vs_pending = None
             s.defuser_planted = False
             s.player_alive = True
             s.health = None
@@ -636,12 +647,30 @@ class Watcher:
             live("round_reset")
 
         if new_screen is not None and new_screen != prev_screen:
+            if new_screen in ROUND_PLAYED:
+                self._round_played = True   # so the next ban/pick screen starts a new round
             s.screen = new_screen
             self.bus.publish("screen.changed", previous=prev_screen.value, screen=new_screen.value,
                              state=s.model_dump(mode="json"), source="hud")
             if new_screen == Screen.round_end:
                 self.bus.publish("round.ended", won="won_round" in h.events, state=s.model_dump(mode="json"))
         self.bus.publish("state.updated", state=s.model_dump(mode="json"))
+
+    def _take_vs(self, s: GameState, counts: tuple) -> None:
+        """Accept a new "N VS M" count only when it is confirmed: the same count read twice in a
+        row, or one read right after a killfeed line. One OCR slip used to rewrite the counts and
+        fire "down a player" twice in 17 s (2026-11-06)."""
+        if counts == (s.alive_us, s.alive_them):
+            self._vs_pending = None
+            return
+        recent_kill = time.time() - self._last_kill_ts <= VS_KILL_WINDOW
+        if not recent_kill and self._vs_pending != counts:
+            self._vs_pending = counts
+            return
+        self._vs_pending = None
+        s.alive_us, s.alive_them = counts
+        self.bus.publish("live.event", kind="vs", alive_us=counts[0], alive_them=counts[1],
+                         player_alive=s.player_alive)
 
     def _apply(self, read: ScreenRead) -> None:
         """Merge one screen read into the match state and publish what changed."""
@@ -658,6 +687,10 @@ class Watcher:
             val = getattr(read, field)
             if field == "my_operator" and self._op_local_round == self._round_n:
                 continue   # the local card reader saw the actual lock this round; it wins
+            if field in ROUND_CLOCK_FIELDS and screen in PRE_ROUND:
+                continue   # no round is running on a ban or pick screen; a value here is stale
+            if field in ("alive_us", "alive_them"):
+                continue   # confirmed below, like the HUD's counts
             if val is not None:
                 setattr(s, field, val)
         if read.round_number and screen in PRE_ROUND:
@@ -670,6 +703,8 @@ class Watcher:
                 log.info("round count %d corrected to %d from the score %s-%s",
                          self._round_n, n, read.score_us, read.score_them)
                 self._round_n = s.round_number = n
+        if read.alive_us is not None and read.alive_them is not None and screen not in PRE_ROUND:
+            self._take_vs(s, (read.alive_us, read.alive_them))
         self._observe_side(s, read.side, screen)
         if read.teammate_operators:
             s.teammate_operators = read.teammate_operators

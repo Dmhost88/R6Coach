@@ -65,7 +65,41 @@ def test_live_lines(bus):
     w.apply_hud(HudRead(ts=0, timer=40, timer_hidden=False, events=["planted"]))
     assert LINES["atk_planted"] in said                         # urgent: no cooldown
     w.apply_hud(HudRead(ts=0, timer_hidden=True, alive_us=1, alive_them=2, events=["vs"]))
-    assert LINES["clutch"] in said
+    assert LINES["clutch"] not in said                          # one read could be an OCR slip
+    w.apply_hud(HudRead(ts=0, timer_hidden=True, alive_us=1, alive_them=2, events=["vs"]))
+    assert LINES["clutch"] in said                              # the second agreeing read confirms it
+
+
+def test_one_stray_vs_read_changes_nothing(bus):
+    w, live, said = make(bus, level=2)
+    start_round(w, side="attack")
+    w.apply_hud(HudRead(ts=0, events=["action"], timer=180))
+    w.apply_hud(HudRead(ts=0, timer=170, alive_us=5, alive_them=5, events=["vs"]))
+    w.apply_hud(HudRead(ts=0, timer=169, alive_us=5, alive_them=5, events=["vs"]))
+    assert (w.state.alive_us, w.state.alive_them) == (5, 5)
+    w.apply_hud(HudRead(ts=0, timer=160, alive_us=4, alive_them=5, events=["vs"]))   # misread
+    w.apply_hud(HudRead(ts=0, timer=159, alive_us=5, alive_them=5, events=["vs"]))
+    assert (w.state.alive_us, w.state.alive_them) == (5, 5)
+    assert LINES["disadvantage"] not in said
+    # A count right after a killfeed line is real at once.
+    w.apply_hud(HudRead(ts=0, timer=150, alive_us=4, alive_them=5, events=["vs"],
+                        kills=[Kill("Enemy_A", "them", "Mate_A", "us")]))
+    assert (w.state.alive_us, w.state.alive_them) == (4, 5)
+
+
+def test_counts_and_timer_reset_each_round(bus):
+    w, live, said = make(bus, level=2)
+    start_round(w, side="attack")
+    w.apply_hud(HudRead(ts=0, events=["action"], timer=180))
+    for _ in range(2):
+        w.apply_hud(HudRead(ts=0, timer=175, alive_us=5, alive_them=1, events=["vs"]))
+    assert (w.state.alive_us, w.state.alive_them) == (5, 1)
+    w.apply_hud(HudRead(ts=0, timer_hidden=True, events=["won_round"]))
+    # The next round's ban screen: the cloud read still carries the old clock and counts.
+    w.apply(ScreenRead(screen=Screen.operator_ban, timer_seconds=175, alive_us=5, alive_them=1,
+                       confidence=0.9))
+    assert w.state.alive_us is None and w.state.alive_them is None
+    assert w.state.timer_seconds is None
 
 
 def test_my_kill_waits_for_gunfight_and_my_death_blocks_clutch(bus):
