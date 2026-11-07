@@ -127,16 +127,24 @@ briefs:
     side: attack
     operators: [Hibana, Twitch]
     title: "Hibana opens E3, take Lobby stairs"
+    call: "Hibana opens the E3 elevator wall; team takes Lobby stairs to Front Desk."
     text: >-
-      Hibana rappels and opens E3, without the bomb, to cut the Janitor, Long Hallway and Stock rotates. The
-      rest drone up Lobby stairs, clear the wall utility, pre-place a cam on E2 and fight up for Front Desk
-      while a teammate pushes Beepers. Keep one or two on Stock and Stock window for phantom pressure.
+      Hibana rappels and opens E3 (the elevator wall on the CEO floor) to cut the Janitor, Long Hallway and
+      Stock rotates; give the bomb to someone on the stairs. The rest drone up Lobby stairs, clear the wall
+      utility, pre-place a cam on E2 and fight up for Front Desk while a teammate pushes Beepers. Keep one or
+      two on Stock and Stock window for phantom pressure.
+    counters: >-
+      Hibana's wall is denied: play the stairs and Stock window only and plant from Front Desk. Twitch
+      drones take the Lobby stairs utility first.
     placements:
       - kind: hibana
+        by: Hibana
         floor: 2F
         room: Elevators
-        note: "E3 from the rappel; leave the bomb with someone else"
+        name: "E3 elevator wall"
+        note: "Open it from the rappel; someone else carries the bomb"
       - kind: drone
+        by: Twitch
         floor: 1F
         room: Main Stairs
         note: "Drone up Lobby stairs; pre-place a cam on E2"
@@ -481,6 +489,10 @@ briefs:
     side: attack
     operators: [Thermite, Thatcher, Montagne, Hibana]
     title: "Server control, open the walls, bait the plant"
+    call: "Take Server with shield and Thermite; Hibana opens the Admin hatch from Printer."
+    counters: >-
+      Server wall denied: Thatcher EMPs the Bandit or Kaid first. Mira, Goyo or smoke on site: fake-plant
+      and back off until the utility is spent.
     text: >-
       Take Server with a shield player and a hard breacher, then open both Server walls into CCTV. Against a
       Mira, Goyo or smoke, plant, get off, plant again until the utility is burnt. At the same time Hibana and
@@ -490,19 +502,22 @@ briefs:
       - kind: entry
         floor: B
         at: [75.5, 14.5]
-        name: "Sewer manhole"
-        note: "From spawn, shoot the Lobby and Top Square cams before you drop"
+        name: "Sewer manhole (shoot the cams first)"
+        note: "From spawn, shoot the Lobby and Top Square cams, then drop in"
       - kind: thermite
+        by: Thermite
         floor: B
         between: [CCTV Room, Server Room]
         nudge: [1.2, 0]
         note: "Open both Server walls"
       - kind: hibana
+        by: Hibana
         floor: 1F
         at: [59.0, 57.5]
         name: "Admin hatch"
-        note: "EMP it, then Hibana; red angles onto site"
+        note: "Thatcher EMPs it, then Hibana opens it; red angles onto site"
       - kind: hibana
+        by: Hibana
         floor: 1F
         at: [57.0, 66.0]
         name: "Open Area hatch"

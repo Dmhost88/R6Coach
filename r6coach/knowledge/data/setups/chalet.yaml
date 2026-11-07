@@ -88,15 +88,20 @@ briefs:
     side: attack
     operators: [Ace, Zofia, Gridlock, Nomad]
     title: "Library and Mez split into the main Office wall"
+    call: "Split Library and Mezzanine, Gridlock off Library, Ace opens Office, plant half wall."
     text: >-
-      Split Library and Mezzanine with pre-placed cams; one player rappels the Highway window slant to cut
-      top Mez. Push bottom Library back into Library Stairs with frags or Ying, Gridlock off Library, then
-      open the main Office wall and plant on the half wall while the breacher watches Piano and Bathroom.
+      Split Library and Mezzanine (Mez) with pre-placed cams; one player rappels at the Front Yard windows
+      (the video's "Highway" windows) to cut top Mez. Push the Library player back down Library Stairs with
+      frags or Zofia's concussions, Gridlock lays Trax off Library, then Ace opens the main Office wall and
+      you plant on the half wall while Ace watches Piano and Bathroom.
+    counters: >-
+      Bandit or Kaid on the Office wall: Nomad or Zofia clears it first, or bring Thatcher. A Mira on the
+      wall: Ace still opens it, then plant from Library through the opening.
     placements:
       - kind: anchor
         floor: 2F
         at: [32.6, 72.0]
-        name: "Highway window slant rappel"
+        name: "Front Yard window rappel"
         note: "Cuts anyone going top Mez or extending into Library"
       - kind: entry
         floor: 2F
@@ -104,6 +109,7 @@ briefs:
         name: "Library windows"
         note: "Double or single window once Library Stairs is pushed back"
       - kind: ace
+        by: Ace
         floor: 2F
         between: [Office, Library]
         nudge: [-1.2, 0]

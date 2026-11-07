@@ -12,14 +12,18 @@ briefs:
     side: defense                         # defense | attack
     operators: [Kaid]                     # who the brief is for; [] = whole team
     title: "Claw the Office-Library wall" # short, names the job
+    call: "Claw the low Office-Library panel from Office."  # optional: the plan in 15 words or fewer, shown first
     text: >-                              # 1-3 sentences, exact callouts, said like the coach would
       Reinforce both Office-Library panels, then claw the lower one from the Office side ...
+    counters: >-                          # optional: what beats this plan and what to do then
+      Thatcher or Kali on the wall: ...
     placements:                           # where each piece of utility goes, in the order to do it
       - kind: reinforce
         floor: 2F
         between: [Office, Library]        # a wall: the shared edge of the two room boxes
         note: "Both panels"
       - kind: kaid
+        by: Kaid                          # optional: who does this step; one of `operators`, or "anyone"
         floor: 2F
         between: [Office, Library]
         nudge: [-1.0, 0]                  # optional shift in % of image (x, y) so icons don't stack
@@ -38,6 +42,11 @@ Position, first match wins: `at` (explicit), `between: [A, B]` (wall between two
 `exterior` as B for an outside wall and give `edge: top|bottom|left|right`), `room` (centre).
 Room names must be rooms in `layout/<map_id>.yaml` on that floor, or the icon is listed but not drawn.
 `floor` uses the layout's floor names (B, 1F, 2F, 3F, ROOF).
+`name` is what the step's title calls the spot. It is needed with `at`, and with `between` or `room` it
+replaces the layout's room names in the title (use it for the HUD's callout when the layout differs).
+
+Write for a player in a 45-second prep: the `call` is what they read first, steps say who (`by`) and
+what, and slang the HUD doesn't show (Mez, E3, vert) gets a plain word the first time.
 
 Placement kinds: reinforce, hatch (reinforced hatch), open (a rotate or head hole to open),
 rotate, mira, bandit, kaid, castle, deployable (shield), trap, camera, anchor (where to stand),

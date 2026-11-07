@@ -236,24 +236,32 @@ briefs:
     side: attack
     operators: [Thermite, Capitao, Zofia, Montagne]
     title: "Main Cash wall, clear bottom Garage, Montagne up Rafters"
+    call: "Thermite opens main Cash wall, clear bottom Garage, Montagne leads up Rafters."
     text: >-
-      Hard breach opens the main Cash wall. Capitao opens bottom Garage and Zofia opens the front door and
-      impacts the Castle barricade to clear the tucked player downstairs. Once he's dead or rotated, Montagne
-      walks up Rafters calling where they are and Capitao flames them off; watch the jump-up angles on Cash.
+      Thermite opens the main Cash wall. Capitao and Zofia clear bottom Garage: Zofia opens the front door and
+      impacts the Castle barricade, then they kill or push out the player tucked downstairs. Once he's gone,
+      Montagne walks up Rafters calling where defenders are and Capitao fire-bolts them out; watch the
+      jump-up angles on Cash.
+    counters: >-
+      Bandit or Kaid on the Cash wall: Thatcher or Kali for it, or skip the wall and play Rafters with the
+      shield. Castle and a deployable shield on Garage: Zofia's impacts take the barricade.
     placements:
       - kind: thermite
+        by: Thermite
         floor: 2F
         between: [Cash Room, exterior]
         edge: bottom
         note: "Main Cash wall; it cuts off anyone rotating while you take Rafters"
       - kind: entry
+        by: Zofia
         floor: 1F
         room: Garage
-        note: "Zofia opens the front door, impacts the Castle; clear the tucked player"
+        note: "Open the front door, impact the Castle, clear the tucked player with Capitao"
       - kind: entry
+        by: Montagne
         floor: 2F
         room: Garage (Rafters)
-        note: "Montagne walks up, Capitao flames off his call (bounce it off the roof)"
+        note: "Walk up and call; Capitao fire-bolts off the call (bounce it off the roof)"
   - id: clubhouse-cctv-attack-plants
     site: cctv_cash_room
     side: attack

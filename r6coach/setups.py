@@ -36,6 +36,7 @@ ID_LINE_RE = re.compile(r"^\s*-\s+id:\s*['\"]?([a-z0-9][a-z0-9-]{1,80})", re.M)
 # The repository the briefs live in, for "view the source" links in the dashboard's setup library.
 REPO_URL = "https://github.com/Dmhost88/R6Coach"
 SOURCE_DIR = "r6coach/knowledge/data/setups"
+CALL_WORDS = 15   # a brief's one-line call has to fit in a glance during prep
 
 
 def _norm(s: Any) -> str:
@@ -69,6 +70,11 @@ def validate(map_id: str, data: dict[str, Any]) -> list[dict[str, Any]]:
         ops = b.setdefault("operators", [])
         if not isinstance(ops, list) or not all(isinstance(o, str) for o in ops):
             raise SetupError(f"{bid}: operators must be a list of names")
+        for key in ("call", "counters"):
+            if key in b and not (isinstance(b[key], str) and b[key].strip()):
+                raise SetupError(f"{bid}: {key} must be text")
+        if len(str(b.get("call", "")).split()) > CALL_WORDS:
+            raise SetupError(f"{bid}: call is over {CALL_WORDS} words")
         places = b.get("placements") or []
         if not places:
             raise SetupError(f"{bid}: no placements")
@@ -87,6 +93,8 @@ def validate(map_id: str, data: dict[str, Any]) -> list[dict[str, Any]]:
                 raise SetupError(f"{where}: between must name two rooms")
             if "nudge" in p and not _pair(p["nudge"], -100):
                 raise SetupError(f"{where}: nudge must be [dx, dy]")
+            if "by" in p and p["by"] not in ops and _norm(p["by"]) != "anyone":
+                raise SetupError(f"{where}: by {p['by']!r} is not one of the operators")
             if p.get("edge") not in (None, "top", "bottom", "left", "right"):
                 raise SetupError(f"{where}: edge must be top, bottom, left or right")
     return briefs
@@ -248,6 +256,8 @@ class SetupLibrary:
         for b in briefs:
             ops = ", ".join(b["operators"]) or "team"
             lines.append(f"- [{b['side']}, site {b['site']}, {ops}] {b['title']}: {b['text'].strip()}")
+            if b.get("counters"):
+                lines.append(f"    If they stop it: {b['counters'].strip()}")
             for p in b["placements"]:
                 lines.append("    " + describe(p))
         return "\n".join(lines)
@@ -274,14 +284,21 @@ def clean_marks(marks: Any) -> list[dict[str, Any]]:
     return out
 
 
-def describe(p: dict[str, Any]) -> str:
-    """One placement in words: '2F reinforce Office | Library wall (both panels)'."""
+def place(p: dict[str, Any]) -> str:
+    """Where one placement goes, without floor, kind or note: 'Office | Library wall'. A name wins, so
+    a step can use the HUD's callout while between/room still places it on the blueprint."""
+    if p.get("name"):
+        return p["name"]
     if "between" in p:
         a, b = p["between"]
-        where = f"{a} exterior wall" if _norm(b) == "exterior" else f"{a} | {b} wall"
-    elif "room" in p:
-        where = p["room"]
-    else:
-        where = p.get("name") or "marked spot"
+        return f"{a} exterior wall" if _norm(b) == "exterior" else f"{a} | {b} wall"
+    if "room" in p:
+        return p["room"]
+    return "marked spot"
+
+
+def describe(p: dict[str, Any]) -> str:
+    """One placement in words: '2F reinforce Office | Library wall [Mute] (both panels)'."""
+    by = f" [{p['by']}]" if p.get("by") else ""
     note = f" ({p['note']})" if p.get("note") else ""
-    return f"{p['floor']} {p['kind']}: {where}{note}"
+    return f"{p['floor']} {p['kind']}: {place(p)}{by}{note}"

@@ -87,22 +87,28 @@ briefs:
     side: attack
     operators: [Thermite, Ying, Gridlock]
     title: "Attic and Master split"
+    call: "Cam Big Tower, open Attic; Thermite opens Master from the balcony; plant default."
     text: >-
-      Split Attic and Master. Get a cut-off cam on Tower, make sure it's empty, and open the Attic wall from
-      Tower. Master needs two: one rappels Armory and clears extenders up to the head hole, the hard breacher
-      opens the main Master wall from the Master balcony. Nade or Ying the drop and Bolo on the dresser, hold the
-      cut-off, then the main-breach player flashes in and runs to default.
+      Split Attic and Master. Get a cut-off cam on Big Tower, make sure it's empty, and open the Attic wall
+      from there. Master needs two: one rappels Armory and clears extenders up to the head hole, Thermite
+      opens the main Master wall from the Master balcony. Frag or Ying the drop and clear behind the dresser,
+      hold the cut-off, then the Thermite player flashes in and runs to the default plant.
+    counters: >-
+      Master wall denied: play Attic and the Armory rappel only, or bring Thatcher. A Mira in Master: Ying
+      through the Attic opening and plant from Attic.
     placements:
       - kind: breach
         floor: 2F
         between: [Small Tower, Attic]
-        note: "Attic wall from Tower after the cut-off cam (the HUD calls this tower Big Tower)"
+        name: "Big Tower | Attic wall"
+        note: "Open it after the cut-off cam shows Big Tower is empty"
       - kind: entry
         floor: 2F
         between: [Armory, exterior]
         edge: bottom
         note: "Armory rappel: clear extenders, mind the head hole"
       - kind: thermite
+        by: Thermite
         floor: 2F
         room: Master Bedroom
         nudge: [-2.0, 0]
@@ -110,8 +116,8 @@ briefs:
       - kind: plant
         floor: 2F
         at: [54.0, 59.0]
-        name: "Game Room default"
-        note: "On the gen; the HUD names this room Game Room (position approximate)"
+        name: "Default plant"
+        note: "On the generator (the HUD calls this room Game Room)"
   - id: oregon-dorms-attack-late-window
     site: kids_dorms_dorms_main_hall
     side: attack

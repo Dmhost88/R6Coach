@@ -76,16 +76,21 @@ briefs:
     side: attack
     operators: [Hibana, Nomad, Gridlock]
     title: "Take East, pinch Fountain, plant Archives"
+    call: "Take East, Hibana opens the East wall, pinch Fountain, plant default in Archives."
     text: >-
-      Take East first: open the East wall to cut rotates and Nomad or Gridlock the balcony and the double door.
-      Drone Offices, or drop a roof drone in the skylight, push the Offices player back to Fountain, then
-      open the single wall and pinch him. A late player on the AC window cuts Beepers and Small Office while
-      you plant default on the chassis in Archives.
+      Take East first: Hibana opens the East wall to cut rotates, and Nomad's Airjabs or Gridlock's Trax
+      cover the balcony and the double door behind you. Drone Offices, or drop a roof drone in the skylight,
+      push the Offices player back to Fountain, then open the single wall and pinch him. A late player on the
+      AC window cuts Beepers and Small Office while you plant default on the chassis in Archives.
+    counters: >-
+      East wall denied by a Bandit or Kaid: Hibana takes the single wall instead, or bring Thatcher.
+      Fountain holds: plant from Offices side and play the AC window for the defuse.
     placements:
-      - kind: anchor
+      - kind: hibana
+        by: Hibana
         floor: 2F
         room: East Stairs
-        note: "Open the East wall; airjab or Trax the balcony and double door"
+        note: "Open the East wall; Airjab or Trax the balcony and double door"
       - kind: drone
         floor: 2F
         room: Offices
@@ -343,7 +348,8 @@ briefs:
       plant. You can also clear from East: come Break Room and the balcony, take East or bang it if it isn't
       reinforced.
     placements:
-      - kind: breach
+      - kind: hibana
+        by: Hibana
         floor: 1F
         between: [Detention, Customs Inspection]
         note: "The Detention wall"
