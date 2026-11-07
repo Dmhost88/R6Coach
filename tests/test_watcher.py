@@ -87,8 +87,8 @@ def test_local_card_read_wins_over_cloud_for_the_lock(bus):
     from r6coach.opcards import OpCards
     w = make_watcher(bus)
     w.apply(ScreenRead(screen=Screen.main_menu, confidence=0.9))
-    w.apply(ScreenRead(screen=Screen.operator_select, map="Chalet", side="attack", banned_operators=["Ace"],
-                       confidence=0.9))
+    w.apply(ScreenRead(screen=Screen.operator_ban, map="Chalet", banned_operators=["Ace"], confidence=0.9))
+    w.apply(ScreenRead(screen=Screen.operator_select, map="Chalet", side="attack", confidence=0.9))
     cards = OpCards(my_operator="Thermite", teammates=["Kali", "Buck", "Thermite"], banned=["Mira"],
                     screen="operator_select", confidence=0.9, ms=30.0, source="cards")
     w._apply_cards(cards)
@@ -150,6 +150,60 @@ def test_round_count_follows_the_score(bus):
     w.apply(ScreenRead(screen=Screen.round_end, confidence=0.9))
     w.apply(ScreenRead(screen=Screen.operator_ban, confidence=0.9))
     assert w.state.round_number == 5 and w.state.side == "defense"
+
+
+def test_a_ban_read_once_off_the_ban_screen_is_not_kept(bus):
+    w = make_watcher(bus)
+    w.apply(ScreenRead(screen=Screen.main_menu, confidence=0.9))
+    w.apply(ScreenRead(screen=Screen.operator_ban, map="Chalet", banned_operators=["Mira"], confidence=0.9))
+    # A prep read that "carried over" a ban from context (seen live, 2026-11-06).
+    w.apply(ScreenRead(screen=Screen.operator_select, banned_operators=["Ace"], confidence=0.9))
+    assert w.state.banned_operators == ["Mira"]
+    w.apply(ScreenRead(screen=Screen.operator_select, banned_operators=["Ace"], confidence=0.9))
+    assert w.state.banned_operators == ["Mira", "Ace"]       # two reads agree: it's real
+
+
+def _profile_with_match(tmp_path, ended=False):
+    from r6coach.profile import Profile
+    p = Profile(tmp_path / "profile.sqlite")
+    p.match_started("m1")
+    for n, (side, won) in enumerate([("attack", True), ("attack", False)], start=1):
+        p.round_ended({"match_id": "m1", "round_number": n, "map": "Chalet", "side": side,
+                       "banned_operators": ["Mira", "Ace"]}, won,
+                      {"n": n, "side": side, "died_to": "Enemy_A" if not won else None, "died_in": "2F Office"})
+    if ended:
+        p.match_ended("m1", {"score_us": 1, "score_them": 1, "map": "Chalet"})
+    return p
+
+
+def test_restart_mid_match_resumes_it(bus, tmp_path):
+    from r6coach.memory import MatchMemory
+    p = _profile_with_match(tmp_path)
+    info = p.unfinished_match()
+    assert info and info["map"] == "Chalet" and info["bans"] == ["Mira", "Ace"]
+    w = make_watcher(bus)
+    mem = MatchMemory(bus, lambda: w.state)
+    w.resume(info)
+    mem.restore(info["rounds"])
+    assert len(mem.rounds) == 2 and mem.killers_of_me["Enemy_A"] == 1
+    started = []
+    bus.subscribe("match.started", lambda ev: started.append(1))
+    w.apply(ScreenRead(screen=Screen.operator_ban, confidence=0.9))
+    assert not started                                       # same match carries on
+    assert w.state.round_number == 3 and w.state.map == "Chalet"
+    assert w.state.banned_operators == ["Mira", "Ace"]
+    assert w.state.side == "attack" and (w.state.score_us, w.state.score_them) == (1, 1)
+    # The map vote only ever opens a new match.
+    w.apply(ScreenRead(screen=Screen.map_ban, confidence=0.9))
+    assert started and w.state.banned_operators == []
+
+
+def test_finished_or_old_matches_are_not_resumed(tmp_path):
+    import time
+    p = _profile_with_match(tmp_path, ended=True)
+    assert p.unfinished_match() is None
+    p2 = _profile_with_match(tmp_path / "b")
+    assert p2.unfinished_match(now=time.time() + 3600) is None
 
 
 def test_low_confidence_reads_are_ignored(bus):

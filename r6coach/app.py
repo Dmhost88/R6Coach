@@ -79,6 +79,10 @@ class App:
             from .voice.ptt import PushToTalk
             self.ptt = PushToTalk(cfg.push_to_talk, self.bus, self.controls)
         self.bus.subscribe("ptt.ready", lambda ev: setattr(self, "ptt_ready", True))
+        self._map_candidates: Optional[set] = None
+        self.bus.subscribe("state.updated", self._recover_map)
+        if replay is None:
+            self._resume()
         self.bus.subscribe("error", lambda ev: log.warning("%s: %s", ev.data.get("source"), ev.data.get("message")))
         self.stopped = threading.Event()
 
@@ -95,6 +99,35 @@ class App:
             r["fi"] = self.layouts.floor_index(mid, r["floor"], (r["room"],))
         if rooms:
             self.bus.publish("map.focus", map=mid, rooms=rooms, text=ev.data.get("text", ""))
+
+    def _resume(self) -> None:
+        """After a restart mid-match, carry on with that match (map, bans, rounds) instead of
+        guessing. Only a match with a round in the last 15 minutes and no recorded end."""
+        try:
+            info = self.profile.unfinished_match()
+        except Exception:
+            log.exception("could not read the last match from the profile")
+            return
+        if not info or not info["rounds"]:
+            return
+        self.watcher.resume(info)
+        self.memory.restore(info["rounds"])
+
+    def _recover_map(self, ev) -> None:
+        """No map known in a live round (e.g. restarted mid-round): narrow it down from the room
+        callouts the HUD shows until one map is left."""
+        st = ev.data.get("state") or {}
+        if st.get("map") or st.get("screen") not in ("prep_phase", "action_phase"):
+            self._map_candidates = None
+            return
+        maps = self.knowledge.maps_with_room(st.get("my_location"))
+        if not maps:
+            return
+        cands = maps if self._map_candidates is None else (self._map_candidates & maps) or maps
+        self._map_candidates = cands
+        if len(cands) == 1:
+            mid = next(iter(cands))
+            self.watcher.recover_map(self.knowledge.maps.get(mid, {}).get("name", mid))
 
     def _record_room(self, ev) -> None:
         """Log each new room callout from the HUD, per map, to build a verified room list."""

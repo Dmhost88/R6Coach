@@ -138,6 +138,8 @@ Secrets never reach the page: `tests/test_dashboard.py` checks that an API key i
 
 Everything the app writes is under `data/` (git-ignored): `profile.sqlite`, `frames/` (pruned after `storage.keep_frames_days`), `tts_cache/`, `notes/`, `models/` (voice models), `maps/` (Ubisoft blueprints, personal use), `setups/` (your pictures), `calibration/` (captured screenshots), `evals/`, `coach.log`.
 
+**Restarts mid-match.** Each round end also stores the map and bans on the match row. On start, `App._resume` picks up a match with no recorded end whose last round was under 15 minutes ago (`Profile.unfinished_match`). It restores the watcher's match id, map, bans, score, round count and first side, and rebuilds `MatchMemory` from the round rows. A map vote, or a screen showing a different map, starts a new match as usual. When no map is known in a live round, `App._recover_map` narrows it down from the HUD room callouts (`Knowledge.maps_with_room`).
+
 ## Invariants to keep
 
 These are design decisions, not accidents. Changing one needs a conversation with the project owner first.

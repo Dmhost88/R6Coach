@@ -28,6 +28,16 @@ def test_real_data_loads_with_aliases():
     assert "Thatcher" in real.operators_dossier()
 
 
+def test_maps_with_room_narrows_the_map(tmp_path):
+    from r6coach.knowledge import Knowledge
+    k = Knowledge(notes_dir=tmp_path / "notes")
+    chalet = k.maps_with_room("2F Library")
+    assert "chalet" in chalet
+    assert "chalet" in k.maps_with_room("B Wine Cellar")
+    assert "chalet" not in k.maps_with_room("1F Library")   # wrong floor
+    assert k.maps_with_room(None) == set()
+
+
 def test_rooms_seen_feed_the_dossier(tmp_path, kb):
     from r6coach.profile import Profile
     p = Profile(tmp_path / "p.sqlite")
