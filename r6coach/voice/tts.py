@@ -34,6 +34,7 @@ import soundfile as sf
 
 from ..bus import Bus
 from ..config import VoiceCfg
+from ..spoken import clean_line
 
 log = logging.getLogger(__name__)
 
@@ -484,6 +485,12 @@ class Speaker:
         text = text.strip()
         if not text or self.muted:
             return
+        cleaned, reason = clean_line(text)
+        if reason:
+            log.info("line thinks aloud (%s): %r -> %r", reason, text, cleaned)
+            if not cleaned:
+                return
+            text = cleaned
         if priority == 0:
             self.clear()
             self._interrupt()

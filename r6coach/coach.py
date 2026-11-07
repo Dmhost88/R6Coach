@@ -109,8 +109,10 @@ hatches you are confident exist on the current version of the map; if unsure of 
 describe it by landmark ("the wall between Dorms and the stairs").
 - Operator recommendations come from the player's pool unless the team needs a role no pool \
 operator covers. Never recommend a banned operator, one a teammate already locked, or one the \
-player does not own. Bans last the whole match: an operator banned in any earlier round is still \
-unavailable.
+player does not own. Bans listed in the match state are unavailable; when the screen shows this \
+round's bans, the screen wins.
+- Answer with the call only. Never reason in the lines themselves: no questions to yourself, no \
+"No.", no talk about the screen, the match state or the data. They are spoken aloud as written.
 - The player's own operator is given separately from the teammates. The player IS that operator: \
 speak to them as "you" ("you charge the Office wall", "your charges"), never "your Thermite", \
 "your breacher" or "your entry" as if it were someone else; never treat it as a teammate's pick \
@@ -559,8 +561,17 @@ class Coach:
         return self.memory.text() if self.memory else ""
 
     def _advise_op_ban(self, s: GameState, live: bool = True) -> Optional[CoachLines]:
+        if s.side in ("attack", "defense"):
+            # On attack the screen reads "BAN A DEFENDER"; on defense "BAN AN ATTACKER".
+            ban, own = ("a defender", "an attacker") if s.side == "attack" else ("an attacker", "a defender")
+            who = (f"The player is on {s.side}, so they ban one of the enemy's operators: name {ban} only, "
+                   f"never {own}.")
+        else:
+            who = ("The player's side isn't known yet: name one attacker to ban if they defend this round and "
+                   "one defender to ban if they attack, each in its own line.")
         prompt = (
             f"OPERATOR BAN phase before round {s.round_number or '?'}.\n"
+            f"{who}\n"
             f"{self._state(s)}\n"
             f"Player's pools: attack {self.cfg.operator_pool.attack}, defense {self.cfg.operator_pool.defense}\n"
             f"{self._focus(s)}\n"
