@@ -292,6 +292,7 @@ main { padding: var(--space-4); max-width: 1440px; margin: 0 auto; }
 .uicon--att { background: #c9581f; }
 .uicon--any { background: #5c6672; }
 .livemap__pin--util { z-index: 4; }
+.livemap__pin.is-crowded { visibility: hidden; }   /* a room name a setup pin or another name would cover */
 .ubtn { position: relative; padding: 0; border: 0; background: none; cursor: pointer; border-radius: 8px; }
 .ubtn .uicon { min-width: 28px; height: 28px; font-size: 12px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6); }
 .ubtn__n { position: absolute; right: -7px; top: -7px; display: grid; place-items: center; width: 16px; height: 16px; border-radius: 8px; background: #fff; color: #111; font: 700 10px/1 var(--font-mono); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6); }
@@ -462,6 +463,8 @@ main { padding: var(--space-4); max-width: 1440px; margin: 0 auto; }
 .lib-chip--att { border-color: #c9581f; }
 .lib-chip--def { border-color: #2f78c4; }
 .lib-text { max-width: 72ch; }
+.is-glance .setups__text.lib-text { display: block; }   /* glance view trims the Live card, not the library */
+.lib-room.is-hidden { visibility: hidden; }
 .lib-src code { font-size: 12px; }
 .lib-map { margin-top: var(--space-3); }
 .lib-floors { margin-bottom: var(--space-2); }
@@ -470,7 +473,16 @@ main { padding: var(--space-4); max-width: 1440px; margin: 0 auto; }
 .lib-world { position: relative; max-width: 100%; margin: 0 auto; line-height: 0; }
 .lib-world img { display: block; width: 100%; height: auto; user-select: none; }   /* whole image, so the pins line up */
 .lib-pin { position: absolute; z-index: 2; display: flex; align-items: center; gap: 2px; padding: 0; border: 0; background: none; transform: translate(-50%, -50%); cursor: pointer; line-height: 1; }
-.lib-pin .uicon { box-shadow: 0 1px 4px rgba(0, 0, 0, 0.8); }
+.lib-pin .uicon { min-width: 30px; height: 30px; font-size: 12px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.8); }
+.lib-room { position: absolute; z-index: 1; transform: translate(3px, 3px); padding: 1px 4px; border-radius: 3px; background: rgba(8, 10, 13, 0.62); color: #cfd3da; font: 500 10px/14px var(--font-sans); white-space: nowrap; pointer-events: none; }
+@media (max-width: 800px) { .lib-pin .uicon { min-width: 22px; height: 22px; font-size: 10px; } .lib-room { font-size: 9px; } }
+.lib-room.is-named {background: rgba(8, 10, 13, 0.85); color: #fff; font-weight: 650; font-size: 11px; }
+.lib-call { margin: var(--space-3) 0 0; padding: var(--space-2) var(--space-3); border-left: 3px solid var(--signal); background: var(--surface-raised); font: 650 16px/22px var(--font-display); max-width: 72ch; }
+.lib-job { margin: var(--space-2) 0 0; font: 600 14px/20px var(--font-sans); }
+.lib-counters { margin: 0 0 var(--space-2); max-width: 72ch; font: 400 14px/21px var(--font-sans); }
+.lib-step.is-mine { border-left: 4px solid var(--signal); }
+.lib-dev { margin-top: var(--space-3); font: 400 12px/18px var(--font-sans); color: var(--ink-muted); }
+.lib-dev summary { cursor: pointer; }
 .lib-pin__n { display: grid; place-items: center; min-width: 16px; height: 16px; border-radius: 8px; background: var(--step, #f2a93b); color: #111; font: 700 10px/1 var(--font-mono); }
 .lib-pin.is-hot { z-index: 3; }
 .lib-pin.is-hot .uicon { transform: scale(1.35); outline: 3px solid var(--step, #f2a93b); outline-offset: 2px; }

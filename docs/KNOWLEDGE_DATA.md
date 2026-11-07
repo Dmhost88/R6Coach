@@ -62,6 +62,8 @@ The format is documented in full in the docstring of [r6coach/maplayout.py](../r
 
 Standard setup briefs. The format, with every field explained, is in [setups/README.md](../r6coach/knowledge/data/setups/README.md). Each placement is placed on the map `between` two rooms (a wall), at a `room` (the centre of its box), or `at` an explicit point. The player can attach their own picture per placement from the dashboard; those go to `data/setups/` and are never committed. The dashboard's Setups tab shows every brief and picks up edits to these files without a restart; it links each brief to its line on GitHub, so keep each brief's `- id:` as the first line of its entry.
 
+Optional fields read by players first: a brief's `call` (the plan in 15 words or fewer; longer fails to load) and `counters` (what beats the plan and what to do then), and a placement's `by` (which of the brief's `operators` does that step, or `anyone`). With an operator picked, the Setups tab marks that operator's steps, and the Live tab does the same for the operator the HUD shows. A placement's `name` now also replaces the room names in the step title when it is given with `between` or `room`.
+
 ## Checking a change
 
 Always run both after editing any of these files:

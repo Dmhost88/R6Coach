@@ -55,6 +55,10 @@ def test_validate_rejects_bad_briefs():
     bad(placements=[{"kind": "mira", "floor": "2F", "at": [120, 3]}])
     bad(placements=[{"kind": "mira", "floor": "2F", "between": ["Office"]}])
     bad(placements=[{"kind": "mira", "floor": "2F", "room": "Office", "edge": "north"}])
+    bad(call=" ")
+    bad(call="one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen")
+    bad(counters=["Thatcher"])
+    bad(placements=[{"kind": "mira", "floor": "2F", "room": "Office", "by": "Mira"}])   # not in operators
     with pytest.raises(SetupError):
         validate("chalet", {"map": "chalet", "briefs": [BRIEFS["briefs"][0], BRIEFS["briefs"][0]]})
     with pytest.raises(SetupError):
@@ -114,6 +118,20 @@ def test_dossier_text(tmp_path):
     assert s.dossier("bank") == ""
     assert describe({"kind": "bandit", "floor": "B", "between": ["Snowmobile Garage", "exterior"]}) == \
         "B bandit: Snowmobile Garage exterior wall"
+
+
+def test_call_by_counters_and_names():
+    from r6coach.setups import place
+    b = dict(BRIEFS["briefs"][3], call="Hibana opens Office from Library.", counters="Bandit: bring Thatcher.",
+             placements=[{"kind": "hibana", "floor": "2F", "between": ["Library", "Office"], "by": "Hibana",
+                          "note": "Low (both panels)"},
+                         {"kind": "plant", "floor": "2F", "room": "Office", "name": "Default plant", "by": "anyone"}])
+    out = validate("chalet", {"map": "chalet", "briefs": [b]})[0]
+    assert out["call"].startswith("Hibana") and out["counters"]
+    p1, p2 = out["placements"]
+    assert place(p1) == "Library | Office wall"           # the note stays out of the place
+    assert describe(p1) == "2F hibana: Library | Office wall [Hibana] (Low (both panels))"
+    assert place(p2) == "Default plant"                   # a name wins over the room
 
 
 def test_shipped_setups_are_valid_and_land_on_the_map():
@@ -255,6 +273,9 @@ def test_library_endpoints(tmp_path, monkeypatch):
     assert b["map_name"] == "Chalet" and b["source"]["line"] > 1
     assert b["placements"][1]["shot"] and b["placements"][0]["shot"] is None
     assert all("fi" in f and f["url"].startswith("/api/blueprint/chalet/") for f in b["floors"])
+    assert all(len(xy) == 2 for f in b["floors"] for xy in f["rooms"].values())
+    assert b["placements"][0]["where"] == "Library | Office wall" and b["placements"][0]["by"] == ""
+    assert b["call"] == "" and b["counters"] == ""
     assert client.get("/api/library/chalet/nope").status_code == 404
     assert client.get("/api/library/bank/chalet-office-hibana").status_code == 404
 

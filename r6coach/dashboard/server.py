@@ -323,16 +323,18 @@ def build(app: "App") -> FastAPI:
         return f"/api/setups/{mid}/shot/{slot}?v={int(p.stat().st_mtime)}" if p else None
 
     def brief_out(mid: str, b: dict[str, Any]) -> dict[str, Any]:
-        from ..setups import KINDS, describe
+        from ..setups import KINDS, describe, place
         places = []
         for i, p in enumerate(b["placements"], 1):
             slot = f"{b['id']}-{i}"
             places.append({"n": i, "kind": p["kind"], "team": KINDS[p["kind"]], "floor": p["floor"],
-                           "what": describe(p), "note": p.get("note", ""), "slot": slot,
+                           "what": describe(p), "where": place(p), "by": p.get("by", ""),
+                           "note": p.get("note", ""), "slot": slot,
                            "shot": shot_url(mid, slot), "marks": app.setups.marks(mid, slot),
                            "pos": app.layouts.resolve(mid, p)})
         return {"id": b["id"], "site": b["site"], "side": b["side"], "operators": b["operators"],
-                "title": b["title"], "text": b["text"].strip(), "placements": places}
+                "title": b["title"], "call": b.get("call", ""), "text": b["text"].strip(),
+                "counters": b.get("counters", ""), "placements": places}
 
     @api.get("/api/setups")
     def setups(map: str = "", site: str = "", side: str = "", operator: str = "") -> dict[str, Any]:
@@ -389,7 +391,9 @@ def build(app: "App") -> FastAPI:
         if b is None:
             raise HTTPException(404)
         lay = app.layouts.get(map_id) or {}
-        floors = [{"fi": fi, "floor": f["floor"], "url": f"/api/blueprint/{map_id}/{f['image']}"}
+        # Room names go top-left of each room's box, as on the Live map.
+        floors = [{"fi": fi, "floor": f["floor"], "url": f"/api/blueprint/{map_id}/{f['image']}",
+                   "rooms": {n: r["box"][:2] for n, r in (f.get("rooms") or {}).items() if r.get("box")}}
                   for fi, f in enumerate(lay.get("floors") or []) if app.layouts.image_path(map_id, f["image"])]
         return {**brief_out(map_id, b), "map": map_id,
                 "map_name": (app.knowledge.maps.get(map_id) or {}).get("name", map_id),

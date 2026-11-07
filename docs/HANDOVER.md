@@ -25,7 +25,7 @@ It was built quickly (the history starts on 2026-11-06) by the project owner tes
 | v1 | capture, phase detection, map/site/side/op detection, ban and pick advice, prep advice, push-to-talk Q&A, voice, dashboard, knowledge for the Ranked pool | **Done**, used in real matches |
 | v2 | live HUD coaching: timer, killfeed, plant/defuse, alive counts, chattiness sliders | **Done**: local HUD reader (`hud.py`), instant rule lines (`live.py`), Claude in-round calls (`tactical.py`) |
 | v3 | between-round debriefs, post-match report, player-profile learning | **Mostly done**: debriefs, death debriefs, post-match report with takeaways, personal stats (site record, rooms you die in, first-blood rate, operator records) feed the prompts. Deeper pattern mining of the profile is not started. |
-| extra | live map on blueprints, standard setup briefs per site with the player's own pictures, a Setups tab to browse them by map, site, side and operator | **Done** for all 15 Ranked maps; room positions are machine-located and only partly hand-checked |
+| extra | live map on blueprints, standard setup briefs per site with the player's own pictures, a Setups tab to browse them by map, site, side and operator | **Done** for all 15 Ranked maps; room positions are machine-located and only partly hand-checked. Only the 8 briefs from the 2026-11-07 player review have a one-line `call`, `counters` and per-step `by`; the rest still need them |
 
 Measured so far: the real-match eval (`tools/eval_real.py`, 14 decision points from a won 4–1 Chalet match) scored overall 3.88/5, grounded 3.71/5 after the last prompt work. Local screen recognition cut cloud reads on a replayed match from 104 to 33.
 

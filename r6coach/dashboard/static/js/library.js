@@ -25,7 +25,7 @@ async function libLoad(route) {
   libList();
   const repo = lib.index.repo || {};
   $("lib-repo").innerHTML = repo.dir
-    ? `Read from the repository's <a href="${esc(repo.dir)}" target="_blank" rel="noopener">setup files</a>; changes there show here when you reopen this tab.`
+    ? `<details class="lib-dev"><summary>Where these come from</summary>The repository's <a href="${esc(repo.dir)}" target="_blank" rel="noopener">setup files</a>; edits there show here when you reopen this tab.</details>`
     : "";
   const errs = Object.entries(lib.index.errors || {});
   if (errs.length) $("lib-repo").innerHTML += `<br><span class="lib-err">Not loaded: ${errs.map(([m, e]) => esc(`${m}: ${e}`)).join("; ")}</span>`;
@@ -38,7 +38,7 @@ function libWire() {
   lib.wired = true;
   $("lib-map").onchange = (e) => { lib.map = e.target.value; lib.site = ""; libFilters(); libList(); };
   $("lib-site").onchange = (e) => { lib.site = e.target.value; libFilters(); libList(); };
-  $("lib-op").onchange = (e) => { lib.op = e.target.value; libList(); };
+  $("lib-op").onchange = (e) => { lib.op = e.target.value; libList(); if (lib.brief) libRender(); };
   $("lib-q").oninput = (e) => { lib.q = e.target.value.trim().toLowerCase(); libList(); };
   document.querySelectorAll("[data-libside]").forEach((b) => {
     b.onclick = () => {
@@ -52,6 +52,8 @@ function libWire() {
     if (b) libOpen(b.dataset.map, b.dataset.libbrief);
   });
   $("lib-brief").addEventListener("click", libBriefClick);
+  let t = 0;
+  window.addEventListener("resize", () => { clearTimeout(t); t = setTimeout(() => lib.brief && libFixRooms(), 150); });
 }
 
 // ------------------------------------------------------------------ filters and list
@@ -156,11 +158,23 @@ function libRender() {
       <span class="lib-chip lib-chip--${b.side === "attack" ? "att" : "def"}">${esc(sideName(b.side))}</span>
       <span class="lib-chip">${esc(ops)}</span>
     </p>
+    ${b.call ? `<p class="lib-call">${esc(b.call)}</p>` : ""}
+    ${libJobHtml(b)}
     <p class="setups__text lib-text">${esc(b.text)}</p>
-    ${src ? `<p class="hint-sm lib-src">From <a href="${esc(src.url)}" target="_blank" rel="noopener"><code>${esc(src.file)}</code> line ${src.line}</a> in the repository.</p>` : ""}
+    ${b.counters ? `<p class="lib-counters"><b>If they stop it:</b> ${esc(b.counters)}</p>` : ""}
     <div class="lib-map" id="lib-map-box">${libMapHtml()}</div>
     <h3 class="lib-h3">Steps <span class="hint-sm">${b.placements.length} steps · ${shots} with a picture</span></h3>
-    <ol class="lib-steps">${b.placements.map(libStepHtml).join("")}</ol>`;
+    <ol class="lib-steps">${b.placements.map(libStepHtml).join("")}</ol>
+    ${src ? `<details class="lib-dev lib-src"><summary>Edit this setup</summary><a href="${esc(src.url)}" target="_blank" rel="noopener"><code>${esc(src.file)}</code> line ${src.line}</a> in the repository. Pictures are added and marked on the Live tab's Setup card.</details>` : ""}`;
+  libDrawMap();
+}
+
+// With an operator picked, the steps that are theirs, first: "your job" in one line.
+function libJobHtml(b) {
+  if (!lib.op || lib.op === LIB_TEAM || !b.operators.includes(lib.op)) return "";
+  const mine = b.placements.filter((p) => p.by === lib.op);
+  if (!mine.length) return `<p class="lib-job">As ${esc(lib.op)}: no step is assigned to you here; play the plan below.</p>`;
+  return `<p class="lib-job">As ${esc(lib.op)}: ${mine.map((p) => `<button type="button" class="linkbtn" data-libstep="${p.n}">step ${p.n}</button>`).join(", ")}.</p>`;
 }
 
 // The blueprint for one floor with every step on it as its numbered utility icon.
@@ -180,11 +194,15 @@ function libMapHtml() {
   }).join("");
   const pins = b.placements.filter((p) => p.pos && p.pos.fi === f.fi).map((p) =>
     `<button type="button" class="lib-pin${p.n === lib.step ? " is-hot" : ""}" style="left:${pct(p.pos.x)};top:${pct(p.pos.y)}" data-libstep="${p.n}" aria-label="Step ${p.n}: ${esc(stepWords(p))}">${utilityIcon(p)}<span class="lib-pin__n">${p.n}</span></button>`).join("");
+  // Room names first, under the pins; the rooms a step names stand out.
+  const named = new Set(b.placements.map((p) => p.where));
+  const rooms = Object.entries(f.rooms || {}).map(([name, [x, y]]) =>
+    `<span class="lib-room${named.has(name) || [...named].some((w) => w.includes(name)) ? " is-named" : ""}" style="left:${pct(x)};top:${pct(y)}">${esc(name)}</span>`).join("");
   const off = b.placements.filter((p) => !p.pos).map((p) => p.n);
   const edge = (e, arrow) => b.sides && b.sides[e] ? `<span class="lib-edge lib-edge--${e}">${arrow} ${esc(b.sides[e].replace(/\s*\([^)]*\)/g, ""))}</span>` : "";
   return `<div class="livemap__floors lib-floors" role="group" aria-label="Floor">${floorBtns}</div>
     <div class="lib-stage">
-      <div class="lib-world"><img src="${esc(f.url)}" alt="${esc(b.map_name)} ${esc(f.floor)} blueprint" decoding="async" draggable="false">${pins}</div>
+      <div class="lib-world"><img src="${esc(f.url)}" alt="${esc(b.map_name)} ${esc(f.floor)} blueprint" decoding="async" draggable="false">${rooms}${pins}</div>
       ${edge("top", "↑")}${edge("bottom", "↓")}${edge("left", "←")}${edge("right", "→")}
     </div>
     ${off.length ? `<p class="hint-sm">Not on the map yet: step ${off.join(", ")}.</p>` : ""}`;
@@ -192,11 +210,12 @@ function libMapHtml() {
 
 function libStepHtml(p) {
   const word = KIND[p.kind] ? KIND[p.kind][1] : p.kind;
-  return `<li class="lib-step${p.n === lib.step ? " is-hot" : ""}" id="lib-step-${p.n}" style="${stepVar(p.n)}">
+  const mine = lib.op && p.by === lib.op ? " is-mine" : "";
+  return `<li class="lib-step${p.n === lib.step ? " is-hot" : ""}${mine}" id="lib-step-${p.n}" style="${stepVar(p.n)}">
     <button type="button" class="lib-step__head" data-libstep="${p.n}" aria-pressed="${p.n === lib.step}">
       ${utilityIcon(p, "uicon--big")}
       <span class="lib-step__words">
-        <span class="lib-step__count">Step ${p.n} · ${esc(word)} · ${esc(p.floor)}${p.pos ? "" : " · not on the map"}</span>
+        <span class="lib-step__count">Step ${p.n}${p.by ? ` · ${esc(p.by)}` : ""} · ${esc(word)} · ${esc(p.floor)}${p.pos ? "" : " · not on the map"}</span>
         <span class="lib-step__what">${esc(stepWords(p))}</span>
         ${p.note ? `<span class="lib-step__note">${esc(p.note)}</span>` : ""}
       </span>
@@ -204,7 +223,7 @@ function libStepHtml(p) {
     ${p.shot
       ? `<button type="button" class="shotframe lib-shot" data-libview="${p.n}" aria-label="Open the picture for step ${p.n}">
           <img src="${esc(p.shot)}" alt="" loading="lazy">${libMarks(p)}</button>`
-      : '<p class="hint-sm lib-noshot">No picture for this step yet. Add one from the Setup card on the Live tab.</p>'}
+      : ""}
   </li>`;
 }
 
@@ -222,12 +241,42 @@ function libMarks(p) {
   return marksHtml(p.marks, p.n) + `<span class="lib-labels" aria-hidden="true">${labels}</span>`;
 }
 
+// Room names must not hide under a pin or under each other: a name a pin covers moves just below
+// it; then, named rooms first, any name that would overlap one already shown is left out.
+function libFixRooms() {
+  const box = $("lib-map-box");
+  if (!box) return;
+  // The icons, not the buttons: the selected icon is scaled up and spills past its button.
+  const pins = [...box.querySelectorAll(".lib-pin .uicon, .lib-pin__n")].map((p) => p.getBoundingClientRect());
+  const labels = [...box.querySelectorAll(".lib-room")];
+  labels.forEach((l) => { l.style.marginTop = ""; l.classList.remove("is-hidden"); });
+  labels.forEach((l) => {
+    const r = l.getBoundingClientRect();
+    const hit = pins.filter((p) => r.left < p.right && r.right > p.left && r.top < p.bottom && r.bottom > p.top);
+    if (hit.length) l.style.marginTop = `${Math.max(...hit.map((p) => p.bottom)) - r.top + 2}px`;
+  });
+  const shown = [];
+  labels.sort((a, b) => b.classList.contains("is-named") - a.classList.contains("is-named")).forEach((l) => {
+    const r = l.getBoundingClientRect();
+    const clash = shown.some((s) => r.left < s.right && r.right > s.left && r.top < s.bottom && r.bottom > s.top)
+      || (!l.classList.contains("is-named") && pins.some((p) => r.left < p.right && r.right > p.left && r.top < p.bottom && r.bottom > p.top));
+    if (clash) l.classList.add("is-hidden"); else shown.push(r);
+  });
+}
+
+function libDrawMap() {
+  $("lib-map-box").innerHTML = libMapHtml();
+  const img = $("lib-map-box").querySelector("img");
+  if (img && !img.complete) img.addEventListener("load", libFixRooms, { once: true });
+  requestAnimationFrame(libFixRooms);
+}
+
 function libSelect(n, fromMap) {
   const p = lib.brief.placements.find((x) => x.n === n);
   if (!p) return;
   lib.step = n;
   if (p.pos) lib.fi = p.pos.fi;
-  $("lib-map-box").innerHTML = libMapHtml();
+  libDrawMap();
   document.querySelectorAll(".lib-step").forEach((li) => {
     const on = li.id === `lib-step-${n}`;
     li.classList.toggle("is-hot", on);
@@ -238,7 +287,7 @@ function libSelect(n, fromMap) {
 
 function libBriefClick(e) {
   const fl = e.target.closest("[data-libfi]");
-  if (fl) { lib.fi = +fl.dataset.libfi; $("lib-map-box").innerHTML = libMapHtml(); return; }
+  if (fl) { lib.fi = +fl.dataset.libfi; libDrawMap(); return; }
   const v = e.target.closest("[data-libview]");
   if (v) { libView(+v.dataset.libview); return; }
   const s = e.target.closest("[data-libstep]");

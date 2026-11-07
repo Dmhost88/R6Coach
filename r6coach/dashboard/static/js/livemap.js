@@ -102,6 +102,41 @@ function applyView(animate) {
   w.style.setProperty("--z", z);
   w.classList.toggle("is-zoomed", z >= 1.8);
   $("map-zlevel").textContent = z > 1.01 ? `${z.toFixed(1)}×` : "";
+  clearLabelsSoon(animate && !REDUCED.matches ? 440 : 0);
+}
+
+// Setup pins keep their size on screen while the map zooms, so at some zooms one sits on a room
+// name ("St En indow"). After each draw or zoom, move any name that a pin covers to just below it.
+let clearLabelsTimer = 0;
+function clearLabelsSoon(ms) {
+  clearTimeout(clearLabelsTimer);
+  clearLabelsTimer = setTimeout(() => requestAnimationFrame(clearLabels), ms);
+}
+function clearLabels() {
+  const w = world();
+  const el = $("map-pins");
+  if (!w || !el) return;
+  const labels = [...el.querySelectorAll(".livemap__pin--room, .livemap__pin--area, .livemap__pin--feature")];
+  labels.forEach((l) => { l.style.marginTop = ""; l.classList.remove("is-crowded"); });
+  const pins = [...el.querySelectorAll(".livemap__pin--util .ubtn")].map((b) => b.getBoundingClientRect());
+  if (!pins.length) return;
+  const over = (r, s) => r.left < s.right && r.right > s.left && r.top < s.bottom && r.bottom > s.top;
+  const z = w.getBoundingClientRect().width / (w.offsetWidth || 1) || 1;
+  labels.forEach((l) => {
+    const r = l.getBoundingClientRect();
+    const hit = pins.filter((p) => over(r, p));
+    if (!hit.length) return;
+    const dy = Math.max(...hit.map((p) => p.bottom)) - r.top + 2;
+    l.style.marginTop = `${dy / z}px`;
+  });
+  // A moved name can land on another. Coach-named rooms and stairs/hatch icons always stay; a plain
+  // room or area name that still overlaps a pin or a name already shown is left out while the setup shows.
+  const shown = [...el.querySelectorAll(".livemap__pin--room.is-focus, .livemap__pin--feature")].map((l) => l.getBoundingClientRect());
+  labels.filter((l) => !l.classList.contains("is-focus") && !l.classList.contains("livemap__pin--feature")).forEach((l) => {
+    const r = l.getBoundingClientRect();
+    if (pins.some((p) => over(r, p)) || shown.some((s) => over(r, s))) l.classList.add("is-crowded");
+    else shown.push(r);
+  });
 }
 
 function clampView() {
@@ -368,6 +403,7 @@ function drawMap() {
   // While rooms are named, everything else fades back so the numbered rooms win.
   pinEl.classList.toggle("has-focus", focusRooms.length > 0);
   pinEl.classList.toggle("has-hot", !!(brief && mapView.hot));
+  clearLabelsSoon(0);
 
   // What's on other floors, as buttons that go there.
   const parts = [];
@@ -515,7 +551,12 @@ function renderBrief(b) {
   const heroN = mapView.hot || 1;
   const hero = b.placements.find((p) => p.n === heroN) || b.placements[0];
   const total = b.placements.length;
-  el.innerHTML = `<p class="setups__text">${esc(b.text)}</p>
+  const me = (currentState || {}).my_operator;
+  const mine = me ? b.placements.filter((p) => p.by && p.by.toLowerCase() === me.toLowerCase()).map((p) => p.n) : [];
+  el.innerHTML = `${b.call ? `<p class="lib-call">${esc(b.call)}</p>` : ""}
+    ${mine.length ? `<p class="lib-job">As ${esc(me)}: step ${mine.join(", ")}.</p>` : ""}
+    <p class="setups__text">${esc(b.text)}</p>
+    ${b.counters ? `<p class="lib-counters"><b>If they stop it:</b> ${esc(b.counters)}</p>` : ""}
     <div class="hero" style="${stepVar(hero.n)}" data-n="${hero.n}">
       <div class="hero__head">
         <button type="button" class="step__go hero__go" data-n="${hero.n}" aria-label="Show step ${hero.n} on the map">${utilityIcon(hero, "uicon--big")}</button>
@@ -538,11 +579,12 @@ function renderBrief(b) {
       </button></li>`).join("")}</ol>`;
 }
 
-// "Reinforce: Office | Library wall" reads better than the data's "2F reinforce: ...".
+// "Thermite · Breach: Office | Library wall (2F)" reads better than the data's "2F thermite: ...".
+// The server sends the place on its own, so a note with brackets in it never leaks into the title.
 function stepWords(p) {
   const word = KIND[p.kind] ? KIND[p.kind][1] : p.kind;
-  const where = p.what.replace(/^\S+\s+\S+:\s*/, "").replace(/\s*\([^)]*\)$/, "");
-  return `${word}: ${where} (${p.floor})`;
+  const by = p.by && !word.toLowerCase().includes(p.by.toLowerCase()) ? p.by + " · " : "";
+  return `${by}${word}: ${p.where || p.what} (${p.floor})`;
 }
 
 // Markers on a first-person picture, positioned in % of it: circles, boxes, and arrows (line + head dot).

@@ -123,6 +123,10 @@ briefs:
     side: attack
     operators: [Buck, Nomad]
     title: "Consul flip: Yellow, the connector, rappel the CO window"
+    call: "Take Yellow, hold Bathroom, win the connector, rappel the Consul window, plant."
+    counters: >-
+      Melusi or Thorn on Yellow: drone and shoot them before you walk up. The connector holds: Buck verts
+      the jump-up player from below.
     text: >-
       If Admin is too strong, flip to Consul: take Yellow stairs and clear the Melusi and Thorn utility while
       one player cuts off Bathroom and Secretary. Win the connector (vert the jump-up player from below if you
@@ -135,7 +139,7 @@ briefs:
       - kind: anchor
         floor: 2F
         room: Bathroom
-        note: "Cut off Bathroom and Secretary"
+        note: "Hold the Bathroom doorway to cut Secretary"
       - kind: entry
         floor: 2F
         at: [66.0, 63.0]
