@@ -4,7 +4,9 @@ Reviewers: lead, player, product designer, UI designer, web developer, latency/a
 
 Every gap below is tracked as a GitHub issue in the milestone [Review 2026-11-06: usable advice](https://github.com/Dmhost88/R6Coach/milestone/1). [BACKLOG.md](../BACKLOG.md) maps each gap to its issue and sets the order of work.
 
-Since the review, the round-counter drift and the audio crash it mentions are fixed in `feature/setup-briefs-live-map` (PR #1).
+Since the review, the round-counter drift and the audio crash it mentions are fixed on `main`.
+
+Other players' names from the match are replaced with placeholders in the repository.
 
 The evidence (log, frames, profile database, the spoken-line dump) is the owner's local data under `data/` and is not in the repository. Times in the report are local times on 2026-11-06, from `data/coach.log`.
 

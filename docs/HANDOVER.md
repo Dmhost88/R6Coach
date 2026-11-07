@@ -39,10 +39,13 @@ Measured so far: the real-match eval (`tools/eval_real.py`, 14 decision points f
 - **Strategy data ages every season.** It was written for Y11S3 (Operation Split Fire). Y11S4 is expected early December 2026; see the season refresh steps in [KNOWLEDGE_DATA.md](KNOWLEDGE_DATA.md#season-refresh).
 - **Windows only.** Capture, hotkeys and the fallback voice are Windows APIs.
 - **No CI.** Tests are run by hand before merging.
-- **`main` is not protected on GitHub** (free private repo). Only the local hooks in `.githooks/` stop direct commits and pushes; see [CONTRIBUTING.md](../CONTRIBUTING.md#how-the-rules-are-enforced).
+- **`main` is protected on GitHub** by a ruleset: changes go through a pull request, and force pushes and deletion are blocked. The local hooks in `.githooks/` catch mistakes before the push; see [CONTRIBUTING.md](../CONTRIBUTING.md#how-the-rules-are-enforced).
 - **Cost.** Claude calls cost real money every match; `coach.budget_per_match` (default $3) caps it and the dashboard header shows the running total. Switching `vision.model` to Haiku cuts screen reads about 40× at some accuracy cost.
 - **Voice licences.** Piper and Kokoro voice data have their own licences; check them before distributing the app.
-- **The owner's in-game name is in the code and tests** (operator-card tests, HUD cases, `tools/real_scenarios.yaml`, the card fixtures), because they come from real matches. That is fine for a private repository; think about it before making it public.
+- **The owner's in-game name is in the code and tests** (operator-card tests, HUD cases, `tools/real_scenarios.yaml`, the card fixtures), because they come from real matches. **Other players' names are not:**
+  - In test data they are placeholders (`Mate_A`, `Enemy_A`, …), and they are covered in the fixture screenshots.
+  - The HUD tests against the owner's real captures map placeholders back through `data/calibration/names.json`, which stays local.
+  - Keep it that way: never commit another player's name, in text or in a screenshot.
 
 ## Good next steps
 

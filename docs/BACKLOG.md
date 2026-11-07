@@ -31,66 +31,63 @@ Work through the waves in order. Within a wave, issues are independent unless no
 
 | Issue | What | Area |
 |---|---|---|
-| [#3](https://github.com/Dmhost88/R6Coach/issues/3) | Player counts and timer leak into the next round | watcher, hud |
-| [#11](https://github.com/Dmhost88/R6Coach/issues/11) | Wrong state after a restart; invented bans | watcher |
-| [#8](https://github.com/Dmhost88/R6Coach/issues/8) | Prep plan uses a stale site or lands too late | coach, watcher |
-| [#5](https://github.com/Dmhost88/R6Coach/issues/5) | Model self-talk spoken; ban prompt doesn't say which side bans | coach, voice |
-| [#9](https://github.com/Dmhost88/R6Coach/issues/9) | Push-to-talk answer wipes the voice queue | voice |
-| [#10](https://github.com/Dmhost88/R6Coach/issues/10) | Budget limit goes silent without saying so | coach |
+| [#1](https://github.com/Dmhost88/R6Coach/issues/1) | Player counts and timer leak into the next round | watcher, hud |
+| [#9](https://github.com/Dmhost88/R6Coach/issues/9) | Wrong state after a restart; invented bans | watcher |
+| [#6](https://github.com/Dmhost88/R6Coach/issues/6) | Prep plan uses a stale site or lands too late | coach, watcher |
+| [#3](https://github.com/Dmhost88/R6Coach/issues/3) | Model self-talk spoken; ban prompt doesn't say which side bans | coach, voice |
+| [#7](https://github.com/Dmhost88/R6Coach/issues/7) | Push-to-talk answer wipes the voice queue | voice |
+| [#8](https://github.com/Dmhost88/R6Coach/issues/8) | Budget limit goes silent without saying so | coach |
 
 ### Wave 2: say less, and on time (P1)
 
 | Issue | What | Area |
 |---|---|---|
-| [#4](https://github.com/Dmhost88/R6Coach/issues/4) | Debriefs never land: fast model, one line | coach |
-| [#6](https://github.com/Dmhost88/R6Coach/issues/6) | In-round calls repeat or reverse the last call | coach |
-| [#7](https://github.com/Dmhost88/R6Coach/issues/7) | Enforce word budgets in code | coach |
+| [#2](https://github.com/Dmhost88/R6Coach/issues/2) | Debriefs never land: fast model, one line | coach |
+| [#4](https://github.com/Dmhost88/R6Coach/issues/4) | In-round calls repeat or reverse the last call | coach |
+| [#5](https://github.com/Dmhost88/R6Coach/issues/5) | Enforce word budgets in code | coach |
 
-#6 and #7 both touch `tactical.py`. Do them in sequence, or on one branch if one developer takes both.
+#4 and #5 both touch `tactical.py`. Do them in sequence, or on one branch if one developer takes both.
 
 ### Wave 3: make the second monitor useful (P2)
 
 | Issue | What | Area |
 |---|---|---|
-| [#13](https://github.com/Dmhost88/R6Coach/issues/13) | Room chips under the current line never show | dashboard |
-| [#14](https://github.com/Dmhost88/R6Coach/issues/14) | Match spots and walls, not just rooms; ignore hedges | dashboard, knowledge |
-| [#15](https://github.com/Dmhost88/R6Coach/issues/15) | Current instruction readable at a glance | dashboard |
-| [#16](https://github.com/Dmhost88/R6Coach/issues/16) | Change-gate state updates; replay on reconnect | dashboard |
-| [#12](https://github.com/Dmhost88/R6Coach/issues/12) | Death debrief: no praise opener; use the kill cam | coach, hud |
-| [#17](https://github.com/Dmhost88/R6Coach/issues/17) | Clean room names before they reach the profile | knowledge |
+| [#11](https://github.com/Dmhost88/R6Coach/issues/11) | Room chips under the current line never show | dashboard |
+| [#12](https://github.com/Dmhost88/R6Coach/issues/12) | Match spots and walls, not just rooms; ignore hedges | dashboard, knowledge |
+| [#13](https://github.com/Dmhost88/R6Coach/issues/13) | Current instruction readable at a glance | dashboard |
+| [#14](https://github.com/Dmhost88/R6Coach/issues/14) | Change-gate state updates; replay on reconnect | dashboard |
+| [#10](https://github.com/Dmhost88/R6Coach/issues/10) | Death debrief: no praise opener; use the kill cam | coach, hud |
+| [#15](https://github.com/Dmhost88/R6Coach/issues/15) | Clean room names before they reach the profile | knowledge |
 
-#13 and #16 both change the event flow between `app.py`, the bus and `app.js`, so do #13 first.
+#11 and #14 both change the event flow between `app.py`, the bus and `app.js`, so do #11 first.
 
 ### Wave 4: bigger bets (P3, weeks)
 
 | Issue | What | Depends on |
 |---|---|---|
-| [#24](https://github.com/Dmhost88/R6Coach/issues/24) | Breach and utility spots drawn on screenshots and the map from one record | #14 (spots and walls in the layout) |
-| [#18](https://github.com/Dmhost88/R6Coach/issues/18) | Plan of record per round; live calls as diffs | #6 |
-| [#19](https://github.com/Dmhost88/R6Coach/issues/19) | Read the player's own gadget count from the HUD | none; enables setup steps ticking off |
-| [#21](https://github.com/Dmhost88/R6Coach/issues/21) | Drop queued lines whose state moved on | #3 |
-| [#20](https://github.com/Dmhost88/R6Coach/issues/20) | Shrink the cached prompt prefix | none; measure with the eval |
-| [#22](https://github.com/Dmhost88/R6Coach/issues/22) | Live-call eval from real match data | none; do it before #18 to measure it |
-| [#23](https://github.com/Dmhost88/R6Coach/issues/23) | Cross-match learning from takeaways | #17 |
+| [#22](https://github.com/Dmhost88/R6Coach/issues/22) | Breach and utility spots drawn on screenshots and the map from one record | #12 (spots and walls in the layout) |
+| [#16](https://github.com/Dmhost88/R6Coach/issues/16) | Plan of record per round; live calls as diffs | #4 |
+| [#17](https://github.com/Dmhost88/R6Coach/issues/17) | Read the player's own gadget count from the HUD | none; enables setup steps ticking off |
+| [#19](https://github.com/Dmhost88/R6Coach/issues/19) | Drop queued lines whose state moved on | #1 |
+| [#18](https://github.com/Dmhost88/R6Coach/issues/18) | Shrink the cached prompt prefix | none; measure with the eval |
+| [#20](https://github.com/Dmhost88/R6Coach/issues/20) | Live-call eval from real match data | none; do it before #16 to measure it |
+| [#21](https://github.com/Dmhost88/R6Coach/issues/21) | Cross-match learning from takeaways | #15 |
 
 ## Picking up an issue
 
 1. Assign yourself on GitHub so nobody else starts it.
 2. Branch from an up-to-date `main`, named for the issue type: `fix/3-round-state-reset`, `feature/6-live-call-memory`.
-3. Read the issue's **Evidence** and **Where**. File:line references are as of commit `b43c1f1` and may have moved; search for the function named.
+3. Read the issue's **Evidence** and **Where**. File:line references are as of commit `ad7ac51` and may have moved; search for the function named.
 4. Write the test first where the issue says "test". Most state bugs can be reproduced with `ScreenRead` sequences in `tests/test_watcher.py`, and coach behaviour with the fakes in `tests/test_coach.py`.
 5. Open the PR with `Fixes #N` in the description, and fill in the template. Prompt, model or effort changes need `tools/eval_real.py` scores before and after; it costs about $1, so ask the owner first.
 6. HUD, voice and timing changes can only really be checked in a match. Say in the PR what you tested, and ask the owner to play one game on the branch.
 
 ## Things to know
 
-- **In flight:**
-  - PR #1 (`feature/setup-briefs-live-map`) has the setup briefs, the live-map icons, the audio-crash fix and the round-counter fix.
-  - PR #2 (`docs/handover-and-workflow`) has the handover docs.
-  - This backlog is stacked on PR #2. Base new branches on `main` after those merge.
+- **Already on `main`:** the setup briefs, the live-map icons, the audio-crash fix and the round-counter fix that came out of the same match. Branch from `main`.
 - **The review's evidence is local** to the owner's PC (`data/coach.log`, `data/frames/`, `data/profile.sqlite`), and is not in the repository. If you need a frame or log excerpt, ask the owner. Don't commit them: they contain other players' names.
 - **Fair play is not negotiable.** The coach may use the HUD, the menus and the player's own pings only. Never use enemy positions from the 3D world, and never send input to the game. Every PR confirms this ([ARCHITECTURE.md](ARCHITECTURE.md#invariants-to-keep)).
-- **Cost.** Every match costs real API money, capped at `coach.budget_per_match` (default $3). Moving a phase to the fast model (#4) or shrinking the prefix (#20) saves money. Adding a cloud call needs a gate.
+- **Cost.** Every match costs real API money, capped at `coach.budget_per_match` (default $3). Moving a phase to the fast model (#2) or shrinking the prefix (#18) saves money. Adding a cloud call needs a gate.
 - **Hooks.** Run `git config core.hooksPath .githooks` once per clone, so commits and pushes to `main` are refused.
 
 ## Definition of done for the milestone
