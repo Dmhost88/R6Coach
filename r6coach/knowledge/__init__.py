@@ -91,6 +91,14 @@ class Knowledge:
         close = difflib.get_close_matches(key, list(index), n=1, cutoff=0.75)
         return self.maps[index[close[0]]] if close else None
 
+    def room_labels(self, map_name: Optional[str]) -> list[str]:
+        """The map's rooms as the HUD labels them ("2F Office", "EXT Back Alley"), from the
+        callouts. Used to snap OCR'd HUD room readings to real names."""
+        m = self.find_map(map_name)
+        mid = next((k for k, v in self.maps.items() if v is m), None) if m else None
+        rooms = (self.callouts.get(mid or "") or {}).get("rooms") or {}
+        return [f"{fl} {r}" for fl, names in rooms.items() for r in (names or []) if isinstance(r, str)]
+
     def maps_with_room(self, room: Optional[str]) -> set[str]:
         """Map ids whose callouts list this HUD room ("2F Office"). Used to recover the map when no
         screen read named it (a restart mid-round)."""

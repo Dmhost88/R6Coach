@@ -65,19 +65,30 @@ def _squash(s: str) -> str:
     return re.sub(r"[^A-Z0-9]", "", s.upper())
 
 
-FLOOR_RE = re.compile(r"(EXT|1F|2F|3F|B)(?=\s*[A-Z][a-z])")
+# A floor prefix followed by a capital: "2FMasterBedroom", "2F CEOOffice", "BCCTVRoom".
+FLOOR_RE = re.compile(r"(EXT|1F|2F|3F|B)(?=\s*[A-Z])")
+# OCR often loses or misreads the "1" of "1F": "F Piano Room", "FFireplace", "TF Bar", "IF Lobby".
+# Only at the very start of the box, so an "F" inside a name never counts.
+ONE_F_RE = re.compile(r"^[^A-Za-z0-9]*(?:[1IlT|])?F(?=\s*[A-Z])")
 
 
 def pretty_place(text: str) -> Optional[str]:
     """OCR drops spaces in callouts: '2FMasterBedroom' -> '2F Master Bedroom'.
     Junk before the floor prefix (icons read as letters) is dropped."""
     m = FLOOR_RE.search(text)
-    if not m:
-        return None
-    rest = text[m.end():].strip()
-    rest = re.sub(r"(?<=[a-z])(?=[A-Z])", " ", rest)
+    if m and m.group(1) == "B" and ONE_F_RE.match(text):
+        m = None   # "FBar" (1F Bar) is not "B ar"
+    if m:
+        floor, rest = m.group(1), text[m.end():]
+    else:
+        m = ONE_F_RE.match(text)
+        if not m:
+            return None
+        floor, rest = "1F", text[m.end():]
+    rest = re.sub(r"(?<=[a-z])(?=[A-Z])", " ", rest.strip())
+    rest = re.sub(r"(?<=[A-Z])(?=[A-Z][a-z])", " ", rest)     # "CEOOffice" -> "CEO Office"
     rest = re.sub(r"\s+", " ", rest).strip(" :•◆♦")
-    return f"{m.group(1)} {rest}" if rest else None
+    return f"{floor} {rest}" if len(rest) >= 2 else None
 
 
 def join_lines(items: list[tuple[list, str, float]]) -> list[str]:
@@ -126,6 +137,7 @@ class HudRead:
     alive_them: Optional[int] = None
     site: Optional[str] = None
     side: Optional[str] = None                        # from banner subtitles
+    defuser_room: Optional[str] = None                # "ACTIVATED DEFUSER FOUND" + room (defense)
     kills: list[Kill] = field(default_factory=list)   # lines visible now (not deduplicated)
 
     @property
@@ -167,19 +179,30 @@ def parse_banners(texts: list[str]) -> tuple[list[str], dict]:
             events.append("prep")
         elif t == "ACTIONPHASE":
             events.append("action")
-        elif t == "DEFUSERPLANTED":
+        elif "ACTIVATEDDEFUSERFOUND" in t:
+            # Defenders: the planted defuser has been spotted; the next line names its room.
+            events.append("defuser_found")
+            room = next((p for p in (pretty_place(texts[j]) for j in range(i + 1, min(i + 3, len(texts)))) if p),
+                        None)
+            if room:
+                extras["defuser_room"] = room
+        elif "DEFUSERPLANTED" in t or "PLANTEDTHEDEFUSER" in t:
+            # "DEFUSER PLANTED" (attack) and "ENEMIES PLANTED THE DEFUSER" (defense).
             events.append("planted")
         elif "DROPPEDTHEDEFUSER" in t:
             events.append("defuser_dropped")
+        elif "PICKEDUPTHEDEFUSER" in t or "DEFUSERPICKEDUP" in t:
+            events.append("defuser_picked_up")
         elif t == "OPERATORSLOCKED":
             events.append("operators_locked")
         elif "ENEMIESFOUNDTHEBOMBS" in t:
             events.append("enemies_found_bombs")
         elif t == "ROLESWAP":
             events.append("role_swap")
-        elif t == "BOMBSFOUND":
+        elif t.startswith("BOMBSFOUND"):
+            # A distance marker can be glued on ("BOMBS FOUND 3M"); the site pair follows on the
+            # next one or two lines.
             events.append("bombs_found")
-            # The next one or two lines name the site pair.
             site = [p for p in (pretty_place(texts[j]) for j in range(i + 1, min(i + 3, len(texts)))) if p]
             if site:
                 extras["site"] = " / ".join(site)
@@ -339,6 +362,7 @@ class HudReader:
         r.alive_them = extras.get("alive_them")
         r.site = extras.get("site")
         r.side = extras.get("side")
+        r.defuser_room = extras.get("defuser_room")
 
     def _read_killfeed(self, img: np.ndarray, r: HudRead, now: float, force: bool) -> None:
         region = crop(img, KILLFEED)

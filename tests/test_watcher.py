@@ -64,7 +64,7 @@ def test_match_round_flow(bus):
     assert w.state.score_us == 1
 
 
-def test_bans_last_the_match_and_location_is_per_round(bus):
+def test_bans_and_location_are_per_round(bus):
     w = make_watcher(bus)
     w.apply(ScreenRead(screen=Screen.main_menu, confidence=0.9))
     w.apply(ScreenRead(screen=Screen.operator_ban, map="House", banned_operators=["Castle"],
@@ -76,7 +76,7 @@ def test_bans_last_the_match_and_location_is_per_round(bus):
     assert w.state.my_location == "2F Upper Hallway"
     w.apply(ScreenRead(screen=Screen.round_end, confidence=0.9))
     w.apply(ScreenRead(screen=Screen.operator_ban, banned_operators=["Goyo"], confidence=0.9))
-    assert w.state.banned_operators == ["Castle", "Goyo"]  # round 1 bans still stand
+    assert w.state.banned_operators == ["Goyo"]            # Siege bans per round: Castle is back
     assert w.state.my_location is None and w.state.site_options == []
     w.apply(ScreenRead(screen=Screen.match_end, confidence=0.9))
     w.apply(ScreenRead(screen=Screen.map_ban, map_ban_options=["Bank", "Villa"], confidence=0.9))
@@ -114,8 +114,9 @@ def test_local_card_read_wins_over_cloud_for_the_lock(bus):
 def test_own_operator_is_not_a_teammate(bus):
     w = make_watcher(bus)
     w.apply(ScreenRead(screen=Screen.main_menu, confidence=0.9))
+    w.apply(ScreenRead(screen=Screen.operator_select, side="attack", confidence=0.9))
     # The top bar lists the player's own card too: this read happened in the live match.
-    w.apply(ScreenRead(screen=Screen.operator_select, side="attack", my_operator="Thermite",
+    w.apply(ScreenRead(screen=Screen.loadout, side="attack", my_operator="Thermite",
                        teammate_operators=["Buck", "Deimos", "Thermite"], confidence=0.9))
     assert w.state.my_operator == "Thermite"
     assert w.state.teammate_operators == ["Buck", "Deimos"]
@@ -128,7 +129,7 @@ def test_pick_screen_after_a_stray_frame_is_the_same_round(bus):
     w = make_watcher(bus)
     w.apply(ScreenRead(screen=Screen.main_menu, confidence=0.9))
     w.apply(ScreenRead(screen=Screen.operator_select, side="attack", round_number=7, confidence=0.9))
-    w.apply(ScreenRead(screen=Screen.operator_select, my_operator="Thermite", confidence=0.9))
+    w.apply(ScreenRead(screen=Screen.loadout, my_operator="Thermite", confidence=0.9))
     # One misread frame between two pick screens (seen live in rounds 7 and 8).
     w.apply(ScreenRead(screen=Screen.other, confidence=0.9))
     w.apply(ScreenRead(screen=Screen.operator_select, side="attack", confidence=0.9))
@@ -191,7 +192,7 @@ def test_restart_mid_match_resumes_it(bus, tmp_path):
     w.apply(ScreenRead(screen=Screen.operator_ban, confidence=0.9))
     assert not started                                       # same match carries on
     assert w.state.round_number == 3 and w.state.map == "Chalet"
-    assert w.state.banned_operators == ["Mira", "Ace"]
+    assert w.state.banned_operators == []                    # bans are per round: none carried over
     assert w.state.side == "attack" and (w.state.score_us, w.state.score_them) == (1, 1)
     # The map vote only ever opens a new match.
     w.apply(ScreenRead(screen=Screen.map_ban, confidence=0.9))
@@ -210,3 +211,137 @@ def test_low_confidence_reads_are_ignored(bus):
     w = make_watcher(bus)
     w.apply(ScreenRead(screen=Screen.operator_select, map="Bank", confidence=0.1))
     assert w.state.screen == Screen.other and w.state.map is None
+
+
+# ---------------------------------------------------------------- 2026-11-07 gameplay review
+SITES = ["2F Laundry / 2F Piano Room", "2F Party Room / 2F Office", "1F Green Bedroom / 1F Red Bedroom"]
+ROOMS = ["2F Laundry", "2F Piano Room", "2F Party Room", "2F Office", "1F Red Bedroom", "1F Green Bedroom",
+         "2F Library Hallway"]
+
+
+def _defense_round(w):
+    w.apply(ScreenRead(screen=Screen.main_menu, confidence=0.9))
+    w.apply(ScreenRead(screen=Screen.operator_ban, map="Outback", banned_operators=["Ace"], confidence=0.9))
+    w.apply(ScreenRead(screen=Screen.operator_select, side="defense", site_options=SITES,
+                       teammate_operators=["Mute", "Smoke"], confidence=0.9))
+
+
+def test_loadout_menu_during_prep_is_not_a_new_round(bus):
+    from r6coach.hud import HudRead
+    w = make_watcher(bus)
+    _defense_round(w)
+    resets = []
+    bus.subscribe("live.event", lambda ev: ev.data.get("kind") == "round_reset" and resets.append(1))
+    w.apply_hud(HudRead(ts=0, timer=45, events=["prep"]))
+    assert w.state.screen == Screen.prep_phase and w.state.round_number == 1
+    # The in-prep loadout menu (or a late read of the pick screen) comes back as operator_select.
+    w.apply(ScreenRead(screen=Screen.operator_select, side="defense", confidence=0.9))
+    w.apply(ScreenRead(screen=Screen.loadout, my_operator="Lesion", confidence=0.9))
+    assert w.state.screen == Screen.prep_phase and w.state.round_number == 1
+    assert w.state.banned_operators == ["Ace"] and w.state.teammate_operators == ["Mute", "Smoke"]
+    assert not resets
+    # The real next round (after the action phase) still resets everything, bans included.
+    w.apply_hud(HudRead(ts=0, timer=180, events=["action"]))
+    w.apply(ScreenRead(screen=Screen.operator_ban, banned_operators=["Thermite"], confidence=0.9))
+    assert w.state.round_number == 2 and w.state.banned_operators == ["Thermite"] and resets
+
+
+def test_defense_site_from_the_prep_spawn_room(bus):
+    from r6coach.hud import HudRead
+    w = Watcher(Config(), bus, _NoFrames(), claude=None, frames=_NoSave(), rooms=lambda m: ROOMS)
+    _defense_round(w)
+    assert w.state.site is None
+    w.apply_hud(HudRead(ts=0, timer=45, events=["prep"]))
+    w.apply_hud(HudRead(ts=0, timer=44, room="1F Red Bedrom"))      # OCR typo, snapped
+    assert w.state.my_location == "1F Red Bedroom"
+    assert w.state.site == "1F Green Bedroom / 1F Red Bedroom"
+
+
+def test_defense_site_not_taken_late_in_prep(bus):
+    from r6coach.hud import HudRead
+    w = Watcher(Config(), bus, _NoFrames(), claude=None, frames=_NoSave(), rooms=lambda m: ROOMS)
+    _defense_round(w)
+    w.apply_hud(HudRead(ts=0, timer=45, events=["prep"]))
+    w.apply_hud(HudRead(ts=0, timer=12, room="2F Office"))         # walked off site by now
+    assert w.state.site is None
+
+
+def test_a_hovered_operator_is_not_a_lock(bus):
+    w = make_watcher(bus)
+    _defense_round(w)
+    w.apply(ScreenRead(screen=Screen.operator_select, my_operator="Pulse", confidence=0.9))
+    assert w.state.my_operator is None                              # one read: maybe a hover
+    w.apply(ScreenRead(screen=Screen.operator_select, my_operator="Pulse", confidence=0.9))
+    assert w.state.my_operator == "Pulse"                           # two agree (no local reader)
+    w2 = make_watcher(bus)
+    _defense_round(w2)
+    w2.cards = object()                                             # a working local card reader
+    for _ in range(3):
+        w2.apply(ScreenRead(screen=Screen.operator_select, my_operator="Warden", confidence=0.9))
+    assert w2.state.my_operator is None                             # it owns locks on the grid
+    w2.apply(ScreenRead(screen=Screen.loadout, my_operator="Lesion", confidence=0.9))
+    assert w2.state.my_operator == "Lesion"                         # the loadout shows the real pick
+
+
+def test_late_pick_read_keeps_the_site_and_teammates(bus):
+    w = make_watcher(bus)
+    w.apply(ScreenRead(screen=Screen.main_menu, confidence=0.9))
+    w.apply(ScreenRead(screen=Screen.operator_ban, map="Outback", side="defense", confidence=0.9))
+    late = ScreenRead(screen=Screen.operator_select, side="defense", site_options=SITES,
+                      site="2F Laundry / 2F Piano Rom", teammate_operators=["Mute"], confidence=0.9)
+    assert w._keep_late_facts(late, Screen.operator_select)
+    assert w.state.site == "2F Laundry / 2F Piano Room" and w.state.teammate_operators == ["Mute"]
+
+
+def test_hud_room_ocr_noise_is_not_a_move(bus):
+    from r6coach.hud import HudRead
+    w = make_watcher(bus)                                           # no room list: agreement rule only
+    _defense_round(w)
+    w.apply_hud(HudRead(ts=0, timer=45, events=["prep"]))
+    w.apply_hud(HudRead(ts=0, timer=40, room="2F Office"))
+    assert w.state.my_location is None                              # one read of an unknown label
+    w.apply_hud(HudRead(ts=0, timer=39, room="2F Office"))
+    assert w.state.my_location == "2F Office"
+    w.apply_hud(HudRead(ts=0, timer=38, room="2F Office8"))
+    w.apply_hud(HudRead(ts=0, timer=37, room="2F Office8"))
+    assert w.state.my_location == "2F Office"                       # a wobble of the same room
+
+
+def test_defense_learns_the_plant_and_the_found_site(bus):
+    from r6coach.hud import HudRead
+    w = make_watcher(bus)
+    _defense_round(w)
+    events = []
+    bus.subscribe("live.event", lambda ev: events.append(ev.data.get("kind")))
+    w.apply_hud(HudRead(ts=0, timer=45, events=["prep"]))
+    w.apply_hud(HudRead(ts=0, timer=30, events=["enemies_found_bombs"]))
+    w.apply_hud(HudRead(ts=0, timer=29, events=["enemies_found_bombs"]))
+    assert w.state.site_found_by_enemy and events.count("found_bombs") == 1
+    w.apply_hud(HudRead(ts=0, timer=180, events=["action"]))
+    w.apply_hud(HudRead(ts=0, timer_hidden=True, events=["defuser_found"], defuser_room="1F Red Bedroom"))
+    assert w.state.defuser_planted and w.state.defuser_location == "1F Red Bedroom"
+    assert "planted" in events
+
+
+def test_bombs_found_one_line_becomes_the_site_pair(bus):
+    from r6coach.hud import HudRead
+    w = make_watcher(bus)
+    w.apply(ScreenRead(screen=Screen.main_menu, confidence=0.9))
+    w.apply(ScreenRead(screen=Screen.operator_ban, map="Outback", site_options=SITES, confidence=0.9))
+    w.apply(ScreenRead(screen=Screen.operator_select, side="attack", confidence=0.9))
+    w.apply_hud(HudRead(ts=0, timer=45, events=["prep"]))
+    w.apply_hud(HudRead(ts=0, timer=30, events=["bombs_found"], site="2F Laundry"))
+    assert w.state.site == "2F Laundry / 2F Piano Room"
+
+
+def test_prep_read_of_a_loading_frame_is_retried(bus):
+    w = make_watcher(bus)
+    w._once_done.add("prep")
+
+    class _Claude:
+        def read_screen(self, *a, **k):
+            return ScreenRead(screen=Screen.loading, confidence=0.9)
+
+    w.claude = _Claude()
+    w._cloud_read(b"jpeg", "once", 0.0, Screen.prep_phase, "prep")
+    assert "prep" not in w._once_done

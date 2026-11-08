@@ -15,7 +15,7 @@ def test_render_labels_sources_and_keeps_the_player_apart():
     assert "PREDICTED" in text and "round 4" in text and "score 3-0" in text
     assert "LOCKED Thermite" in text and "Teammates (the other players only): Kali, Buck" in text
     assert "suggested Ace but they took something else" in text
-    assert "Banned so far this match (unavailable; this round's ban screen wins if it differs): Ace, Mute" in text
+    assert "Banned this round (unavailable this round only): Ace, Mute" in text
     dead = render(s.model_copy(update={"player_alive": False}))
     assert "DEAD" in dead
 

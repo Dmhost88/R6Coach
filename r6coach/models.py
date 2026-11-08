@@ -118,6 +118,8 @@ class GameState(BaseModel):
     health: Optional[int] = None
     player_alive: bool = True
     defuser_planted: bool = False
+    defuser_location: Optional[str] = None   # defense: room named by "ACTIVATED DEFUSER FOUND"
+    site_found_by_enemy: bool = False         # defense: "ENEMIES FOUND THE BOMBS" seen this round
     pinged_enemies: list[PingedEnemy] = Field(default_factory=list)
     last_read_ts: float = 0.0
 
@@ -141,5 +143,7 @@ class GameState(BaseModel):
         if self.team_reinforcements is not None:
             parts.append(f"team_reinforcements_left={self.team_reinforcements}")
         if self.defuser_planted:
-            parts.append("defuser_planted")
+            parts.append("defuser_planted" + (f"_in={self.defuser_location}" if self.defuser_location else ""))
+        if self.site_found_by_enemy:
+            parts.append("enemies_found_site")
         return " ".join(parts)
