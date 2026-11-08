@@ -6,8 +6,11 @@ only what the HUD shows: timer, plant status, player counts, the killfeed and yo
 Chattiness (coach.chattiness.action_phase):
   0 silent
   1 essentials: defuser planted, last-player clutch, 20 seconds left
-  2 adds: man-advantage changes, 45 seconds, reposition after your kill, reinforce reminder
-  3 adds: everything else (enemies found the bombs on defense)
+  2 adds: man-advantage changes (once a round each), 45 seconds, reinforce reminder
+
+Dropped after the live-moment review (2026-11-07): "Nice. Reposition." after your kill and "They
+know the site" said nothing specific, and the reinforce reminder cut in 15 s after the prep plan had
+named the walls; it now stays quiet when a line in the last REINFORCE_QUIET seconds said reinforce.
 """
 
 from __future__ import annotations
@@ -32,20 +35,19 @@ LINES = {
     "advantage": "You have the numbers. Trade, don't take duels alone.",
     "disadvantage": "You're down a player. Group up and play together.",
     "clutch": "Last one. Slow down, play your crosshair.",
-    "my_kill": "Nice. Reposition.",
     "reinforce": "Reinforce now. Walls first.",
-    "found_bombs": "They know the site. Expect drones on your anchors.",
 }
 # (level needed, urgent) per line. Urgent lines skip the cooldown and the gunfight hold.
 RULES = {
     "atk_45": (2, False), "atk_20": (1, True), "def_planted": (1, True), "atk_planted": (1, True),
-    "advantage": (2, False), "disadvantage": (2, False), "clutch": (1, True), "my_kill": (2, False),
-    "reinforce": (2, False), "found_bombs": (3, False),
+    "advantage": (2, False), "disadvantage": (2, False), "clutch": (1, True),
+    "reinforce": (2, False),
 }
 # Generic lines that Claude's in-round calls replace with specific ones when they're available.
-AI_COVERED = {"advantage", "disadvantage", "atk_45", "my_kill"}
+AI_COVERED = {"advantage", "disadvantage", "atk_45"}
 COOLDOWN = 5.0     # seconds between non-urgent live lines
 GUNFIGHT_HOLD = 3.0  # wait this long after a kill before non-urgent lines
+REINFORCE_QUIET = 30.0  # no reinforce reminder if a line this recent already said to reinforce
 
 
 class KillTracker:
@@ -101,8 +103,14 @@ class LiveCoach:
         self._last_line = 0.0
         self._last_kill = 0.0
         self._balance = 0
+        self._said_reinforce = 0.0
         self._lock = threading.Lock()
         bus.subscribe("live.event", self._on_event)
+        bus.subscribe("coach.said", self._on_said)
+
+    def _on_said(self, ev: Event) -> None:
+        if "reinforc" in (ev.data.get("text") or "").lower() and ev.data.get("text") != LINES["reinforce"]:
+            self._said_reinforce = time.time()
 
     def reset_round(self) -> None:
         with self._lock:
@@ -156,16 +164,12 @@ class LiveCoach:
                 elif 15 <= t <= 20:
                     self._emit("atk_20")
             elif s.screen.value == "prep_phase" and side == "defense" and 12 <= t <= 20:
-                if (s.team_reinforcements or 0) >= 4:
+                if (s.team_reinforcements or 0) >= 4 and time.time() - self._said_reinforce > REINFORCE_QUIET:
                     self._emit("reinforce")
         elif kind == "planted":
             self._emit("def_planted" if side == "defense" else "atk_planted")
-        elif kind == "found_bombs" and side == "defense":
-            self._emit("found_bombs")
         elif kind == "kill":
             self._last_kill = time.time()
-            if ev.data.get("mine"):
-                self._emit("my_kill", once=False)
         elif kind == "vs":
             us, them = ev.data["alive_us"], ev.data["alive_them"]
             balance = (us > them) - (us < them)
@@ -174,6 +178,6 @@ class LiveCoach:
             if us == 1 and ev.data.get("player_alive", True):
                 self._emit("clutch")
             elif changed and balance > 0:
-                self._emit("advantage", once=False)
+                self._emit("advantage")
             elif changed and balance < 0:
-                self._emit("disadvantage", once=False)
+                self._emit("disadvantage")

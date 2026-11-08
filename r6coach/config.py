@@ -63,14 +63,17 @@ class CoachCfg(BaseModel):
     # Measured on Opus 5.5 with cached prompts: low ~9 s to the first spoken line, medium ~19 s.
     effort: str = "low"              # bans, questions, live prep (short windows: must be quick)
     pick_effort: str = "low"         # operator pick: medium thinks ~10 s longer
-    deep_effort: str = "high"        # defense prep plan (made during pick) and round debriefs
+    deep_effort: str = "high"        # defense prep plan (made during pick) and the match-end takeaways
     live_effort: str = "low"         # in-round tactical calls (must land within seconds)
     live_min_gap: float = 10.0       # seconds between in-round tactical calls
-    live_checkin: float = 20.0       # a call after this many quiet seconds alive in a round (0 = off)
-    # Short-window calls (bans, picks, in-round calls) go to a faster model; deep plans, debriefs
-    # and answers stay on `model`. Set fast_model to the same as model to turn this off.
+    live_checkin: float = 20.0       # after this many quiet seconds, a call when the player moves room (0 = off)
+    live_words: int = 14             # in-round calls are cut to this many words in code (other lines: 24)
+    # Short-window calls (bans, picks, in-round calls, round and death debriefs) go to a faster
+    # model; deep plans, match takeaways and answers stay on `model`. Set fast_model to the same
+    # as model to turn this off.
     fast_model: str = "claude-sonnet-5-5"
-    fast_phases: list[str] = Field(default_factory=lambda: ["map_ban", "operator_ban", "operator_select", "live"])
+    fast_phases: list[str] = Field(default_factory=lambda: [
+        "map_ban", "operator_ban", "operator_select", "live", "between_rounds", "death"])
     preplan_bans: bool = True        # think the next ban through at round end, so it's ready when the ban screen opens
 
     def model_for(self, phase: str) -> str:
