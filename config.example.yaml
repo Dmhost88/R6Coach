@@ -40,7 +40,8 @@ coach:
   deep_effort: high                # defense prep plan (made during pick) and round debriefs
   live_effort: low                 # in-round tactical calls (must land within seconds)
   live_min_gap: 10                 # seconds between in-round tactical calls
-  live_checkin: 20                 # a call after this many quiet seconds alive in a round (0 = off)
+  live_checkin: 20                 # after this many quiet seconds, a call when you move to another room (0 = off)
+  live_words: 14                   # in-round calls are cut to this many words (every other line: 24)
   fast_model: claude-sonnet-5-5    # bans, picks and in-round calls (short windows); set to `model` to turn off
   preplan_bans: true               # think the next ban through at round end, ready when the ban screen opens
   budget_per_match: 3.0            # USD; at 80% live calls and debriefs pause, at 100% only bans/picks

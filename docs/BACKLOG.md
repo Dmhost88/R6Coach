@@ -48,6 +48,8 @@ Work through the waves in order. Within a wave, issues are independent unless no
 
 #4 and #5 both touch `tactical.py`. Do them in sequence, or on one branch if one developer takes both.
 
+**2026-11-07:** #2, #4 and #5, plus #10's praise opener, are done in code on `fix/coach-talk-less`, from the [live-moment review](reviews/2026-11-07-live-moments.md) of all three recorded matches. Their "done when" boxes need a real match on the branch and `tools/eval_real.py` scores before they close. Still open from that review: talk on the pick screen runs past the pick clock and pivots stack a second brief (no issue yet), and #19 (drop queued lines whose state moved on).
+
 ### Wave 3: make the second monitor useful (P2)
 
 | Issue | What | Area |

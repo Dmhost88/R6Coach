@@ -34,7 +34,7 @@ import soundfile as sf
 
 from ..bus import Bus
 from ..config import VoiceCfg
-from ..spoken import clean_line
+from ..spoken import cap_words, clean_line, too_similar
 
 log = logging.getLogger(__name__)
 
@@ -449,7 +449,13 @@ class Speaker:
     Lines older than their ttl are dropped: stale advice is worse than none.
     Long multi-sentence lines play sentence by sentence; the next sentence is
     synthesised while the current one plays.
+    Every line except answers is cut to WORD_CAP words, and a line that restates one spoken in the
+    last REPEAT_WINDOW seconds is dropped (urgent lines and answers are never dropped).
     """
+
+    WORD_CAP = 24
+    REPEAT_WINDOW = 60.0
+    UNCAPPED = ("question", "status")
 
     def __init__(self, cfg: VoiceCfg, bus: Bus, cache_dir: Path) -> None:
         self.cfg = cfg
@@ -465,6 +471,7 @@ class Speaker:
         self._playing_item: Optional[_Item] = None
         self._epoch = 0                  # bumped to cut off the line being played
         self._play_lock = threading.Lock()
+        self._spoken: list[tuple[float, str]] = []   # (when, text) of lines played, for the repeat check
         self._thread = threading.Thread(target=self._run, name="speaker", daemon=True)
 
     def start(self) -> None:
@@ -494,11 +501,26 @@ class Speaker:
             if not cleaned:
                 return
             text = cleaned
+        if phase not in self.UNCAPPED:
+            capped = cap_words(text, self.WORD_CAP)
+            if capped != text:
+                log.info("line over %d words, cut: %r -> %r", self.WORD_CAP, text, capped)
+                text = capped
+            if priority > 0 and self._repeats(text):
+                log.info("dropping line that repeats one said in the last %.0fs: %r", self.REPEAT_WINDOW, text)
+                return
         if priority == 0:
             self._cut_in(phase)
         with self._cv:
             heapq.heappush(self._heap, _Item(priority, next(self._seq), text, time.time() + ttl, phase))
             self._cv.notify()
+
+    def _repeats(self, text: str) -> bool:
+        cutoff = time.time() - self.REPEAT_WINDOW
+        with self._cv:
+            self._spoken = [(t, s) for t, s in self._spoken if t >= cutoff]
+            recent = [s for _, s in self._spoken]
+        return any(too_similar(text, s) for s in recent)
 
     def _cut_in(self, phase: str) -> None:
         """An urgent line (a push-to-talk answer, an urgent live call) plays next. Older queued
@@ -595,6 +617,8 @@ class Speaker:
                 if not announced:
                     self.bus.publish("coach.said", text=item.text, phase=item.phase, audio=True)
                     announced = True
+                    with self._cv:
+                        self._spoken.append((time.time(), item.text))
             # Synthesise the next sentence while this one plays.
             nxt_job = None
             if i + 1 < len(chunks):
@@ -605,6 +629,8 @@ class Speaker:
                 return
         if not announced:
             self.bus.publish("coach.said", text=item.text, phase=item.phase, audio=False)
+            with self._cv:
+                self._spoken.append((time.time(), item.text))
 
     def _play_blocking(self, data: np.ndarray, rate: int, epoch: int) -> bool:
         """Play on a stream this thread owns, in short blocks, so a cut-off only stops writing.

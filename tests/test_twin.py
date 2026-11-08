@@ -23,7 +23,9 @@ def test_render_labels_sources_and_keeps_the_player_apart():
 def test_model_routing():
     c = Config().coach
     assert c.model_for("operator_ban") == c.fast_model and c.model_for("live") == c.fast_model
-    assert c.model_for("between_rounds") == c.model and c.model_for("prep_phase") == c.model
+    # Round and death debriefs moved to the fast model: the deep one missed the gap between rounds.
+    assert c.model_for("between_rounds") == c.fast_model and c.model_for("death") == c.fast_model
+    assert c.model_for("prep_phase") == c.model and c.model_for("match_end") == c.model
 
 
 def test_ban_is_preplanned_at_round_end_and_played_on_the_ban_screen(bus, kb, tmp_path):

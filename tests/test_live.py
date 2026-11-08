@@ -1,5 +1,7 @@
 import time
 
+import pytest
+
 from r6coach.config import Config
 from r6coach.hud import HudRead, Kill
 from r6coach.live import LINES, KillTracker, LiveCoach
@@ -102,12 +104,13 @@ def test_counts_and_timer_reset_each_round(bus):
     assert w.state.timer_seconds is None
 
 
-def test_my_kill_waits_for_gunfight_and_my_death_blocks_clutch(bus):
-    w, live, said = make(bus, level=2)
+def test_my_kill_says_nothing_and_my_death_blocks_clutch(bus):
+    w, live, said = make(bus, level=3)
     start_round(w, side="defense")
     w.apply_hud(HudRead(ts=0, events=["action"], timer=180))
     w.apply_hud(HudRead(ts=0, timer=170, kills=[Kill("dmhost88", "us", "Enemy_D", "them")]))
-    assert LINES["my_kill"] not in said                         # held during the gunfight
+    time.sleep(0.05)
+    assert said == []                                           # "Nice. Reposition." is gone
     w.apply_hud(HudRead(ts=0, timer=160, kills=[Kill("Enemy_A", "them", "dmhost88", "us")]))
     assert w.state.player_alive is False
     w.apply_hud(HudRead(ts=0, timer=150, alive_us=1, alive_them=3, events=["vs"]))
@@ -143,6 +146,31 @@ def test_quick_cloud_reads_between_rounds(bus):
     w.source = type("S", (), {"latest": lambda self: (time.time(), img)})()
     w._tick()
     assert reads == [1]
+
+
+def test_advantage_said_once_a_round(bus, monkeypatch):
+    import r6coach.live as live_mod
+    monkeypatch.setattr(live_mod, "COOLDOWN", 0.0)
+    monkeypatch.setattr(live_mod, "GUNFIGHT_HOLD", 0.0)
+    w, live, said = make(bus, level=2)
+    start_round(w, side="attack")
+    w.apply_hud(HudRead(ts=0, events=["action"], timer=180))
+    for us, them in ((5, 4), (4, 4), (4, 3), (3, 3), (3, 2)):     # the lead swings back and forth
+        for _ in range(2):
+            w.apply_hud(HudRead(ts=0, timer=150, alive_us=us, alive_them=them, events=["vs"]))
+    assert said.count(LINES["advantage"]) == 1
+
+
+@pytest.mark.parametrize("plan_said_it", [False, True])
+def test_reinforce_reminder_quiet_after_the_plan_said_it(bus, plan_said_it):
+    w, live, said = make(bus, level=2)
+    start_round(w, side="defense")
+    w.apply_hud(HudRead(ts=0, timer=44, events=["prep"]))
+    w.state.team_reinforcements = 10
+    if plan_said_it:
+        bus.publish("coach.said", text="Reinforce the Laundry exterior wall first.", phase="prep_phase")
+    w.apply_hud(HudRead(ts=0, timer=18))
+    assert (LINES["reinforce"] in said) is not plan_said_it
 
 
 def test_silent_at_level_zero(bus):

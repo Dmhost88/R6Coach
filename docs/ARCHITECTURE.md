@@ -30,7 +30,7 @@ A capture thread pulls frames of the Siege window from Windows. Two local reader
      │
      ├──► Coach (coach.py)          bans, picks, prep plan, debriefs, push-to-talk answers
      ├──► LiveCoach (live.py)       fixed instant lines from HUD events (no API)
-     ├──► TacticalCoach (tactical.py) one Claude call per key in-round moment
+     ├──► TacticalCoach (tactical.py) one Claude call per key in-round moment, after fights settle
      ├──► MatchMemory (memory.py)   what happened earlier this match
      └──► Profile (profile.py)      SQLite history
                 │
@@ -73,7 +73,7 @@ Components talk through the bus or through the callables `App` hands them (`curr
 | `live.event` | watcher / live | HUD event (plant, count change, timer marks) |
 | `coach.thinking` | coach | a Claude call is running (dashboard spinner) |
 | `coach.advice` | coach | structured advice for the dashboard |
-| `coach.said` | speaker / coach | a line was spoken; drives the live map focus |
+| `coach.said` | speaker / coach | a line was spoken; drives the live map focus, and LiveCoach skips its reinforce reminder when a line just said to reinforce |
 | `map.focus` | app | which rooms the last line named, for the live map |
 | `ptt.listening` / `ptt.question` / `ptt.ready` | ptt | push-to-talk state and transcribed questions |
 | `status` | app | mute/pause/cost changes |

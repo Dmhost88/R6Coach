@@ -237,3 +237,18 @@ def test_question_uses_no_image_mid_round(bus, kb, tmp_path):
     assert wait(lambda: claude.prompts and claude.prompts[-1][0] == "coach.question")
     assert claude.prompts[-1][2] is False
     assert wait(lambda: any(pr == 0 for _, _, pr in speaker.said))
+
+
+def test_debriefs_are_one_line_on_the_fast_model(bus, kb, tmp_path):
+    """Live-moment review, 2026-11-07: 3-line debriefs on the deep model played over the next pick
+    screen or were cancelled before they landed, and death debriefs opened with praise."""
+    coach, claude, speaker, state = setup(bus, kb, tmp_path)
+    cfg = coach.cfg.coach
+    s = state["s"].model_copy(update={"map": "Bank", "side": "defense", "my_operator": "Mute"})
+    coach._advise_debrief(s, False)
+    coach._advise_death(s, "Enemy_A")
+    for purpose in ("coach.between_rounds", "coach.death"):
+        assert (purpose, cfg.fast_model, cfg.effort) in claude.models
+        prompt = next(pr for pu, pr, _ in claude.prompts if pu == purpose)
+        assert "Reply with 1 spoken lines" in prompt and "ONE line" in prompt
+        assert "what was good" not in prompt and "did well" not in prompt

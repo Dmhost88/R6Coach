@@ -61,3 +61,55 @@ def clean_line(text: str) -> tuple[Optional[str], Optional[str]]:
 def self_talk(text: str) -> Optional[str]:
     """Why this line thinks aloud, or None if it is a clean call."""
     return clean_line(text)[1]
+
+
+# ---------------------------------------------------------------- length and repeats
+# The live-moment review (2026-11-07) found word limits only in the prompts: lines averaged 24
+# words (about 9 s of speech) and the same instruction came back 3+ times in 13 of 22 rounds.
+
+_CLAUSE_RE = re.compile(r"[,;:—–]\s+|\s+-\s+")
+_WORD_RE = re.compile(r"[a-z0-9']+")
+STOPWORDS = frozenset(
+    "a an and the to of in on at for from with by is are be it its it's this that your you you're "
+    "they them their there then than so or if as up out into over off now just get go keep stay "
+    "still one".split())
+
+
+def cap_words(text: str, limit: int) -> str:
+    """At most `limit` words, cut where speech can stop: whole sentences first, then the first
+    sentence up to a comma or dash, and only when no break fits, the first `limit` words."""
+    t = text.strip()
+    if limit <= 0 or len(t.split()) <= limit:
+        return t
+    out: list[str] = []
+    for s in (x for x in _SENTENCE_RE.split(t) if x.strip()):
+        if len(" ".join(out + [s]).split()) > limit:
+            break
+        out.append(s)
+    if out:
+        return " ".join(out)
+    first = next(x for x in _SENTENCE_RE.split(t) if x.strip())
+    parts = _CLAUSE_RE.split(first)
+    head = parts[0].strip()
+    for p in parts[1:]:
+        if len(f"{head}, {p}".split()) > limit:
+            break
+        head = f"{head}, {p.strip()}"
+    if len(head.split()) > limit:
+        return " ".join(first.split()[:limit]).rstrip(",;:") + "."
+    return head.rstrip(",;:.") + "."
+
+
+def content_words(text: str) -> set[str]:
+    return {w for w in _WORD_RE.findall(text.lower()) if w not in STOPWORDS and len(w) > 1}
+
+
+def too_similar(a: str, b: str, threshold: float = 0.45) -> bool:
+    """True when two lines say the same thing: identical, or sharing most of their content words
+    (Jaccard >= threshold, the live-moment review's rule)."""
+    if a.strip().lower() == b.strip().lower():
+        return True
+    wa, wb = content_words(a), content_words(b)
+    if not wa or not wb:
+        return False
+    return len(wa & wb) / len(wa | wb) >= threshold

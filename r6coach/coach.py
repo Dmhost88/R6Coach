@@ -25,9 +25,11 @@ from .voice.tts import Speaker
 
 log = logging.getLogger(__name__)
 
-LINES_FOR_LEVEL = {1: "1-2", 2: "2-4", 3: "3-5"}
-# Debriefs have a fixed shape (good / bad / fix), whatever the chattiness.
-FIXED_LINES = {"death": "3", "between_rounds": "2-3", "match_end": "3"}
+LINES_FOR_LEVEL = {1: "1-2", 2: "2-3", 3: "3-4"}
+# Debriefs have a fixed shape, whatever the chattiness. Death and round debriefs are one line:
+# at 3 lines on the deep model they played over the next pick screen or were cancelled before
+# they landed (live-moment review, 2026-11-07).
+FIXED_LINES = {"death": "1", "between_rounds": "1", "match_end": "3"}
 
 # Screens on which advice for a phase is still worth saying when it arrives.
 STILL_RELEVANT = {
@@ -95,7 +97,7 @@ watching the Library doorway".
 
 How you speak:
 - Lines are read aloud by text-to-speech. Plain spoken English, no markdown, no lists, no emojis.
-- Each line at most 24 words: room for a route or spot in callouts. Calm, even, confident; never \
+- Each line at most 18 words: room for a route or spot in callouts, short enough to take in mid-round. Calm, even, confident; never \
 hype, never filler.
 - Use the in-game callouts. Numbers as digits.
 - Never talk about yourself, your data or your limits ("I don't have map data", "as a coach"). \
@@ -663,12 +665,10 @@ class Coach:
             "never invent details (props, open walls, holes) you can't see.\n"
             f"The player IS the {me}: talk to them as 'you' ('you walked Trophy Stairs alone'), never as "
             f"'your {me}' or 'your breacher'.\n"
-            "Death debrief, like a coach on comms right after a death: "
-            "Line 1: what was good in how the player played the round, if anything was (be honest). "
-            "Line 2: the actual mistake: the angle, timing or decision that got them killed, using the room "
-            "they died in and the killer's operator. Line 3: the fix next time: an exact spot to play "
-            "instead (room plus what to hold from there), and why it beats that operator. If they keep "
-            "dying the same way, say so. No consolation, no filler."
+            "Death debrief, ONE line, like a coach on comms right after a death: the mistake (the angle, "
+            "timing or decision that got them killed, in the room they died in) and the fix next time "
+            "(an exact spot to play instead). If they keep dying the same way, say so instead. "
+            "No praise, no consolation, no filler."
         )
         return self._ask("death", prompt, image=True, map_name=s.map)
 
@@ -678,12 +678,13 @@ class Coach:
             f"ROUND JUST {result}. State at the end of the round:\n"
             f"{render(s, None, self._memory())}\n"
             f"{self._focus(s)}\n"
-            "Round debrief in the gap between rounds. Line 1: what decided the round, from the facts above "
-            "(first blood, trades, the plant, where the player died). Line 2: what the player did well, "
-            "if anything. Line 3: what to change next round, with an exact location. If something keeps "
-            "happening across rounds, name the pattern. No praise inflation, no consolation."
+            "Round debrief in the gap between rounds, ONE line: what to change next round, with an exact "
+            "location, and the fact above that shows why (first blood, a trade, the plant, where the player "
+            "died). If something keeps happening across rounds, name the pattern instead. No praise, no "
+            "consolation."
         )
-        return self._ask("between_rounds", prompt, deep=True, map_name=s.map)
+        # Fast model at the normal effort: the deep model took longer than the gap between rounds.
+        return self._ask("between_rounds", prompt, map_name=s.map)
 
     def _advise_prep(self, s: GameState, deep: bool = False, live: bool = True,
                      fast: bool = False) -> Optional[CoachLines]:
