@@ -14,7 +14,7 @@ import os
 import threading
 import time
 import unicodedata
-from typing import Callable, Optional, TypeVar
+from typing import Any, Callable, Optional, TypeVar
 
 import anthropic
 from pydantic import BaseModel, Field
@@ -497,6 +497,7 @@ class Claude:
             kwargs["thinking"] = thinking
         system_param = self._system_param(system)
         started = time.time()
+        _log_request(purpose, model, effort, content)
         try:
             resp = self.client.beta.messages.parse(
                 model=model,
@@ -517,6 +518,9 @@ class Claude:
             return None
         if resp.stop_reason == "max_tokens":
             log.warning("%s hit max_tokens", purpose)
+        if log.isEnabledFor(logging.DEBUG):
+            log.debug("%s reply in %.2fs (stop %s): %s", purpose, time.time() - started, resp.stop_reason,
+                      _brief(resp.parsed_output, 600))
         return resp.parsed_output
 
     # ------------------------------------------------------------------ public API
@@ -614,6 +618,13 @@ class Claude:
         meta: dict = {}
         started = time.time()
         buf = ""
+        _log_request(purpose + " (stream)", model, effort, content)
+        if on_line is not None and log.isEnabledFor(logging.DEBUG):
+            inner = on_line
+
+            def on_line(line: str, _inner=inner) -> None:
+                log.debug("%s line %d at %.2fs: %s", purpose, len(lines), time.time() - started, line)
+                _inner(line)
         try:
             with self.client.beta.messages.stream(
                 model=model, max_tokens=6000, system=self._system_param(system),
@@ -636,11 +647,32 @@ class Claude:
             self._api_error(e, purpose)
             return None
         self._account(model, final.usage, purpose, started)
+        log.debug("%s stream done in %.2fs (stop %s): %d lines, meta %s", purpose, time.time() - started,
+                  final.stop_reason, len(lines), meta)
         if final.stop_reason == "refusal":
             log.warning("%s refused mid-stream: %s", purpose, getattr(final, "stop_details", None))
             return None if not lines else CoachLines(lines=lines, recommended_operator="", recommended_bans=[])
         return CoachLines(lines=lines, recommended_operator=str(meta.get("recommended_operator") or ""),
                           recommended_bans=[str(b) for b in meta.get("recommended_bans") or []])
+
+
+def _brief(obj: Any, n: int = 300) -> str:
+    """A one-line, length-capped rendering of a value for debug logs."""
+    if hasattr(obj, "model_dump"):
+        obj = obj.model_dump(mode="json", exclude_defaults=True)
+    s = " ".join(str(obj).split())
+    return s if len(s) <= n else s[:n] + f"... (+{len(s) - n} chars)"
+
+
+def _log_request(purpose: str, model: str, effort: str, content: list[dict]) -> None:
+    """Debug: what is being asked. The user prompt in full (it is short and holds no secrets: game
+    state and history only); images by size only; the cached system prompt is never logged."""
+    if not log.isEnabledFor(logging.DEBUG):
+        return
+    images = [len(c["source"]["data"]) * 3 // 4 for c in content if c.get("type") == "image"]
+    text = "\n".join(c["text"] for c in content if c.get("type") == "text")
+    log.debug("%s -> %s (effort %s)%s, prompt %d chars:\n%s", purpose, model, effort,
+              f", image {images[0] // 1024} KB" if images else "", len(text), text)
 
 
 STREAM_FORMAT = """

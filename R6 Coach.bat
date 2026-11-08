@@ -14,4 +14,5 @@ if %errorlevel%==0 (
   exit /b 0
 )
 if not exist "data" mkdir data
-start "R6 Coach" /b ".venv\Scripts\pythonw.exe" -m r6coach >> "data\coach.log" 2>&1
+rem Arguments pass through: "R6 Coach.bat" -v writes the debug log (or set R6COACH_DEBUG=1).
+start "R6 Coach" /b ".venv\Scripts\pythonw.exe" -m r6coach %* >> "data\coach.log" 2>&1

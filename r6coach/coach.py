@@ -423,8 +423,15 @@ class Coach:
         self._tls.gen = (phase, gen)
         try:
             if self._stale(phase, gen):
+                log.debug("%s skipped before asking: the state it was for changed", phase)
                 return
+            t0 = time.time()
+            log.debug("%s advice: %s (round %d, screen %s, map %s, side %s, site %s, op %s)", phase,
+                      getattr(fn, "__name__", fn), self._round_seq, state.screen.value, state.map, state.side,
+                      state.site, state.my_operator)
             out = self._safe(fn, state, *args)
+            log.debug("%s advice back in %.1fs: %s", phase, time.time() - t0,
+                      out.lines if out else "nothing")
             self._deliver(phase, out, spoken=getattr(self._tls, "streamed", False), gen=gen)
         finally:
             self._tls.gen = None
@@ -469,8 +476,11 @@ class Coach:
 
         def on_line(text: str) -> None:
             if self._stale(phase, gen):
+                log.debug("%s streamed line dropped (state changed): %s", phase, text)
                 return
             if phase != "question" and not self._relevant(phase):
+                log.debug("%s streamed line dropped (screen now %s): %s", phase,
+                          self.current_state().screen.value, text)
                 return
             if phase == "question":
                 priority = 0 if not first["done"] else 1

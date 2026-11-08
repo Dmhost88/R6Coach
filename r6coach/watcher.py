@@ -227,6 +227,11 @@ class Watcher:
         now = time.time()
         thumb = thumbnail(img)
         local = self._classify(img, thumb, now) if self.cfg.vision.local_screens else None
+        if local is not None and log.isEnabledFor(logging.DEBUG):
+            seen = (local.screen, local.confident)
+            if seen != getattr(self, "_logged_local", None):
+                self._logged_local = seen
+                log.debug("local screen: %s (%s)", local.screen.value, "confident" if local.confident else "unsure")
         if local is not None:
             with self._lock:
                 self._apply_local(local, now)
@@ -280,6 +285,8 @@ class Watcher:
         jpeg = encode_jpeg(downscale(img, self.cfg.capture.upload_width))
         self.last_jpeg = jpeg
         local_at = local.screen if local is not None and local.confident else None
+        log.debug("cloud read sent: policy %s, key %s, local %s, state screen %s, %d KB", policy, key,
+                  local_at.value if local_at else "unsure", self.state.screen.value, len(jpeg) // 1024)
         if self.async_reads:
             self._read_busy = True
             try:
@@ -303,7 +310,10 @@ class Watcher:
                     jpeg, v.model, v.effort, hint=self.state.summary(), player_name=self.cfg.player_name,
                 )
             if read is None:
+                log.debug("cloud read returned nothing after %.1fs", time.time() - now)
                 return
+            log.debug("cloud read back in %.1fs: %s (conf %.2f)", time.time() - now, read.screen.value,
+                      read.confidence)
             self._cloud_ok_ts = now
             cur = self.local.screen if self.local is not None and self.local.confident else None
             group = lambda sc: Screen.operator_select if sc == Screen.loadout else sc  # noqa: E731
@@ -569,6 +579,12 @@ class Watcher:
     # ------------------------------------------------------------------ local HUD merge
     def apply_hud(self, h: HudRead) -> None:
         """Merge a local HUD read. Runs about once a second; costs nothing."""
+        if log.isEnabledFor(logging.DEBUG):
+            # The fields this read found (empty reads log nothing).
+            found = {k: v for k, v in vars(h).items()
+                     if k != "ts" and v is not None and v is not False and v != [] and v != ""}
+            if found:
+                log.debug("hud: %s", " ".join(f"{k}={v}" for k, v in found.items())[:600])
         with self._lock:
             self._apply_hud(h)
 
