@@ -513,7 +513,10 @@ class Speaker:
             self._cut_in(phase)
         with self._cv:
             heapq.heappush(self._heap, _Item(priority, next(self._seq), text, time.time() + ttl, phase))
+            depth = len(self._heap)
             self._cv.notify()
+        log.debug("queued [%s p%d ttl %.0fs, %d in queue, %d words]: %s", phase or "-", priority, ttl, depth,
+                  len(text.split()), text)
 
     def _repeats(self, text: str) -> bool:
         cutoff = time.time() - self.REPEAT_WINDOW
@@ -528,10 +531,15 @@ class Speaker:
         playing now is cut off and, if it is from another phase (a prep step), played again after.
         It used to clear the whole queue, so asking a question in prep lost the prep plan."""
         with self._cv:
+            dropped = [i.text for i in self._heap if i.phase == phase]
             self._heap = [i for i in self._heap if i.phase != phase]
             heapq.heapify(self._heap)
+        if dropped:
+            log.debug("urgent %s line drops %d queued: %s", phase or "-", len(dropped), dropped)
         with self._play_lock:
             cur = self._playing_item
+            if cur is not None:
+                log.debug("urgent %s line cuts off [%s]: %s", phase or "-", cur.phase or "-", cur.text)
             self._epoch += 1
             if cur is not None and cur.phase != phase and time.time() < cur.expires:
                 with self._cv:
@@ -547,11 +555,15 @@ class Speaker:
         """Advice for these phases is out of date: drop it from the queue and cut off the line
         playing now if it is one of them."""
         with self._cv:
+            dropped = [i.text for i in self._heap if i.phase in phases]
             self._heap = [i for i in self._heap if i.phase not in phases]
             heapq.heapify(self._heap)
+        if dropped:
+            log.debug("cancel %s drops %d queued: %s", phases, len(dropped), dropped)
         with self._play_lock:
             # Checked under the play lock, so a line that started in the meantime isn't cut by mistake.
             if self._playing_phase in phases:
+                log.debug("cancel %s cuts off the line playing", phases)
                 self._epoch += 1           # the speaker thread stops writing; see _interrupt
 
     def skip(self) -> None:
@@ -587,8 +599,13 @@ class Speaker:
                 epoch = self._epoch
             try:
                 if time.time() > item.expires or self.muted:
+                    log.debug("not played (%s) [%s]: %s", "muted" if self.muted else
+                              f"expired {time.time() - item.expires:.1f}s ago", item.phase or "-", item.text)
                     continue
+                t0 = time.time()
                 self._speak(item, epoch)
+                log.debug("played [%s] in %.1fs%s: %s", item.phase or "-", time.time() - t0,
+                          "" if epoch == self._epoch else " (cut off)", item.text)
             except Exception:
                 log.exception("playback failed")
             finally:

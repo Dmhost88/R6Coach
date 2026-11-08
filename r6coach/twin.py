@@ -39,8 +39,8 @@ def render(s: GameState, recommended: Optional[str] = None, memory: str = "") ->
                                                         if s.my_operator else "")
     lines.append(f"- Player's operator: {me}.")
     lines.append(f"- Teammates (the other players only): {_list(s.teammate_operators)}.")
-    lines.append(f"- Banned so far this match (unavailable; this round's ban screen wins if it differs): "
-                 f"{_list(s.banned_operators)}.")
+    # Siege bans per round: an operator banned last round can be picked again this round.
+    lines.append(f"- Banned this round (unavailable this round only): {_list(s.banned_operators)}.")
     lines.append(f"- Enemy operators revealed this round: {_list(s.enemy_operators)}.")
     live = []
     if s.timer_seconds is not None:
@@ -48,7 +48,9 @@ def render(s: GameState, recommended: Optional[str] = None, memory: str = "") ->
     if s.alive_us is not None and s.alive_them is not None:
         live.append(f"alive {s.alive_us} v {s.alive_them}")
     if s.defuser_planted:
-        live.append("DEFUSER PLANTED")
+        live.append("DEFUSER PLANTED" + (f" in {s.defuser_location}" if s.defuser_location else ""))
+    elif s.site_found_by_enemy:
+        live.append("the attackers have FOUND the bomb site")
     if live:
         lines.append("- Round: " + ", ".join(live) + ".")
     if not s.player_alive:

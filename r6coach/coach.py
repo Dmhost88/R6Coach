@@ -111,8 +111,8 @@ hatches you are confident exist on the current version of the map; if unsure of 
 describe it by landmark ("the wall between Dorms and the stairs").
 - Operator recommendations come from the player's pool unless the team needs a role no pool \
 operator covers. Never recommend a banned operator, one a teammate already locked, or one the \
-player does not own. Bans listed in the match state are unavailable; when the screen shows this \
-round's bans, the screen wins.
+player does not own. Bans are per round: only this round's bans in the match state are \
+unavailable; when the screen shows this round's bans, the screen wins.
 - Answer with the call only. Never reason in the lines themselves: no questions to yourself, no \
 "No.", no talk about the screen, the match state or the data. They are spoken aloud as written.
 - The player's own operator is given separately from the teammates. The player IS that operator: \
@@ -156,6 +156,7 @@ class Coach:
         self._ban_ahead: Optional[tuple] = None  # (round number, Future) ban advice made at round end
         self._pick_pending: set[int] = set()    # rounds whose pick advice is still being written
         self._round_seq = 0
+        self._seq_round_number: Optional[int] = None   # the watcher's round number when _round_seq last moved
         self._prep_started: dict[int, float] = {}
         self._pick_started: dict[int, float] = {}
         self._prep_cache: dict[int, tuple] = {}   # round -> (operator, Future of a defense prep plan)
@@ -211,8 +212,8 @@ class Coach:
             threading.Timer(1.5, self._preplan_ban, args=(state,)).start()
 
     def _preplan_ban(self, s: GameState) -> None:
-        """Think the next round's ban through now (map, the side after any swap, bans so far and the
-        round just played are all known), so it plays the moment the ban screen opens."""
+        """Think the next round's ban through now (map, the side after any swap and the round just
+        played are all known), so it plays the moment the ban screen opens."""
         if not s.map or not self.cfg.coach.level("operator_ban") or not self._allowed("operator_ban"):
             return
         n = s.round_number or max(self._round_seq, 1)
@@ -224,6 +225,7 @@ class Coach:
         ahead = s.model_copy(deep=True, update={
             "round_number": nxt, "side": side, "side_source": "predicted" if side else None,
             "my_operator": None, "teammate_operators": [], "enemy_operators": [], "site": None,
+            "banned_operators": [], "defuser_location": None, "site_found_by_enemy": False,
             "site_options": [], "spawn": None, "my_location": None, "health": None, "timer_seconds": None,
             "alive_us": None, "alive_them": None, "defuser_planted": False, "player_alive": True,
             "pinged_enemies": [], "screen": Screen.operator_ban})
@@ -268,8 +270,14 @@ class Coach:
         s = self.current_state()
         # The round number isn't always readable, so count rounds ourselves: a new round starts
         # when the ban phase or operator select appears after anything other than pre-round menus.
-        if s.screen in (Screen.operator_ban, Screen.operator_select) and self._last_screen not in PRE_ROUND:
+        # A pick screen straight after prep in the same watcher round is the in-prep loadout menu or
+        # a late read, not a new round (it restarted the pick advice 7 times on 2026-11-07).
+        same_round = (self._last_screen == Screen.prep_phase and s.round_number is not None
+                      and s.round_number == self._seq_round_number)
+        if (s.screen in (Screen.operator_ban, Screen.operator_select) and self._last_screen not in PRE_ROUND
+                and not same_round):
             self._round_seq += 1
+            self._seq_round_number = s.round_number
             self._recommended = None
             # The next round's bans and picks are on: a debrief still talking would bury them.
             self._bump("between_rounds", "death")
@@ -423,8 +431,15 @@ class Coach:
         self._tls.gen = (phase, gen)
         try:
             if self._stale(phase, gen):
+                log.debug("%s skipped before asking: the state it was for changed", phase)
                 return
+            t0 = time.time()
+            log.debug("%s advice: %s (round %d, screen %s, map %s, side %s, site %s, op %s)", phase,
+                      getattr(fn, "__name__", fn), self._round_seq, state.screen.value, state.map, state.side,
+                      state.site, state.my_operator)
             out = self._safe(fn, state, *args)
+            log.debug("%s advice back in %.1fs: %s", phase, time.time() - t0,
+                      out.lines if out else "nothing")
             self._deliver(phase, out, spoken=getattr(self._tls, "streamed", False), gen=gen)
         finally:
             self._tls.gen = None
@@ -469,8 +484,11 @@ class Coach:
 
         def on_line(text: str) -> None:
             if self._stale(phase, gen):
+                log.debug("%s streamed line dropped (state changed): %s", phase, text)
                 return
             if phase != "question" and not self._relevant(phase):
+                log.debug("%s streamed line dropped (screen now %s): %s", phase,
+                          self.current_state().screen.value, text)
                 return
             if phase == "question":
                 priority = 0 if not first["done"] else 1

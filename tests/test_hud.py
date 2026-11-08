@@ -44,6 +44,31 @@ def test_parsers():
     assert parse_banners(["ACTION PHASE", "PLANT THE DEFUSER AT ANY BOMB SITE"])[1]["side"] == "attack"
 
 
+def test_banners_missed_on_2026_11_07():
+    # A distance marker glued on the banner.
+    ev, ex = parse_banners(["BOMBS FOUND 3M", "2F Laundry", "2F Piano Room"])
+    assert ev == ["bombs_found"] and ex["site"] == "2F Laundry / 2F Piano Room"
+    # Defense sees the plant as "ENEMIES PLANTED THE DEFUSER".
+    assert parse_banners(["ENEMIES PLANTED THE DEFUSER"])[0] == ["planted"]
+    assert parse_banners(["DEFUSER PLANTED"])[0] == ["planted"]
+    ev, ex = parse_banners(["ACTIVATED DEFUSER FOUND", "BSnowmobile Garage"])
+    assert ev == ["defuser_found"] and ex["defuser_room"] == "B Snowmobile Garage"
+    assert parse_banners(["ENEMIES PICKED UP THE DEFUSER"])[0] == ["defuser_picked_up"]
+    # The attackers' objective line is not a plant.
+    assert parse_banners(["PLANT THE DEFUSER AT ANY BOMB SITE"])[0] == []
+
+
+def test_room_labels_ocr_loses_the_1_of_1f():
+    assert pretty_place("F Piano Room") == "1F Piano Room"
+    assert pretty_place("FFireplace") == "1F Fireplace"
+    assert pretty_place("FGaming Room") == "1F Gaming Room"
+    assert pretty_place("TFBar") == "1F Bar"
+    assert pretty_place("2FCEOOffice") == "2F CEO Office"
+    assert pretty_place("BCCTVRoom") == "B CCTV Room"
+    assert pretty_place("2FMasterBedroom") == "2F Master Bedroom"
+    assert pretty_place("Front Yard") is None           # no prefix: the caller's Title Case check decides
+
+
 @pytest.fixture(scope="module")
 def reader():
     pytest.importorskip("rapidocr_onnxruntime")

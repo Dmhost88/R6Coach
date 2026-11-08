@@ -119,6 +119,14 @@ Results go to `data/evals/`. `tests/test_eval_real.py` tests the eval harness it
 - The dashboard's **What the coach sees** tab shows the current frame and the last read.
 - `data/frames/<day>/` keeps one frame per screen change, with the cloud read's JSON beside it.
 - `data/coach.log` when started from the .bat file.
+- **Debug log:** start with `-v` (`R6 Coach.bat -v`, or `python -m r6coach -v`), or set `R6COACH_DEBUG=1`. It adds millisecond timestamps and thread names, and logs:
+  - every bus event (`state.updated` as the fields that changed)
+  - every HUD read and local screen change
+  - every cloud read with its policy and latency
+  - every Claude prompt (the user part, never the system prompt or keys), with the reply and timing
+  - for each line, why it was asked, held for a fight, skipped, cut, dropped as a repeat, expired or played
+
+  It runs to about 1 MB per match. Debug is on for the `r6coach` loggers only. Libraries stay at INFO or above, because HTTP clients log headers at debug.
 
 ## Code conventions
 

@@ -125,24 +125,31 @@ class LiveCoach:
     def _emit(self, key: str, once: bool = True) -> None:
         need, urgent = RULES[key]
         if self._level() < need:
+            log.debug("fixed line %s skipped: level %d < %d", key, self._level(), need)
             return
         if not self.state().player_alive:
+            log.debug("fixed line %s skipped: player dead", key)
             return  # you're spectating: in-round instructions can't help any more
         if key in AI_COVERED and self.ai_live():
+            log.debug("fixed line %s skipped: Claude's live calls cover it", key)
             return  # Claude gives a specific version of this call instead
         now = time.time()
         with self._lock:
             if once and key in self._said_round:
+                log.debug("fixed line %s skipped: already said this round", key)
                 return
             if not urgent:
                 if now - self._last_line < COOLDOWN:
+                    log.debug("fixed line %s skipped: %.1fs since the last fixed line", key, now - self._last_line)
                     return
                 hold = GUNFIGHT_HOLD - (now - self._last_kill)
                 if hold > 0:
+                    log.debug("fixed line %s held %.1fs for the gunfight", key, hold)
                     threading.Timer(hold, self._emit_late, args=(key, now)).start()
                     return
             self._said_round.add(key)
             self._last_line = now
+        log.debug("fixed line %s said%s", key, " (urgent)" if urgent else "")
         self.say(LINES[key], priority=0 if urgent else 1, ttl=6.0, phase="action_phase")
 
     def _emit_late(self, key: str, queued: float) -> None:
@@ -166,6 +173,9 @@ class LiveCoach:
             elif s.screen.value == "prep_phase" and side == "defense" and 12 <= t <= 20:
                 if (s.team_reinforcements or 0) >= 4 and time.time() - self._said_reinforce > REINFORCE_QUIET:
                     self._emit("reinforce")
+                elif (s.team_reinforcements or 0) >= 4:
+                    log.debug("fixed line reinforce skipped: a line said to reinforce %.0fs ago",
+                              time.time() - self._said_reinforce)
         elif kind == "planted":
             self._emit("def_planted" if side == "defense" else "atk_planted")
         elif kind == "kill":

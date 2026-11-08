@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import functools
 import logging
 import os
 import threading
@@ -52,7 +53,8 @@ class App:
             self.source = ReplaySource(replay, seconds_per_frame=replay_seconds)
         else:
             self.source = WindowCaptureSource(cfg.capture.window_title, cfg.capture.sample_fps)
-        self.watcher = Watcher(cfg, self.bus, self.source, self.claude, self.frames)
+        self.watcher = Watcher(cfg, self.bus, self.source, self.claude, self.frames,
+                               rooms=functools.lru_cache(maxsize=8)(self.knowledge.room_labels))
         self.watcher.async_reads = True
         self.coach = Coach(cfg, self.bus, self.claude, self.knowledge, self.speaker, self.profile,
                            current_state=lambda: self.watcher.state, current_jpeg=self.watcher.current_jpeg)

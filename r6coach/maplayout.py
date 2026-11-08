@@ -118,6 +118,8 @@ class MapLayouts:
                 if any(s < te and e > ts for ts, te in taken):
                     continue
                 said = (m.group(1) or "").upper()
+                # Layouts have no EXT floor: outside areas are drawn on the floor they're level with
+                # (Consulate's EXT Balcony is on the 2F image), so EXT allows any floor.
                 cands = [f for f in floors if f == said] if said and said != "EXT" else floors
                 if not cands:
                     continue

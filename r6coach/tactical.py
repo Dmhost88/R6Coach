@@ -148,8 +148,11 @@ class TacticalCoach:
             # The player's own kill outranks a count change that came with it.
             if prev and prev[1] and not important:
                 reason, important = prev
+            if prev:
+                log.debug("live call waiting for the fight: %r replaces %r", reason, prev[0])
             self._pending = (reason, important)
             stamp = self._last_kill = max(self._last_kill, time.time())
+        log.debug("live call waits %.0fs for the fight to settle: %s", KILL_SETTLE, reason)
         threading.Timer(KILL_SETTLE, self._settled, args=(stamp,)).start()
 
     def _settled(self, stamp: float) -> None:
@@ -158,22 +161,33 @@ class TacticalCoach:
                 return   # a newer kill restarted the wait; its timer makes the call
             reason, important = self._pending
             self._pending = None
+        log.debug("fight settled: %s", reason)
         self._trigger(reason, important=important)
 
     def _trigger(self, reason: str, important: bool = False) -> None:
         if not self.enabled():
+            log.debug("live call skipped (off: level %s, budget %s): %s", self.cfg.coach.level("action_phase"),
+                      self.claude.budget_level(), reason)
             return
         s = self.state()
         if s.screen not in (Screen.action_phase, Screen.spectating):
+            log.debug("live call skipped (screen %s): %s", s.screen.value, reason)
             return
         now = time.time()
         gap = self._gap() * (1.0 if s.player_alive else 1.5)   # a bit calmer while spectating
         with self._lock:
-            if self._busy or (not important and now - self._last_call < gap):
+            if self._busy:
+                log.debug("live call skipped (one already in flight): %s", reason)
+                return
+            if not important and now - self._last_call < gap:
+                log.debug("live call skipped (%.1fs since the last, gap %.0fs): %s", now - self._last_call,
+                          gap, reason)
                 return
             self._busy = True
             self._last_call = now
             rnd = self._round
+        log.debug("live call asked (round %d, %s, important %s): %s", rnd,
+                  "alive" if s.player_alive else "spectating", important, reason)
         self.pool.submit(self._call, reason, now, rnd)
 
     # ------------------------------------------------------------------ the call
@@ -196,6 +210,8 @@ class TacticalCoach:
             out = self.claude.coach(self.cfg.coach.model_for("live"), self.cfg.coach.live_effort, self.system(s.map), prompt,
                                     purpose="coach.live")
             if not out or not out.lines:
+                log.debug("live call: no line (%s) after %.1fs: %s", "nothing new" if out else "no reply",
+                          time.time() - started, reason)
                 return
             now_s = self.state()
             if (time.time() - started > STALE_AFTER or rnd != self._round
@@ -204,6 +220,9 @@ class TacticalCoach:
                 log.info("dropping stale live call (%.1fs)", time.time() - started)
                 return
             line = cap_words(out.lines[0], self.cfg.coach.live_words or LIVE_WORDS)
+            if line != out.lines[0]:
+                log.debug("live call cut to %d words: %r -> %r", self.cfg.coach.live_words or LIVE_WORDS,
+                          out.lines[0], line)
             if not line:
                 return
             with self._lock:
@@ -213,6 +232,7 @@ class TacticalCoach:
                 self._recent.append(line)
                 self._last_room = now_s.my_location
                 self._last_call = time.time()   # the gap counts from the call spoken, not asked for
+            log.debug("live call said after %.1fs (room %s): %s", time.time() - started, now_s.my_location, line)
             self.say(line, priority=1, ttl=8.0, phase="action_phase")
         except Exception:
             log.exception("live call failed")

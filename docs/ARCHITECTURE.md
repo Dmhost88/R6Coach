@@ -70,7 +70,7 @@ Components talk through the bus or through the callables `App` hands them (`curr
 | `player.died` | watcher / memory | your death, from the killfeed |
 | `killfeed` | watcher | new killfeed rows |
 | `memory.round` | memory | a round was added to match memory |
-| `live.event` | watcher / live | HUD event (plant, count change, timer marks) |
+| `live.event` | watcher / live | HUD event (plant with `room` when known, `found_bombs` once a round, `defuser_picked_up`, count change, timer marks) |
 | `coach.thinking` | coach | a Claude call is running (dashboard spinner) |
 | `coach.advice` | coach | structured advice for the dashboard |
 | `coach.said` | speaker / coach | a line was spoken; drives the live map focus, and LiveCoach skips its reinforce reminder when a line just said to reinforce |
@@ -89,7 +89,15 @@ When you add an event, add it to this table.
 
 - `Screen`: `main_menu`, `matchmaking`, `map_ban`, `operator_ban`, `operator_select`, `loadout`, `prep_phase`, `action_phase`, `round_end`, `match_end`, `scoreboard`, `spectating`, `loading`, `other`.
 - `ScreenRead`: what one cloud read extracts from one screenshot. **There is deliberately no field for enemy positions seen in the 3D world.** Do not add one.
-- `GameState`: the merged view (map, site, side, round, score, your operator, teammates, bans, timer, plant status, alive counts, your room…).
+- `GameState`: the merged view (map, site, side, round, score, your operator, teammates, this round's bans, timer, plant status and room, whether the enemy found the site, alive counts, your room…).
+
+How the watcher keeps it true (from the [2026-11-07 gameplay review](reviews/2026-11-07-gameplay-review.md)):
+
+- **Rounds.** A ban or pick screen starts a new round only after the round's action phase, or 50 s after its prep began (`PREP_MAX`). A pick screen during prep is the loadout menu or a late read, and is ignored.
+- **Bans are per round.** They are cleared at each round start, the same as in the game.
+- **Your lock.** On the operator grid, a cloud read's `my_operator` is a hover. It counts only when no local card reader works and two reads agree. The loadout screen and the in-round top bar show the real pick.
+- **Rooms.** [places.py](../r6coach/places.py) snaps HUD room labels to the map's callouts (`Knowledge.room_labels`). An unknown label needs two agreeing reads, and an OCR wobble of the current room is not a move.
+- **Site.** On defense, the first prep room that belongs to a listed site sets it. A one-line "BOMBS FOUND" read is snapped to its site pair. A late pick-screen read still gives its site, site list and teammates.
 
 [r6coach/twin.py](../r6coach/twin.py) renders `GameState` into the one text block every prompt sees. Each fact is tagged `READ` (seen on screen), `PREDICTED` (worked out, e.g. side from the swap rule in [rounds.py](../r6coach/rounds.py)) or unknown, so the model can weigh it. Your locked operator is kept apart from what the coach suggested.
 
@@ -141,7 +149,7 @@ Secrets never reach the page: `tests/test_dashboard.py` checks that an API key i
 
 Everything the app writes is under `data/` (git-ignored): `profile.sqlite`, `frames/` (pruned after `storage.keep_frames_days`), `tts_cache/`, `notes/`, `models/` (voice models), `maps/` (Ubisoft blueprints, personal use), `setups/` (your pictures), `calibration/` (captured screenshots), `evals/`, `coach.log`.
 
-**Restarts mid-match.** Each round end also stores the map and bans on the match row. On start, `App._resume` picks up a match with no recorded end whose last round was under 15 minutes ago (`Profile.unfinished_match`). It restores the watcher's match id, map, bans, score, round count and first side, and rebuilds `MatchMemory` from the round rows. A map vote, or a screen showing a different map, starts a new match as usual. When no map is known in a live round, `App._recover_map` narrows it down from the HUD room callouts (`Knowledge.maps_with_room`).
+**Restarts mid-match.** Each round end also stores the map and bans on the match row. On start, `App._resume` picks up a match with no recorded end whose last round was under 15 minutes ago (`Profile.unfinished_match`). It restores the watcher's match id, map, score, round count and first side (not bans: they are per round), and rebuilds `MatchMemory` from the round rows. A map vote, or a screen showing a different map, starts a new match as usual. When no map is known in a live round, `App._recover_map` narrows it down from the HUD room callouts (`Knowledge.maps_with_room`).
 
 ## Invariants to keep
 
